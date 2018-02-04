@@ -12,10 +12,6 @@ maps_by_type.each do |type, map_names|
   end
 end
 
-puts 'Creating seasons'
-['Season 1', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 'Season 6',
- 'Season 7', 'Season 8'].each { |name| Season.where(name: name).first_or_create }
-
 heroes_by_role = {
   healer: ['Mercy', 'Zenyatta', 'Ana', 'Lúcio', 'Moira'],
   defense: ['Symmetra', 'Torbjörn', 'Mei', 'Hanzo', 'Bastion'],

@@ -20,10 +20,10 @@
     </dl>
   </div>
 </div>
-<dl class="form-group">
-  <dt><%= form.label :map, 'Map:' %></dt>
-  <dd><%= form.select :map, options_for_select(map_options(maps), match.map), {}, { class: 'form-select' } %></dd>
-</dl>
+<div class="form-group">
+  <%= form.label :map, 'Map:', class: 'mr-2' %>
+  <%= form.select :map, options_for_select(map_options(maps), match.map), {}, { class: 'form-select' } %>
+</div>
 <dl class="form-group">
   <dt>Heroes played (optional):</dt>
   <dd class="d-flex flex-wrap">
@@ -48,6 +48,10 @@
     <%= current_user.time_zone %>
   </dd>
 </dl>
+<div class="form-group">
+  <%= form.label :season, 'Competitive season:', class: 'mr-2' %>
+  <%= form.number_field :season, class: 'form-control season-field', required: true, step: 1, min: 1 %>
+</div>
 <dl class="form-group">
   <dt><%= form.label :comment, 'Comments (optional):' %></dt>
   <dd><%= form.text_area :comment, class: 'form-control' %></dd>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204211447) do
+ActiveRecord::Schema.define(version: 20180204214534) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -45,19 +45,19 @@ ActiveRecord::Schema.define(version: 20180204211447) do
     t.text "comment"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "season_id", null: false
     t.integer "prior_match_id"
     t.boolean "placement", default: false, null: false
     t.integer "result", null: false
     t.integer "time_of_day", null: false
     t.integer "day_of_week", null: false
     t.datetime "time", null: false
+    t.integer "season", null: false
     t.index ["day_of_week"], name: "index_matches_on_day_of_week"
     t.index ["map_id"], name: "index_matches_on_map_id"
     t.index ["oauth_account_id", "time"], name: "index_matches_on_oauth_account_id_and_time"
     t.index ["placement"], name: "index_matches_on_placement"
     t.index ["result"], name: "index_matches_on_result"
-    t.index ["season_id"], name: "index_matches_on_season_id"
+    t.index ["season"], name: "index_matches_on_season"
     t.index ["time_of_day"], name: "index_matches_on_time_of_day"
   end
 
@@ -70,13 +70,6 @@ ActiveRecord::Schema.define(version: 20180204211447) do
     t.string "battletag"
     t.index ["provider", "uid"], name: "index_oauth_accounts_on_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_oauth_accounts_on_user_id"
-  end
-
-  create_table "seasons", force: :cascade do |t|
-    t.string "name", limit: 30, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_seasons_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

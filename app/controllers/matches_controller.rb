@@ -8,10 +8,10 @@ class MatchesController < ApplicationController
     all_matches = @oauth_account.matches.order(:time)
     latest_match = all_matches.last
     @matches = if latest_match
-      all_matches.where(season: latest_match.season)
+      all_matches.in_season(latest_match.season)
     end
     @match = Match.new(oauth_account: @oauth_account, time: Time.zone.now,
-                       prior_match: latest_match)
+                       prior_match: latest_match, season: latest_match.try(:season))
   end
 
   private

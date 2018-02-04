@@ -6,14 +6,16 @@ class Match < ApplicationRecord
 
   belongs_to :oauth_account
   belongs_to :map
-  belongs_to :season
   belongs_to :prior_match, required: false
 
   before_validation :set_result
   before_validation :set_time_of_day
   before_validation :set_day_of_week
   before_validation :set_time
+  before_validation :set_season
 
+  validates :season, presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 1 }
   validates :rank, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0,
                     less_than_or_equal_to: MAX_RANK }
@@ -30,6 +32,7 @@ class Match < ApplicationRecord
   scope :draws, ->{ where(result: RESULT_MAPPINGS[:draw]) }
   scope :placements, ->{ where(placement: true) }
   scope :non_placements, ->{ where(placement: false) }
+  scope :in_season, ->(season) { where(season: season) }
 
   def result
     RESULT_MAPPINGS.key(self[:result])
@@ -111,5 +114,11 @@ class Match < ApplicationRecord
         :weekday
       end
     end
+  end
+
+  def set_season
+    return unless prior_match
+
+    self.season ||= prior_match.season
   end
 end
