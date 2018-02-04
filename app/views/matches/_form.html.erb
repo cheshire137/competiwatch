@@ -1,8 +1,13 @@
 <div class="d-flex flex-items-center flex-justify-between">
-  <dl class="form-group mt-0">
-    <dt><%= form.label :rank, 'What is your SR now?' %></dt>
-    <dd><%= form.number_field :rank, class: 'form-control', step: 1, min: 0, max: Match::MAX_RANK %></dd>
-  </dl>
+  <div class="form-group mt-0 d-flex flex-items-center">
+    <% if prior_match %>
+      <%= form.label :rank, 'What is your SR now?', class: 'mr-2 sr-field-label' %>
+      <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+    <% else %>
+      <%= form.label :prior_rank, 'Where did you place?', class: 'mr-2 sr-field-label' %>
+      <%= form.number_field :prior_rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+    <% end %>
+  </div>
   <h3 class="h3">OR</h3>
   <div>
     <div class="form-group mt-0">

@@ -6,15 +6,15 @@ class MatchesController < ApplicationController
     @maps = get_maps
     @heroes = get_heroes
     all_matches = @oauth_account.matches.order(:time)
-    latest_match = all_matches.last
-    @matches = if latest_match
-      all_matches.in_season(latest_match.season)
+    @latest_match = all_matches.last
+    @matches = if @latest_match
+      all_matches.in_season(@latest_match.season)
     else
       []
     end
-    @current_season = latest_match.try(:season) || 8
+    @current_season = @latest_match.try(:season) || 8
     @match = Match.new(oauth_account: @oauth_account, time: Time.zone.now,
-                       prior_match: latest_match, season: @current_season)
+                       prior_match: @latest_match, season: @current_season)
   end
 
   private
