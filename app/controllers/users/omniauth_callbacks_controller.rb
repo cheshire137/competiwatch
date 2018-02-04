@@ -14,6 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
 
     account.user = user
+    account.battletag = auth.info.battletag
 
     if account.changed? && !account.save
       flash[:alert] = 'Failed to link with your Battle.net account.'
