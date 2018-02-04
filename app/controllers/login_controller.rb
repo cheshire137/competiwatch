@@ -7,7 +7,6 @@ class LoginController < ApplicationController
   private
 
   def redirect_if_signed_in
-    account = current_user.oauth_accounts.first
-    redirect_to(matches_path(account)) if signed_in?
+    redirect_to(matches_path(current_user.primary_account)) if signed_in?
   end
 end

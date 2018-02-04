@@ -24,6 +24,10 @@ class User < ApplicationRecord
     battletag.split('#').join('-')
   end
 
+  def primary_account
+    oauth_accounts.first
+  end
+
   def to_param
     self.class.parameterize(battletag)
   end

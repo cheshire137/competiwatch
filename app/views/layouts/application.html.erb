@@ -18,9 +18,19 @@
     <header class="my-4">
       <div class="container">
         <div class="d-flex flex-justify-between flex-items-center">
-          <h1 class="h1">Competiwatch</h1>
           <% if signed_in? %>
-            <span>Signed in as <span class="text-bold"><%= current_user %></span></span>
+            <div class="d-flex flex-items-center">
+              <h1 class="h1 mr-4">Competiwatch</h1>
+              <a href="<%= matches_path(current_user.primary_account) %>">Match History</a>
+            </div>
+            <div>
+              <span class="d-inline-block mr-4">
+                Signed in as <span class="text-bold"><%= current_user %></span>
+              </span>
+              <a href="<%= settings_path %>">Settings</a>
+            </div>
+          <% else %>
+            <h1 class="h1">Competiwatch</h1>
           <% end %>
         </div>
       </div>
