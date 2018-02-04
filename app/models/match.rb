@@ -23,6 +23,7 @@ class Match < ApplicationRecord
   validates :result, presence: true, inclusion: { in: RESULT_MAPPINGS.keys }
   validates :time_of_day, presence: true, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }
   validates :day_of_week, presence: true, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }
+  validate :prior_match_or_rank
 
   has_one :user, through: :oauth_account
   has_and_belongs_to_many :heroes
@@ -120,5 +121,10 @@ class Match < ApplicationRecord
     return unless prior_match
 
     self.season ||= prior_match.season
+  end
+
+  def prior_match_or_rank
+    return if prior_match || prior_rank
+    errors.add(:base, 'Must have a prior match or prior SR.')
   end
 end
