@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204210557) do
+ActiveRecord::Schema.define(version: 20180204211447) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -30,6 +30,12 @@ ActiveRecord::Schema.define(version: 20180204210557) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["name"], name: "index_maps_on_name", unique: true
+  end
+
+  create_table "match_heroes", force: :cascade do |t|
+    t.integer "hero_id", null: false
+    t.integer "match_id", null: false
+    t.index ["hero_id", "match_id"], name: "index_match_heroes_on_hero_id_and_match_id", unique: true
   end
 
   create_table "matches", force: :cascade do |t|

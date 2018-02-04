@@ -23,6 +23,7 @@ class Match < ApplicationRecord
   validates :day_of_week, presence: true, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }
 
   has_one :user, through: :oauth_account
+  has_and_belongs_to_many :heroes
 
   scope :wins, ->{ where(result: RESULT_MAPPINGS[:win]) }
   scope :losses, ->{ where(result: RESULT_MAPPINGS[:loss]) }
