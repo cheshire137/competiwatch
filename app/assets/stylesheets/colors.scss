@@ -1,0 +1,130 @@
+$ana: #408fff;
+$bastion: #bac1c9;
+$doomfist: rgb(224, 78, 52);
+$dva: #ffb3f3;
+$genji: #8cff9a;
+$hanzo: #776931;
+$lucio: #2cd13f;
+$junkrat: rgb(211, 147, 8);
+$mccree: #d44124;
+$mei: #009be8;
+$mercy: #ffe100;
+$moira: rgb(105, 28, 207);
+$orisa: #9fbc30;
+$pharah: #008ff5;
+$reaper: #000000;
+$reinhardt: #81736b;
+$roadhog: #f9c907;
+$soldier76: #fd0d15;
+$sombra: #9743ad;
+$symmetra: #00ccff;
+$torbjorn: #ffc400;
+$tracer: #ffb803;
+$widowmaker: #95a2ea;
+$winston: #414f68;
+$zarya: #ea4d98;
+$zenyatta: #b7b0a1;
+
+.text-ana {
+  color: $ana;
+}
+
+.text-bastion {
+  color: darken($bastion, 20%);
+}
+
+.text-doomfist {
+  color: $doomfist;
+}
+
+.text-dva {
+  color: darken($dva, 20%);
+}
+
+.text-genji {
+  color: darken($genji, 30%);
+}
+
+.text-hanzo {
+  color: $hanzo;
+}
+
+.text-junkrat {
+  color: $junkrat;
+}
+
+.text-lucio {
+  color: $lucio;
+}
+
+.text-mccree {
+  color: $mccree;
+}
+
+.text-mei {
+  color: $mei;
+}
+
+.text-mercy {
+  color: darken($mercy, 20%);
+}
+
+.text-moira {
+  color: $moira;
+}
+
+.text-orisa {
+  color: $orisa;
+}
+
+.text-pharah {
+  color: $pharah;
+}
+
+.text-reaper {
+  color: $reaper;
+}
+
+.text-reinhardt {
+  color: $reinhardt;
+}
+
+.text-roadhog {
+  color: $roadhog;
+}
+
+.text-soldier76 {
+  color: $soldier76;
+}
+
+.text-sombra {
+  color: $sombra;
+}
+
+.text-symmetra {
+  color: $symmetra;
+}
+
+.text-torbjorn {
+  color: darken($torbjorn, 15%);
+}
+
+.text-tracer {
+  color: $tracer;
+}
+
+.text-widowmaker {
+  color: $widowmaker;
+}
+
+.text-winston {
+  color: $winston;
+}
+
+.text-zarya {
+  color: $zarya;
+}
+
+.text-zenyatta {
+  color: darken($zenyatta, 20%);
+}

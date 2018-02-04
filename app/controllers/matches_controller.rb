@@ -3,6 +3,7 @@ class MatchesController < ApplicationController
 
   def index
     @maps = get_maps
+    @heroes = get_heroes
     @oauth_account = current_user.oauth_accounts.first
     all_matches = @oauth_account.matches.order(:time)
     latest_match = all_matches.last
@@ -17,5 +18,9 @@ class MatchesController < ApplicationController
 
   def get_maps
     Rails.cache.fetch('maps') { Map.order(:name).select([:id, :name]) }
+  end
+
+  def get_heroes
+    Rails.cache.fetch('heroes') { Hero.order(:name) }
   end
 end

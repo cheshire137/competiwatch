@@ -15,7 +15,12 @@
  */
 
 @import "primer/index.scss";
+@import "colors.scss";
 
 .form-select {
   background-image: none;
+}
+
+dt {
+  font-weight: 700;
 }
