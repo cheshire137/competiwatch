@@ -9,6 +9,10 @@ class User < ApplicationRecord
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
+  def self.find_by_battletag(battletag)
+    where("LOWER(battletag) = ?", battletag.downcase).first
+  end
+
   def self.battletag_from_param(str)
     index = str.rindex('-')
     start = str[0...index]
