@@ -15,3 +15,20 @@ end
 puts 'Creating seasons'
 ['Season 1', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 'Season 6',
  'Season 7', 'Season 8'].each { |name| Season.where(name: name).first_or_create }
+
+heroes_by_role = {
+  healer: ['Mercy', 'Zenyatta', 'Ana', 'Lúcio', 'Moira'],
+  defense: ['Symmetra', 'Torbjörn', 'Mei', 'Hanzo', 'Bastion'],
+  :'off-tank' => ['D.Va', 'Roadhog', 'Zarya'],
+  tank: ['Winston', 'Reinhardt', 'Orisa'],
+  hitscan: ['McCree', 'Soldier: 76', 'Widowmaker'],
+  DPS: ['Pharah', 'Sombra', 'Reaper', 'Doomfist', 'Junkrat'],
+  flanker: ['Genji', 'Tracer']
+}
+
+heroes_by_role.each do |role, hero_names|
+  puts "Creating #{role} heroes: #{hero_names.to_sentence}"
+  hero_names.each do |name|
+    Hero.where(name: name, role: role).first_or_create
+  end
+end
