@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204193401) do
+ActiveRecord::Schema.define(version: 20180204194943) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -31,9 +31,18 @@ ActiveRecord::Schema.define(version: 20180204193401) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "season_id", null: false
+    t.integer "prior_match_id"
+    t.boolean "placement", default: false, null: false
+    t.integer "result", null: false
+    t.integer "time_of_day", null: false
+    t.integer "day_of_week", null: false
+    t.index ["day_of_week"], name: "index_matches_on_day_of_week"
     t.index ["map_id"], name: "index_matches_on_map_id"
     t.index ["oauth_account_id"], name: "index_matches_on_oauth_account_id"
+    t.index ["placement"], name: "index_matches_on_placement"
+    t.index ["result"], name: "index_matches_on_result"
     t.index ["season_id"], name: "index_matches_on_season_id"
+    t.index ["time_of_day"], name: "index_matches_on_time_of_day"
   end
 
   create_table "oauth_accounts", force: :cascade do |t|
@@ -57,6 +66,7 @@ ActiveRecord::Schema.define(version: 20180204193401) do
     t.string "battletag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "time_zone", default: "UTC", null: false
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
   end
 
