@@ -1,10 +1,10 @@
 <%= render partial: 'matches/match_errors', locals: { match: match } %>
 <%= form.hidden_field :prior_match_id %>
 <%= form.hidden_field :season %>
-<input type="hidden" name="match[placement]" value="0">
-<div class="form-group mt-0 d-flex flex-items-center">
-  <%= form.label :rank, 'What is your SR now?', class: 'mr-2 sr-field-label' %>
-  <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+<input type="hidden" name="match[placement]" value="1">
+<div class="form-group">
+  <%= form.label :result, 'What was the outcome of the placement match?', class: 'mr-2' %>
+  <%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %>
 </div>
 <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
 <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>

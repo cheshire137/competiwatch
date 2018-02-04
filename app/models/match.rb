@@ -3,9 +3,10 @@ class Match < ApplicationRecord
   TIME_OF_DAY_MAPPINGS = { morning: 0, afternoon: 1, evening: 2, night: 3 }.freeze
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
   MAX_RANK = 5000
+  TOTAL_PLACEMENT_MATCHES = 10
 
   belongs_to :oauth_account
-  belongs_to :map
+  belongs_to :map, required: false
   belongs_to :prior_match, required: false
 
   before_validation :set_result
@@ -19,11 +20,9 @@ class Match < ApplicationRecord
   validates :rank, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 0,
                     less_than_or_equal_to: MAX_RANK }
-  validates :placement, presence: true
-  validates :result, presence: true, inclusion: { in: RESULT_MAPPINGS.keys }
-  validates :time_of_day, presence: true, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }
-  validates :day_of_week, presence: true, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }
-  validate :prior_match_or_rank
+  validates :result, inclusion: { in: RESULT_MAPPINGS.keys }, allow_nil: true
+  validates :time_of_day, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }, allow_nil: true
+  validates :day_of_week, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }, allow_nil: true
 
   has_one :user, through: :oauth_account
   has_and_belongs_to_many :heroes
@@ -34,6 +33,7 @@ class Match < ApplicationRecord
   scope :placements, ->{ where(placement: true) }
   scope :non_placements, ->{ where(placement: false) }
   scope :in_season, ->(season) { where(season: season) }
+  scope :placement_logs, ->{ where(map_id: nil) }
 
   def result
     RESULT_MAPPINGS.key(self[:result])
@@ -121,10 +121,5 @@ class Match < ApplicationRecord
     return unless prior_match
 
     self.season ||= prior_match.season
-  end
-
-  def prior_match_or_rank
-    return if prior_match || prior_rank
-    errors.add(:base, 'Must have a prior match or prior SR.')
   end
 end

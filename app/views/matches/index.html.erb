@@ -6,11 +6,34 @@
   </div>
 <% end %>
 
-<h2 class="h2 border-top pt-4 mt-4">Log a Match</h2>
-<%= form_for(@match) do |f| %>
-  <%= render partial: 'matches/form',
-             locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match } %>
-  <button type="submit" class="btn btn-large btn-primary">
-    Log Match
-  </button>
-<% end %>
+<div class="js-tab-container">
+  <% unless @oauth_account.finished_placements?(@current_season) %>
+    <div class="tabnav">
+      <nav class="tabnav-tabs" aria-label="Foo bar">
+        <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>
+        <a href="#log-placement-rank" class="tabnav-tab js-tab">Track only starting SR</a>
+      </nav>
+    </div>
+
+    <div id="log-placement-matches" class="js-tab-contents">
+      <%= form_for(@match) do |f| %>
+        <%= render partial: 'matches/placement_form',
+                   locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                             heroes: @heroes } %>
+        <button type="submit" class="btn btn-large btn-primary">
+          Log Match
+        </button>
+      <% end %>
+    </div>
+
+    <div id="log-placement-rank" class="js-tab-contents d-none">
+      <%= form_for(@match) do |f| %>
+        <%= render partial: 'matches/placement_rank_form',
+                   locals: { form: f, match: @match } %>
+        <button type="submit" class="btn btn-large btn-primary">
+          Save Starting SR
+        </button>
+      <% end %>
+    </div>
+  <% end %>
+</div>

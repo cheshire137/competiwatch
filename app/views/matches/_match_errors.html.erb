@@ -1,0 +1,9 @@
+<% if match.errors.any? %>
+  <div class="flash flash-error mb-4">
+    <ul class="list-style-none">
+      <% match.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

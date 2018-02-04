@@ -1,0 +1,8 @@
+<dl class="form-group">
+  <dt><%= form.label :time, 'When did you play this match?' %></dt>
+  <dd>
+    <%= form.datetime_field :time, class: 'form-control' %>
+    <%= current_user.time_zone %>
+    <a href="<%= settings_path %>" class="text-small d-inline-block ml-3">Change time zone</a>
+  </dd>
+</dl>

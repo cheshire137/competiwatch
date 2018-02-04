@@ -13,11 +13,29 @@ class MatchesController < ApplicationController
       []
     end
     @current_season = @latest_match.try(:season) || 8
-    @match = Match.new(oauth_account: @oauth_account, time: Time.zone.now,
-                       prior_match: @latest_match, season: @current_season)
+    @match = @oauth_account.matches.new(time: Time.zone.now,
+                                        prior_match: @latest_match, season: @current_season)
+  end
+
+  def create
+    @match = @oauth_account.matches.new(match_params)
+
+    unless @match.save
+      @maps = get_maps
+      @heroes = get_heroes
+
+      return render('matches/edit')
+    end
+
+    redirect_to matches_path(@oauth_account)
   end
 
   private
+
+  def match_params
+    params.require(:match).permit(:map_id, :rank, :comment, :prior_match_id, :placement,
+                                  :result, :time, :season)
+  end
 
   def set_oauth_account
     battletag = User.battletag_from_param(params[:battletag])

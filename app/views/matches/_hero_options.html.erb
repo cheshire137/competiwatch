@@ -1,0 +1,17 @@
+<dl class="form-group">
+  <dt>Heroes played (optional):</dt>
+  <dd class="d-flex flex-wrap">
+    <% heroes.each do |hero| %>
+      <div class="form-checkbox mb-1 form-hero-checkbox">
+        <label for="hero-<%= hero.slug %>" class="d-flex flex-items-center">
+          <input <% if match.heroes.include?(hero) %>checked<% end %> name="heroes[]" value="<%= hero.id %>" id="hero-<%= hero.slug %>" type="checkbox">
+          <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'd-inline-block rounded-2 hero-portrait flex-shrink-0 mx-2', width: 30, height: 30) %>
+          <div class="no-wrap">
+            <span class="text-<%= hero.slug %>"><%= hero.name %></span>
+            <div class="text-small text-normal text-gray"><%= hero.role %></div>
+          </div>
+        </label>
+      </div>
+    <% end %>
+  </dd>
+</dl>
