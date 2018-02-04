@@ -2,6 +2,7 @@ class Match < ApplicationRecord
   RESULT_MAPPINGS = { win: 0, loss: 1, draw: 2 }.freeze
   TIME_OF_DAY_MAPPINGS = { morning: 0, afternoon: 1, evening: 2, night: 3 }.freeze
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
+  MAX_RANK = 5000
 
   belongs_to :oauth_account
   belongs_to :map
@@ -11,8 +12,11 @@ class Match < ApplicationRecord
   before_validation :set_result
   before_validation :set_time_of_day
   before_validation :set_day_of_week
+  before_validation :set_time
 
-  validates :rank, presence: true
+  validates :rank, presence: true,
+    numericality: { only_integer: true, greater_than_or_equal_to: 0,
+                    less_than_or_equal_to: MAX_RANK }
   validates :placement, presence: true
   validates :result, presence: true, inclusion: { in: RESULT_MAPPINGS.keys }
   validates :time_of_day, presence: true, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }
@@ -62,6 +66,15 @@ class Match < ApplicationRecord
       :draw
     else
       :loss
+    end
+  end
+
+  def set_time
+    return if time.present?
+    return unless user
+
+    Time.use_zone(user.time_zone) do
+      self.time = Time.zone.now
     end
   end
 

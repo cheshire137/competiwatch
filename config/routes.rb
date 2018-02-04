@@ -4,5 +4,7 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
+  resources :matches, only: [:index, :create]
+
   root to: 'login#index'
 end

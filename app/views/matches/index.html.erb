@@ -1,0 +1,22 @@
+<h2>Log a Match</h2>
+<%= form_for(@match) do |f| %>
+  <dl class="form-group">
+    <dt><%= f.label :rank, 'What is your SR now?' %></dt>
+    <dd><%= f.number_field :rank, class: 'form-control', step: 1, min: 0, max: Match::MAX_RANK, required: true %></dd>
+  </dl>
+  <dl class="form-group">
+    <dt><%= f.label :map, 'Map:' %></dt>
+    <dd><%= f.select :map, options_for_select(map_options, @match.map), {}, { class: 'form-select' } %></dd>
+  </dl>
+  <dl class="form-group">
+    <dt><%= f.label :time, 'When did you play this match?' %></dt>
+    <dd>
+      <%= f.datetime_field :time, class: 'form-control' %>
+      <%= current_user.time_zone %>
+    </dd>
+  </dl>
+  <dl class="form-group">
+    <dt><%= f.label :comment, 'Comments (optional):' %></dt>
+    <dd><%= f.text_area :comment, class: 'form-control' %></dd>
+  </dl>
+<% end %>
