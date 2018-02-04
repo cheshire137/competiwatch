@@ -1,59 +1,6 @@
 <h2>Log a Match</h2>
 <%= form_for(@match) do |f| %>
-  <div class="d-flex flex-items-center flex-justify-between">
-    <dl class="form-group">
-      <dt><%= f.label :rank, 'What is your SR now?' %></dt>
-      <dd><%= f.number_field :rank, class: 'form-control', step: 1, min: 0, max: Match::MAX_RANK %></dd>
-    </dl>
-    <h3 class="h3">OR</h3>
-    <div>
-      <div class="form-group">
-        <div class="form-checkbox">
-          <label for="match_placement">
-            <input type="hidden" value="0" name="match[placement]">
-            <input type="checkbox" value="1" name="match[placement]" id="match_placement">
-            This was a placement match
-          </label>
-        </div>
-      </div>
-      <dl class="form-group">
-        <dt><%= f.label :result, 'What was the outcome?' %></dt>
-        <dd><%= f.select :result, options_for_select(result_options, @match.result), {}, { class: 'form-select' } %></dd>
-      </dl>
-    </div>
-  </div>
-  <dl class="form-group">
-    <dt><%= f.label :map, 'Map:' %></dt>
-    <dd><%= f.select :map, options_for_select(map_options, @match.map), {}, { class: 'form-select' } %></dd>
-  </dl>
-  <dl class="form-group">
-    <dt>Heroes played (optional):</dt>
-    <dd class="d-flex flex-wrap">
-      <% @heroes.each do |hero| %>
-        <div class="form-checkbox mb-1 form-hero-checkbox">
-          <label for="hero-<%= hero.slug %>" class="d-flex flex-items-center">
-            <input name="heroes[]" value="<%= hero.id %>" id="hero-<%= hero.slug %>" type="checkbox">
-            <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'd-inline-block rounded-2 hero-portrait flex-shrink-0 mx-2', width: 30, height: 30) %>
-            <div class="no-wrap">
-              <span class="text-<%= hero.slug %>"><%= hero.name %></span>
-              <div class="text-small text-normal text-gray"><%= hero.role %></div>
-            </div>
-          </label>
-        </div>
-      <% end %>
-    </dd>
-  </dl>
-  <dl class="form-group">
-    <dt><%= f.label :time, 'When did you play this match?' %></dt>
-    <dd>
-      <%= f.datetime_field :time, class: 'form-control' %>
-      <%= current_user.time_zone %>
-    </dd>
-  </dl>
-  <dl class="form-group">
-    <dt><%= f.label :comment, 'Comments (optional):' %></dt>
-    <dd><%= f.text_area :comment, class: 'form-control' %></dd>
-  </dl>
+  <%= render partial: 'matches/form', locals: { form: f, match: @match, maps: @maps } %>
   <button type="submit" class="btn btn-large btn-primary">
     Log Match
   </button>

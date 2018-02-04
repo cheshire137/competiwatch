@@ -1,0 +1,54 @@
+<div class="d-flex flex-items-center flex-justify-between">
+  <dl class="form-group">
+    <dt><%= form.label :rank, 'What is your SR now?' %></dt>
+    <dd><%= form.number_field :rank, class: 'form-control', step: 1, min: 0, max: Match::MAX_RANK %></dd>
+  </dl>
+  <h3 class="h3">OR</h3>
+  <div>
+    <div class="form-group">
+      <div class="form-checkbox">
+        <label for="match_placement">
+          <input type="hidden" value="0" name="match[placement]">
+          <input type="checkbox" value="1" name="match[placement]" id="match_placement">
+          This was a placement match
+        </label>
+      </div>
+    </div>
+    <dl class="form-group">
+      <dt><%= form.label :result, 'What was the outcome?' %></dt>
+      <dd><%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %></dd>
+    </dl>
+  </div>
+</div>
+<dl class="form-group">
+  <dt><%= form.label :map, 'Map:' %></dt>
+  <dd><%= form.select :map, options_for_select(map_options(maps), match.map), {}, { class: 'form-select' } %></dd>
+</dl>
+<dl class="form-group">
+  <dt>Heroes played (optional):</dt>
+  <dd class="d-flex flex-wrap">
+    <% @heroes.each do |hero| %>
+      <div class="form-checkbox mb-1 form-hero-checkbox">
+        <label for="hero-<%= hero.slug %>" class="d-flex flex-items-center">
+          <input name="heroes[]" value="<%= hero.id %>" id="hero-<%= hero.slug %>" type="checkbox">
+          <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'd-inline-block rounded-2 hero-portrait flex-shrink-0 mx-2', width: 30, height: 30) %>
+          <div class="no-wrap">
+            <span class="text-<%= hero.slug %>"><%= hero.name %></span>
+            <div class="text-small text-normal text-gray"><%= hero.role %></div>
+          </div>
+        </label>
+      </div>
+    <% end %>
+  </dd>
+</dl>
+<dl class="form-group">
+  <dt><%= form.label :time, 'When did you play this match?' %></dt>
+  <dd>
+    <%= form.datetime_field :time, class: 'form-control' %>
+    <%= current_user.time_zone %>
+  </dd>
+</dl>
+<dl class="form-group">
+  <dt><%= form.label :comment, 'Comments (optional):' %></dt>
+  <dd><%= form.text_area :comment, class: 'form-control' %></dd>
+</dl>
