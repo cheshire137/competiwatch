@@ -1,6 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account
+  before_action :set_season
 
   def index
     @maps = get_maps
@@ -8,17 +9,17 @@ class MatchesController < ApplicationController
     all_matches = @oauth_account.matches.order(:time)
     @latest_match = all_matches.last
     @matches = if @latest_match
-      all_matches.in_season(@latest_match.season)
+      all_matches.in_season(@season)
     else
       []
     end
-    @current_season = @latest_match.try(:season) || 8
     @match = @oauth_account.matches.new(time: Time.zone.now,
-                                        prior_match: @latest_match, season: @current_season)
+                                        prior_match: @latest_match, season: @season)
   end
 
   def create
     @match = @oauth_account.matches.new(match_params)
+    @match.season = @season
 
     unless @match.save
       @maps = get_maps
@@ -27,14 +28,14 @@ class MatchesController < ApplicationController
       return render('matches/edit')
     end
 
-    redirect_to matches_path(@oauth_account)
+    redirect_to matches_path(@season, @oauth_account)
   end
 
   private
 
   def match_params
     params.require(:match).permit(:map_id, :rank, :comment, :prior_match_id, :placement,
-                                  :result, :time, :season)
+                                  :result, :time)
   end
 
   def set_oauth_account
@@ -43,6 +44,10 @@ class MatchesController < ApplicationController
     unless @oauth_account
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
+  end
+
+  def set_season
+    @season = params[:season].to_i
   end
 
   def get_maps

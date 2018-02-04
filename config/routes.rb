@@ -4,8 +4,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
-  get '/matches/:battletag' => 'matches#index', as: :matches
-  post '/matches/:battletag' => 'matches#create'
+  get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
+  post '/season/:season/:battletag' => 'matches#create', season: /\d+/
 
   get '/settings' => 'users#settings', as: :settings
   put '/settings' => 'users#update'

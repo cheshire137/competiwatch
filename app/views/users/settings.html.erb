@@ -1,3 +1,6 @@
+<h2 class="h2 mb-2">
+  <%= current_user %> / Settings
+</h2>
 <%= form_for(current_user, url: settings_path, method: :put) do |f| %>
   <dl class="form-group">
     <dt><%= f.label :time_zone, 'Time zone:' %></dt>

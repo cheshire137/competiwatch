@@ -21,7 +21,7 @@
           <% if signed_in? %>
             <div class="d-flex flex-items-center">
               <h1 class="h1 mr-4">Competiwatch</h1>
-              <a href="<%= matches_path(current_user.primary_account) %>">Match History</a>
+              <a href="<%= matches_path(Match::LATEST_SEASON, current_user.primary_account) %>">Current season</a>
             </div>
             <div>
               <span class="d-inline-block mr-4">

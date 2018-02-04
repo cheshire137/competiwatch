@@ -4,10 +4,11 @@ class Match < ApplicationRecord
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
+  LATEST_SEASON = 8
 
   belongs_to :oauth_account
   belongs_to :map, required: false
-  belongs_to :prior_match, required: false
+  belongs_to :prior_match, required: false, class_name: 'Match'
 
   before_validation :set_result
   before_validation :set_time_of_day

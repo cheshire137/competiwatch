@@ -1,5 +1,28 @@
-<h2 class="h2 mb-2">Match History for <%= @oauth_account %> in Season <%= @current_season %></h2>
+<h2 class="h2 mb-2">
+  Season <%= @season %> / <%= @oauth_account %> /
+  Match History
+</h2>
 <% if @matches.any? %>
+  <table class="matches-table">
+    <thead>
+      <tr>
+        <th>Game</th>
+        <th>Win/Loss</th>
+        <th>SR Change</th>
+        <th>Rank</th>
+        <th>Win Streak</th>
+        <th>Lose Streak</th>
+        <th>Map</th>
+        <th>Comment</th>
+        <th>Day of Week</th>
+        <th>Time of Day</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @matches.each do |match| %>
+      <% end %>
+    </tbody>
+  </table>
 <% else %>
   <div class="blankslate mb-4">
     You have not logged any competitive matches this season.
@@ -7,7 +30,7 @@
 <% end %>
 
 <div class="js-tab-container">
-  <% unless @oauth_account.finished_placements?(@current_season) %>
+  <% unless @oauth_account.finished_placements?(@season) %>
     <div class="tabnav">
       <nav class="tabnav-tabs" aria-label="Foo bar">
         <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>
