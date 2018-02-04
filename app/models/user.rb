@@ -3,6 +3,8 @@ class User < ApplicationRecord
 
   validates :battletag, uniqueness: true
 
+  has_many :oauth_accounts
+
   alias_attribute :to_s, :battletag
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
