@@ -1,4 +1,12 @@
-<h2>Log a Match</h2>
+<h2 class="h2 mb-2">Match History in Season <%= @current_season %></h2>
+<% if @matches.any? %>
+<% else %>
+  <div class="blankslate mb-4">
+    You have not logged any competitive matches this season.
+  </div>
+<% end %>
+
+<h2 class="h2">Log a Match</h2>
 <%= form_for(@match) do |f| %>
   <%= render partial: 'matches/form', locals: { form: f, match: @match, maps: @maps } %>
   <button type="submit" class="btn btn-large btn-primary">
