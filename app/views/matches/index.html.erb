@@ -6,7 +6,7 @@
   </div>
 <% end %>
 
-<h2 class="h2">Log a Match</h2>
+<h2 class="h2 border-top pt-4 mt-4">Log a Match</h2>
 <%= form_for(@match) do |f| %>
   <%= render partial: 'matches/form',
              locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match } %>
