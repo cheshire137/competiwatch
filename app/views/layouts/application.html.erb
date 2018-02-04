@@ -15,6 +15,16 @@
     <% if notice.present? %>
       <p class="p-3 m-4 rounded-2 flash-success"><%= notice %></p>
     <% end %>
+    <header class="my-4">
+      <div class="container">
+        <div class="d-flex flex-justify-between flex-items-center">
+          <h1 class="h1">Competiwatch</h1>
+          <% if signed_in? %>
+            <%= current_user %>
+          <% end %>
+        </div>
+      </div>
+    </header>
     <div class="container my-4">
       <%= yield %>
     </div>
