@@ -4,7 +4,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
-  resources :matches, only: [:index, :create]
+  get '/matches/:battletag' => 'matches#index', as: :matches
+  post '/matches/:battletag' => 'matches#create'
 
   root to: 'login#index'
 end

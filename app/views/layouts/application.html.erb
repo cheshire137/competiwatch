@@ -20,7 +20,7 @@
         <div class="d-flex flex-justify-between flex-items-center">
           <h1 class="h1">Competiwatch</h1>
           <% if signed_in? %>
-            <%= current_user %>
+            <span>Signed in as <span class="text-bold"><%= current_user %></span></span>
           <% end %>
         </div>
       </div>
