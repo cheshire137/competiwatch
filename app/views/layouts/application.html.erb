@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="utf-8">
     <title>Competiwatch</title>
     <%= csrf_meta_tags %>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
@@ -8,7 +9,15 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
   <body>
-    <%= yield %>
-    <%= javascript_include_tag 'application' %>
+    <% if alert.present? %>
+      <p class="p-3 m-4 rounded-2 flash-error"><%= alert %></p>
+    <% end %>
+    <% if notice.present? %>
+      <p class="p-3 m-4 rounded-2 flash-success"><%= notice %></p>
+    <% end %>
+    <div class="container my-4">
+      <%= yield %>
+    </div>
+    <%= javascript_pack_tag 'application' %>
   </body>
 </html>

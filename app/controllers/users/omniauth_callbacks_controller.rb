@@ -2,7 +2,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
     user = User.find_by_battletag(auth.info.battletag) || User.new(battletag: auth.info.battletag)
-    user = User.where(provider: auth.provider, uid: auth.uid).first_or_initialize
 
     unless user.save
       return redirect_to(root_path, alert: 'Failed to sign in via Battle.net.')
