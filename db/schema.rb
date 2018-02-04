@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180204192547) do
+ActiveRecord::Schema.define(version: 20180204193401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,6 +23,19 @@ ActiveRecord::Schema.define(version: 20180204192547) do
     t.index ["name"], name: "index_maps_on_name", unique: true
   end
 
+  create_table "matches", force: :cascade do |t|
+    t.integer "oauth_account_id", null: false
+    t.integer "map_id", null: false
+    t.integer "rank", null: false
+    t.text "comment"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "season_id", null: false
+    t.index ["map_id"], name: "index_matches_on_map_id"
+    t.index ["oauth_account_id"], name: "index_matches_on_oauth_account_id"
+    t.index ["season_id"], name: "index_matches_on_season_id"
+  end
+
   create_table "oauth_accounts", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "provider", limit: 30, null: false
@@ -31,6 +44,13 @@ ActiveRecord::Schema.define(version: 20180204192547) do
     t.datetime "updated_at", null: false
     t.index ["provider", "uid"], name: "index_oauth_accounts_on_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_oauth_accounts_on_user_id"
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.string "name", limit: 30, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_seasons_on_name", unique: true
   end
 
   create_table "users", force: :cascade do |t|

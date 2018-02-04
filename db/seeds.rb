@@ -8,6 +8,10 @@ maps_by_type = {
 maps_by_type.each do |type, map_names|
   puts "Creating #{type} maps: #{map_names.to_sentence}"
   map_names.each do |name|
-    Map.create!(name: name, map_type: type)
+    Map.where(name: name, map_type: type).first_or_create
   end
 end
+
+puts 'Creating seasons'
+['Season 1', 'Season 2', 'Season 3', 'Season 4', 'Season 5', 'Season 6',
+ 'Season 7', 'Season 8'].each { |name| Season.where(name: name).first_or_create }
