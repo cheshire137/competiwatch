@@ -1,0 +1,5 @@
+export BNET_APP_ID=your_app_id_here
+export BNET_APP_SECRET=your_app_secret_here
+export BNET_APP_HOST=your_ngrok_host_here
+export RACK_ENV=development
+export PORT=3000

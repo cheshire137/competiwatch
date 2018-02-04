@@ -1,5 +1,14 @@
 {
   "name": "competiwatch",
   "private": true,
-  "dependencies": {}
+  "dependencies": {
+    "@rails/webpacker": "^3.2.1",
+    "delegated-events": "^1.0.5",
+    "primer": "^10.3.0",
+    "selector-observer": "^1.1.0",
+    "whatwg-fetch": "^2.0.3"
+  },
+  "devDependencies": {
+    "webpack-dev-server": "^2.11.1"
+  }
 }
