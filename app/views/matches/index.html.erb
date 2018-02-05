@@ -55,8 +55,9 @@
               <td class="match-cell no-wrap"><%= match.map %></td>
               <td class="match-cell">
                 <% if match.comment.present? %>
-                  <span class="tooltipped tooltipped-e" aria-label="<%= match.comment.gsub(/"/, "'") %>">
-                    <%= fa_icon 'sticky-note' %>
+                  <span class="tooltipped tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
+                    <span class="ion-document-text ion text-gray">
+                    </span>
                   </span>
                 <% end %>
               </td>
