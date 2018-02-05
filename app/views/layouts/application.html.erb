@@ -21,7 +21,9 @@
         <div class="d-flex flex-justify-between flex-items-center">
           <% if signed_in? %>
             <div class="d-flex flex-items-center">
-              <h1 class="h1 mr-4">Competiwatch</h1>
+              <h1 class="h1 mr-4">
+                <a href="<%= root_path %>">Competiwatch</a>
+              </h1>
               <a href="<%= matches_path(Match::LATEST_SEASON, current_user.primary_account) %>">Current season</a>
             </div>
             <div>
