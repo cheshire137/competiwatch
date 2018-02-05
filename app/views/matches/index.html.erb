@@ -2,78 +2,87 @@
   Season <%= @season %> / <%= @oauth_account %> /
   Match History
 </h2>
-<% if @matches.any? %>
-  <table class="matches-table width-full">
-    <thead>
-      <tr>
-        <th class="match-header">Game</th>
-        <th class="match-header">Win/Loss</th>
-        <th class="match-header">SR Change</th>
-        <th class="match-header">Rank</th>
-        <th class="match-header">Win Streak</th>
-        <th class="match-header">Lose Streak</th>
-        <th class="match-header">Map</th>
-        <th class="match-header">Comment</th>
-        <th class="match-header">Day</th>
-        <th class="match-header">Time</th>
-        <th class="match-header">Heroes</th>
-        <th class="match-header"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @matches.each_with_index do |match, i| %>
-        <tr class="<%= 'match-placement-row' if match.placement_log? %>">
-          <td class="match-cell match-number-cell"><%= match_number(i, @matches) %></td>
-          <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
-          <td class="match-cell" style="<%= match_rank_change_style(match, @matches) %>">
-            <%= match_rank_change(match, @matches) %>
-          </td>
-          <td class="match-cell rank-cell <%= match_rank_class(match, @placement_rank) %>">
-            <%= match.rank %>
-          </td>
-          <td class="match-cell"><%= match_win_streak(match) %></td>
-          <td class="match-cell"><%= match_loss_streak(match) %></td>
-          <td class="match-cell no-wrap"><%= match.map %></td>
-          <td class="match-cell"><%= match.comment %></td>
-          <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
-          <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
-          <td class="match-cell">
-            <% match.heroes.each do |hero| %>
-              <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait', width: 20, height: 20) %>
-            <% end %>
-          </td>
-          <td class="match-cell">
-            <a href="<%= match_path(match) %>">Edit</a>
-          </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <div class="blankslate mb-4">
-    You have not logged any competitive matches this season.
-  </div>
-<% end %>
 
 <div class="js-tab-container">
-  <% if @oauth_account.finished_placements?(@season) %>
-    <h2 class="h2 mt-4 mb-2 border-top pt-4">Log a Match</h2>
-    <%= form_for(@match) do |f| %>
-      <%= render partial: 'matches/form',
-                 locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                           heroes: @heroes } %>
-      <button type="submit" class="btn btn-large btn-primary">
-        Log Match
-      </button>
-    <% end %>
-  <% else %>
-    <div class="tabnav">
-      <nav class="tabnav-tabs" aria-label="Foo bar">
+  <div class="tabnav">
+    <nav class="tabnav-tabs" aria-label="Foo bar">
+      <% if @oauth_account.finished_placements?(@season) %>
+        <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
+        <a href="#log-match" class="tabnav-tab js-tab">Log a match</a>
+      <% else %>
         <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>
         <a href="#log-placement-rank" class="tabnav-tab js-tab">Track only starting SR</a>
-      </nav>
-    </div>
+      <% end %>
+    </nav>
+  </div>
 
+  <div id="match-history" class="js-tab-contents">
+    <% if @matches.any? %>
+      <table class="matches-table width-full">
+        <thead>
+          <tr>
+            <th class="match-header">Game</th>
+            <th class="match-header">Win/Loss</th>
+            <th class="match-header">SR Change</th>
+            <th class="match-header">Rank</th>
+            <th class="match-header">Win Streak</th>
+            <th class="match-header">Lose Streak</th>
+            <th class="match-header">Map</th>
+            <th class="match-header">Comment</th>
+            <th class="match-header">Day</th>
+            <th class="match-header">Time</th>
+            <th class="match-header">Heroes</th>
+            <th class="match-header"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @matches.each_with_index do |match, i| %>
+            <tr class="<%= 'match-placement-row' if match.placement_log? %>">
+              <td class="match-cell match-number-cell"><%= match_number(i, @matches) %></td>
+              <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
+              <td class="match-cell" style="<%= match_rank_change_style(match, @matches) %>">
+                <%= match_rank_change(match, @matches) %>
+              </td>
+              <td class="match-cell rank-cell <%= match_rank_class(match, @placement_rank) %>">
+                <%= match.rank %>
+              </td>
+              <td class="match-cell"><%= match_win_streak(match) %></td>
+              <td class="match-cell"><%= match_loss_streak(match) %></td>
+              <td class="match-cell no-wrap"><%= match.map %></td>
+              <td class="match-cell"><%= match.comment %></td>
+              <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
+              <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
+              <td class="match-cell">
+                <% match.heroes.each do |hero| %>
+                  <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait', width: 20, height: 20) %>
+                <% end %>
+              </td>
+              <td class="match-cell">
+                <a href="<%= match_path(match) %>">Edit</a>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% else %>
+      <div class="blankslate mb-4">
+        You have not logged any competitive matches this season.
+      </div>
+    <% end %>
+  </div>
+
+  <% if @oauth_account.finished_placements?(@season) %>
+    <div id="log-match" class="js-tab-contents d-none">
+      <%= form_for(@match) do |f| %>
+        <%= render partial: 'matches/form',
+                   locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                             heroes: @heroes } %>
+        <button type="submit" class="btn btn-large btn-primary">
+          Log Match
+        </button>
+      <% end %>
+    </div>
+  <% else %>
     <div id="log-placement-matches" class="js-tab-contents">
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/placement_form',
