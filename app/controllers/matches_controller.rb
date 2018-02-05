@@ -16,14 +16,12 @@ class MatchesController < ApplicationController
       placement_log_match.rank
     end
 
-    @match = @oauth_account.matches.new(time: Time.zone.now,
-                                        prior_match: @latest_match, season: @season)
+    @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season)
   end
 
   def create
     @match = @oauth_account.matches.new(match_params)
     @match.season = @season
-    @match.time = nil if params[:ignore_time]
 
     unless @match.save
       @maps = get_maps
@@ -46,7 +44,6 @@ class MatchesController < ApplicationController
 
   def update
     @match.assign_attributes(match_params)
-    @match.time = nil if params[:ignore_time]
 
     unless @match.save
       @maps = get_maps
@@ -65,7 +62,7 @@ class MatchesController < ApplicationController
 
   def match_params
     params.require(:match).permit(:map_id, :rank, :comment, :prior_match_id, :placement,
-                                  :result, :time, :season)
+                                  :result, :time_of_day, :day_of_week, :season)
   end
 
   def set_match

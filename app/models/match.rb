@@ -11,8 +11,6 @@ class Match < ApplicationRecord
   belongs_to :prior_match, required: false, class_name: 'Match'
 
   before_validation :set_result
-  before_validation :set_time_of_day
-  before_validation :set_day_of_week
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -34,9 +32,7 @@ class Match < ApplicationRecord
   scope :non_placements, ->{ where(placement: false) }
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{ where(map_id: nil) }
-  scope :ordered_by_time, ->{
-    order('CASE WHEN time IS NULL THEN created_at ELSE time END')
-  }
+  scope :ordered_by_time, ->{ order(created_at: :asc) }
 
   def set_heroes_from_ids(hero_ids)
     heroes_to_keep = Hero.where(id: hero_ids)
@@ -107,46 +103,6 @@ class Match < ApplicationRecord
       :draw
     else
       :loss
-    end
-  end
-
-  def set_time_of_day
-    if time.nil?
-      self.time_of_day = nil
-      return
-    end
-
-    return unless user
-
-    Time.use_zone(user.time_zone) do
-      cur_hour = time.hour
-
-      self.time_of_day = if cur_hour < 12 && cur_hour >= 4 # 4a - 11:59a
-        :morning
-      elsif cur_hour >= 12 && cur_hour < 5 # 12p - 4:59p
-        :afternoon
-      elsif cur_hour >= 5 && cur_hour < 9 # 5p - 8:59p
-        :evening
-      else # 9p - 3:59a
-        :night
-      end
-    end
-  end
-
-  def set_day_of_week
-    if time.nil?
-      self.day_of_week = nil
-      return
-    end
-
-    return unless user
-
-    Time.use_zone(user.time_zone) do
-      self.day_of_week = if time.saturday? || time.sunday?
-        :weekend
-      else
-        :weekday
-      end
     end
   end
 

@@ -3,6 +3,16 @@ module MatchesHelper
   LOSS_COLORS = [[246,106,110], [250,170,124]].freeze
   NEUTRAL_COLORS = [[254,234,138]].freeze
 
+  def time_of_day_options
+    valid_times = Match::TIME_OF_DAY_MAPPINGS.keys
+    [['', '']] + valid_times.map { |name| [name.to_s.humanize, name] }
+  end
+
+  def day_of_week_options
+    valid_days = Match::DAY_OF_WEEK_MAPPINGS.keys
+    [['', '']] + valid_days.map { |name| [name.to_s.humanize, name] }
+  end
+
   def map_options(maps)
     valid_maps = maps.map { |map| [map.name, map.id] }
     [['Choose a map', '']] + valid_maps
