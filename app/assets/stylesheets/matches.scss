@@ -42,3 +42,11 @@
 .match-placement-row .match-cell.rank-cell {
   background-color: #fed86e;
 }
+
+.rank-cell.worse-than-placement {
+  background-color: #fc0d1b;
+}
+
+.rank-cell.better-than-placement {
+  background-color: #a9cf90;
+}

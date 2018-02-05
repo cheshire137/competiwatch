@@ -27,7 +27,9 @@
           <td class="match-cell" style="<%= match_rank_change_style(match, @matches) %>">
             <%= match_rank_change(match, @matches) %>
           </td>
-          <td class="match-cell rank-cell"><%= match.rank %></td>
+          <td class="match-cell rank-cell <%= match_rank_class(match, @placement_rank) %>">
+            <%= match.rank %>
+          </td>
           <td class="match-cell"><%= match_win_streak(match) %></td>
           <td class="match-cell"><%= match_loss_streak(match) %></td>
           <td class="match-cell"><%= match.map %></td>

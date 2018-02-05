@@ -55,6 +55,14 @@ module MatchesHelper
     "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
   end
 
+  def match_rank_class(match, placement_rank)
+    if placement_rank > match.rank
+      'worse-than-placement'
+    else
+      'better-than-placement'
+    end
+  end
+
   def match_win_streak(match)
     return '' unless match.win? && match.prior_match
 

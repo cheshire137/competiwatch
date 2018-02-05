@@ -7,13 +7,15 @@ class MatchesController < ApplicationController
   def index
     @maps = get_maps
     @heroes = get_heroes
-    all_matches = @oauth_account.matches.includes(:prior_match, :map).ordered_by_time
-    @latest_match = all_matches.last
-    @matches = if @latest_match
-      all_matches.in_season(@season)
-    else
-      []
+    @matches = @oauth_account.matches.in_season(@season).includes(:prior_match, :map).
+      ordered_by_time
+    @latest_match = @matches.last
+
+    placement_log_match = @matches.placement_logs.first
+    @placement_rank = if placement_log_match
+      placement_log_match.rank
     end
+
     @match = @oauth_account.matches.new(time: Time.zone.now,
                                         prior_match: @latest_match, season: @season)
   end
