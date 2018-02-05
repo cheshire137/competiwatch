@@ -2,11 +2,4 @@
   <%= current_user %> / Settings
 </h2>
 <%= form_for(current_user, url: settings_path, method: :put) do |f| %>
-  <dl class="form-group">
-    <dt><%= f.label :time_zone, 'Time zone:' %></dt>
-    <dd><%= f.select :time_zone, options_for_select(time_zone_options, current_user.time_zone), {}, { class: 'form-select' } %></dd>
-  </dl>
-  <button type="submit" class="btn btn-primary">
-    Save
-  </button>
 <% end %>
