@@ -16,3 +16,17 @@
 .sr-field-label {
   font-size: 20px;
 }
+
+.match-cell,
+.match-header {
+  border: 1px solid #000;
+  padding: 0.3em 0.6em;
+}
+
+.match-cell {
+  text-align: center;
+}
+
+.match-header {
+  background-color: #bed6ed;
+}

@@ -3,34 +3,34 @@
   Match History
 </h2>
 <% if @matches.any? %>
-  <table class="matches-table">
+  <table class="matches-table width-full">
     <thead>
       <tr>
-        <th>Game</th>
-        <th>Win/Loss</th>
-        <th>SR Change</th>
-        <th>Rank</th>
-        <th>Win Streak</th>
-        <th>Lose Streak</th>
-        <th>Map</th>
-        <th>Comment</th>
-        <th>Day of Week</th>
-        <th>Time of Day</th>
+        <th class="match-header">Game</th>
+        <th class="match-header">Win/Loss</th>
+        <th class="match-header">SR Change</th>
+        <th class="match-header">Rank</th>
+        <th class="match-header">Win Streak</th>
+        <th class="match-header">Lose Streak</th>
+        <th class="match-header">Map</th>
+        <th class="match-header">Comment</th>
+        <th class="match-header">Day of Week</th>
+        <th class="match-header">Time of Day</th>
       </tr>
     </thead>
     <tbody>
       <% @matches.each_with_index do |match, i| %>
         <tr>
-          <td><%= match_number(i, @matches) %></td>
-          <td><%= match_result(match) %></td>
-          <td><%= match_rank_change(match, @matches) %></td>
-          <td><%= match.rank %></td>
-          <td><%= match_win_streak(match) %></td>
-          <td><%= match_loss_streak(match) %></td>
-          <td><%= match.map %></td>
-          <td><%= match.comment %></td>
-          <td><%= match.time_of_day.to_s.humanize %></td>
-          <td><%= match.day_of_week.to_s.humanize %></td>
+          <td class="match-cell"><%= match_number(i, @matches) %></td>
+          <td class="match-cell"><%= match_result(match) %></td>
+          <td class="match-cell"><%= match_rank_change(match, @matches) %></td>
+          <td class="match-cell"><%= match.rank %></td>
+          <td class="match-cell"><%= match_win_streak(match) %></td>
+          <td class="match-cell"><%= match_loss_streak(match) %></td>
+          <td class="match-cell"><%= match.map %></td>
+          <td class="match-cell"><%= match.comment %></td>
+          <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
+          <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
         </tr>
       <% end %>
     </tbody>
@@ -42,7 +42,17 @@
 <% end %>
 
 <div class="js-tab-container">
-  <% unless @oauth_account.finished_placements?(@season) %>
+  <% if @oauth_account.finished_placements?(@season) %>
+    <h2 class="h2 mt-4 mb-2 border-top pt-4">Log a Match</h2>
+    <%= form_for(@match) do |f| %>
+      <%= render partial: 'matches/form',
+                 locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                           heroes: @heroes } %>
+      <button type="submit" class="btn btn-large btn-primary">
+        Log Match
+      </button>
+    <% end %>
+  <% else %>
     <div class="tabnav">
       <nav class="tabnav-tabs" aria-label="Foo bar">
         <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>

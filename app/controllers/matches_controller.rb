@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   def index
     @maps = get_maps
     @heroes = get_heroes
-    all_matches = @oauth_account.matches.includes(:prior_match).order(:time)
+    all_matches = @oauth_account.matches.includes(:prior_match, :map).order(:time)
     @latest_match = all_matches.last
     @matches = if @latest_match
       all_matches.in_season(@season)
@@ -20,6 +20,7 @@ class MatchesController < ApplicationController
   def create
     @match = @oauth_account.matches.new(match_params)
     @match.season = @season
+    @match.time = nil if params[:ignore_time]
 
     unless @match.save
       @maps = get_maps
