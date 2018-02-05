@@ -2,11 +2,14 @@
 <%= form.hidden_field :prior_match_id %>
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
-<div class="form-group mt-0 d-flex flex-items-center">
-  <%= form.label :rank, 'What is your SR after this match?', class: 'mr-2 sr-field-label' %>
-  <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+
+<div class="d-flex flex-items-center flex-justify-between">
+  <div class="form-group mt-0 d-flex flex-items-center">
+    <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
+    <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+  </div>
+  <%= render partial: 'matches/time_field', locals: { form: form } %>
 </div>
 <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
 <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
-<%= render partial: 'matches/time_field', locals: { form: form } %>
 <%= render partial: 'matches/comment_field', locals: { form: form } %>

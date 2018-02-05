@@ -14,17 +14,17 @@
         <th class="match-header">Lose Streak</th>
         <th class="match-header">Map</th>
         <th class="match-header">Comment</th>
-        <th class="match-header">Day of Week</th>
-        <th class="match-header">Time of Day</th>
+        <th class="match-header">Day</th>
+        <th class="match-header">Time</th>
       </tr>
     </thead>
     <tbody>
       <% @matches.each_with_index do |match, i| %>
-        <tr>
+        <tr class="<%= 'match-placement-row' if match.placement_log? %>">
           <td class="match-cell"><%= match_number(i, @matches) %></td>
           <td class="match-cell"><%= match_result(match) %></td>
           <td class="match-cell"><%= match_rank_change(match, @matches) %></td>
-          <td class="match-cell"><%= match.rank %></td>
+          <td class="match-cell rank-cell"><%= match.rank %></td>
           <td class="match-cell"><%= match_win_streak(match) %></td>
           <td class="match-cell"><%= match_loss_streak(match) %></td>
           <td class="match-cell"><%= match.map %></td>

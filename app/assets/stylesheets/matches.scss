@@ -6,6 +6,10 @@
   width: 4em;
 }
 
+.form-group .time-field.form-control {
+  width: 19em;
+}
+
 .form-group .sr-field.form-control {
   width: 4.5em;
   padding: 10px 15px;
@@ -29,4 +33,12 @@
 
 .match-header {
   background-color: #bed6ed;
+}
+
+.match-placement-row .match-cell {
+  background-color: #9dc3e3;
+}
+
+.match-placement-row .match-cell.rank-cell {
+  background-color: #fed86e;
 }

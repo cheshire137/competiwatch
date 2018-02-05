@@ -1,14 +1,18 @@
-<dl class="form-group">
-  <dt><%= form.label :time, 'When did you play this match?' %></dt>
-  <dd>
-    <%= form.datetime_field :time, class: 'form-control' %>
-    <%= current_user.time_zone %>
-    <a href="<%= settings_path %>" class="text-small d-inline-block ml-3">Change time zone</a>
-    <div class="form-checkbox mt-1">
-      <label>
-        <input type="checkbox" name="ignore_time" value="1">
-        I don't know when I played
-      </label>
-    </div>
-  </dd>
-</dl>
+<div>
+  <dl class="form-group">
+    <dt><%= form.label :time, 'When did you play this match?' %></dt>
+    <dd>
+      <%= form.datetime_field :time, class: 'form-control time-field' %>
+      <div class="mt-1 text-gray text-small">
+        <%= current_user.time_zone %>
+        <a href="<%= settings_path %>" class="d-inline-block ml-3">Change time zone</a>
+      </div>
+    </dd>
+  </dl>
+  <div class="form-checkbox">
+    <label>
+      <input type="checkbox" name="ignore_time" value="1">
+      I don't know when I played
+    </label>
+  </div>
+</div>
