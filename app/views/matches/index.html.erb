@@ -8,7 +8,7 @@
     <nav class="tabnav-tabs" aria-label="Foo bar">
       <% if @oauth_account.finished_placements?(@season) %>
         <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
-        <a href="#log-match" class="tabnav-tab js-tab">Log a match</a>
+        <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">Log a match</a>
       <% else %>
         <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>
         <a href="#log-placement-rank" class="tabnav-tab js-tab">Track only starting SR</a>
