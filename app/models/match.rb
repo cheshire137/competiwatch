@@ -11,8 +11,8 @@ class Match < ApplicationRecord
   belongs_to :prior_match, required: false, class_name: 'Match'
 
   before_validation :set_result
-  before_validation :set_time_of_day, if: :time
-  before_validation :set_day_of_week, if: :time
+  before_validation :set_time_of_day
+  before_validation :set_day_of_week
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -67,7 +67,9 @@ class Match < ApplicationRecord
   end
 
   def time_of_day=(name)
-    self[:time_of_day] = TIME_OF_DAY_MAPPINGS[name.to_sym]
+    self[:time_of_day] = if name
+      TIME_OF_DAY_MAPPINGS[name.to_sym]
+    end
   end
 
   def day_of_week
@@ -75,7 +77,9 @@ class Match < ApplicationRecord
   end
 
   def day_of_week=(name)
-    self[:day_of_week] = DAY_OF_WEEK_MAPPINGS[name.to_sym]
+    self[:day_of_week] = if name
+      DAY_OF_WEEK_MAPPINGS[name.to_sym]
+    end
   end
 
   private
@@ -94,11 +98,15 @@ class Match < ApplicationRecord
   end
 
   def set_time_of_day
-    return if time_of_day.present?
+    if time.nil?
+      self.time_of_day = nil
+      return
+    end
+
     return unless user
 
     Time.use_zone(user.time_zone) do
-      cur_hour = Time.zone.now.hour
+      cur_hour = time.hour
 
       self.time_of_day = if cur_hour < 12 && cur_hour >= 4 # 4a - 11:59a
         :morning
@@ -113,13 +121,15 @@ class Match < ApplicationRecord
   end
 
   def set_day_of_week
-    return if day_of_week.present?
+    if time.nil?
+      self.day_of_week = nil
+      return
+    end
+
     return unless user
 
     Time.use_zone(user.time_zone) do
-      cur_day = Time.zone.today
-
-      self.day_of_week = if cur_day.saturday? || cur_day.sunday?
+      self.day_of_week = if time.saturday? || time.sunday?
         :weekend
       else
         :weekday

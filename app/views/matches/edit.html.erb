@@ -1,7 +1,16 @@
-<%= form_for(@match) do |f| %>
+<h2 class="h2 mb-2">
+  Season <%= @match.season %> / <%= @match.oauth_account %> /
+  Edit Match
+</h2>
+
+<%= form_for(@match, method: :put) do |f| %>
   <%= render partial: 'matches/form',
              locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                        heroes: @heroes } %>
+  <div class="form-group">
+    <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
+    <%= f.number_field :season, class: 'form-control season-field' %>
+  </div>
   <button type="submit" class="btn btn-large btn-primary">
     Save Match
   </button>

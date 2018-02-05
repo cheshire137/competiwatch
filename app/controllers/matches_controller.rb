@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account, only: [:index, :create]
   before_action :set_season, only: [:index, :create]
-  before_action :set_match, only: [:edit]
+  before_action :set_match, only: [:edit, :update]
 
   def index
     @maps = get_maps
@@ -40,11 +40,26 @@ class MatchesController < ApplicationController
     @heroes = get_heroes
   end
 
+  def update
+    @match.assign_attributes(match_params)
+    @match.time = nil if params[:ignore_time]
+
+    unless @match.save
+      @maps = get_maps
+      @heroes = get_heroes
+      @latest_match = @match.oauth_account.matches.ordered_by_time.last
+
+      return render('matches/edit')
+    end
+
+    redirect_to matches_path(@match.season, @match.oauth_account)
+  end
+
   private
 
   def match_params
     params.require(:match).permit(:map_id, :rank, :comment, :prior_match_id, :placement,
-                                  :result, :time)
+                                  :result, :time, :season)
   end
 
   def set_match

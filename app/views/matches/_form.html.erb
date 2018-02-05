@@ -8,7 +8,7 @@
     <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
     <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank) %>
   </div>
-  <%= render partial: 'matches/time_field', locals: { form: form } %>
+  <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
 </div>
 <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
 <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>

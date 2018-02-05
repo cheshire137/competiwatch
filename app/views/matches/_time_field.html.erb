@@ -11,7 +11,7 @@
   </dl>
   <div class="form-checkbox">
     <label>
-      <input type="checkbox" name="ignore_time" value="1">
+      <input <% if match.time.nil? %>checked<% end %> type="checkbox" name="ignore_time" value="1">
       I don't know when I played
     </label>
   </div>
