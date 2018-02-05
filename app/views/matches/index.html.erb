@@ -46,8 +46,12 @@
               <td class="match-cell rank-cell <%= match_rank_class(match, @placement_rank) %>">
                 <%= match.rank %>
               </td>
-              <td class="match-cell"><%= match_win_streak(match) %></td>
-              <td class="match-cell"><%= match_loss_streak(match) %></td>
+              <td class="match-cell <%= 'streak-empty' unless match.win? %>" style="<%= match_win_streak_style(match, i, @longest_win_streak) %>">
+                <%= match.win_streak %>
+              </td>
+              <td class="match-cell <%= 'streak-empty' unless match.loss? %>">
+                <%= match.loss_streak %>
+              </td>
               <td class="match-cell no-wrap"><%= match.map %></td>
               <td class="match-cell"><%= match.comment %></td>
               <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>

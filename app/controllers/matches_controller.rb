@@ -9,6 +9,10 @@ class MatchesController < ApplicationController
     @heroes = get_heroes
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map).ordered_by_time
+
+    set_streaks(@matches)
+    @longest_win_streak = @matches.map(&:win_streak).max
+
     @latest_match = @matches.last
 
     placement_log_match = @matches.placement_logs.first
@@ -77,6 +81,13 @@ class MatchesController < ApplicationController
     @oauth_account = OauthAccount.find_by_battletag(battletag)
     unless @oauth_account
       render file: Rails.root.join('public', '404.html'), status: :not_found
+    end
+  end
+
+  def set_streaks(matches)
+    matches.each do |match|
+      match.win_streak = Match.get_win_streak(match)
+      match.loss_streak = Match.get_loss_streak(match)
     end
   end
 

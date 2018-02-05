@@ -61,8 +61,6 @@ module MatchesHelper
       end
       gradient = ColorGradient.new(colors: color_range, steps: all_ranks.length)
       rgb_colors = gradient.rgb
-      min_rank = all_ranks.first
-      max_rank = all_ranks.last
       index = all_ranks.index(match.rank)
       rgb_colors[index]
     end
@@ -78,25 +76,13 @@ module MatchesHelper
     end
   end
 
-  def match_win_streak(match)
+  def match_win_streak_style(match, index, longest_win_streak)
     return '' unless match.win? && match.prior_match
 
-    count = 1
-    while (prior_match = match.prior_match) && prior_match.win?
-      count += 1
-      match = prior_match
-    end
-    count
-  end
-
-  def match_loss_streak(match)
-    return '' unless match.loss? && match.prior_match
-
-    count = 1
-    while (prior_match = match.prior_match) && prior_match.loss?
-      count += 1
-      match = prior_match
-    end
-    count
+    gradient = ColorGradient.new(colors: WIN_COLORS, steps: longest_win_streak)
+    rgb_colors = gradient.rgb
+    index = (1..longest_win_streak).to_a.index(match.win_streak)
+    color = rgb_colors[index]
+    "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
   end
 end

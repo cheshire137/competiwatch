@@ -6,6 +6,8 @@ class Match < ApplicationRecord
   TOTAL_PLACEMENT_MATCHES = 10
   LATEST_SEASON = 8
 
+  attr_accessor :win_streak, :loss_streak
+
   belongs_to :oauth_account
   belongs_to :map, required: false
   belongs_to :prior_match, required: false, class_name: 'Match'
@@ -33,6 +35,28 @@ class Match < ApplicationRecord
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{ where(map_id: nil) }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
+
+  def self.get_win_streak(match)
+    return 0 unless match.win? && match.prior_match
+
+    count = 1
+    while (prior_match = match.prior_match) && prior_match.win?
+      count += 1
+      match = prior_match
+    end
+    count
+  end
+
+  def self.get_loss_streak(match)
+    return 0 unless match.loss? && match.prior_match
+
+    count = 1
+    while (prior_match = match.prior_match) && prior_match.loss?
+      count += 1
+      match = prior_match
+    end
+    count
+  end
 
   def set_heroes_from_ids(hero_ids)
     heroes_to_keep = Hero.where(id: hero_ids)
