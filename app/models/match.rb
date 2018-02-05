@@ -37,7 +37,7 @@ class Match < ApplicationRecord
   scope :ordered_by_time, ->{ order(created_at: :asc) }
 
   def self.get_win_streak(match)
-    return 0 unless match.win? && match.prior_match
+    return unless match.win? && match.prior_match
 
     count = 1
     while (prior_match = match.prior_match) && prior_match.win?
@@ -48,7 +48,7 @@ class Match < ApplicationRecord
   end
 
   def self.get_loss_streak(match)
-    return 0 unless match.loss? && match.prior_match
+    return unless match.loss? && match.prior_match
 
     count = 1
     while (prior_match = match.prior_match) && prior_match.loss?

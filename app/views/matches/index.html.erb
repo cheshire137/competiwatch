@@ -49,7 +49,7 @@
               <td class="match-cell <%= 'streak-empty' unless match.win? %>" style="<%= match_win_streak_style(match, i, @longest_win_streak) %>">
                 <%= match.win_streak %>
               </td>
-              <td class="match-cell <%= 'streak-empty' unless match.loss? %>">
+              <td class="match-cell <%= 'streak-empty' unless match.loss? %>" style="<%= match_loss_streak_style(match, i, @longest_loss_streak) %>">
                 <%= match.loss_streak %>
               </td>
               <td class="match-cell no-wrap"><%= match.map %></td>

@@ -1,6 +1,6 @@
 module MatchesHelper
   WIN_COLORS = [[178,212,132], [102,189,125]].freeze
-  LOSS_COLORS = [[246,106,110], [250,170,124]].freeze
+  LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
   def result_options
@@ -82,6 +82,16 @@ module MatchesHelper
     gradient = ColorGradient.new(colors: WIN_COLORS, steps: longest_win_streak)
     rgb_colors = gradient.rgb
     index = (1..longest_win_streak).to_a.index(match.win_streak)
+    color = rgb_colors[index]
+    "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
+  end
+
+  def match_loss_streak_style(match, index, longest_loss_streak)
+    return '' unless match.loss? && match.prior_match
+
+    gradient = ColorGradient.new(colors: LOSS_COLORS, steps: longest_loss_streak)
+    rgb_colors = gradient.rgb
+    index = (1..longest_loss_streak).to_a.index(match.loss_streak)
     color = rgb_colors[index]
     "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
   end

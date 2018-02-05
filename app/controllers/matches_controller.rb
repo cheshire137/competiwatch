@@ -11,7 +11,8 @@ class MatchesController < ApplicationController
       includes(:prior_match, :heroes, :map).ordered_by_time
 
     set_streaks(@matches)
-    @longest_win_streak = @matches.map(&:win_streak).max
+    @longest_win_streak = @matches.map(&:win_streak).compact.max
+    @longest_loss_streak = @matches.map(&:loss_streak).compact.max
 
     @latest_match = @matches.last
 
