@@ -34,6 +34,7 @@ class Match < ApplicationRecord
   scope :non_placements, ->{ where(placement: false) }
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{ where(map_id: nil) }
+  scope :ordered_by_time, ->{ order(:created_at) }
 
   def placement_log?
     map.blank? && persisted?
