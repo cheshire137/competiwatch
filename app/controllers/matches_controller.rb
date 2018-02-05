@@ -6,7 +6,7 @@ class MatchesController < ApplicationController
   def index
     @maps = get_maps
     @heroes = get_heroes
-    all_matches = @oauth_account.matches.order(:time)
+    all_matches = @oauth_account.matches.includes(:prior_match).order(:time)
     @latest_match = all_matches.last
     @matches = if @latest_match
       all_matches.in_season(@season)

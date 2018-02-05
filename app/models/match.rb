@@ -11,10 +11,8 @@ class Match < ApplicationRecord
   belongs_to :prior_match, required: false, class_name: 'Match'
 
   before_validation :set_result
-  before_validation :set_time_of_day
-  before_validation :set_day_of_week
-  before_validation :set_time
-  before_validation :set_season
+  before_validation :set_time_of_day, if: :time
+  before_validation :set_day_of_week, if: :time
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -24,6 +22,7 @@ class Match < ApplicationRecord
   validates :result, inclusion: { in: RESULT_MAPPINGS.keys }, allow_nil: true
   validates :time_of_day, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }, allow_nil: true
   validates :day_of_week, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }, allow_nil: true
+  validate :season_same_as_prior_match
 
   has_one :user, through: :oauth_account
   has_and_belongs_to_many :heroes
@@ -36,12 +35,28 @@ class Match < ApplicationRecord
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{ where(map_id: nil) }
 
+  def placement_log?
+    map.blank? && persisted?
+  end
+
   def result
     RESULT_MAPPINGS.key(self[:result])
   end
 
   def result=(name)
     self[:result] = RESULT_MAPPINGS[name.to_sym]
+  end
+
+  def win?
+    result == :win
+  end
+
+  def loss?
+    result == :loss
+  end
+
+  def draw?
+    result == :draw
   end
 
   def time_of_day
@@ -72,15 +87,6 @@ class Match < ApplicationRecord
       :draw
     else
       :loss
-    end
-  end
-
-  def set_time
-    return if time.present?
-    return unless user
-
-    Time.use_zone(user.time_zone) do
-      self.time = Time.zone.now
     end
   end
 
@@ -118,9 +124,11 @@ class Match < ApplicationRecord
     end
   end
 
-  def set_season
-    return unless prior_match
+  def season_same_as_prior_match
+    return unless season && prior_match
 
-    self.season ||= prior_match.season
+    unless prior_match.season == season
+      errors.add(:season, 'must be the same as season from prior match')
+    end
   end
 end

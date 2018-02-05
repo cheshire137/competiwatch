@@ -19,7 +19,19 @@
       </tr>
     </thead>
     <tbody>
-      <% @matches.each do |match| %>
+      <% @matches.each_with_index do |match, i| %>
+        <tr>
+          <td><%= match_number(i, @matches) %></td>
+          <td><%= match_result(match) %></td>
+          <td><%= match_rank_change(match, @matches) %></td>
+          <td><%= match.rank %></td>
+          <td><%= match_win_streak(match) %></td>
+          <td><%= match_loss_streak(match) %></td>
+          <td><%= match.map %></td>
+          <td><%= match.comment %></td>
+          <td><%= match.time_of_day.to_s.humanize %></td>
+          <td><%= match.day_of_week.to_s.humanize %></td>
+        </tr>
       <% end %>
     </tbody>
   </table>
