@@ -21,18 +21,18 @@
       <table class="matches-table width-full">
         <thead>
           <tr>
-            <th class="match-header">Game</th>
+            <th class="match-header">#</th>
             <th class="match-header">Win/Loss</th>
-            <th class="match-header">SR Change</th>
+            <th class="match-header no-wrap">SR Change</th>
             <th class="match-header">Rank</th>
-            <th class="match-header">Win Streak</th>
-            <th class="match-header">Lose Streak</th>
+            <th class="match-header no-wrap">Win Streak</th>
+            <th class="match-header no-wrap">Lose Streak</th>
             <th class="match-header">Map</th>
             <th class="match-header">Comment</th>
             <th class="match-header">Day</th>
             <th class="match-header">Time</th>
             <th class="match-header">Heroes</th>
-            <th class="match-header"></th>
+            <th class="match-header"><span class="ion-gear-b ion"></span></th>
           </tr>
         </thead>
         <tbody>
@@ -52,12 +52,11 @@
               <td class="match-cell <%= 'streak-empty' unless match.loss? %>" style="<%= match_loss_streak_style(match, i, @longest_loss_streak) %>">
                 <%= match.loss_streak %>
               </td>
-              <td class="match-cell no-wrap"><%= match.map %></td>
+              <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
               <td class="match-cell">
                 <% if match.comment.present? %>
                   <span class="tooltipped tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
-                    <span class="ion-document-text ion text-gray">
-                    </span>
+                    <span class="ion-document-text ion text-gray"></span>
                   </span>
                 <% end %>
               </td>
@@ -75,7 +74,9 @@
                 <% end %>
               </td>
               <td class="match-cell">
-                <a href="<%= match_path(match) %>">Edit</a>
+                <a href="<%= match_path(match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
+                  <span class="ion-edit ion"></span>
+                </a>
               </td>
             </tr>
           <% end %>
