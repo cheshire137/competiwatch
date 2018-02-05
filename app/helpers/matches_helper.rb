@@ -37,6 +37,7 @@ module MatchesHelper
     count = 1
     while (prior_match = match.prior_match) && prior_match.win?
       count += 1
+      match = prior_match
     end
     count
   end
@@ -47,6 +48,7 @@ module MatchesHelper
     count = 1
     while (prior_match = match.prior_match) && prior_match.loss?
       count += 1
+      match = prior_match
     end
     count
   end
