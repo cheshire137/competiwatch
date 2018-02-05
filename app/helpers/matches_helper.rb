@@ -8,6 +8,30 @@ module MatchesHelper
     results.map { |result| [result.to_s.humanize, result] }
   end
 
+  def time_of_day_emoji(time_of_day)
+    return unless time_of_day
+
+    if time_of_day == :morning
+      "🌅"
+    elsif time_of_day == :evening
+      "🌆"
+    elsif time_of_day == :afternoon
+      "😎"
+    elsif time_of_day == :night
+      "🌝"
+    end
+  end
+
+  def day_of_week_emoji(day_of_week)
+    return unless day_of_week
+
+    if day_of_week == :weekday
+      "👔"
+    elsif day_of_week == :weekend
+      "🎉"
+    end
+  end
+
   def time_of_day_options
     valid_times = Match::TIME_OF_DAY_MAPPINGS.keys
     [['', '']] + valid_times.map { |name| [name.to_s.humanize, name] }

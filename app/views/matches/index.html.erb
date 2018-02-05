@@ -54,8 +54,14 @@
               </td>
               <td class="match-cell no-wrap"><%= match.map %></td>
               <td class="match-cell"><%= match.comment %></td>
-              <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
-              <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
+              <td class="match-cell no-wrap">
+                <%= time_of_day_emoji(match.time_of_day) %>
+                <%= match.time_of_day.to_s.humanize %>
+              </td>
+              <td class="match-cell no-wrap">
+                <%= day_of_week_emoji(match.day_of_week) %>
+                <%= match.day_of_week.to_s.humanize %>
+              </td>
               <td class="match-cell">
                 <% match.heroes.each do |hero| %>
                   <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait', width: 20, height: 20) %>

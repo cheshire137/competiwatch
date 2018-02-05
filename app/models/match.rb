@@ -106,6 +106,22 @@ class Match < ApplicationRecord
     end
   end
 
+  def night?
+    time_of_day == :night
+  end
+
+  def morning?
+    time_of_day == :morning
+  end
+
+  def evening?
+    time_of_day == :evening
+  end
+
+  def afternoon?
+    time_of_day == :afternoon
+  end
+
   def day_of_week
     DAY_OF_WEEK_MAPPINGS.key(self[:day_of_week])
   end
