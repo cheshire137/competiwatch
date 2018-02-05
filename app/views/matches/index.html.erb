@@ -16,14 +16,15 @@
         <th class="match-header">Comment</th>
         <th class="match-header">Day</th>
         <th class="match-header">Time</th>
+        <th class="match-header">Heroes</th>
         <th class="match-header"></th>
       </tr>
     </thead>
     <tbody>
       <% @matches.each_with_index do |match, i| %>
         <tr class="<%= 'match-placement-row' if match.placement_log? %>">
-          <td class="match-cell"><%= match_number(i, @matches) %></td>
-          <td class="match-cell"><%= match_result(match) %></td>
+          <td class="match-cell match-number-cell"><%= match_number(i, @matches) %></td>
+          <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
           <td class="match-cell" style="<%= match_rank_change_style(match, @matches) %>">
             <%= match_rank_change(match, @matches) %>
           </td>
@@ -32,10 +33,15 @@
           </td>
           <td class="match-cell"><%= match_win_streak(match) %></td>
           <td class="match-cell"><%= match_loss_streak(match) %></td>
-          <td class="match-cell"><%= match.map %></td>
+          <td class="match-cell no-wrap"><%= match.map %></td>
           <td class="match-cell"><%= match.comment %></td>
           <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
           <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
+          <td class="match-cell">
+            <% match.heroes.each do |hero| %>
+              <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait', width: 20, height: 20) %>
+            <% end %>
+          </td>
           <td class="match-cell">
             <a href="<%= match_path(match) %>">Edit</a>
           </td>

@@ -43,10 +43,21 @@
   background-color: #fed86e;
 }
 
-.rank-cell.worse-than-placement {
+.rank-cell.worse-than-placement,
+.result-loss.result-cell {
   background-color: #fc0d1b;
 }
 
-.rank-cell.better-than-placement {
+.rank-cell.better-than-placement,
+.result-win.result-cell {
   background-color: #a9cf90;
+}
+
+.result-win.result-cell {
+  background-color: #fed86e;
+}
+
+.match-number-cell,
+.match-placement-row .match-number-cell.match-cell {
+  background-color: #d0cece;
 }

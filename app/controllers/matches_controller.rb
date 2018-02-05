@@ -7,8 +7,8 @@ class MatchesController < ApplicationController
   def index
     @maps = get_maps
     @heroes = get_heroes
-    @matches = @oauth_account.matches.in_season(@season).includes(:prior_match, :map).
-      ordered_by_time
+    @matches = @oauth_account.matches.in_season(@season).
+      includes(:prior_match, :heroes, :map).ordered_by_time
     @latest_match = @matches.last
 
     placement_log_match = @matches.placement_logs.first
@@ -33,6 +33,8 @@ class MatchesController < ApplicationController
       return render('matches/edit')
     end
 
+    @match.set_heroes_from_ids(params[:heroes])
+
     redirect_to matches_path(@season, @oauth_account)
   end
 
@@ -53,6 +55,8 @@ class MatchesController < ApplicationController
 
       return render('matches/edit')
     end
+
+    @match.set_heroes_from_ids(params[:heroes])
 
     redirect_to matches_path(@match.season, @match.oauth_account)
   end
