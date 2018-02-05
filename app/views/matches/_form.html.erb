@@ -3,7 +3,7 @@
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
 
-<div class="col-8 float-left pr-4">
+<div class="col-6 float-left pr-4">
   <div class="d-flex flex-items-center flex-justify-between">
     <div>
       <div class="form-group mt-0 d-flex flex-items-center">
@@ -16,6 +16,6 @@
   </div>
   <%= render partial: 'matches/comment_field', locals: { form: form } %>
 </div>
-<div class="col-4 float-left pl-4">
+<div class="col-6 float-left">
   <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
 </div>
