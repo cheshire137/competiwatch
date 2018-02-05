@@ -1,5 +1,7 @@
 # Competiwatch
 
+![Screenshot](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot.png)
+
 ## How to Develop
 
 [Create a Battle.net API app](https://dev.battle.net), `cp dotenv.sample .env`, and
