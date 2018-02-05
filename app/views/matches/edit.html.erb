@@ -3,6 +3,15 @@
   Edit Match
 </h2>
 
+<% if @match.prior_match %>
+  <p>
+    <span class="text-bold text-<%= @match.win? ? "green" : @match.loss? ? "red" : "orange" %>">
+      <%= @match.result.to_s.humanize %>
+    </span>
+    &middot; Previous SR: <%= @match.prior_match.rank %>
+  </p>
+<% end %>
+
 <%= form_for(@match, method: :put) do |f| %>
   <%= render partial: 'matches/form',
              locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,

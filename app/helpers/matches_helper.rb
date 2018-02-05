@@ -1,7 +1,12 @@
 module MatchesHelper
   WIN_COLORS = [[178,212,132], [102,189,125]].freeze
   LOSS_COLORS = [[246,106,110], [250,170,124]].freeze
-  NEUTRAL_COLORS = [[254,234,138]].freeze
+  NEUTRAL_COLOR = [254,234,138].freeze
+
+  def result_options
+    results = Match::RESULT_MAPPINGS.keys
+    results.map { |result| [result.to_s.humanize, result] }
+  end
 
   def time_of_day_options
     valid_times = Match::TIME_OF_DAY_MAPPINGS.keys
@@ -16,11 +21,6 @@ module MatchesHelper
   def map_options(maps)
     valid_maps = maps.map { |map| [map.name, map.id] }
     [['', '']] + valid_maps
-  end
-
-  def result_options
-    valid_results = Match::RESULT_MAPPINGS.map { |value, key| [value.to_s.capitalize, key] }
-    [['', '']] + valid_results
   end
 
   def match_number(index, matches)
@@ -48,20 +48,25 @@ module MatchesHelper
   def match_rank_change_style(match, matches)
     return '' if match.placement_log?
 
-    all_ranks = matches.map(&:rank).sort.uniq
-    color_range = if match.win?
-      WIN_COLORS
-    elsif match.loss?
-      LOSS_COLORS
+    color = if match.draw?
+      NEUTRAL_COLOR
     else
-      NEUTRAL_COLORS
+      all_ranks = matches.map(&:rank).sort.uniq
+      color_range = if match.win?
+        WIN_COLORS
+      elsif match.loss?
+        LOSS_COLORS
+      else
+        NEUTRAL_COLORS
+      end
+      gradient = ColorGradient.new(colors: color_range, steps: all_ranks.length)
+      rgb_colors = gradient.rgb
+      min_rank = all_ranks.first
+      max_rank = all_ranks.last
+      index = all_ranks.index(match.rank)
+      rgb_colors[index]
     end
-    gradient = ColorGradient.new(colors: color_range, steps: all_ranks.length)
-    rgb_colors = gradient.rgb
-    min_rank = all_ranks.first
-    max_rank = all_ranks.last
-    index = all_ranks.index(match.rank)
-    color = rgb_colors[index]
+
     "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
   end
 
