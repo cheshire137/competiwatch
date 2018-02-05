@@ -16,6 +16,7 @@
         <th class="match-header">Comment</th>
         <th class="match-header">Day</th>
         <th class="match-header">Time</th>
+        <th class="match-header"></th>
       </tr>
     </thead>
     <tbody>
@@ -31,6 +32,9 @@
           <td class="match-cell"><%= match.comment %></td>
           <td class="match-cell"><%= match.time_of_day.to_s.humanize %></td>
           <td class="match-cell"><%= match.day_of_week.to_s.humanize %></td>
+          <td class="match-cell">
+            <a href="<%= match_path(match) %>">Edit</a>
+          </td>
         </tr>
       <% end %>
     </tbody>

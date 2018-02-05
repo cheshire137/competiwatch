@@ -6,7 +6,7 @@
 <div class="d-flex flex-items-center flex-justify-between">
   <div class="form-group mt-0 d-flex flex-items-center">
     <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
-    <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: @latest_match.rank %>
+    <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank) %>
   </div>
   <%= render partial: 'matches/time_field', locals: { form: form } %>
 </div>
