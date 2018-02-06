@@ -43,11 +43,22 @@
   background-color: #bed6ed;
 }
 
-.match-placement-row .match-cell {
+.match-placement-log-row .match-cell {
   background-color: #9dc3e3;
 }
 
-.match-placement-row .match-cell.rank-cell {
+.match-placement-row .match-cell.sr-change-cell,
+.match-placement-row .match-cell.rank-cell,
+.match-placement-row .match-cell.comment-cell,
+.match-placement-row .match-cell.time-cell,
+.match-placement-row .match-cell.day-cell,
+.match-placement-row .match-cell.heroes-cell,
+.match-placement-row .match-cell.options-cell {
+  background-color: #efefef;
+}
+
+.match-placement-log-row .match-cell.rank-cell,
+.match-placement-row.match-last-placement-row .match-cell.rank-cell {
   background-color: #fed86e;
 }
 
@@ -66,7 +77,7 @@
 }
 
 .match-number-cell,
-.match-placement-row .match-number-cell.match-cell {
+.match-placement-log-row .match-number-cell.match-cell {
   background-color: #d0cece;
 }
 

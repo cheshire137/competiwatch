@@ -36,6 +36,18 @@ class Match < ApplicationRecord
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{ where(map_id: nil) }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
+  scope :with_rank, ->{ where('rank IS NOT NULL') }
+
+  def last_placement?
+    return false unless placement?
+
+    # Use this method to check before creating the last placement match, not
+    # to check after the fact.
+    return false if persisted?
+
+    other_placements = oauth_account.matches.placements.in_season(season)
+    other_placements.count == TOTAL_PLACEMENT_MATCHES - 1
+  end
 
   def self.get_win_streak(match)
     return unless match.win?

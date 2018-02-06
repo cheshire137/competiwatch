@@ -9,6 +9,10 @@ class OauthAccount < ApplicationRecord
 
   has_many :matches
 
+  def last_placement_match_in(season)
+    matches.in_season(season).placements.with_rank.ordered_by_time.last
+  end
+
   def self.find_by_battletag(battletag)
     where("LOWER(battletag) = ?", battletag.downcase).first
   end

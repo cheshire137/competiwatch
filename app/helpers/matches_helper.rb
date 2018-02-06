@@ -86,7 +86,7 @@ module MatchesHelper
     color = if match.draw?
       NEUTRAL_COLOR
     else
-      all_ranks = matches.map(&:rank).sort.uniq
+      all_ranks = matches.map(&:rank).compact.sort.uniq
       color_range = if match.win?
         WIN_COLORS
       elsif match.loss?
@@ -104,7 +104,7 @@ module MatchesHelper
   end
 
   def match_rank_class(match, placement_rank)
-    return unless placement_rank
+    return unless placement_rank && match.rank
 
     if placement_rank > match.rank
       'worse-than-placement'

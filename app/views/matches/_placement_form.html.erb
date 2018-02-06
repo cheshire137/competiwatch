@@ -5,6 +5,12 @@
 
 <div class="clearfix">
   <div class="col-6 float-left pr-4">
+    <% if match.last_placement? %>
+      <div class="form-group mt-0 d-flex flex-items-center">
+        <%= form.label :rank, 'Where did you place?', class: 'mr-2 sr-field-label' %>
+        <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK %>
+      </div>
+    <% end %>
     <div class="form-group">
       <%= form.label :result, 'What was the outcome of the placement match?', class: 'mr-2' %>
       <%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %>

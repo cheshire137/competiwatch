@@ -19,9 +19,14 @@ class MatchesController < ApplicationController
     placement_log_match = @matches.placement_logs.first
     @placement_rank = if placement_log_match
       placement_log_match.rank
+    else
+      last_placement = @oauth_account.last_placement_match_in(@season)
+      last_placement.rank if last_placement
     end
 
-    @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season)
+    placement = !@oauth_account.finished_placements?(@season)
+    @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season,
+                                        placement: placement)
   end
 
   def create
