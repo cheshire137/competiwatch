@@ -29,40 +29,22 @@ $zarya: #ea4d98;
 $zenyatta: #b7b0a1;
 
 // Maps
-$hanamura1: #F3D7DA;
-$hanamura2: #DAF0F8;
-$temple-of-anubis1: #FCEFE2;
-$temple-of-anubis2: #E8E9F8;
-$volskaya-industries1: #E9F0FC;
-$volskaya-industries2: #F4E1F2;
-$dorado1: #DCDCF4;
-$dorado2: #DEF3F9;
-$route-661: #D6E2F3;
-$route-662: #FDEEE0;
-$watchpoint-gibraltar1: #ECE0F6;
-$watchpoint-gibraltar2: #F8EEDA;
-$eichenwalde1: #E2F5FF;
-$eichenwalde2: #E5EDDD;
-$hollywood1: #FDF3E1;
-$hollywood2: #DAF0F8;
-$king-s-row1: #D6F1F3;
-$king-s-row2: #FDFAEE;
-$numbani1: #EDEFD8;
-$numbani2: #ECEBFA;
-$ilios1: #CFE1F7;
-$ilios2: #EFF1E1;
-$lijiang-tower1: #D6EBF5;
-$lijiang-tower2: #E8DDEC;
-$nepal1: #E5EEFE;
-$nepal2: #EEE2EE;
-$oasis1: #F6E2E8;
-$oasis2: #FFF1E3;
-
-@mixin map-gradient($color1, $color2) {
-  background-color: $color1;
-  @include filter-gradient($color1, $color2, horizontal);
-  @include background-image(linear-gradient(left, $color1 0%,$color2 100%));
-}
+$hanamura: #f9e4f8;
+$temple-of-anubis: #edc28e;
+$volskaya-industries: #b0a9d7;
+$dorado: #d19267;
+$route-66: #ddbf9f;
+$watchpoint-gibraltar: #c0a6b5;
+$eichenwalde: #a1ad7b;
+$hollywood: #92d8fd;
+$junkertown: #f4b531;
+$kings-row: #a1bfc5;
+$numbani: #cad298;
+$ilios: #a0eafd;
+$lijiang-tower: #d3a096;
+$nepal: #deeafe;
+$oasis: #fdf4a6;
+$horizon-lunar-colony: #c6c5c0;
 
 .text-ana {
   color: $ana;
@@ -168,114 +150,66 @@ $oasis2: #FFF1E3;
   color: darken($zenyatta, 20%);
 }
 
-.gradient-hanamura {
-  @include map-gradient($hanamura1, $hanamura2);
-}
-
-.gradient-temple-of-anubis {
-  @include map-gradient($temple-of-anubis1, $temple-of-anubis2);
-}
-
-.gradient-volskaya-industries {
-  @include map-gradient($volskaya-industries1, $volskaya-industries2);
-}
-
-.gradient-dorado {
-  @include map-gradient($dorado1, $dorado2);
-}
-
-.gradient-route-66 {
-  @include map-gradient($route-661, $route-662);
-}
-
-.gradient-watchpoint-gibraltar {
-  @include map-gradient($watchpoint-gibraltar1, $watchpoint-gibraltar2);
-}
-
-.gradient-eichenwalde {
-  @include map-gradient($eichenwalde1, $eichenwalde2);
-}
-
-.gradient-hollywood {
-  @include map-gradient($hollywood1, $hollywood2);
-}
-
-.gradient-king-s-row {
-  @include map-gradient($king-s-row1, $king-s-row2);
-}
-
-.gradient-numbani {
-  @include map-gradient($numbani1, $numbani2);
-}
-
-.gradient-ilios {
-  @include map-gradient($ilios1, $ilios2);
-}
-
-.gradient-lijiang-tower {
-  @include map-gradient($lijiang-tower1, $lijiang-tower2);
-}
-
-.gradient-nepal {
-  @include map-gradient($nepal1, $nepal2);
-}
-
-.gradient-oasis {
-  @include map-gradient($oasis1, $oasis2);
+.background-junkertown {
+  background-color: $junkertown;
 }
 
 .background-hanamura {
-  background-color: darken($hanamura1, 10%);
+  background-color: $hanamura;
 }
 
 .background-temple-of-anubis {
-  background-color: darken($temple-of-anubis1, 10%);
+  background-color: $temple-of-anubis;
 }
 
 .background-volskaya-industries {
-  background-color: darken($volskaya-industries1, 10%);
+  background-color: $volskaya-industries;
 }
 
 .background-dorado {
-  background-color: darken($dorado1, 10%);
+  background-color: $dorado;
 }
 
 .background-route-66 {
-  background-color: darken($route-661, 10%);
+  background-color: $route-66;
 }
 
 .background-watchpoint-gibraltar {
-  background-color: darken($watchpoint-gibraltar1, 10%);
+  background-color: $watchpoint-gibraltar;
 }
 
 .background-eichenwalde {
-  background-color: darken($eichenwalde1, 10%);
+  background-color: $eichenwalde;
 }
 
 .background-hollywood {
-  background-color: darken($hollywood1, 10%);
+  background-color: $hollywood;
 }
 
 .background-king-s-row {
-  background-color: darken($king-s-row1, 10%);
+  background-color: $kings-row;
 }
 
 .background-numbani {
-  background-color: darken($numbani1, 10%);
+  background-color: $numbani;
 }
 
 .background-ilios {
-  background-color: darken($ilios1, 10%);
+  background-color: $ilios;
 }
 
 .background-lijiang-tower {
-  background-color: darken($lijiang-tower1, 10%);
+  background-color: $lijiang-tower;
 }
 
 .background-nepal {
-  background-color: darken($nepal1, 10%);
+  background-color: $nepal;
 }
 
 .background-oasis {
-  background-color: darken($oasis1, 10%);
+  background-color: $oasis;
+}
+
+.background-horizon-lunar-colony {
+  background-color: $horizon-lunar-colony;
 }
