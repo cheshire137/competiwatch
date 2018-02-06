@@ -9,12 +9,14 @@
 <div class="js-tab-container">
   <div class="tabnav">
     <nav class="tabnav-tabs" aria-label="Foo bar">
+      <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
       <% if @oauth_account.finished_placements?(@season) %>
-        <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
         <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">Log a match</a>
       <% else %>
-        <a href="#log-placement-matches" class="tabnav-tab selected js-tab">Track placement matches individually</a>
-        <a href="#log-placement-rank" class="tabnav-tab js-tab">Track only starting SR</a>
+        <a href="#log-placement-matches" class="tabnav-tab js-tab">Log placement match</a>
+        <% unless @oauth_account.any_placements?(@season) %>
+          <a href="#log-placement-rank" class="tabnav-tab js-tab">Log starting SR</a>
+        <% end %>
       <% end %>
     </nav>
   </div>
@@ -108,7 +110,7 @@
       <% end %>
     </div>
   <% else %>
-    <div id="log-placement-matches" class="js-tab-contents">
+    <div id="log-placement-matches" class="js-tab-contents d-none">
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/placement_form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
@@ -119,14 +121,16 @@
       <% end %>
     </div>
 
-    <div id="log-placement-rank" class="js-tab-contents d-none">
-      <%= form_for(@match) do |f| %>
-        <%= render partial: 'matches/placement_rank_form',
-                   locals: { form: f, match: @match } %>
-        <button type="submit" class="btn btn-large btn-primary">
-          Save Starting SR
-        </button>
-      <% end %>
-    </div>
+    <% unless @oauth_account.any_placements?(@season) %>
+      <div id="log-placement-rank" class="js-tab-contents d-none">
+        <%= form_for(@match) do |f| %>
+          <%= render partial: 'matches/placement_rank_form',
+                     locals: { form: f, match: @match } %>
+          <button type="submit" class="btn btn-large btn-primary">
+            Save Starting SR
+          </button>
+        <% end %>
+      </div>
+    <% end %>
   <% end %>
 </div>

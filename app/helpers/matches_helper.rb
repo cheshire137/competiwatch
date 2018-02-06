@@ -114,7 +114,7 @@ module MatchesHelper
   end
 
   def match_win_streak_style(match, index, longest_win_streak)
-    return '' unless match.win? && match.prior_match
+    return '' unless match.win?
 
     gradient = ColorGradient.new(colors: WIN_COLORS, steps: longest_win_streak)
     rgb_colors = gradient.rgb
@@ -124,7 +124,7 @@ module MatchesHelper
   end
 
   def match_loss_streak_style(match, index, longest_loss_streak)
-    return '' unless match.loss? && match.prior_match
+    return '' unless match.loss?
 
     gradient = ColorGradient.new(colors: LOSS_COLORS, steps: longest_loss_streak)
     rgb_colors = gradient.rgb

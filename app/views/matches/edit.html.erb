@@ -3,7 +3,7 @@
   Edit Match
 </h2>
 
-<% if @match.prior_match %>
+<% if @match.prior_match && !@match.prior_match.placement? %>
   <p>
     <span class="text-bold text-<%= @match.win? ? "green" : @match.loss? ? "red" : "orange" %>">
       <%= @match.result.to_s.humanize %>
@@ -34,7 +34,7 @@
     </button>
   <% end %>
 <% else %>
-  <%= form_for(@match) do |f| %>
+  <%= form_for(@match, method: :put) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes: @heroes } %>

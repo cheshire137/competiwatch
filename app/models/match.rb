@@ -74,7 +74,7 @@ class Match < ApplicationRecord
   end
 
   def placement_log?
-    map.blank? && persisted?
+    map.blank? && persisted? && !placement?
   end
 
   def result

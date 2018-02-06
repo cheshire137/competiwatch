@@ -24,6 +24,10 @@ class OauthAccount < ApplicationRecord
     end
   end
 
+  def any_placements?(season)
+    matches.placements.in_season(season).any?
+  end
+
   def to_param
     User.parameterize(battletag)
   end
