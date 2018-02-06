@@ -1,5 +1,8 @@
-<h2 class="h2 mb-2">
-  Season <%= @season %> / <%= @oauth_account %> /
+<h2 class="h2 mb-4">
+  <select class="form-select js-season-select" data-url-template="/season/{season}/<%= @oauth_account.to_param %>">
+    <%= options_for_select(season_options, @season) %>
+  </select>
+  / <%= @oauth_account %> /
   Match History
 </h2>
 

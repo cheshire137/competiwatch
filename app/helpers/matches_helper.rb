@@ -3,6 +3,10 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def season_options
+    Match::LATEST_SEASON.downto(1).map { |season| ["Season #{season}", season] }
+  end
+
   def result_options
     results = Match::RESULT_MAPPINGS.keys
     results.map { |result| [result.to_s.humanize, result] }

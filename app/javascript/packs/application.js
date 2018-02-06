@@ -9,3 +9,4 @@
 
 import './tabs.js'
 import './match-time.js'
+import './season-select.js'
