@@ -41,13 +41,15 @@
         <tbody>
           <% @matches.each_with_index do |match, i| %>
             <tr class="<%= 'match-placement-row' if match.placement_log? %>">
-              <td class="match-cell match-number-cell"><%= match_number(i, @matches) %></td>
+              <td class="match-cell match-number-cell">
+                <%= match_number(i, match, @matches) %>
+              </td>
               <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
               <td class="match-cell" style="<%= match_rank_change_style(match, @matches) %>">
                 <%= match_rank_change(match, @matches) %>
               </td>
               <td class="match-cell rank-cell <%= match_rank_class(match, @placement_rank) %>">
-                <%= match.rank %>
+                <%= match.rank || '--' %>
               </td>
               <td class="match-cell <%= 'streak-empty' unless match.win? %>" style="<%= match_win_streak_style(match, i, @longest_win_streak) %>">
                 <%= match.win_streak %>

@@ -16,13 +16,14 @@ class Match < ApplicationRecord
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
-  validates :rank, presence: true,
-    numericality: { only_integer: true, greater_than_or_equal_to: 0,
-                    less_than_or_equal_to: MAX_RANK }
+  validates :rank, numericality: {
+    only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: MAX_RANK
+  }, allow_nil: true
   validates :result, inclusion: { in: RESULT_MAPPINGS.keys }, allow_nil: true
   validates :time_of_day, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }, allow_nil: true
   validates :day_of_week, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }, allow_nil: true
   validate :season_same_as_prior_match
+  validate :rank_or_placement
 
   has_one :user, through: :oauth_account
   has_and_belongs_to_many :heroes
@@ -37,7 +38,7 @@ class Match < ApplicationRecord
   scope :ordered_by_time, ->{ order(created_at: :asc) }
 
   def self.get_win_streak(match)
-    return unless match.win? && match.prior_match
+    return unless match.win?
 
     count = 1
     while (prior_match = match.prior_match) && prior_match.win?
@@ -48,7 +49,7 @@ class Match < ApplicationRecord
   end
 
   def self.get_loss_streak(match)
-    return unless match.loss? && match.prior_match
+    return unless match.loss?
 
     count = 1
     while (prior_match = match.prior_match) && prior_match.loss?
@@ -145,6 +146,12 @@ class Match < ApplicationRecord
     else
       :loss
     end
+  end
+
+  def rank_or_placement
+    return if rank || placement?
+
+    errors.add(:rank, 'is required if not a placement match')
   end
 
   def season_same_as_prior_match

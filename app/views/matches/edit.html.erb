@@ -20,7 +20,7 @@
       Save Starting SR
     </button>
   <% end %>
-<% else %>
+<% elsif @match.oauth_account.finished_placements?(@match.season) %>
   <%= form_for(@match, method: :put) do |f| %>
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
@@ -29,6 +29,15 @@
       <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
       <%= f.number_field :season, class: 'form-control season-field' %>
     </div>
+    <button type="submit" class="btn btn-large btn-primary">
+      Save Match
+    </button>
+  <% end %>
+<% else %>
+  <%= form_for(@match) do |f| %>
+    <%= render partial: 'matches/placement_form',
+               locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                         heroes: @heroes } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Match
     </button>

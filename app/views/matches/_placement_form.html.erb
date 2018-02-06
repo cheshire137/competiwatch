@@ -2,11 +2,18 @@
 <%= form.hidden_field :prior_match_id %>
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="1">
-<div class="form-group">
-  <%= form.label :result, 'What was the outcome of the placement match?', class: 'mr-2' %>
-  <%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %>
+
+<div class="clearfix">
+  <div class="col-6 float-left pr-4">
+    <div class="form-group">
+      <%= form.label :result, 'What was the outcome of the placement match?', class: 'mr-2' %>
+      <%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %>
+    </div>
+    <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
+    <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
+    <%= render partial: 'matches/comment_field', locals: { form: form } %>
+  </div>
+  <div class="col-6 float-left">
+    <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
+  </div>
 </div>
-<%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
-<%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
-<%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
-<%= render partial: 'matches/comment_field', locals: { form: form } %>

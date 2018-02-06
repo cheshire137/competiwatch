@@ -53,12 +53,16 @@ module MatchesHelper
     [['', '']] + valid_maps
   end
 
-  def match_number(index, matches)
+  def match_number(index, match, matches)
     first_match = matches.first
     if first_match.placement_log?
       index
     else
-      index + 1
+      number = index + 1
+      prefix = if match.placement?
+        'P'
+      end
+      "#{prefix}#{number}"
     end
   end
 
@@ -71,12 +75,13 @@ module MatchesHelper
   end
 
   def match_rank_change(match, matches)
+    return '--' if match.placement?
     return '' unless match.prior_match
     match.rank - match.prior_match.rank
   end
 
   def match_rank_change_style(match, matches)
-    return '' if match.placement_log?
+    return '' if match.placement_log? || match.placement?
 
     color = if match.draw?
       NEUTRAL_COLOR
@@ -99,6 +104,8 @@ module MatchesHelper
   end
 
   def match_rank_class(match, placement_rank)
+    return unless placement_rank
+
     if placement_rank > match.rank
       'worse-than-placement'
     else
