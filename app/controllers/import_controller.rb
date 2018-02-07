@@ -20,7 +20,8 @@ class ImportController < ApplicationController
     prior_match = nil
     table.each do |row|
       match = @oauth_account.matches.new(rank: row['rank'].to_i, season: @season,
-                                         comment: row['comment'], prior_match: prior_match)
+                                         comment: row['comment'], prior_match: prior_match,
+                                         placement: false)
       if (map_name = row['map']).present?
         match.map_id = map_ids_by_name[map_name.downcase]
       end
