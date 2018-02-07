@@ -10,3 +10,4 @@
 import './tabs.js'
 import './match-time.js'
 import './season-select.js'
+import './confirm-click.js'
