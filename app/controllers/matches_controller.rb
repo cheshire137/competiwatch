@@ -1,8 +1,8 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account, only: [:index, :create, :wipe_season_select, :confirm_wipe,
-                                           :wipe]
-  before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe]
+                                           :wipe, :export]
+  before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe, :export]
   before_action :set_match, only: [:edit, :update]
 
   def index
@@ -67,6 +67,17 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
 
     redirect_to matches_path(@match.season, @match.oauth_account)
+  end
+
+  def export
+    date = Time.now.strftime('%Y-%m-%d')
+    filename = "#{@oauth_account.to_param}-season-#{@season}-#{date}.csv"
+
+    respond_to do |format|
+      format.csv do
+        send_data @oauth_account.export(@season), filename: filename
+      end
+    end
   end
 
   def wipe_season_select
