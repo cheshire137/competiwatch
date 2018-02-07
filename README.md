@@ -4,6 +4,14 @@
 
 ## How to Develop
 
+You will need Ruby, [Bundler](http://bundler.io/), PostgreSQL, and npm installed.
+
+```bash
+bundle install
+npm install
+bin/rake db:setup
+```
+
 [Create a Battle.net API app](https://dev.battle.net), `cp dotenv.sample .env`, and
 copy your Battle.net app key and secret into the .env file as `BNET_APP_ID`
 and `BNET_APP_SECRET`.
