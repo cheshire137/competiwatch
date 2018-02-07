@@ -27,9 +27,9 @@
   <%= form_tag import_path, multipart: true do %>
     <dl class="form-group mt-0">
       <dt><label for="csv">Choose a CSV file:</label></dt>
-      <dd><%= file_field_tag :csv, class: 'form-control' %></dd>
+      <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
     </dl>
-    <button type="submit" class="btn btn-primary">
+    <button type="submit" class="btn">
       Import season <%= @season %> matches
     </button>
   <% end %>

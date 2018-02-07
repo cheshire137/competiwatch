@@ -1,6 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:index, :create, :confirm_wipe, :wipe]
+  before_action :set_oauth_account, only: [:index, :create, :wipe_season_select, :confirm_wipe,
+                                           :wipe]
   before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe]
   before_action :set_match, only: [:edit, :update]
 
@@ -66,6 +67,9 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
 
     redirect_to matches_path(@match.season, @match.oauth_account)
+  end
+
+  def wipe_season_select
   end
 
   def confirm_wipe

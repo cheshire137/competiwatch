@@ -1,0 +1,15 @@
+<h2 class="h2 mb-4">
+  <%= @oauth_account %> / Delete match history by season
+</h2>
+
+<p>Choose a competitive season. Nothing will be deleted yet, you will be asked to confirm:</p>
+
+<ul class="list-style-none">
+  <% 1.upto(Match::LATEST_SEASON) do |season| %>
+    <li>
+      <a href="<%= confirm_season_wipe_path(season, @oauth_account) %>">
+        Season <%= season %>
+      </a>
+    </li>
+  <% end %>
+</ul>

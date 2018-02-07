@@ -15,7 +15,7 @@
 
 <div class="col-6 float-left pl-2">
   <div class="Box p-3">
-    <a class="h3" href="<%= confirm_season_wipe_path(Match::LATEST_SEASON, current_user.primary_account) %>">
+    <a class="h3" href="<%= wipe_season_select_path(current_user.primary_account) %>">
       Wipe match history for <%= current_user.primary_account %>
     </a>
     <div>
