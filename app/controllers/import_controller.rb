@@ -27,6 +27,12 @@ class ImportController < ApplicationController
       if (map_name = row['map']).present?
         match.map_id = map_ids_by_name[map_name.downcase]
       end
+      if (time = row['time']).present?
+        match.time_of_day = time.downcase
+      end
+      if (day = row['day']).present?
+        match.day_of_week = day.downcase
+      end
 
       match.save
 
