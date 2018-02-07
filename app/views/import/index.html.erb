@@ -7,13 +7,19 @@
 </h2>
 
 <% if @match_count > 0 %>
-  <p class="p-3 h3 text-normal rounded-2 flash-warn">
+  <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
     You have <strong><%= pluralize(@match_count, 'match') %></strong> in season
     <%= @season %>. Importing a CSV file will <strong>wipe</strong> these matches and
     replace them with the contents of your file.
   </p>
 <% else %>
-  <p>You have no matches in <%= @season %>.</p>
+  <p class="mb-4">You have no matches in <%= @season %>.</p>
+<% end %>
+
+<% if @matches %>
+  <% @matches.each do |match| %>
+    <%= render partial: 'matches/match_errors', locals: { match: match } %>
+  <% end %>
 <% end %>
 
 <p>Import a CSV file of your matches for a season. Sample formatting:</p>
@@ -51,9 +57,12 @@
   </div>
 </div>
 
-<%= form_tag import_path do %>
-  <%= file_field_tag :csv, class: 'form-control' %>
-  <button type="button" class="btn btn-primary">
+<%= form_tag import_path, multipart: true do %>
+  <div class="form-group">
+    <label for="csv">Choose a CSV file:</label>
+    <%= file_field_tag :csv, class: 'form-control' %>
+  </div>
+  <button type="submit" class="btn btn-primary">
     Import CSV
   </button>
 <% end %>
