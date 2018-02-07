@@ -1,10 +1,11 @@
-<h2 class="h2 mb-4">
+<h2 class="h2">
   <select class="form-select js-season-select" data-url-template="/import/{season}/<%= @oauth_account.to_param %>">
     <%= options_for_select(season_options, @season) %>
   </select>
   / <%= @oauth_account %> /
   Import matches
 </h2>
+<h3 class="h3 text-normal text-gray mt-2 mb-4">Import a CSV file of your matches for a season.</h3>
 
 <% if @match_count > 0 %>
   <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
@@ -22,19 +23,39 @@
   <% end %>
 <% end %>
 
-<p>Import a CSV file of your matches for a season. Sample formatting:</p>
+<div class="col-5 float-left pr-4">
+  <%= form_tag import_path, multipart: true do %>
+    <dl class="form-group mt-0">
+      <dt><label for="csv">Choose a CSV file:</label></dt>
+      <dd><%= file_field_tag :csv, class: 'form-control' %></dd>
+    </dl>
+    <button type="submit" class="btn btn-primary">
+      Import season <%= @season %> matches
+    </button>
+  <% end %>
 
-<div class="js-tab-container mb-4">
-  <div class="tabnav mb-0">
-    <nav class="tabnav-tabs">
-      <a href="#sample1" class="tabnav-tab selected js-tab">CSV with rank, map, comment</a>
-      <a href="#sample2" class="tabnav-tab js-tab">CSV with rank, map</a>
-    </nav>
-  </div>
+  <h4 class="h4 mt-4 mb-2">Note:</h4>
+  <ul class="ml-4">
+    <li>Cannot import heroes, time of day, or day of week</li>
+    <li>A header row is required; it is case insensitive</li>
+    <li>The first row after the header row must contain your starting SR for the season</li>
+    <li>Cannot import individual placement matches</li>
+  </ul>
+</div>
 
-  <div id="sample1" class="js-tab-contents border p-3 border-top-0">
-    <p>3929 is where you placed:</p>
-<pre>Rank,Map,Comment
+<div class="col-7 float-left">
+  <div class="js-tab-container">
+    <h4 class="h4 mb-2">Sample formatting</h4>
+    <div class="tabnav mb-0">
+      <nav class="tabnav-tabs">
+        <a href="#sample1" class="tabnav-tab selected js-tab">CSV with rank, map, comment</a>
+        <a href="#sample2" class="tabnav-tab js-tab">CSV with rank, map</a>
+      </nav>
+    </div>
+
+    <div id="sample1" class="js-tab-contents border p-3 border-top-0">
+      <p>In this example, 3929 is where you placed:</p>
+      <pre>Rank,Map,Comment
 3929,,
 3954,Hanamura,favored
 3978,Nepal,
@@ -42,11 +63,11 @@
 3924,King's Row,two overextending teammates
 3949,Hollywood,even team SRs
 3925,Junkertown,"slightly favored, PotG"</pre>
-  </div>
+    </div>
 
-  <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
-    <p>3249 is where you placed:</p>
-<pre>Rank,Map
+    <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
+      <p>In this example, 3249 is where you placed:</p>
+      <pre>rank,map
 3249,
 3333,
 3322,Ilios
@@ -54,15 +75,6 @@
 3399,Numbani
 3437,Route 66
 3474,Hollywood</pre>
+    </div>
   </div>
 </div>
-
-<%= form_tag import_path, multipart: true do %>
-  <div class="form-group">
-    <label for="csv">Choose a CSV file:</label>
-    <%= file_field_tag :csv, class: 'form-control' %>
-  </div>
-  <button type="submit" class="btn btn-primary">
-    Import CSV for season <%= @season %>
-  </button>
-<% end %>
