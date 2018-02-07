@@ -8,7 +8,7 @@
     <div>
       <div class="form-group mt-0 d-flex flex-items-center">
         <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
-        <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank) %>
+        <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank), autofocus: true %>
       </div>
       <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
     </div>
