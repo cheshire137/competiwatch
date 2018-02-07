@@ -2,7 +2,7 @@
 <html>
   <head>
     <meta charset="utf-8">
-    <title>Competiwatch</title>
+    <title><%= yield(:title) %> - Competiwatch</title>
     <%= csrf_meta_tags %>
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,initial-scale=1" name="viewport">
@@ -16,27 +16,8 @@
     <% if notice.present? %>
       <p class="p-3 m-4 rounded-2 flash-success"><%= notice %></p>
     <% end %>
-    <header class="my-4">
-      <div class="container">
-        <div class="d-flex flex-justify-between flex-items-center">
-          <% if signed_in? %>
-            <div class="d-flex flex-items-center">
-              <h1 class="h1 mr-4">
-                <a href="<%= root_path %>">Competiwatch</a>
-              </h1>
-              <a href="<%= matches_path(Match::LATEST_SEASON, current_user.primary_account) %>">Current season</a>
-            </div>
-            <div>
-              <span class="d-inline-block mr-4">
-                Signed in as <span class="text-bold"><%= current_user %></span>
-              </span>
-              <a href="<%= settings_path %>">Settings</a>
-            </div>
-          <% else %>
-            <h1 class="h1">Competiwatch</h1>
-          <% end %>
-        </div>
-      </div>
+    <header class="mb-4">
+      <%= render partial: 'layouts/main_nav' %>
     </header>
     <div class="container my-4">
       <%= yield %>

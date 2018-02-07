@@ -24,3 +24,17 @@
 dt {
   font-weight: 700;
 }
+
+.main-nav {
+  color: #b9b9b9;
+}
+
+.container {
+  width: 1014px;
+}
+
+@media (max-width: 1085px) {
+  .container {
+    width: 95%;
+  }
+}

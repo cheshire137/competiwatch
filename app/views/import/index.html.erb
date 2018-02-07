@@ -1,3 +1,5 @@
+<% content_for(:title, "Import Season #{@season} / #{@oauth_account}") %>
+
 <h2 class="h2">
   <select class="form-select js-season-select" data-url-template="/import/{season}/<%= @oauth_account.to_param %>">
     <%= options_for_select(season_options, @season) %>

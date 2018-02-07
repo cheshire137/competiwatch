@@ -1,0 +1,19 @@
+<div class="bg-gray-dark box-shadow main-nav">
+  <div class="container">
+    <div class="d-flex py-3 flex-justify-between flex-items-center">
+      <div class="d-flex flex-items-center">
+        <h1 class="h1 mr-4">
+          <a class="text-white no-underline" href="<%= root_path %>">Competiwatch</a>
+        </h1>
+      </div>
+      <% if signed_in? %>
+        <div>
+          <span class="d-inline-block mr-4">
+            Signed in as <span class="text-bold"><%= current_user %></span>
+          </span>
+          <a class="text-white" href="<%= settings_path %>">Settings</a>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>
