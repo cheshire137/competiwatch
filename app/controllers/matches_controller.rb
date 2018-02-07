@@ -1,7 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:index, :create]
-  before_action :set_season, only: [:index, :create]
+  before_action :set_oauth_account, only: [:index, :create, :confirm_wipe, :wipe]
+  before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe]
   before_action :set_match, only: [:edit, :update]
 
   def index
@@ -66,6 +66,18 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
 
     redirect_to matches_path(@match.season, @match.oauth_account)
+  end
+
+  def confirm_wipe
+    @match_count = @oauth_account.matches.in_season(@season).count
+  end
+
+  def wipe
+    match_count = @oauth_account.matches.in_season(@season).count
+    @oauth_account.matches.in_season(@season).destroy_all
+    flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
+      "#{@oauth_account} in season #{@season}."
+    redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
   end
 
   private

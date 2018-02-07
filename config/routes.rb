@@ -6,6 +6,8 @@ Rails.application.routes.draw do
 
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
   post '/season/:season/:battletag' => 'matches#create', season: /\d+/
+  delete '/season/:season/:battletag' => 'matches#wipe', season: /\d+/
+  get '/season/:season/:battletag/confirm-wipe' => 'matches#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   get '/matches/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update'
 
