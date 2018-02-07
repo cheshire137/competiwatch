@@ -1,10 +1,15 @@
-<h2 class="h2 mb-4">
-  <select class="form-select js-season-select" data-url-template="/season/{season}/<%= @oauth_account.to_param %>/confirm-wipe">
+<% content_for(:title, "#{@oauth_account} / Season #{@season} / Confirm wipe") %>
+
+<% content_for(:breadcrumb) do %>
+  <%= @oauth_account %> / Season <%= @season %> / Confirm wipe
+<% end %>
+
+<div class="form-group mt-0">
+  <label for="season-select">Change season:</label>
+  <select id="season-select" class="form-select js-season-select" data-url-template="/season/{season}/<%= @oauth_account.to_param %>/confirm-wipe">
     <%= options_for_select(season_options, @season) %>
   </select>
-  / <%= @oauth_account %> /
-  Confirm wipe
-</h2>
+</div>
 
 <% if @match_count > 0 %>
   <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
