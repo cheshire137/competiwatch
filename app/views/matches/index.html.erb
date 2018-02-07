@@ -93,7 +93,8 @@
       </table>
     <% else %>
       <div class="blankslate mb-4">
-        You have not logged any competitive matches this season.
+        <p>You have not logged any competitive matches this season.</p>
+        You can <a href="<%= import_path(@season, @oauth_account) %>">import them from a file</a>.
       </div>
     <% end %>
   </div>
