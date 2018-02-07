@@ -1,6 +1,8 @@
-<h2 class="h2 mb-4">
+<% content_for(:title, "#{current_user} / Settings") %>
+
+<% content_for(:breadcrumb) do %>
   <%= current_user %> / Settings
-</h2>
+<% end %>
 
 <div class="col-6 float-left pr-2">
   <div class="Box p-3">

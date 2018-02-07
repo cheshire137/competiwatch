@@ -1,13 +1,18 @@
 <% content_for(:title, "Import Season #{@season} / #{@oauth_account}") %>
 
-<h2 class="h2">
-  <select class="form-select js-season-select" data-url-template="/import/{season}/<%= @oauth_account.to_param %>">
-    <%= options_for_select(season_options, @season) %>
-  </select>
-  / <%= @oauth_account %> /
-  Import matches
-</h2>
-<h3 class="h3 text-normal text-gray mt-2 mb-4">Import a CSV file of your matches for a season.</h3>
+<% content_for(:breadcrumb) do %>
+  <%= @oauth_account %> / Import matches
+<% end %>
+
+<div class="d-flex mb-2 flex-justify-between">
+  <p>Import a CSV file of your competitive matches in season <%= @season %>.</p>
+  <div>
+    <label for="season-select">Change season:</label>
+    <select id="season-select" class="form-select js-season-select" data-url-template="/import/{season}/<%= @oauth_account.to_param %>">
+      <%= options_for_select(season_options, @season) %>
+    </select>
+  </div>
+</div>
 
 <% if @match_count > 0 %>
   <p class="mb-4 p-3 h3 text-normal rounded-2 flash-error">
