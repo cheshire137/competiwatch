@@ -13,7 +13,7 @@ class ImportController < ApplicationController
     table = CSV.read(file.path, headers: true, header_converters: [:downcase])
     map_ids_by_name = Map.select([:id, :name]).
       map { |map| [map.name.downcase, map.id] }.to_h
-    heroes_by_name = Hero.map { |hero| [Hero.flatten_name(hero.name), hero] }.to_h
+    heroes_by_name = Hero.all.map { |hero| [Hero.flatten_name(hero.name), hero] }.to_h
     @matches = []
 
     # Wipe existing matches this season
