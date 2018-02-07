@@ -11,7 +11,7 @@ class ImportController < ApplicationController
   def create
     file = params[:csv]
     table = CSV.read(file.path, headers: true, header_converters: [:downcase])
-    map_ids_by_name = Map.select([:id, :name]).map { |map| [map.name, map.id] }.to_h
+    map_ids_by_name = Map.select([:id, :name]).map { |map| [map.name.downcase, map.id] }.to_h
     @matches = []
 
     # Wipe existing matches this season
@@ -21,8 +21,8 @@ class ImportController < ApplicationController
     table.each do |row|
       match = @oauth_account.matches.new(rank: row['rank'].to_i, season: @season,
                                          comment: row['comment'], prior_match: prior_match)
-      if (map_name = match['map']).present?
-        match.map_id = map_ids_by_name[map_name]
+      if (map_name = row['map']).present?
+        match.map_id = map_ids_by_name[map_name.downcase]
       end
 
       match.save
