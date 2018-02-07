@@ -32,7 +32,7 @@ class Match < ApplicationRecord
   scope :losses, ->{ where(result: RESULT_MAPPINGS[:loss]) }
   scope :draws, ->{ where(result: RESULT_MAPPINGS[:draw]) }
   scope :placements, ->{ where(placement: true) }
-  scope :non_placements, ->{ where(placement: false) }
+  scope :non_placements, ->{ where('placement IS NULL OR placement = ?', false) }
   scope :in_season, ->(season) { where(season: season) }
   scope :placement_logs, ->{
     where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)

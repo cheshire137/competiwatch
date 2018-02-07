@@ -20,7 +20,7 @@ class OauthAccount < ApplicationRecord
   def finished_placements?(season)
     return @finished_placements if defined? @finished_placements
     season_placement_count = matches.placements.in_season(season).count
-    @finished_placements = if season_placement_count == Match::TOTAL_PLACEMENT_MATCHES
+    @finished_placements = if season_placement_count >= Match::TOTAL_PLACEMENT_MATCHES
       true
     else
       matches.non_placements.in_season(season).any? &&
