@@ -36,10 +36,14 @@
 
   <h4 class="h4 mt-4 mb-2">Note:</h4>
   <ul class="ml-4">
-    <li>Cannot import heroes, time of day, or day of week</li>
+    <li>Valid columns: rank, heroes, map, comment</li>
+    <li>Rank is required</li>
+    <li>Column order does not matter</li>
+    <li>Cannot import time of day or day of week</li>
     <li>A header row is required; it is case insensitive</li>
     <li>The first row after the header row must contain your starting SR for the season</li>
     <li>Cannot import individual placement matches</li>
+    <li>Hero names must be comma-separated; case doesn't matter</li>
   </ul>
 </div>
 
@@ -49,7 +53,7 @@
     <div class="tabnav mb-0">
       <nav class="tabnav-tabs">
         <a href="#sample1" class="tabnav-tab selected js-tab">CSV with rank, map, comment</a>
-        <a href="#sample2" class="tabnav-tab js-tab">CSV with rank, map</a>
+        <a href="#sample2" class="tabnav-tab js-tab">CSV with rank, map, heroes</a>
       </nav>
     </div>
 
@@ -67,14 +71,14 @@
 
     <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
       <p>In this example, 3249 is where you placed:</p>
-      <pre>rank,map
-3249,
-3333,
-3322,Ilios
-3364,King's Row
-3399,Numbani
-3437,Route 66
-3474,Hollywood</pre>
+      <pre>rank,map,heroes
+3249,,"mercy, moira"
+3333,,Lúcio
+3322,Ilios,lucio
+3364,King's Row,"Torbjorn, reinhardt, D.va"
+3399,Numbani,
+3437,Route 66,widowmaker
+3474,Hollywood,</pre>
     </div>
   </div>
 </div>

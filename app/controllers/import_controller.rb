@@ -11,7 +11,9 @@ class ImportController < ApplicationController
   def create
     file = params[:csv]
     table = CSV.read(file.path, headers: true, header_converters: [:downcase])
-    map_ids_by_name = Map.select([:id, :name]).map { |map| [map.name.downcase, map.id] }.to_h
+    map_ids_by_name = Map.select([:id, :name]).
+      map { |map| [map.name.downcase, map.id] }.to_h
+    heroes_by_name = Hero.map { |hero| [Hero.flatten_name(hero.name), hero] }.to_h
     @matches = []
 
     # Wipe existing matches this season
@@ -27,6 +29,17 @@ class ImportController < ApplicationController
       end
 
       match.save
+
+      if match.persisted? && (hero_name_str = row['heroes']).present?
+        hero_names = hero_name_str.split(',')
+        heroes = hero_names.map do |name|
+          flat_name = Hero.flatten_name(name.strip)
+          heroes_by_name[flat_name]
+        end
+        heroes = heroes.compact
+        heroes.each { |hero| match.heroes << hero }
+      end
+
       prior_match = if match.persisted?
         match
       end

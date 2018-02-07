@@ -6,6 +6,11 @@ class Hero < ApplicationRecord
 
   has_and_belongs_to_many :matches
 
+  # "Lúcio" => "lucio"
+  def self.flatten_name(name)
+    name.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n,'').downcase.to_s
+  end
+
   def slug
     @slug ||= case name
       when 'D.Va' then 'dva'
