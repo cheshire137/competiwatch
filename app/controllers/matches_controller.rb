@@ -82,23 +82,11 @@ class MatchesController < ApplicationController
     end
   end
 
-  def set_oauth_account
-    battletag = User.battletag_from_param(params[:battletag])
-    @oauth_account = OauthAccount.find_by_battletag(battletag)
-    unless @oauth_account
-      render file: Rails.root.join('public', '404.html'), status: :not_found
-    end
-  end
-
   def set_streaks(matches)
     matches.each do |match|
       match.win_streak = Match.get_win_streak(match)
       match.loss_streak = Match.get_loss_streak(match)
     end
-  end
-
-  def set_season
-    @season = params[:season].to_i
   end
 
   def get_maps
