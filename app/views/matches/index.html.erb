@@ -3,12 +3,12 @@
     <%= options_for_select(season_options, @season) %>
   </select>
   / <%= @oauth_account %> /
-  Match History
+  Match history
 </h2>
 
 <div class="js-tab-container">
   <div class="tabnav">
-    <nav class="tabnav-tabs" aria-label="Foo bar">
+    <nav class="tabnav-tabs">
       <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
       <% if @oauth_account.finished_placements?(@season) %>
         <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">Log a match</a>

@@ -1,5 +1,12 @@
 <h2 class="h2 mb-2">
   <%= current_user %> / Settings
 </h2>
+
+<p>
+  <a href="<%= import_path(Match::LATEST_SEASON, current_user.primary_account) %>">
+    Import match history for <%= current_user.primary_account %>
+  </a>
+</p>
+
 <%= form_for(current_user, url: settings_path, method: :put) do |f| %>
 <% end %>

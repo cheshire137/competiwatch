@@ -1,0 +1,59 @@
+<h2 class="h2 mb-4">
+  <select class="form-select js-season-select" data-url-template="/import/{season}/<%= @oauth_account.to_param %>">
+    <%= options_for_select(season_options, @season) %>
+  </select>
+  / <%= @oauth_account %> /
+  Import matches
+</h2>
+
+<% if @match_count > 0 %>
+  <p class="p-3 h3 text-normal rounded-2 flash-warn">
+    You have <strong><%= pluralize(@match_count, 'match') %></strong> in season
+    <%= @season %>. Importing a CSV file will <strong>wipe</strong> these matches and
+    replace them with the contents of your file.
+  </p>
+<% else %>
+  <p>You have no matches in <%= @season %>.</p>
+<% end %>
+
+<p>Import a CSV file of your matches for a season. Sample formatting:</p>
+
+<div class="js-tab-container mb-4">
+  <div class="tabnav mb-0">
+    <nav class="tabnav-tabs">
+      <a href="#sample1" class="tabnav-tab selected js-tab">CSV with rank, map, comment</a>
+      <a href="#sample2" class="tabnav-tab js-tab">CSV with rank, map</a>
+    </nav>
+  </div>
+
+  <div id="sample1" class="js-tab-contents border p-3 border-top-0">
+    <p>3929 is where you placed:</p>
+<pre>Rank,Map,Comment
+3929,,
+3954,Hanamura,favored
+3978,Nepal,
+3953,Temple of Anubis,leaver on my team
+3924,King's Row,two overextending teammates
+3949,Hollywood,even team SRs
+3925,Junkertown,"slightly favored, PotG"</pre>
+  </div>
+
+  <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
+    <p>3249 is where you placed:</p>
+<pre>Rank,Map
+3249,
+3333,
+3322,Ilios
+3364,King's Row
+3399,Numbani
+3437,Route 66
+3474,Hollywood</pre>
+  </div>
+</div>
+
+<%= form_tag import_path do %>
+  <%= file_field_tag :csv, class: 'form-control' %>
+  <button type="button" class="btn btn-primary">
+    Import CSV
+  </button>
+<% end %>

@@ -12,5 +12,8 @@ Rails.application.routes.draw do
   get '/settings' => 'users#settings', as: :settings
   put '/settings' => 'users#update'
 
+  get '/import/:season/:battletag' => 'import#index', as: :import
+  post '/import/:season/:battletag' => 'import#create'
+
   root to: 'login#index'
 end
