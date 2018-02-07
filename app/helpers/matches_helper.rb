@@ -81,7 +81,7 @@ module MatchesHelper
   end
 
   def match_rank_change_style(match, matches)
-    return '' if match.placement_log? || match.placement?
+    return '' if match.placement_log? || match.placement? || match.result.blank?
 
     color = if match.draw?
       NEUTRAL_COLOR
@@ -89,10 +89,8 @@ module MatchesHelper
       all_ranks = matches.map(&:rank).compact.sort.uniq
       color_range = if match.win?
         WIN_COLORS
-      elsif match.loss?
-        LOSS_COLORS
       else
-        NEUTRAL_COLORS
+        LOSS_COLORS
       end
       gradient = ColorGradient.new(colors: color_range, steps: all_ranks.length)
       rgb_colors = gradient.rgb
