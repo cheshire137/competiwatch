@@ -34,7 +34,9 @@ class Match < ApplicationRecord
   scope :placements, ->{ where(placement: true) }
   scope :non_placements, ->{ where(placement: false) }
   scope :in_season, ->(season) { where(season: season) }
-  scope :placement_logs, ->{ where(map_id: nil) }
+  scope :placement_logs, ->{
+    where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)
+  }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
 
