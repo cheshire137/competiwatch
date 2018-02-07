@@ -1,15 +1,11 @@
 <% content_for(:title, "Season #{@season} / #{@oauth_account}") %>
 
-<h2 class="h2 mb-4">
-  <select class="form-select js-season-select" data-url-template="/season/{season}/<%= @oauth_account.to_param %>">
-    <%= options_for_select(season_options, @season) %>
-  </select>
-  / <%= @oauth_account %> /
-  Match history
-</h2>
+<% content_for(:breadcrumb) do %>
+  <%= @oauth_account %> / Season <%= @season %>
+<% end %>
 
 <div class="js-tab-container">
-  <div class="tabnav">
+  <div class="tabnav d-flex flex-items-center flex-justify-between">
     <nav class="tabnav-tabs">
       <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
       <% if @oauth_account.finished_placements?(@season) %>
@@ -24,6 +20,13 @@
         <a href="#export-csv" class="tabnav-tab js-tab">Export</a>
       <% end %>
     </nav>
+
+    <div class="pb-1">
+      <label for="season-select">Change season:</label>
+      <select id="season-select" class="form-select js-season-select" data-url-template="/season/{season}/<%= @oauth_account.to_param %>">
+        <%= options_for_select(season_options, @season) %>
+      </select>
+    </div>
   </div>
 
   <div id="match-history" class="js-tab-contents">
