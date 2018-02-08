@@ -1,0 +1,75 @@
+<% if matches.any? %>
+  <table class="matches-table width-full">
+    <thead>
+      <tr>
+        <th class="match-header">#</th>
+        <th class="match-header">Win/Loss</th>
+        <th class="match-header no-wrap">SR Change</th>
+        <th class="match-header">Rank</th>
+        <th class="match-header no-wrap">Win Streak</th>
+        <th class="match-header no-wrap">Lose Streak</th>
+        <th class="match-header">Map</th>
+        <th class="match-header">Comment</th>
+        <th class="match-header">Day</th>
+        <th class="match-header">Time</th>
+        <th class="match-header">Heroes</th>
+        <th class="match-header"><span class="ion-gear-b ion"></span></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% matches.each_with_index do |match, i| %>
+        <tr class="<%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
+          <td class="match-cell match-number-cell">
+            <%= match_number(i, match, matches) %>
+          </td>
+          <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
+          <td class="match-cell sr-change-cell" style="<%= match_rank_change_style(match, matches) %>">
+            <%= match_rank_change(match, matches) %>
+          </td>
+          <td class="match-cell rank-cell <%= match_rank_class(match, placement_rank) %>">
+            <%= match.rank || '--' %>
+          </td>
+          <td class="match-cell <%= 'streak-empty' unless match.win? %>" style="<%= match_win_streak_style(match, i, longest_win_streak) %>">
+            <%= match.win_streak %>
+          </td>
+          <td class="match-cell <%= 'streak-empty' unless match.loss? %>" style="<%= match_loss_streak_style(match, i, longest_loss_streak) %>">
+            <%= match.loss_streak %>
+          </td>
+          <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
+          <td class="match-cell comment-cell">
+            <% if match.comment.present? %>
+              <span class="tooltipped tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
+                <span class="ion-document-text ion text-gray"></span>
+              </span>
+            <% end %>
+          </td>
+          <td class="match-cell time-cell no-wrap">
+            <%= time_of_day_emoji(match.time_of_day) %>
+            <%= match.time_of_day.to_s.humanize %>
+          </td>
+          <td class="match-cell day-cell no-wrap">
+            <%= day_of_week_emoji(match.day_of_week) %>
+            <%= match.day_of_week.to_s.humanize %>
+          </td>
+          <td class="match-cell heroes-cell">
+            <% match.heroes.each do |hero| %>
+              <span class="tooltipped tooltipped-n d-inline-block hero-portrait-container" aria-label="<%= hero.name %>">
+                <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
+              </span>
+            <% end %>
+          </td>
+          <td class="match-cell options-cell">
+            <a href="<%= match_path(match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
+              <span class="ion-edit ion"></span>
+            </a>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  <div class="blankslate mb-4">
+    <p>You have not logged any competitive matches this season.</p>
+    You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
+  </div>
+<% end %>
