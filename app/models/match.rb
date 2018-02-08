@@ -40,6 +40,26 @@ class Match < ApplicationRecord
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
 
+  def self.emoji_for_day_of_week(day_of_week)
+    if day_of_week == :weekday
+      "👔"
+    elsif day_of_week == :weekend
+      "🎉"
+    end
+  end
+
+  def self.emoji_for_time_of_day(time_of_day)
+    if time_of_day == :morning
+      "🌅"
+    elsif time_of_day == :evening
+      "🌆"
+    elsif time_of_day == :afternoon
+      "😎"
+    elsif time_of_day == :night
+      "🌝"
+    end
+  end
+
   def last_placement?
     return false unless placement?
 

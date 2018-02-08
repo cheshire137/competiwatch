@@ -15,26 +15,14 @@ module MatchesHelper
   def time_of_day_emoji(time_of_day)
     return unless time_of_day
 
-    emoji = if time_of_day == :morning
-      "🌅"
-    elsif time_of_day == :evening
-      "🌆"
-    elsif time_of_day == :afternoon
-      "😎"
-    elsif time_of_day == :night
-      "🌝"
-    end
+    emoji = Match.emoji_for_time_of_day(time_of_day)
     content_tag(:span, emoji, class: 'mr-2')
   end
 
   def day_of_week_emoji(day_of_week)
     return unless day_of_week
 
-    emoji = if day_of_week == :weekday
-      "👔"
-    elsif day_of_week == :weekend
-      "🎉"
-    end
+    emoji = Match.emoji_for_day_of_week(day_of_week)
     content_tag(:span, emoji, class: 'mr-2')
   end
 

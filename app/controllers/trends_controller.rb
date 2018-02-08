@@ -25,7 +25,11 @@ class TrendsController < ApplicationController
     @win_counts = days.map { |day| wins_by_day[day] || 0 }
     @loss_counts = days.map { |day| losses_by_day[day] || 0 }
     @draw_counts = days.map { |day| draws_by_day[day] || 0 }
-    @days = days.map { |day| day.to_s.humanize }
+    @days = days.map do |day|
+      emoji = Match.emoji_for_day_of_week(day)
+      suffix = day.to_s.humanize
+      "#{emoji} #{suffix}"
+    end
   end
 
   def per_map_win_loss_chart
