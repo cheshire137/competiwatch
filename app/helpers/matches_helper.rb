@@ -3,6 +3,28 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def thrower_tooltip(match)
+    tooltip = []
+    if match.ally_thrower?
+      tooltip << "Thrower on my team"
+    end
+    if match.enemy_thrower?
+      tooltip << "Thrower on the enemy team"
+    end
+    tooltip.join(" + ")
+  end
+
+  def leaver_tooltip(match)
+    tooltip = []
+    if match.ally_leaver?
+      tooltip << "Leaver on my team"
+    end
+    if match.enemy_leaver?
+      tooltip << "Leaver on the enemy team"
+    end
+    tooltip.join(" + ")
+  end
+
   def season_options
     Match::LATEST_SEASON.downto(1).map { |season| ["Season #{season}", season] }
   end

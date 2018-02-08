@@ -12,6 +12,7 @@
         <th class="match-header">Comment</th>
         <th class="match-header">Day/Time</th>
         <th class="match-header">Heroes</th>
+        <th class="match-header tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
         <th class="match-header"><span class="ion-gear-b ion"></span></th>
       </tr>
     </thead>
@@ -37,7 +38,7 @@
           <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
           <td class="match-cell comment-cell">
             <% if match.comment.present? %>
-              <span class="tooltipped tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
+              <span class="tooltipped tooltipped-multiline tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
                 <span class="ion-document-text ion text-gray"></span>
               </span>
             <% end %>
@@ -55,6 +56,14 @@
               <span class="tooltipped tooltipped-n d-inline-block hero-portrait-container" aria-label="<%= hero.name %>">
                 <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
               </span>
+            <% end %>
+          </td>
+          <td class="match-cell throwers-leavers-cell">
+            <% if match.thrower? %>
+              <span class="Counter tooltipped tooltipped-n text-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
+            <% end %>
+            <% if match.leaver? %>
+              <span class="Counter tooltipped tooltipped-n text-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
             <% end %>
           </td>
           <td class="match-cell options-cell">
