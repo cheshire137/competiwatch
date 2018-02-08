@@ -5,7 +5,8 @@ class TrendsController < ApplicationController
   layout false
 
   def time_chart
-    matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result])
+    matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
+      where("time_of_day IS NOT NULL").where("result IS NOT NULL")
 
     wins_by_time = Hash.new(0)
     losses_by_time = Hash.new(0)
@@ -33,7 +34,8 @@ class TrendsController < ApplicationController
   end
 
   def day_chart
-    matches = @oauth_account.matches.in_season(@season).select([:day_of_week, :result])
+    matches = @oauth_account.matches.in_season(@season).select([:day_of_week, :result]).
+      where("day_of_week IS NOT NULL").where("result IS NOT NULL")
 
     wins_by_day = Hash.new(0)
     losses_by_day = Hash.new(0)
@@ -63,7 +65,8 @@ class TrendsController < ApplicationController
   def per_map_win_loss_chart
     maps_by_id = Map.order(:name).select([:id, :name]).
       map { |map| [map.id, map] }.to_h
-    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result])
+    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
+      where("result IS NOT NULL")
 
     wins_by_map_id = Hash.new(0)
     losses_by_map_id = Hash.new(0)
