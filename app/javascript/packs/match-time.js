@@ -16,9 +16,9 @@ on('click', '.js-log-match-tab', function() {
 
   if (hours >= 5 && hours < 12) {
     timeSelect.value = 'morning'
-  } else if (hours >= 12 && hours < 5) {
+  } else if (hours >= 12 && hours < 17) {
     timeSelect.value = 'afternoon'
-  } else if (hours >= 5 && hours < 9) {
+  } else if (hours >= 17 && hours < 21) {
     timeSelect.value = 'evening'
   } else {
     timeSelect.value = 'night'
