@@ -31,7 +31,7 @@ const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', fun
 })
 winLossObserver.observe()
 
-const mapWinsObserver = new SelectorObserver(document, '.js-map-wins-chart', function() {
+const barChartObserver = new SelectorObserver(document, '.js-bar-chart', function() {
   const context = this.getContext('2d')
   const options = {
     scales: {
@@ -55,4 +55,4 @@ const mapWinsObserver = new SelectorObserver(document, '.js-map-wins-chart', fun
   }
   new Chart(context, { type: 'bar', data, options })
 })
-mapWinsObserver.observe()
+barChartObserver.observe()
