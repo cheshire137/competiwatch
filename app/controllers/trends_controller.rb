@@ -4,6 +4,27 @@ class TrendsController < ApplicationController
   before_action :set_season
   layout false
 
+  def thrower_leaver_chart
+    @types = ['Throwers', 'Leavers']
+    matches = @oauth_account.matches.in_season(@season).
+      select([:ally_thrower, :ally_leaver, :enemy_thrower, :enemy_leaver]).
+      where("ally_thrower IS NOT NULL OR enemy_thrower IS NOT NULL OR " +
+            "ally_leaver IS NOT NULL OR enemy_leaver IS NOT NULL")
+
+    allies_by_type = Hash.new(0)
+    enemies_by_type = Hash.new(0)
+
+    matches.each do |match|
+      allies_by_type['Throwers'] += 1 if match.ally_thrower?
+      allies_by_type['Leavers'] += 1 if match.ally_leaver?
+      enemies_by_type['Throwers'] += 1 if match.enemy_thrower?
+      enemies_by_type['Leavers'] += 1 if match.enemy_leaver?
+    end
+
+    @allies = @types.map { |type| allies_by_type[type] || 0 }
+    @enemies = @types.map { |type| enemies_by_type[type] || 0 }
+  end
+
   def time_chart
     matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
       where("time_of_day IS NOT NULL").where("result IS NOT NULL")

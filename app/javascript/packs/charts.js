@@ -10,6 +10,11 @@ const transparentLossColor = 'rgba(202,8,19,0.7)'
 const drawColor = '#fed86f'
 const transparentDrawColor = 'rgba(254,216,111,0.7)'
 
+const allyColor = '#299FFD'
+const transparentAllyColor = 'rgba(41,159,253,0.7)'
+const enemyColor = '#FD9629'
+const transparentEnemyColor = 'rgba(253,150,41,0.7)'
+
 on('click', '.js-trends-tab', function(event) {
   remoteLoadCharts()
 })
@@ -67,7 +72,7 @@ const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', fun
 })
 winLossObserver.observe()
 
-const perMapWinLossObserver = new SelectorObserver(document, '.js-win-loss-bar-chart', function() {
+const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-chart', function() {
   const context = this.getContext('2d')
   const options = {
     scales: {
@@ -106,4 +111,33 @@ const perMapWinLossObserver = new SelectorObserver(document, '.js-win-loss-bar-c
   }
   new Chart(context, { type: 'bar', data, options })
 })
-perMapWinLossObserver.observe()
+winLossBarObserver.observe()
+
+const throwerLeaverObserver = new SelectorObserver(document, '.js-thrower-leaver-chart', function() {
+  const context = this.getContext('2d')
+  const options = {}
+  const labels = this.getAttribute('data-labels')
+  const allies = this.getAttribute('data-allies')
+  const enemies = this.getAttribute('data-enemies')
+  const data = {
+    labels: JSON.parse(labels),
+    datasets: [
+      {
+        backgroundColor: transparentAllyColor,
+        borderColor: allyColor,
+        borderWidth: 2,
+        label: 'My Team',
+        data: JSON.parse(allies)
+      },
+      {
+        backgroundColor: transparentEnemyColor,
+        borderColor: enemyColor,
+        borderWidth: 2,
+        label: 'Enemy Team',
+        data: JSON.parse(enemies)
+      }
+    ]
+  }
+  new Chart(context, { type: 'bar', data, options })
+})
+throwerLeaverObserver.observe()
