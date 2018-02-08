@@ -1,0 +1,14 @@
+<nav class="tabnav-tabs">
+  <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
+  <% if oauth_account.finished_placements?(season) %>
+    <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">Log a match</a>
+  <% else %>
+    <a href="#log-placement-matches" class="tabnav-tab js-tab">Log placement match</a>
+    <% unless oauth_account.any_placements?(season) %>
+      <a href="#log-placement-rank" class="tabnav-tab js-tab">Log starting SR</a>
+    <% end %>
+  <% end %>
+  <% if matches.any? %>
+    <a href="#export-csv" class="tabnav-tab js-tab">Export</a>
+  <% end %>
+</nav>
