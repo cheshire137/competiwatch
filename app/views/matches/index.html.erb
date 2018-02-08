@@ -34,6 +34,10 @@
         </button>
       <% end %>
     </div>
+
+    <div id="trends" class="js-tab-contents d-none">
+      <%= render partial: 'matches/trends' %>
+    </div>
   <% end %>
 
   <% if @oauth_account.finished_placements?(@season) %>

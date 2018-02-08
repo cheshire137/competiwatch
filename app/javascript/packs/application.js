@@ -8,7 +8,9 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import './https-redirect.js'
-import './tabs.js'
-import './match-time.js'
-import './season-select.js'
 import './confirm-click.js'
+import './tabs.js'
+import './remote-load.js'
+import './season-select.js'
+import './match-time.js'
+import './charts.js'

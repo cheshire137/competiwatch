@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "@rails/webpacker": "^3.2.1",
+    "chart.js": "^2.7.1",
     "delegated-events": "^1.0.5",
     "primer": "^10.3.0",
     "selector-observer": "^1.1.0",

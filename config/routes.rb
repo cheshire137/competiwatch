@@ -4,6 +4,8 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
+  get '/trends/:season/:battletag/win-loss-chart' => 'trends#win_loss_chart', as: :win_loss_chart
+
   get '/matches/confirm-wipe/:battletag' => 'matches#wipe_season_select', as: :wipe_season_select, season: /\d+/
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
   post '/season/:season/:battletag' => 'matches#create', season: /\d+/
