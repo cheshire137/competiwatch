@@ -1,6 +1,10 @@
 # Competiwatch
 
-![Screenshot](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot.png)
+![Screenshot of match history](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot1.png)
+![Screenshot of trends](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot2.png)
+![Screenshot of map win loss chart](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot3.png)
+![Screenshot of streaks chart](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot4.png)
+![Screenshot of match form](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot5.png)
 
 ## How to Develop
 
