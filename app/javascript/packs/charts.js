@@ -141,3 +141,44 @@ const throwerLeaverObserver = new SelectorObserver(document, '.js-thrower-leaver
   new Chart(context, { type: 'bar', data, options })
 })
 throwerLeaverObserver.observe()
+
+const heroesObserver = new SelectorObserver(document, '.js-heroes-chart', function() {
+  const context = this.getContext('2d')
+  const options = {
+    scales: {
+      xAxes: [{ ticks: { autoSkip: false } }]
+    }
+  }
+  const labels = this.getAttribute('data-labels')
+  const wins = this.getAttribute('data-wins')
+  const losses = this.getAttribute('data-losses')
+  const draws = this.getAttribute('data-draws')
+  const data = {
+    labels: JSON.parse(labels),
+    datasets: [
+      {
+        backgroundColor: transparentWinColor,
+        borderColor: winColor,
+        borderWidth: 2,
+        label: 'Wins',
+        data: JSON.parse(wins)
+      },
+      {
+        backgroundColor: transparentLossColor,
+        borderColor: lossColor,
+        borderWidth: 2,
+        label: 'Losses',
+        data: JSON.parse(losses)
+      },
+      {
+        backgroundColor: transparentDrawColor,
+        borderColor: drawColor,
+        borderWidth: 2,
+        label: 'Draws',
+        data: JSON.parse(draws)
+      }
+    ]
+  }
+  new Chart(context, { type: 'bar', data, options })
+})
+heroesObserver.observe()

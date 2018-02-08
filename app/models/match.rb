@@ -39,6 +39,10 @@ class Match < ApplicationRecord
   }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
+  scope :with_heroes, ->{
+    joins("INNER JOIN heroes_matches ON heroes_matches.match_id = matches.id").
+      where("heroes_matches.hero_id IS NOT NULL")
+  }
 
   def thrower?
     enemy_thrower? || ally_thrower?
