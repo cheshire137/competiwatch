@@ -40,6 +40,14 @@ class Match < ApplicationRecord
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
 
+  def thrower?
+    enemy_thrower? || ally_thrower?
+  end
+
+  def leaver?
+    enemy_leaver? || ally_leaver?
+  end
+
   def self.emoji_for_day_of_week(day_of_week)
     if day_of_week == :weekday
       "👔"

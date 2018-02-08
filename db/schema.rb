@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180208030206) do
+ActiveRecord::Schema.define(version: 20180208052055) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -53,8 +53,16 @@ ActiveRecord::Schema.define(version: 20180208030206) do
     t.integer "time_of_day"
     t.integer "day_of_week"
     t.integer "season", null: false
+    t.boolean "enemy_thrower"
+    t.boolean "ally_thrower"
+    t.boolean "enemy_leaver"
+    t.boolean "ally_leaver"
+    t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
+    t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"
     t.index ["created_at"], name: "index_matches_on_created_at"
     t.index ["day_of_week"], name: "index_matches_on_day_of_week"
+    t.index ["enemy_leaver"], name: "index_matches_on_enemy_leaver"
+    t.index ["enemy_thrower"], name: "index_matches_on_enemy_thrower"
     t.index ["map_id"], name: "index_matches_on_map_id"
     t.index ["oauth_account_id"], name: "index_matches_on_oauth_account_id"
     t.index ["placement"], name: "index_matches_on_placement"
