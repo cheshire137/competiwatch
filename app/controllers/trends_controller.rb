@@ -4,28 +4,30 @@ class TrendsController < ApplicationController
   before_action :set_season
   layout false
 
-  def wins_by_map_chart
+  def per_map_win_loss_chart
     maps_by_id = Map.order(:name).select([:id, :name, :color]).
       map { |map| [map.id, map] }.to_h
-    wins_by_map_id = @oauth_account.matches.in_season(@season).wins.
-      group(:map_id).count
-    @map_names = maps_by_id.values.map(&:name)
-    @win_counts = maps_by_id.keys.map do |map_id|
-      wins_by_map_id[map_id] || 0
-    end
-    @colors = maps_by_id.values.map(&:color)
-  end
+    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result])
 
-  def losses_by_map_chart
-    maps_by_id = Map.order(:name).select([:id, :name, :color]).
-      map { |map| [map.id, map] }.to_h
-    losses_by_map_id = @oauth_account.matches.in_season(@season).losses.
-      group(:map_id).count
-    @map_names = maps_by_id.values.map(&:name)
-    @loss_counts = maps_by_id.keys.map do |map_id|
-      losses_by_map_id[map_id] || 0
+    wins_by_map_id = Hash.new(0)
+    losses_by_map_id = Hash.new(0)
+    draws_by_map_id = Hash.new(0)
+
+    matches.each do |match|
+      if match.win?
+        wins_by_map_id[match.map_id] += 1
+      elsif match.loss?
+        losses_by_map_id[match.map_id] += 1
+      elsif match.draw?
+        draws_by_map_id[match.map_id] += 1
+      end
     end
+
+    @map_names = maps_by_id.values.map(&:name)
     @colors = maps_by_id.values.map(&:color)
+    @win_counts = maps_by_id.keys.map { |map_id| wins_by_map_id[map_id] || 0 }
+    @loss_counts = maps_by_id.keys.map { |map_id| losses_by_map_id[map_id] || 0 }
+    @draw_counts = maps_by_id.keys.map { |map_id| draws_by_map_id[map_id] || 0 }
   end
 
   def win_loss_chart

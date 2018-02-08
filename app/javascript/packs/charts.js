@@ -26,28 +26,38 @@ const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', fun
 })
 winLossObserver.observe()
 
-const barChartObserver = new SelectorObserver(document, '.js-bar-chart', function() {
+const perMapWinLossObserver = new SelectorObserver(document, '.js-per-map-win-loss-chart', function() {
   const context = this.getContext('2d')
   const options = {
     scales: {
       xAxes: [{ ticks: { autoSkip: false } }]
-    },
-    legend: { display: false }
+    }
   }
   const colors = this.getAttribute('data-colors')
   const labels = this.getAttribute('data-labels')
-  const values = this.getAttribute('data-values')
+  const wins = this.getAttribute('data-wins')
+  const losses = this.getAttribute('data-losses')
+  const draws = this.getAttribute('data-draws')
   const data = {
     labels: JSON.parse(labels),
     datasets: [
       {
-        borderColor: 'rgba(0,0,0,0.5)',
-        borderWidth: 1,
-        backgroundColor: JSON.parse(colors),
-        data: JSON.parse(values)
+        backgroundColor: '#ff6384',
+        label: 'Wins',
+        data: JSON.parse(wins)
+      },
+      {
+        backgroundColor: '#36a2eb',
+        label: 'Losses',
+        data: JSON.parse(losses)
+      },
+      {
+        backgroundColor: '#ffce56',
+        label: 'Draws',
+        data: JSON.parse(draws)
       }
     ]
   }
   new Chart(context, { type: 'bar', data, options })
 })
-barChartObserver.observe()
+perMapWinLossObserver.observe()
