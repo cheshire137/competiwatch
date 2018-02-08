@@ -51,22 +51,39 @@ class Match < ApplicationRecord
     other_placements.count == TOTAL_PLACEMENT_MATCHES - 1
   end
 
-  def self.get_win_streak(match)
+  # Public: Look up the prior match for a given match. Uses the hash of matches by ID
+  # to avoid doing extra SQL queries.
+  #
+  # match - Match instance
+  # matches_by_id - Hash of Match instances by their ID
+  #
+  # Returns a Match or nil.
+  def self.prior_match_for(match, matches_by_id)
+    if match.prior_match_id
+      if matches_by_id.key?(match.prior_match_id)
+        matches_by_id[match.prior_match_id]
+      else
+        match.prior_match
+      end
+    end
+  end
+
+  def self.get_win_streak(match, matches_by_id)
     return unless match.win?
 
     count = 1
-    while (prior_match = match.prior_match) && prior_match.win?
+    while (prior_match = prior_match_for(match, matches_by_id)) && prior_match.win?
       count += 1
       match = prior_match
     end
     count
   end
 
-  def self.get_loss_streak(match)
+  def self.get_loss_streak(match, matches_by_id)
     return unless match.loss?
 
     count = 1
-    while (prior_match = match.prior_match) && prior_match.loss?
+    while (prior_match = prior_match_for(match, matches_by_id)) && prior_match.loss?
       count += 1
       match = prior_match
     end

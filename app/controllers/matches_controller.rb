@@ -109,13 +109,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  def set_streaks(matches)
-    matches.each do |match|
-      match.win_streak = Match.get_win_streak(match)
-      match.loss_streak = Match.get_loss_streak(match)
-    end
-  end
-
   def get_maps
     Rails.cache.fetch('maps') { Map.order(:name).select([:id, :name]) }
   end
