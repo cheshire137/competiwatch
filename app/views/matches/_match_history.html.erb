@@ -10,8 +10,7 @@
         <th class="match-header no-wrap">Lose Streak</th>
         <th class="match-header">Map</th>
         <th class="match-header">Comment</th>
-        <th class="match-header">Day</th>
-        <th class="match-header">Time</th>
+        <th class="match-header">Day/Time</th>
         <th class="match-header">Heroes</th>
         <th class="match-header"><span class="ion-gear-b ion"></span></th>
       </tr>
@@ -44,12 +43,12 @@
             <% end %>
           </td>
           <td class="match-cell time-cell no-wrap">
+            <div>
+              <%= day_of_week_emoji(match.day_of_week) %>
+              <%= match.day_of_week.to_s.humanize %>
+            </div>
             <%= time_of_day_emoji(match.time_of_day) %>
             <%= match.time_of_day.to_s.humanize %>
-          </td>
-          <td class="match-cell day-cell no-wrap">
-            <%= day_of_week_emoji(match.day_of_week) %>
-            <%= match.day_of_week.to_s.humanize %>
           </td>
           <td class="match-cell heroes-cell">
             <% match.heroes.each do |hero| %>

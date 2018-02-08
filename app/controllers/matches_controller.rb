@@ -98,8 +98,10 @@ class MatchesController < ApplicationController
   private
 
   def match_params
-    params.require(:match).permit(:map_id, :rank, :comment, :prior_match_id, :placement,
-                                  :result, :time_of_day, :day_of_week, :season)
+    params.require(:match).
+      permit(:map_id, :rank, :comment, :prior_match_id, :placement, :result, :time_of_day,
+             :day_of_week, :season, :enemy_thrower, :ally_thrower, :enemy_leaver,
+             :ally_leaver)
   end
 
   def set_match

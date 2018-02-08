@@ -3,19 +3,22 @@
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
 
-<div class="col-6 float-left pr-4">
-  <div class="d-flex flex-items-center flex-justify-between">
-    <div>
-      <div class="form-group mt-0 d-flex flex-items-center">
-        <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
-        <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank), autofocus: true %>
+<div class="clearfix">
+  <div class="col-6 float-left pr-4">
+    <div class="d-flex flex-items-center flex-justify-between">
+      <div>
+        <div class="form-group mt-0 d-flex flex-items-center">
+          <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
+          <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank), autofocus: true %>
+        </div>
+        <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
       </div>
-      <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
+      <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
     </div>
-    <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
+    <%= render partial: 'matches/comment_field', locals: { form: form } %>
   </div>
-  <%= render partial: 'matches/comment_field', locals: { form: form } %>
+  <div class="col-6 float-left">
+    <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
+  </div>
 </div>
-<div class="col-6 float-left">
-  <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
-</div>
+<%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
