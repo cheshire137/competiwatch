@@ -1,15 +1,10 @@
 import Chart from 'chart.js'
 import SelectorObserver from 'selector-observer'
 import {on} from 'delegated-events'
-import {loadRemotePartial} from './remote-load.js'
+import remoteLoadCharts from './remote-load-charts.js'
 
 on('click', '.js-trends-tab', function(event) {
-  const chartContainers = document.querySelectorAll('.js-remote-chart')
-
-  for (const container of chartContainers) {
-    loadRemotePartial(container)
-    container.classList.remove('js-remote-chart')
-  }
+  remoteLoadCharts()
 })
 
 const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', function() {
