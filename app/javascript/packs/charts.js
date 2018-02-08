@@ -67,7 +67,7 @@ const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', fun
 })
 winLossObserver.observe()
 
-const perMapWinLossObserver = new SelectorObserver(document, '.js-per-map-win-loss-chart', function() {
+const perMapWinLossObserver = new SelectorObserver(document, '.js-win-loss-bar-chart', function() {
   const context = this.getContext('2d')
   const options = {
     scales: {

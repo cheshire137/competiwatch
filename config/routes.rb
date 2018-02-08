@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get '/trends/:season/:battletag/win-loss-chart' => 'trends#win_loss_chart', as: :win_loss_chart
   get '/trends/:season/:battletag/win-loss-chart/per-map' => 'trends#per_map_win_loss_chart', as: :per_map_win_loss_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
+  get '/trends/:season/:battletag/day-chart' => 'trends#day_chart', as: :day_chart
 
   get '/matches/confirm-wipe/:battletag' => 'matches#wipe_season_select', as: :wipe_season_select, season: /\d+/
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
