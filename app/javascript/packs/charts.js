@@ -12,7 +12,7 @@ on('click', '.js-trends-tab', function(event) {
   }
 })
 
-const observer = new SelectorObserver(document, '.js-win-loss-chart', function() {
+const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', function() {
   const context = this.getContext('2d')
   const options = {}
   const wins = this.getAttribute('data-wins')
@@ -29,3 +29,30 @@ const observer = new SelectorObserver(document, '.js-win-loss-chart', function()
   }
   new Chart(context, { type: 'pie', data, options })
 })
+winLossObserver.observe()
+
+const mapWinsObserver = new SelectorObserver(document, '.js-map-wins-chart', function() {
+  const context = this.getContext('2d')
+  const options = {
+    scales: {
+      xAxes: [{ ticks: { autoSkip: false } }]
+    },
+    legend: { display: false }
+  }
+  const colors = this.getAttribute('data-colors')
+  const labels = this.getAttribute('data-labels')
+  const values = this.getAttribute('data-values')
+  const data = {
+    labels: JSON.parse(labels),
+    datasets: [
+      {
+        borderColor: 'rgba(0,0,0,0.5)',
+        borderWidth: 1,
+        backgroundColor: JSON.parse(colors),
+        data: JSON.parse(values)
+      }
+    ]
+  }
+  new Chart(context, { type: 'bar', data, options })
+})
+mapWinsObserver.observe()
