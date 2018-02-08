@@ -4,6 +4,34 @@ class TrendsController < ApplicationController
   before_action :set_season
   layout false
 
+  def time_chart
+    matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result])
+
+    wins_by_time = Hash.new(0)
+    losses_by_time = Hash.new(0)
+    draws_by_time = Hash.new(0)
+
+    matches.each do |match|
+      if match.win?
+        wins_by_time[match.time_of_day] += 1
+      elsif match.loss?
+        losses_by_time[match.time_of_day] += 1
+      elsif match.draw?
+        draws_by_time[match.time_of_day] += 1
+      end
+    end
+
+    times = Match::TIME_OF_DAY_MAPPINGS.keys
+    @win_counts = times.map { |time| wins_by_time[time] || 0 }
+    @loss_counts = times.map { |time| losses_by_time[time] || 0 }
+    @draw_counts = times.map { |time| draws_by_time[time] || 0 }
+    @times = times.map do |time|
+      emoji = Match.emoji_for_time_of_day(time)
+      suffix = time.to_s.humanize
+      "#{emoji} #{suffix}"
+    end
+  end
+
   def day_chart
     matches = @oauth_account.matches.in_season(@season).select([:day_of_week, :result])
 

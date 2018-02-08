@@ -2,8 +2,14 @@
   <div class="col-6 float-left">
     <div data-url="<%= win_loss_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
   </div>
+</div>
+<hr class="mb-4 pt-4">
+<div class="clearfix mb-4">
   <div class="col-6 float-left">
     <div data-url="<%= day_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
+  </div>
+  <div class="col-6 float-left">
+    <div data-url="<%= time_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
   </div>
 </div>
 <hr class="mb-4 pt-4">
