@@ -5,10 +5,33 @@ maps_by_type = {
   control: ['Ilios', 'Lijiang Tower', 'Nepal', 'Oasis']
 }
 
+map_colors_by_name = {
+  'Hanamura' => '#f9e4f8',
+  'Temple of Anubis' => '#edc28e',
+  'Volskaya Industries' => '#b0a9d7',
+  'Horizon Lunar Colony' => '#c6c5c0',
+  'Dorado' => '#d19267',
+  'Route 66' => '#ddbf9f',
+  'Watchpoint: Gibraltar' => '#c0a6b5',
+  'Junkertown' => '#f4b531',
+  'Eichenwalde' => '#a1ad7b',
+  'Hollywood' => '#92d8fd',
+  "King's Row" => '#a1bfc5',
+  'Numbani' => '#cad298',
+  'Blizzard World' => '#2aa6fb',
+  'Ilios' => '#a0eafd',
+  'Lijiang Tower' => '#d3a096',
+  'Nepal' => '#deeafe',
+  'Oasis' => '#fdf4a6'
+}
+
 maps_by_type.each do |type, map_names|
   puts "Creating #{type} maps: #{map_names.to_sentence}"
   map_names.each do |name|
-    Map.where(name: name, map_type: type).first_or_create
+    map = Map.where(name: name).first_or_initialize
+    map.map_type = type
+    map.color = map_colors_by_name[name]
+    map.save if map.new_record? || map.changed?
   end
 end
 
