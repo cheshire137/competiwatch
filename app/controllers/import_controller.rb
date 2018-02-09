@@ -33,6 +33,18 @@ class ImportController < ApplicationController
       if (day = row['day']).present?
         match.day_of_week = day.downcase
       end
+      if (ally_thrower = row['ally thrower']).present?
+        match.ally_thrower = ally_thrower.downcase == 'y'
+      end
+      if (ally_leaver = row['ally leaver']).present?
+        match.ally_leaver = ally_leaver.downcase == 'y'
+      end
+      if (enemy_thrower = row['enemy thrower']).present?
+        match.enemy_thrower = enemy_thrower.downcase == 'y'
+      end
+      if (enemy_leaver = row['enemy leaver']).present?
+        match.enemy_leaver = enemy_leaver.downcase == 'y'
+      end
 
       match.save
 
