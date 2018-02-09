@@ -10,6 +10,11 @@ class ImportController < ApplicationController
 
   def create
     file = params[:csv]
+    unless file
+      flash[:alert] = 'No CSV file was provided.'
+      return redirect_to(import_path(@season, @oauth_account))
+    end
+
     table = CSV.read(file.path, headers: true, header_converters: [:downcase])
     map_ids_by_name = Map.select([:id, :name]).
       map { |map| [map.name.downcase, map.id] }.to_h
