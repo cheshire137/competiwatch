@@ -1,7 +1,9 @@
 require 'test_helper'
 
 class LoginControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+  test 'loads successfully' do
+    get '/'
+
+    assert_response :ok
+  end
 end
