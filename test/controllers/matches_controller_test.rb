@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   test 'index page redirects anonymous user' do
-    get '/season/1/DPSMain22#1234'
+    get '/season/1/DPSMain22-1234'
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
