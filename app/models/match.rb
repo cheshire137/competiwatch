@@ -44,6 +44,30 @@ class Match < ApplicationRecord
       where("heroes_matches.hero_id IS NOT NULL")
   }
 
+  def ally_thrower_char
+    unless ally_thrower.nil?
+      ally_thrower? ? 'Y' : 'N'
+    end
+  end
+
+  def ally_leaver_char
+    unless ally_leaver.nil?
+      ally_leaver? ? 'Y' : 'N'
+    end
+  end
+
+  def enemy_thrower_char
+    unless enemy_thrower.nil?
+      enemy_thrower? ? 'Y' : 'N'
+    end
+  end
+
+  def enemy_leaver_char
+    unless enemy_leaver.nil?
+      enemy_leaver? ? 'Y' : 'N'
+    end
+  end
+
   def thrower?
     enemy_thrower? || ally_thrower?
   end
