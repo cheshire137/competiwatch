@@ -13,6 +13,9 @@
     <% if alert.present? %>
       <p class="p-3 m-4 rounded-2 flash-error"><%= alert %></p>
     <% end %>
+    <% if flash[:error].present? %>
+      <p class="p-3 m-4 rounded-2 flash-error"><%= flash[:error] %></p>
+    <% end %>
     <% if notice.present? %>
       <p class="p-3 m-4 rounded-2 flash-success"><%= notice %></p>
     <% end %>
