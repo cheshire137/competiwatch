@@ -1,0 +1,28 @@
+notifications:
+  email: false
+language: ruby
+rvm:
+  - 2.2.4
+addons:
+  postgresql: '9.4'
+env:
+  - TRAVIS_NODE_VERSION="6"
+cache:
+  bundler: true
+  directories:
+    - vendor/bundle
+    - node_modules
+    - $HOME/.rvm/gems
+    - tmp/cache/assets/test/sprockets
+install:
+  - bundle install
+  - nvm install 6
+  - npm install
+before_script:
+  - nvm use 6
+  - cp config/database.yml.travis config/database.yml
+  - psql -c 'CREATE DATABASE travis_ci_test' -U postgres
+script:
+  - RAILS_ENV=test bundle exec rake db:migrate --trace
+  - RAILS_ENV=test bundle exec rake db:seed
+  - RAILS_ENV=test bundle exec rake
