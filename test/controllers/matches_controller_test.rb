@@ -9,10 +9,10 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'loads successfully for authenticated user' do
-    user = create(:user)
-    sign_in_as(user)
+    oauth_account = create(:oauth_account)
+    sign_in_as(oauth_account)
 
-    get "/season/1/#{user.to_param}"
+    get "/season/1/#{oauth_account.to_param}"
 
     assert_response :ok
   end

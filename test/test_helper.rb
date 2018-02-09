@@ -6,17 +6,17 @@ OmniAuth.config.test_mode = true
 class ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
-  def mock_bnet_omniauth(uid: nil, battletag: 'SomeUser#1234')
+  def mock_bnet_omniauth(uid:, battletag:)
     OmniAuth.config.mock_auth[:bnet] = OmniAuth::AuthHash.new(
       provider: 'bnet',
-      uid: uid || "12345#{OauthAccount.count}",
+      uid: uid,
       info: { battletag: battletag }
     )
   end
 
-  def sign_in_as(user)
-    mock_bnet_omniauth(battletag: user.battletag)
-    post '/users/auth/bnet/callback', params: { battletag: user.battletag }
+  def sign_in_as(oauth_account)
+    mock_bnet_omniauth(uid: oauth_account.uid, battletag: oauth_account.battletag)
+    post '/users/auth/bnet/callback', params: { battletag: oauth_account.battletag }
   end
 
   def sign_out
