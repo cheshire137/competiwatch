@@ -1,5 +1,7 @@
 # Competiwatch
 
+[![Build Status](https://travis-ci.org/cheshire137/competiwatch.svg?branch=master)](https://travis-ci.org/cheshire137/competiwatch)
+
 A web app to let you track your competitive match history in Overwatch. Shows charts
 for each season. Lets you track your SR, what map you played on, which heroes you
 played, whether there were throwers or leavers in your game, the time of day you
