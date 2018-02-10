@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" media="screen" href="//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
-  <body>
+  <body class="layout-container">
     <% if alert.present? %>
       <p class="p-3 m-4 rounded-2 flash-error"><%= alert %></p>
     <% end %>
@@ -22,7 +22,7 @@
     <header class="mb-4">
       <%= render partial: 'layouts/main_nav' %>
     </header>
-    <div class="container my-4">
+    <div class="container layout-children-container my-4">
       <%= yield %>
     </div>
     <footer class="my-4 border-top text-small text-gray py-4">

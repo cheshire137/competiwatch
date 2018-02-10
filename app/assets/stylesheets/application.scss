@@ -17,6 +17,16 @@
 @import "primer/index.scss";
 @import "colors.scss";
 
+.layout-container {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.layout-children-container {
+  flex: 1 0 auto;
+}
+
 .form-select {
   background-image: none;
 }
