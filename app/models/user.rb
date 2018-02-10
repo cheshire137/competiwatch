@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:bnet]
 
-  validates :battletag, uniqueness: true
+  validates :battletag, presence: true, uniqueness: true
 
   has_many :oauth_accounts
 
