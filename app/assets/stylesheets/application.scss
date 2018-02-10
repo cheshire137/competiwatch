@@ -14,8 +14,28 @@
  *= require_self
  */
 
-@import "primer/index.scss";
+@import "primer-support/lib/variables/typography.scss";
+@import "primer-support/lib/variables/colors.scss";
 @import "colors.scss";
+@import "primer-support/lib/variables/layout.scss";
+@import "primer-support/lib/variables/misc.scss";
+@import "primer-support/lib/mixins/typography.scss";
+@import "primer-support/lib/mixins/layout.scss";
+@import "primer-support/lib/mixins/buttons.scss";
+@import "primer-support/lib/mixins/misc.scss";
+@import "primer-base/index.scss";
+@import "primer-box/index.scss";
+@import "primer-breadcrumb/index.scss";
+@import "primer-buttons/index.scss";
+@import "primer-table-object/index.scss";
+@import "primer-forms/index.scss";
+@import "primer-layout/index.scss";
+@import "primer-navigation/index.scss";
+@import "primer-tooltips/index.scss";
+@import "primer-truncate/index.scss";
+@import "primer-utilities/index.scss";
+@import "primer-product/index.scss";
+@import "primer-marketing/index.scss";
 
 .layout-container {
   display: flex;
