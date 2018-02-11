@@ -38,6 +38,10 @@
 @import "primer-marketing/index.scss";
 @import "primer-dropdown/index.scss";
 
+.dropdown-menu.account-dropdown-menu {
+  width: 13em;
+}
+
 .layout-container {
   display: flex;
   min-height: 100vh;
