@@ -15,4 +15,21 @@ class MatchFriendTest < ActiveSupport::TestCase
     refute_predicate match_friend, :valid?
     assert_includes match_friend.errors.messages[:friend], 'has already been taken'
   end
+
+  test 'requires user' do
+    match_friend = MatchFriend.new
+
+    refute_predicate match_friend, :valid?
+    assert_includes match_friend.errors.messages[:user], 'must exist'
+  end
+
+  test 'requires user to match account user' do
+    user = create(:user)
+    match = create(:match)
+    match_friend = MatchFriend.new(user: user, match: match)
+
+    refute_predicate match_friend, :valid?
+    assert_includes match_friend.errors.messages[:user],
+      "must be the owner of account #{match.oauth_account}"
+  end
 end
