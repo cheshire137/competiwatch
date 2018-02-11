@@ -20,20 +20,8 @@ class OauthAccount < ApplicationRecord
   end
 
   def export(season)
-    records = matches.in_season(season).includes(:prior_match, :heroes, :map).ordered_by_time
-    attributes = ['Rank', 'Map', 'Comment', 'Day', 'Time', 'Heroes', 'Ally Leaver', 'Ally Thrower',
-                  'Enemy Leaver', 'Enemy Thrower']
-
-    CSV.generate(headers: true) do |csv|
-      csv << attributes
-
-      records.each do |match|
-        csv << [match.rank, match.map.try(:name), match.comment, match.day_of_week,
-                match.time_of_day, match.heroes.map(&:name).join(', '),
-                match.ally_leaver_char, match.ally_thrower_char, match.enemy_leaver_char,
-                match.enemy_thrower_char]
-      end
-    end
+    exporter = MatchExporter.new(oauth_account: self, season: season)
+    exporter.export
   end
 
   def last_placement_match_in(season)
