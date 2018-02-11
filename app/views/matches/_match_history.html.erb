@@ -4,10 +4,9 @@
       <tr>
         <th class="match-header">#</th>
         <th class="match-header">Win/Loss</th>
-        <th class="match-header no-wrap">SR Change</th>
+        <th class="match-header no-wrap">+/- SR</th>
         <th class="match-header">Rank</th>
-        <th class="match-header no-wrap">Win Streak</th>
-        <th class="match-header no-wrap">Lose Streak</th>
+        <th class="match-header no-wrap">Streak</th>
         <th class="match-header">Map</th>
         <th class="match-header">Comment</th>
         <th class="match-header">Day/Time</th>
@@ -29,11 +28,12 @@
           <td class="match-cell rank-cell <%= match_rank_class(match, placement_rank) %>">
             <%= match.rank || '--' %>
           </td>
-          <td class="match-cell <%= 'streak-empty' unless match.win? %>" style="<%= match_win_streak_style(match, i, longest_win_streak) %>">
-            <%= match.win_streak %>
-          </td>
-          <td class="match-cell <%= 'streak-empty' unless match.loss? %>" style="<%= match_loss_streak_style(match, i, longest_loss_streak) %>">
-            <%= match.loss_streak %>
+          <td class="match-cell <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
+            <% if match.win? %>
+              <%= match.win_streak %>
+            <% elsif match.loss? %>
+              <%= match.loss_streak %>
+            <% end %>
           </td>
           <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
           <td class="match-cell comment-cell">
