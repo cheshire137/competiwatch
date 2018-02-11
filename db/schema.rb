@@ -41,10 +41,10 @@ ActiveRecord::Schema.define(version: 20180211180914) do
   end
 
   create_table "match_friends", force: :cascade do |t|
-    t.string "friend", limit: 30, null: false
+    t.string "name", limit: 30, null: false
     t.integer "match_id", null: false
     t.integer "user_id", null: false
-    t.index ["match_id", "friend"], name: "index_match_friends_on_match_id_and_friend", unique: true
+    t.index ["match_id", "name"], name: "index_match_friends_on_match_id_and_name", unique: true
     t.index ["user_id"], name: "index_match_friends_on_user_id"
   end
 

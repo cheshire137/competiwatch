@@ -10,6 +10,10 @@ class User < ApplicationRecord
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
+  def friend_names
+    friends.order_by_name.pluck(:name)
+  end
+
   def self.find_by_battletag(battletag)
     where("LOWER(battletag) = ?", battletag.downcase).first
   end

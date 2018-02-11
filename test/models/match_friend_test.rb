@@ -1,28 +1,28 @@
 require 'test_helper'
 
 class MatchFriendTest < ActiveSupport::TestCase
-  test 'requires friend' do
+  test 'requires name' do
     match_friend = MatchFriend.new
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:friend], "can't be blank"
+    assert_includes match_friend.errors.messages[:name], "can't be blank"
   end
 
-  test 'requires unique friend + match' do
+  test 'requires unique name + match' do
     match_friend1 = create(:match_friend)
-    match_friend = MatchFriend.new(match_id: match_friend1.match_id, friend: match_friend1.friend)
+    match_friend = MatchFriend.new(match_id: match_friend1.match_id, name: match_friend1.name)
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:friend], 'has already been taken'
+    assert_includes match_friend.errors.messages[:name], 'has already been taken'
   end
 
-  test 'validates friend length' do
-    friend = 'a' * (MatchFriend::MAX_FRIEND_LENGTH + 1)
-    match_friend = MatchFriend.new(friend: friend)
+  test 'validates name length' do
+    name = 'a' * (MatchFriend::MAX_NAME_LENGTH + 1)
+    match_friend = MatchFriend.new(name: name)
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:friend],
-      "is too long (maximum is #{MatchFriend::MAX_FRIEND_LENGTH} characters)"
+    assert_includes match_friend.errors.messages[:name],
+      "is too long (maximum is #{MatchFriend::MAX_NAME_LENGTH} characters)"
   end
 
   test 'requires user' do

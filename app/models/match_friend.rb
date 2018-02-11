@@ -1,13 +1,15 @@
 class MatchFriend < ApplicationRecord
-  MAX_FRIEND_LENGTH = 30
+  MAX_NAME_LENGTH = 30
 
   belongs_to :match
   belongs_to :user
   has_one :oauth_account, through: :match
 
-  validates :friend, presence: true, uniqueness: { scope: :match_id },
-    length: { maximum: MAX_FRIEND_LENGTH }
+  validates :name, presence: true, uniqueness: { scope: :match_id },
+    length: { maximum: MAX_NAME_LENGTH }
   validate :user_matches_account
+
+  scope :order_by_name, ->{ order('LOWER(name) ASC') }
 
   private
 
