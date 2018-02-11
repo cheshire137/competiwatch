@@ -21,7 +21,12 @@ on('click', '.js-trends-tab', function(event) {
 
 const streaksObserver = new SelectorObserver(document, '.js-streaks-chart', function() {
   const context = this.getContext('2d')
-  const options = {}
+  const options = {
+    scales: {
+      xAxes: [{ ticks: { autoSkip: true } }]
+    },
+    responsive: true, maintainAspectRatio: false
+  }
   const gameNumbers = this.getAttribute('data-game-numbers')
   const winStreaks = this.getAttribute('data-win-streaks')
   const lossStreaks = this.getAttribute('data-loss-streaks')
@@ -54,7 +59,7 @@ streaksObserver.observe()
 
 const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', function() {
   const context = this.getContext('2d')
-  const options = {}
+  const options = { responsive: true, maintainAspectRatio: false }
   const wins = this.getAttribute('data-wins')
   const losses = this.getAttribute('data-losses')
   const draws = this.getAttribute('data-draws')
@@ -77,7 +82,8 @@ const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-char
   const options = {
     scales: {
       xAxes: [{ ticks: { autoSkip: false } }]
-    }
+    },
+    responsive: true, maintainAspectRatio: false
   }
   const labels = this.getAttribute('data-labels')
   const wins = this.getAttribute('data-wins')
@@ -115,7 +121,7 @@ winLossBarObserver.observe()
 
 const throwerLeaverObserver = new SelectorObserver(document, '.js-thrower-leaver-chart', function() {
   const context = this.getContext('2d')
-  const options = {}
+  const options = { responsive: true, maintainAspectRatio: false }
   const labels = this.getAttribute('data-labels')
   const allies = this.getAttribute('data-allies')
   const enemies = this.getAttribute('data-enemies')
@@ -147,7 +153,8 @@ const heroesObserver = new SelectorObserver(document, '.js-heroes-chart', functi
   const options = {
     scales: {
       xAxes: [{ ticks: { autoSkip: false } }]
-    }
+    },
+    responsive: true, maintainAspectRatio: false
   }
   const labels = this.getAttribute('data-labels')
   const wins = this.getAttribute('data-wins')
