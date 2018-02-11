@@ -16,6 +16,12 @@
                          longest_win_streak: @longest_win_streak,
                          longest_loss_streak: @longest_loss_streak,
                          season: @season, oauth_account: @oauth_account } %>
+    <p class="mt-4 text-small">
+      You can also
+      <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
+      for this season on <span class="text-bold"><%= @oauth_account %></span>
+      if you already have it in a spreadsheet.
+    </p>
   </div>
 
   <% if @matches.any? %>
