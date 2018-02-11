@@ -5761,6 +5761,10 @@ svgo@^0.7.0:
     sax "~1.2.1"
     whet.extend "~0.9.9"
 
+taggle@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/taggle/-/taggle-1.13.0.tgz#199f61be08cb6532b46cea89e4d7d1b7a052f195"
+
 tapable@^0.2.7:
   version "0.2.8"
   resolved "https://registry.yarnpkg.com/tapable/-/tapable-0.2.8.tgz#99372a5c999bf2df160afc0d74bed4f47948cd22"
