@@ -81,7 +81,7 @@
   </table>
 <% else %>
   <div class="blankslate mb-4">
-    <p>You have not logged any competitive matches this season.</p>
+    <p>You have not logged any competitive matches in season <%= season %><% if oauth_accounts.size > 1 %> on <span class="text-bold"><%= oauth_account %></span><% end %>.</p>
     You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
   </div>
 <% end %>
