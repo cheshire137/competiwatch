@@ -5,6 +5,8 @@ class OauthAccount < ApplicationRecord
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: :provider }
 
+  scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
+
   alias_attribute :to_s, :battletag
 
   has_many :matches

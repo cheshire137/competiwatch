@@ -1,0 +1,26 @@
+<% content_for(:title, 'Your Battle.net Accounts') %>
+
+<div class="d-flex flex-justify-between">
+  <div class="col-5">
+    <h2 class="mb-2 mt-0 h3 text-normal">Your Accounts</h2>
+    <ul class="list-style-none">
+      <% @oauth_accounts.each do |oauth_account| %>
+        <li>
+          <%= oauth_account %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="col-6">
+    <h2 class="mb-2 mt-0 h3 text-normal">Connect Another Account</h2>
+    <p>
+      Be sure to <a target="_blank" rel="noopener noreferrer" href="https://us.battle.net/forums/en/?logout" class="text-bold">log out of Battle.net</a>
+      if you are already signed in as <span class="text-bold"><%= current_user %></span>.
+      Then:
+    </p>
+    <a href="<%= user_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large">
+      Connect your Battle.net account
+    </a>
+  </div>
+</div>
