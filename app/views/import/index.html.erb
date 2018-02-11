@@ -5,8 +5,6 @@
   / Import matches
 <% end %>
 
-<p class="mb-4">Import a CSV file of your competitive matches in season <%= @season %>.</p>
-
 <% if @match_count > 0 %>
   <p class="mb-4 p-3 h3 text-normal rounded-2 flash-error">
     You have <strong><%= pluralize(@match_count, 'match') %></strong> in season
@@ -14,7 +12,7 @@
     replace them with the contents of your file.
   </p>
 <% else %>
-  <p class="mb-4">You have no matches in season <%= @season %>.</p>
+  <p class="mb-4">You have no matches in season <%= @season %> on <span class="text-bold"><%= @oauth_account %></span>. You can import a CSV file of your competitive matches.</p>
 <% end %>
 
 <% if @matches %>
@@ -30,7 +28,7 @@
       <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
     </dl>
     <button type="submit" class="btn">
-      Import season <%= @season %> matches
+      Import <%= @oauth_account %>'s season <%= @season %> matches
     </button>
   <% end %>
 
