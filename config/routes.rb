@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   get '/settings' => 'users#settings', as: :settings
 
   get '/accounts' => 'oauth_accounts#index', as: :accounts
+  delete '/accounts/:battletag' => 'oauth_accounts#destroy', as: :account
 
   get '/import/:season/:battletag' => 'import#index', as: :import, season: /\d+/
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
