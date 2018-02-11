@@ -51,11 +51,19 @@ class Match < ApplicationRecord
   end
 
   def friend_names
-    friends.order_by_name.pluck(:name)
+    if association(:friends).loaded?
+      friends.map(&:name).sort
+    else
+      friends.order_by_name.pluck(:name)
+    end
   end
 
   def hero_names
-    heroes.order_by_name.pluck(:name)
+    if association(:heroes).loaded?
+      heroes.map(&:name).sort
+    else
+      heroes.order_by_name.pluck(:name)
+    end
   end
 
   def ally_thrower_char
