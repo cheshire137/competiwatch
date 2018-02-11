@@ -28,6 +28,11 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'imports matches to your account' do
+    create(:map, name: 'Watchpoint: Gibraltar')
+    create(:map, name: 'Lijiang Tower')
+    create(:map, name: 'Junkertown')
+    create(:map, name: 'Hollywood')
+    create(:map, name: 'Hanamura')
     oauth_account = create(:oauth_account)
     csv = fixture_file_upload('files/valid-match-import.csv')
     season = 5
@@ -38,6 +43,43 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to matches_path(season, oauth_account)
+
+    matches = oauth_account.matches.in_season(season).ordered_by_time
+    expected = [
+      { rank: 3932 },
+      {
+        rank: 3903, map: 'Watchpoint: Gibraltar', comment: 'red Junkrat, favored team',
+        ally_leaver: false, ally_thrower: true, enemy_leaver: false, enemy_thrower: false
+      },
+      { rank: 3928, map: 'Lijiang Tower', comment: 'unfavored team' },
+      {
+        rank: 3954, map: 'Junkertown', comment: 'first game w/o perf. SR',
+        ally_leaver: false, ally_thrower: false, enemy_leaver: false, enemy_thrower: false
+      },
+      {
+        rank: 3931, map: 'Hollywood', comment: 'overextending, feeding teammate',
+        ally_leaver: false, ally_thrower: false, enemy_leaver: false, enemy_thrower: true
+      },
+      { rank: 3954, map: 'Hanamura', comment: 'favored' }
+    ]
+    expected.each_with_index do |details, i|
+      rank = details[:rank]
+      match = matches[i]
+      refute_nil match, "should have a match with rank #{rank} in season #{season}"
+
+      unless i == 0
+        assert_equal matches[i - 1], match.prior_match, 'should have a prior match'
+      end
+
+      details.each do |field, value|
+        if field == :map
+          refute_nil match.map, "rank #{rank} match should have a map"
+          assert_equal value, match.map.name
+        else
+          assert_equal value, match.send(field)
+        end
+      end
+    end
   end
 
   test 'shows error when import fails for your account' do
