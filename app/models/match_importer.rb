@@ -52,7 +52,11 @@ class MatchImporter
     match.save
 
     if match.persisted? && (hero_name_str = row['heroes']).present?
-      hero_names = hero_name_str.split(',')
+      hero_names = if hero_name_str.include?(',')
+        hero_name_str.split(',')
+      else
+        hero_name_str.split(' ')
+      end
       heroes = hero_names.map do |name|
         flat_name = Hero.flatten_name(name.strip)
         heroes_by_name[flat_name]
