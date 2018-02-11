@@ -46,6 +46,10 @@ class Match < ApplicationRecord
       where("heroes_matches.hero_id IS NOT NULL")
   }
 
+  def friend_names
+    friends.order_by_name.pluck(:name)
+  end
+
   def ally_thrower_char
     unless ally_thrower.nil?
       ally_thrower? ? 'Y' : 'N'
@@ -146,6 +150,17 @@ class Match < ApplicationRecord
       match = prior_match
     end
     count
+  end
+
+  def set_friends_from_names(names)
+    friends_to_remove = friends - friends.where(name: names)
+    friends_to_remove.each(&:destroy)
+
+    names.each do |name|
+      friend = friends.where(name: name).first_or_initialize
+      friend.user = user
+      friend.save
+    end
   end
 
   def set_heroes_from_ids(hero_ids)
