@@ -5,8 +5,7 @@ class TrendsController < ApplicationController
   layout false
 
   def heroes_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:heroes).
-      with_heroes.where("result IS NOT NULL")
+    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
 
     wins_by_hero_id = Hash.new(0)
     losses_by_hero_id = Hash.new(0)
@@ -62,8 +61,7 @@ class TrendsController < ApplicationController
   end
 
   def group_member_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).
-      where("result IS NOT NULL")
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
 
     wins_by_group_member = Hash.new(0)
     losses_by_group_member = Hash.new(0)
@@ -91,7 +89,7 @@ class TrendsController < ApplicationController
 
   def group_size_chart
     matches = @oauth_account.matches.in_season(@season).includes(:friends).
-      where("result IS NOT NULL")
+      with_result
 
     wins_by_group_size = Hash.new(0)
     losses_by_group_size = Hash.new(0)
@@ -126,7 +124,7 @@ class TrendsController < ApplicationController
 
   def time_chart
     matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
-      where("time_of_day IS NOT NULL").where("result IS NOT NULL")
+      where("time_of_day IS NOT NULL").with_result
 
     wins_by_time = Hash.new(0)
     losses_by_time = Hash.new(0)
@@ -155,7 +153,7 @@ class TrendsController < ApplicationController
 
   def day_chart
     matches = @oauth_account.matches.in_season(@season).select([:day_of_week, :result]).
-      where("day_of_week IS NOT NULL").where("result IS NOT NULL")
+      where("day_of_week IS NOT NULL").with_result
 
     wins_by_day = Hash.new(0)
     losses_by_day = Hash.new(0)
@@ -186,7 +184,7 @@ class TrendsController < ApplicationController
     maps_by_id = Map.order(:name).select([:id, :name]).
       map { |map| [map.id, map] }.to_h
     matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
-      where("result IS NOT NULL")
+      with_result
 
     wins_by_map_id = Hash.new(0)
     losses_by_map_id = Hash.new(0)
