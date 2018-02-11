@@ -51,12 +51,15 @@ class MatchImporter
 
     match.save
 
-    if match.persisted? && (hero_name_str = row['heroes']).present?
-      hero_names = if hero_name_str.include?(',')
-        hero_name_str.split(',')
-      else
-        hero_name_str.split(' ')
+    if match.persisted? && (friend_name_str = row['group']).present?
+      friend_names = split_string(friend_name_str)
+      friend_names.each do |name|
+        match.friends.create(name: name, user: @oauth_account.user)
       end
+    end
+
+    if match.persisted? && (hero_name_str = row['heroes']).present?
+      hero_names = split_string(hero_name_str)
       heroes = hero_names.map do |name|
         flat_name = Hero.flatten_name(name.strip)
         heroes_by_name[flat_name]
@@ -66,6 +69,16 @@ class MatchImporter
     end
 
     match
+  end
+
+  def split_string(str)
+    if str.include?(',')
+      str.split(',')
+    elsif str.include?(';')
+      str.split(';')
+    else
+      str.split(' ')
+    end
   end
 
   def map_ids_by_name
