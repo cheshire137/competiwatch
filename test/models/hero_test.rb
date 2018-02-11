@@ -1,3 +1,4 @@
+# encoding: UTF-8
 require 'test_helper'
 
 class HeroTest < ActiveSupport::TestCase
@@ -28,5 +29,12 @@ class HeroTest < ActiveSupport::TestCase
 
     refute_predicate hero, :valid?
     assert_includes hero.errors.messages[:role], 'is not included in the list'
+  end
+
+  test 'flatten_name removes accented characters and symbols' do
+    assert_equal 'lucio', Hero.flatten_name('Lúcio')
+    assert_equal 'dva', Hero.flatten_name('D.Va')
+    assert_equal 'soldier76', Hero.flatten_name('Soldier: 76')
+    assert_equal 'mercy', Hero.flatten_name('mErCy')
   end
 end
