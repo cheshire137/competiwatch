@@ -1,20 +1,24 @@
-<div class="dropdown js-menu-container d-inline-block">
-  <button class="btn-link no-underline text-white p-2 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-    <%= selected_account %>
-    <div class="dropdown-caret"></div>
-  </button>
+<% if oauth_accounts.size == 1 %>
+  <%= selected_account %>
+<% else %>
+  <div class="dropdown js-menu-container d-inline-block">
+    <button class="btn-link no-underline text-white p-2 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+      <%= selected_account %>
+      <div class="dropdown-caret"></div>
+    </button>
 
-  <div class="dropdown-menu-content js-menu-content">
-    <ul class="dropdown-menu dropdown-menu-se">
-      <% oauth_accounts.each do |oauth_account| %>
-        <% unless oauth_account == selected_account %>
-          <li>
-            <a class="dropdown-item" href="<%= url_with(battletag: oauth_account.to_param) %>">
-              <%= oauth_account %>
-            </a>
-          </li>
+    <div class="dropdown-menu-content js-menu-content">
+      <ul class="dropdown-menu dropdown-menu-se">
+        <% oauth_accounts.each do |oauth_account| %>
+          <% unless oauth_account == selected_account %>
+            <li>
+              <a class="dropdown-item" href="<%= url_with(battletag: oauth_account.to_param) %>">
+                <%= oauth_account %>
+              </a>
+            </li>
+          <% end %>
         <% end %>
-      <% end %>
-    </ul>
+      </ul>
+    </div>
   </div>
-</div>
+<% end %>
