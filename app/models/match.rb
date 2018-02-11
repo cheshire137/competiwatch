@@ -46,6 +46,10 @@ class Match < ApplicationRecord
       where("heroes_matches.hero_id IS NOT NULL")
   }
 
+  def group_size
+    friends.to_a.size + 1
+  end
+
   def friend_names
     friends.order_by_name.pluck(:name)
   end

@@ -61,6 +61,41 @@ class TrendsController < ApplicationController
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
   end
 
+  def group_size_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).
+      where("result IS NOT NULL")
+
+    wins_by_group_size = Hash.new(0)
+    losses_by_group_size = Hash.new(0)
+    draws_by_group_size = Hash.new(0)
+
+    matches.each do |match|
+      if match.win?
+        wins_by_group_size[match.group_size] += 1
+      elsif match.loss?
+        losses_by_group_size[match.group_size] += 1
+      elsif match.draw?
+        draws_by_group_size[match.group_size] += 1
+      end
+    end
+
+    group_sizes = (1..6).to_a
+    @win_counts = group_sizes.map { |group_size| wins_by_group_size[group_size] || 0 }
+    @loss_counts = group_sizes.map { |group_size| losses_by_group_size[group_size] || 0 }
+    @draw_counts = group_sizes.map { |group_size| draws_by_group_size[group_size] || 0 }
+    @group_sizes = group_sizes.map do |group_size|
+      if group_size == 1
+        'Solo'
+      elsif group_size == 2
+        'Duo'
+      elsif group_size == 3
+        'Trio'
+      else
+        "#{group_size}-stack"
+      end
+    end
+  end
+
   def time_chart
     matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
       where("time_of_day IS NOT NULL").where("result IS NOT NULL")
