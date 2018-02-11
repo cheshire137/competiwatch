@@ -63,3 +63,7 @@ git push heroku master
 heroku run rake db:migrate
 heroku open
 ```
+
+## Thanks
+
+- Color palette [Tell Me No Secrets](http://www.colourlovers.com/palette/4523673/Tell_Me_No_Secrets)

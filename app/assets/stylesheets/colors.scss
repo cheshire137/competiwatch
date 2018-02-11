@@ -1,14 +1,36 @@
+@import "primer-support/lib/variables/colors.scss";
 @import "compass";
 
 $blue: rgb(7,143,159);
 $green: rgb(78,202,101);
-$yellow: rgb(246,199,62);
+$orange: rgb(246,199,62);
 $pink: rgb(253,109,161);
 $purple: rgb(65,12,57);
 
+$blue-500: $blue;
 $text-blue: $blue;
 $border-blue: $blue;
 $bg-blue: $blue;
+
+$green-500: $green;
+$text-green: $green;
+$border-green: $green;
+$bg-green: $green;
+
+$orange-500: $orange;
+$text-orange: $orange;
+$border-orange: $orange;
+$bg-orange: $orange;
+
+$pink-500: $pink;
+$text-pink: $pink;
+$border-pink: $pink;
+$bg-pink: $pink;
+
+$purple-500: $purple;
+$text-purple: $purple;
+$border-purple: $purple;
+$bg-purple: $purple;
 
 $text-gray-light: #dbdfe4;
 

@@ -1,0 +1,21 @@
+@import "colors.scss";
+
+@mixin btn-solid($color, $bg) {
+  color: $color;
+  background-color: $bg;
+  background-image: none;
+
+  &:hover,
+  &:focus {
+    background-color: darken($bg, 7.5%);
+    background-image: none;
+  }
+}
+
+.btn-green {
+  @include btn-solid($white, $green);
+}
+
+.btn-pink {
+  @include btn-solid($white, $pink);
+}
