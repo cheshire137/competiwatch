@@ -3,6 +3,16 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def friends_in(matches)
+    friend_names = {}
+    matches.map do |match|
+      match.friends.each do |friend|
+        friend_names[friend.name] ||= 1
+      end
+    end
+    friend_names.keys.sort
+  end
+
   def thrower_tooltip(match)
     tooltip = []
     if match.ally_thrower?
