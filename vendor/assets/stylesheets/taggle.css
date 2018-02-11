@@ -39,8 +39,8 @@
 .taggle_list .taggle .close {
   font-size: 1.1rem;
   position: absolute;
-  top: 5px;
-  right: 3px;
+  top: 0.45em;
+  right: 0;
   text-decoration: none;
   padding-left: 2px;
   padding-top: 3px;
@@ -55,8 +55,7 @@
 }
 
 .taggle_list .taggle:hover {
-  padding: 5px;
-  padding-right: 15px;
+  padding-right: 24px;
   background: #ccc;
   transition: all .3s;
 }
