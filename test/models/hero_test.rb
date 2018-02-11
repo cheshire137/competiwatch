@@ -31,10 +31,15 @@ class HeroTest < ActiveSupport::TestCase
     assert_includes hero.errors.messages[:role], 'is not included in the list'
   end
 
-  test 'flatten_name removes accented characters and symbols' do
+  test 'flatten_name removes accented characters and symbols, converts aliases' do
     assert_equal 'lucio', Hero.flatten_name('Lúcio')
     assert_equal 'dva', Hero.flatten_name('D.Va')
     assert_equal 'soldier76', Hero.flatten_name('Soldier: 76')
+    assert_equal 'soldier76', Hero.flatten_name('Soldier')
     assert_equal 'mercy', Hero.flatten_name('mErCy')
+    assert_equal 'torbjorn', Hero.flatten_name('Torb')
+    assert_equal 'junkrat', Hero.flatten_name('junk')
+    assert_equal 'widowmaker', Hero.flatten_name('Widow')
+    assert_equal 'symmetra', Hero.flatten_name('Sym')
   end
 end
