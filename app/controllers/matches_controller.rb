@@ -43,6 +43,7 @@ class MatchesController < ApplicationController
     end
 
     @match.set_heroes_from_ids(params[:heroes])
+    @match.set_friends_from_names(params[:friend_names] || [])
 
     redirect_to matches_path(@season, @oauth_account)
   end
@@ -65,6 +66,7 @@ class MatchesController < ApplicationController
     end
 
     @match.set_heroes_from_ids(params[:heroes])
+    @match.set_friends_from_names(params[:friend_names] || [])
 
     redirect_to matches_path(@match.season, @match.oauth_account)
   end
