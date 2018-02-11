@@ -64,10 +64,10 @@
           </td>
           <td class="match-cell throwers-leavers-cell">
             <% if match.thrower? %>
-              <span class="Counter tooltipped tooltipped-n text-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
+              <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
             <% end %>
             <% if match.leaver? %>
-              <span class="Counter tooltipped tooltipped-n text-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
+              <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
             <% end %>
           </td>
           <td class="match-cell options-cell">
