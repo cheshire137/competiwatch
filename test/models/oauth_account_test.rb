@@ -8,6 +8,19 @@ class OauthAccountTest < ActiveSupport::TestCase
     assert_includes oauth_account.errors.messages[:battletag], "can't be blank"
   end
 
+  test 'deletes matches when deleted' do
+    oauth_account = create(:oauth_account)
+    match1 = create(:match, oauth_account: oauth_account)
+    match2 = create(:match, oauth_account: oauth_account)
+
+    assert_difference 'Match.count', -2 do
+      oauth_account.destroy
+    end
+
+    refute Match.exists?(match1.id)
+    refute Match.exists?(match2.id)
+  end
+
   test 'requires provider' do
     oauth_account = OauthAccount.new
 

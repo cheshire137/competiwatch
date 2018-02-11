@@ -9,7 +9,7 @@ class OauthAccount < ApplicationRecord
 
   alias_attribute :to_s, :battletag
 
-  has_many :matches
+  has_many :matches, dependent: :destroy
 
   def wipe_season(season)
     matches.in_season(season).destroy_all
