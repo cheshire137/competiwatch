@@ -61,7 +61,7 @@ class MatchImporter
     if match.persisted? && (hero_name_str = row['heroes']).present?
       hero_names = split_string(hero_name_str)
       heroes = hero_names.map do |name|
-        flat_name = Hero.flatten_name(name.strip)
+        flat_name = Hero.flatten_name(name)
         heroes_by_name[flat_name]
       end
       heroes = heroes.compact
@@ -72,13 +72,14 @@ class MatchImporter
   end
 
   def split_string(str)
-    if str.include?(',')
+    list = if str.include?(',')
       str.split(',')
     elsif str.include?(';')
       str.split(';')
     else
       str.split(' ')
     end
+    list.map(&:strip)
   end
 
   def map_ids_by_name
