@@ -3,7 +3,7 @@
     <div class="d-flex py-3 flex-justify-between flex-items-center">
       <div class="d-flex flex-items-center">
         <h1 class="h1">
-          <a class="text-white no-underline" href="<%= root_path %>">Competiwatch</a>
+          <a class="text-white no-underline" href="<%= url_with(controller: 'matches', action: 'index') %>">Competiwatch</a>
           <% if content_for?(:breadcrumb) %>
             <span class="text-normal h4">
               / <%= yield :breadcrumb %>
