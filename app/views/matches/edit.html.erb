@@ -1,7 +1,9 @@
-<h2 class="h2 mb-2">
+<% content_for(:title, "Edit Match / Season #{@match.season} / #{@match.oauth_account}") %>
+
+<% content_for(:breadcrumb) do %>
   Season <%= @match.season %> / <%= @match.oauth_account %> /
   Edit Match
-</h2>
+<% end %>
 
 <% if @match.prior_match && !@match.prior_match.placement? %>
   <p>
@@ -24,7 +26,7 @@
   <%= form_for(@match, method: :put) do |f| %>
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                         heroes: @heroes } %>
+                         heroes: @heroes, friends: @friends } %>
     <div class="form-group">
       <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
       <%= f.number_field :season, class: 'form-control season-field' %>
@@ -37,7 +39,7 @@
   <%= form_for(@match, method: :put) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                         heroes: @heroes } %>
+                         heroes: @heroes, friends: @friends } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Match
     </button>

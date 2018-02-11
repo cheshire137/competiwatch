@@ -8,8 +8,9 @@ class MatchesController < ApplicationController
   def index
     @maps = get_maps
     @heroes = get_heroes
+    @friends = current_user.friend_names
     @matches = @oauth_account.matches.in_season(@season).
-      includes(:prior_match, :heroes, :map).ordered_by_time
+      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
 
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
@@ -52,6 +53,7 @@ class MatchesController < ApplicationController
     @latest_match = @match.oauth_account.matches.ordered_by_time.last
     @maps = get_maps
     @heroes = get_heroes
+    @friends = current_user.friend_names
   end
 
   def update

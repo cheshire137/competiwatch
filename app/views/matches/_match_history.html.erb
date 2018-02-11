@@ -11,6 +11,7 @@
         <th class="match-header">Comment</th>
         <th class="match-header">Day/Time</th>
         <th class="match-header">Heroes</th>
+        <th class="match-header">Group</th>
         <th class="match-header tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
         <th class="match-header"><span class="ion-gear-b ion"></span></th>
       </tr>
@@ -57,6 +58,9 @@
                 <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
               </span>
             <% end %>
+          </td>
+          <td class="match-cell friends-cell">
+            <%= match.friend_names.to_sentence %>
           </td>
           <td class="match-cell throwers-leavers-cell">
             <% if match.thrower? %>
