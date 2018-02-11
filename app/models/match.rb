@@ -225,6 +225,7 @@ class Match < ApplicationRecord
   def set_result
     return if result.present?
     return unless prior_match
+    return unless rank && prior_match.rank
 
     self.result = if prior_match.rank < rank
       :win
