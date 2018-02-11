@@ -8,6 +8,19 @@ class MatchTest < ActiveSupport::TestCase
     assert_includes match.errors.messages[:season], "can't be blank"
   end
 
+  test 'deletes friends when deleted' do
+    match = create(:match)
+    match_friend1 = create(:match_friend, match: match)
+    match_friend2 = create(:match_friend, match: match)
+
+    assert_difference 'MatchFriend.count', -2 do
+      match.destroy
+    end
+
+    refute MatchFriend.exists?(match_friend1.id)
+    refute MatchFriend.exists?(match_friend2.id)
+  end
+
   test 'requires valid season' do
     match = Match.new(season: 0)
 

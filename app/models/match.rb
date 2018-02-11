@@ -12,6 +12,8 @@ class Match < ApplicationRecord
   belongs_to :map, required: false
   belongs_to :prior_match, required: false, class_name: 'Match'
 
+  has_many :friends, class_name: 'MatchFriend', dependent: :destroy
+
   before_validation :set_result
 
   validates :season, presence: true,

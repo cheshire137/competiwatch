@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180208052055) do
+ActiveRecord::Schema.define(version: 20180211180914) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(version: 20180208052055) do
     t.string "slug"
     t.string "color", limit: 16, default: "#ffffff", null: false
     t.index ["name"], name: "index_maps_on_name", unique: true
+  end
+
+  create_table "match_friends", force: :cascade do |t|
+    t.string "friend", limit: 30, null: false
+    t.integer "match_id", null: false
+    t.index ["match_id", "friend"], name: "index_match_friends_on_match_id_and_friend", unique: true
   end
 
   create_table "matches", force: :cascade do |t|
