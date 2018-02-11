@@ -27,7 +27,7 @@
       <dt><label for="csv">Choose a CSV file:</label></dt>
       <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
     </dl>
-    <button type="submit" class="btn">
+    <button type="submit" class="btn"<% if @match_count > 0 %> data-confirm="Are you sure you want to wipe season <%= @season %> for <%= @oauth_account %> and replace it with matches from the chosen file?"<% end %>>
       Import <%= @oauth_account %>'s season <%= @season %> matches
     </button>
   <% end %>
