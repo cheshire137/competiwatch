@@ -10,13 +10,11 @@
     <div class="dropdown-menu-content js-menu-content">
       <ul class="dropdown-menu dropdown-menu-se">
         <% oauth_accounts.each do |oauth_account| %>
-          <% unless oauth_account == selected_account %>
-            <li>
-              <a class="dropdown-item" href="<%= url_with(battletag: oauth_account.to_param) %>">
-                <%= oauth_account %>
-              </a>
-            </li>
-          <% end %>
+          <li>
+            <a class="dropdown-item <%= 'text-bold' if oauth_account == selected_account %>" href="<%= url_with(battletag: oauth_account.to_param) %>">
+              <%= oauth_account %>
+            </a>
+          </li>
         <% end %>
       </ul>
     </div>
