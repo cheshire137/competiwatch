@@ -12,6 +12,10 @@
  *
  *= require_tree .
  *= require_self
+ *= require jquery-ui.css
+ *= require jquery-ui.structure.css
+ *= require jquery-ui.theme.css
+ *= require taggle.css
  */
 
 @import "primer-support/lib/variables/typography.scss";
@@ -37,10 +41,6 @@
 @import "primer-product/index.scss";
 @import "primer-marketing/index.scss";
 @import "primer-dropdown/index.scss";
-@import "jquery-ui.css";
-@import "jquery-ui.structure.css";
-@import "jquery-ui.theme.css";
-@import "taggle.css";
 
 .ui-state-active,
 .ui-widget-content .ui-state-active,
