@@ -37,6 +37,20 @@
 @import "primer-product/index.scss";
 @import "primer-marketing/index.scss";
 @import "primer-dropdown/index.scss";
+@import "jquery-ui.css";
+@import "jquery-ui.structure.css";
+@import "jquery-ui.theme.css";
+
+.ui-state-active,
+.ui-widget-content .ui-state-active,
+.ui-widget-header .ui-state-active,
+a.ui-button:active,
+.ui-button:active,
+.ui-button.ui-state-active:hover {
+  border-color: darken($green, 10%);
+  background-color: $green;
+  color: $white;
+}
 
 .dropdown-menu.account-dropdown-menu {
   width: 13em;
