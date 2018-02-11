@@ -16,6 +16,20 @@ class UserTest < ActiveSupport::TestCase
     assert_includes user2.errors.messages[:battletag], 'has already been taken'
   end
 
+  test 'deletes friends when deleted' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    match_friend1 = create(:match_friend, user: user, oauth_account: oauth_account)
+    match_friend2 = create(:match_friend, user: user, oauth_account: oauth_account)
+
+    assert_difference 'MatchFriend.count', -2 do
+      user.destroy
+    end
+
+    refute MatchFriend.exists?(match_friend1.id)
+    refute MatchFriend.exists?(match_friend2.id)
+  end
+
   test 'deletes OAuth accounts when deleted' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
