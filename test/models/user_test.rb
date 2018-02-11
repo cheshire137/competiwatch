@@ -15,4 +15,17 @@ class UserTest < ActiveSupport::TestCase
     refute_predicate user2, :valid?
     assert_includes user2.errors.messages[:battletag], 'has already been taken'
   end
+
+  test 'deletes OAuth accounts when deleted' do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+
+    assert_difference 'OauthAccount.count', -2 do
+      user.destroy
+    end
+
+    refute OauthAccount.exists?(oauth_account1.id)
+    refute OauthAccount.exists?(oauth_account2.id)
+  end
 end
