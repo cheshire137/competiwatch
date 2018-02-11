@@ -11,6 +11,16 @@ class OauthAccount < ApplicationRecord
 
   has_many :matches, dependent: :destroy
 
+  def friend_names_in_season(season)
+    friend_names = {}
+    matches.in_season(season).includes(:friends).map do |match|
+      match.friends.each do |friend|
+        friend_names[friend.name] ||= 1
+      end
+    end
+    friend_names.keys.sort
+  end
+
   def wipe_season(season)
     matches.in_season(season).destroy_all
   end
