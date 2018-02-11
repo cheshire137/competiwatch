@@ -16,6 +16,15 @@ class MatchFriendTest < ActiveSupport::TestCase
     assert_includes match_friend.errors.messages[:friend], 'has already been taken'
   end
 
+  test 'validates friend length' do
+    friend = 'a' * (MatchFriend::MAX_FRIEND_LENGTH + 1)
+    match_friend = MatchFriend.new(friend: friend)
+
+    refute_predicate match_friend, :valid?
+    assert_includes match_friend.errors.messages[:friend],
+      "is too long (maximum is #{MatchFriend::MAX_FRIEND_LENGTH} characters)"
+  end
+
   test 'requires user' do
     match_friend = MatchFriend.new
 
