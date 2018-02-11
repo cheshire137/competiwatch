@@ -6,16 +6,16 @@ class MatchExporter
 
   def export
     column_names = ['Rank', 'Map', 'Comment', 'Day', 'Time', 'Heroes', 'Ally Leaver',
-                    'Ally Thrower', 'Enemy Leaver', 'Enemy Thrower']
+                    'Ally Thrower', 'Enemy Leaver', 'Enemy Thrower', 'Group']
 
     CSV.generate(headers: true) do |csv|
       csv << column_names
 
       matches_to_export.each do |match|
         csv << [match.rank, match.map.try(:name), match.comment, match.day_of_week,
-                match.time_of_day, match.heroes.map(&:name).join(', '),
+                match.time_of_day, match.hero_names.join(', '),
                 match.ally_leaver_char, match.ally_thrower_char, match.enemy_leaver_char,
-                match.enemy_thrower_char]
+                match.enemy_thrower_char, match.friend_names.join(', ')]
       end
     end
   end
@@ -23,6 +23,7 @@ class MatchExporter
   private
 
   def matches_to_export
-    @oauth_account.matches.in_season(@season).includes(:prior_match, :heroes, :map).ordered_by_time
+    @oauth_account.matches.in_season(@season).
+      includes(:prior_match, :friends, :heroes, :map).ordered_by_time
   end
 end

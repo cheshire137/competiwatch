@@ -54,6 +54,10 @@ class Match < ApplicationRecord
     friends.order_by_name.pluck(:name)
   end
 
+  def hero_names
+    heroes.order_by_name.pluck(:name)
+  end
+
   def ally_thrower_char
     unless ally_thrower.nil?
       ally_thrower? ? 'Y' : 'N'

@@ -20,6 +20,8 @@ class MatchExporterTest < ActiveSupport::TestCase
     match3.heroes << @hero1
     match4 = create(:match, season: season, oauth_account: @oauth_account, rank: 1295,
                     map: @map1, prior_match: match3, comment: 'this is so cool')
+    create(:match_friend, match: match4, name: 'Siege')
+    create(:match_friend, match: match4, name: 'Rob')
 
     exporter = MatchExporter.new(oauth_account: @oauth_account, season: season)
     csv = exporter.export
@@ -28,10 +30,10 @@ class MatchExporterTest < ActiveSupport::TestCase
     lines = csv.split("\n")
     assert_equal 5, lines.size, 'should have a header line and 4 matches'
     assert_equal 'Rank,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver' +
-                 ',Enemy Thrower', lines[0]
-    assert_equal %q(1234,,,,,"",,,,), lines[1]
-    assert_equal %q(1254,Hanamura,,,evening,"",,Y,,), lines[2]
-    assert_equal %q(1273,Junkertown,,weekday,morning,Genji,,,Y,), lines[3]
-    assert_equal %q(1295,Hanamura,this is so cool,,,"",,,,), lines[4]
+                 ',Enemy Thrower,Group', lines[0]
+    assert_equal %q(1234,,,,,"",,,,,""), lines[1]
+    assert_equal %q(1254,Hanamura,,,evening,"",,Y,,,""), lines[2]
+    assert_equal %q(1273,Junkertown,,weekday,morning,Genji,,,Y,,""), lines[3]
+    assert_equal %q(1295,Hanamura,this is so cool,,,"",,,,,"Rob, Siege"), lines[4]
   end
 end

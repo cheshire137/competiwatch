@@ -4,6 +4,8 @@ class Hero < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: ROLES }
 
+  scope :order_by_name, ->{ order('LOWER(name) ASC') }
+
   has_and_belongs_to_many :matches
 
   ALIASES = {
