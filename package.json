@@ -6,6 +6,7 @@
     "chart.js": "^2.7.1",
     "delegated-events": "^1.0.5",
     "primer": "^10.3.0",
+    "primer-dropdown": "^0.1.0",
     "selector-observer": "^1.1.0",
     "whatwg-fetch": "^2.0.3"
   },

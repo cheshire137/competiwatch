@@ -4590,6 +4590,12 @@ primer-core@6.7.0:
     primer-truncate "1.4.5"
     primer-utilities "4.8.5"
 
+primer-dropdown@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/primer-dropdown/-/primer-dropdown-0.1.0.tgz#466ade87cbba7e07f5725556f755c868893dc953"
+  dependencies:
+    primer-support "4.3.0"
+
 primer-forms@2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/primer-forms/-/primer-forms-2.1.0.tgz#d27b4bba8bd214a097fe8a5615ed6837146feb2d"
@@ -4696,6 +4702,10 @@ primer-subhead@1.0.3:
   resolved "https://registry.yarnpkg.com/primer-subhead/-/primer-subhead-1.0.3.tgz#1b15cf7239e73769e64e873b9cdfd58b5e8e4291"
   dependencies:
     primer-support "4.5.2"
+
+primer-support@4.3.0:
+  version "4.3.0"
+  resolved "https://registry.yarnpkg.com/primer-support/-/primer-support-4.3.0.tgz#c470fef8c0bff2ec8a771a0749783c2b388118fe"
 
 primer-support@4.5.2:
   version "4.5.2"

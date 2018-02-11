@@ -1,7 +1,8 @@
 <% content_for(:title, "Season #{@season} / #{@oauth_account}") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= @oauth_account %> / Season <%= @season %>
+  <%= account_switcher(@oauth_account) %>
+  / Season <%= @season %>
 <% end %>
 
 <div class="js-tab-container">
