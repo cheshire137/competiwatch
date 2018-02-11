@@ -1,7 +1,7 @@
 <% content_for(:title, "#{current_user} / Settings") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= current_user %> / Settings
+  Settings
 <% end %>
 
 <div class="clearfix mb-3">
@@ -10,7 +10,7 @@
       <span class="ion-ios-download-outline ion f1 text-gray"></span>
       <div class="ml-4">
         <a class="h3" href="<%= import_path(Match::LATEST_SEASON, current_user.primary_account) %>">
-          Import match history for <%= current_user.primary_account %>
+          Import match history
         </a>
         <div>
           Import competitive matches per season from a file.

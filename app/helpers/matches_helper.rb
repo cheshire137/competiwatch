@@ -25,8 +25,12 @@ module MatchesHelper
     tooltip.join(" + ")
   end
 
+  def season_switcher(selected_season)
+    render partial: 'matches/season_switcher', locals: { selected_season: selected_season }
+  end
+
   def season_options
-    Match::LATEST_SEASON.downto(1).map { |season| ["Season #{season}", season] }
+    Match::LATEST_SEASON.downto(1).map { |season| ["Season #{season}", season] }.to_h
   end
 
   def result_options
