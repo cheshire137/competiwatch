@@ -14,7 +14,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     account = OauthAccount.where(provider: auth.provider, uid: auth.uid).first_or_initialize
     if account.persisted? && account.user != user
       message = 'That account is already linked to another user.'
-      return redirect_to(settings_path, alert: message) if signed_in?
+      return redirect_to(accounts_path, alert: message) if signed_in?
       return redirect_to(root_path, alert: message)
     end
 
