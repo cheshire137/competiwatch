@@ -12,11 +12,26 @@
         </h1>
       </div>
       <% if signed_in? %>
-        <div>
-          <span class="d-inline-block mr-4">
-            Signed in as <span class="text-bold"><%= current_user %></span>
-          </span>
-          <a class="text-white" href="<%= settings_path %>">Settings</a>
+        <div class="dropdown js-menu-container d-inline-block">
+          <button class="btn-link no-underline text-white p-2 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+            <%= current_user %>
+            <div class="dropdown-caret"></div>
+          </button>
+
+          <div class="dropdown-menu-content js-menu-content">
+            <ul class="dropdown-menu dropdown-menu-se">
+              <li>
+                <a class="dropdown-item" href="<%= settings_path %>">Settings</a>
+              </li>
+              <li>
+                <%= form_tag sign_out_path, method: :delete do %>
+                  <button type="submit" class="dropdown-item width-full text-left btn-link">
+                    Log out
+                  </button>
+                <% end %>
+              </li>
+            </ul>
+          </div>
         </div>
       <% end %>
     </div>

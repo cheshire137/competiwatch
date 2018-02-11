@@ -4,6 +4,10 @@ Rails.application.routes.draw do
     sessions: 'users/sessions'
   }
 
+  devise_scope :user do
+    delete 'sign_out', to: 'users/sessions#destroy', as: :sign_out
+  end
+
   get '/trends/:season/:battletag/win-loss-chart' => 'trends#win_loss_chart', as: :win_loss_chart
   get '/trends/:season/:battletag/win-loss-chart/per-map' => 'trends#per_map_win_loss_chart', as: :per_map_win_loss_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
