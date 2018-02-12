@@ -29,6 +29,7 @@ const observer = new SelectorObserver(document, '#friends-list', function() {
     placeholder: 'List players you grouped with',
     hiddenInputName: 'friend_names[]',
     preserveCase: true,
+    saveOnBlur: true,
     tags: JSON.parse(this.getAttribute('data-selected-friends'))
   }
   const taggle = new Taggle('friends-list', options)
