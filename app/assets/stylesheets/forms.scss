@@ -19,3 +19,8 @@
 .btn-pink {
   @include btn-solid($white, $pink);
 }
+
+.form-group textarea.form-control {
+  min-height: 0;
+  height: 3em;
+}

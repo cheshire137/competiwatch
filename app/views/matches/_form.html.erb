@@ -26,16 +26,10 @@
       </div>
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
+    <%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
+    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
   <div class="col-6 float-left">
     <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
-  </div>
-</div>
-<div class="clearfix">
-  <div class="col-6 float-left pr-4">
-    <%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
-  </div>
-  <div class="col-6 float-left">
-    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
 </div>

@@ -45,9 +45,10 @@
         <%= render partial: 'matches/form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                              heroes: @heroes, friends: @friends } %>
-        <button type="submit" class="btn btn-large btn-primary">
+        <button type="submit" class="mr-2 btn btn-large btn-primary">
           Log Match
         </button>
+        <span class="text-small text-gray">All fields optional except SR</span>
       <% end %>
     </div>
   <% else %>

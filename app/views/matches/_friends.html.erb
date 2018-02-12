@@ -1,7 +1,7 @@
 <div class="form-group mt-0">
-  <div class="text-bold mb-2">Who did you group with?</div>
+  <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
+    <span>Who did you group with?</span>
+    <span class="text-small text-gray text-normal">Separate with commas</span>
+  </div>
   <div id="friends-list" data-selected-friends=<%= match.friend_names.to_json %> data-friends="<%= friends.to_json %>" class="position-relative border clearfix taggle-container"></div>
-  <p class="note">
-    Use comma, Tab, or Enter to separate names.
-  </p>
 </div>

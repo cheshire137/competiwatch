@@ -31,9 +31,10 @@
       <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
       <%= f.number_field :season, class: 'form-control season-field' %>
     </div>
-    <button type="submit" class="btn btn-large btn-primary">
+    <button type="submit" class="mr-2 btn btn-large btn-primary">
       Save Match
     </button>
+    <span class="text-small text-gray">All fields optional except SR</span>
   <% end %>
 <% else %>
   <%= form_for(@match, method: :put) do |f| %>
