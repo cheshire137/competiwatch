@@ -24,7 +24,7 @@ Rails.application.routes.draw do
   post '/season/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
   delete '/season/:season/:battletag' => 'matches#wipe', season: /\d+/
   get '/season/:season/:battletag/confirm-wipe' => 'matches#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
-  get '/matches/:id' => 'matches#edit', as: :match
+  get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update'
 
   get '/settings' => 'users#settings', as: :settings
