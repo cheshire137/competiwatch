@@ -20,7 +20,10 @@
         </div>
         <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
       </div>
-      <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
+      <div>
+        <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
+        <%= render partial: 'matches/day_field', locals: { form: form, match: match } %>
+      </div>
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
   </div>
@@ -28,5 +31,11 @@
     <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
   </div>
 </div>
-<%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
-<%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
+<div class="clearfix">
+  <div class="col-6 float-left pr-4">
+    <%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
+  </div>
+  <div class="col-6 float-left">
+    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
+  </div>
+</div>

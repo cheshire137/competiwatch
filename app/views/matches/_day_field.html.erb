@@ -1,0 +1,4 @@
+<div class="form-group mt-0">
+  <%= form.label :day_of_week, 'Day of week:', class: 'mr-2' %>
+  <%= form.select :day_of_week, options_for_select(day_of_week_options, match.day_of_week), {}, { class: 'form-select' } %>
+</div>

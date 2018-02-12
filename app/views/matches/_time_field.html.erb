@@ -1,10 +1,4 @@
-<div>
-  <div class="form-group">
-    <%= form.label :time_of_day, 'Time of day:', class: 'mr-2' %>
-    <%= form.select :time_of_day, options_for_select(time_of_day_options, match.time_of_day), {}, { class: 'form-select' } %>
-  </div>
-  <div class="form-group">
-    <%= form.label :day_of_week, 'Day of week:', class: 'mr-2' %>
-    <%= form.select :day_of_week, options_for_select(day_of_week_options, match.day_of_week), {}, { class: 'form-select' } %>
-  </div>
+<div class="form-group mt-0">
+  <%= form.label :time_of_day, 'Time of day:', class: 'mr-2' %>
+  <%= form.select :time_of_day, options_for_select(time_of_day_options, match.time_of_day), {}, { class: 'form-select' } %>
 </div>
