@@ -97,7 +97,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     match = create(:match, oauth_account: oauth_account)
 
     sign_in_as(oauth_account)
-    get "/matches/#{match.id}"
+    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
   end
@@ -108,7 +108,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     match = create(:match, oauth_account: oauth_account1)
 
     sign_in_as(oauth_account2)
-    get "/matches/#{match.id}"
+    get "/matches/#{match.season}/#{oauth_account1.to_param}/#{match.id}"
 
     assert_response :not_found
   end
