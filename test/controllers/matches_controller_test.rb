@@ -100,6 +100,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
+    assert_select "form[action='/matches/#{match.id}']"
   end
 
   test "edit page 404s for another user's account and match" do
