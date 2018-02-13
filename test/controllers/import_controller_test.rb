@@ -28,6 +28,7 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'imports matches to your account' do
+    puts "existing maps: #{Map.pluck(:name).join(', ')}"
     create(:map, name: 'Watchpoint: Gibraltar')
     create(:map, name: 'Lijiang Tower')
     create(:map, name: 'Junkertown')
