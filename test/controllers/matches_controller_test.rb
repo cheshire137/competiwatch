@@ -92,9 +92,40 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 3234, match.reload.rank
   end
 
-  test 'edit page loads for your account and match' do
+  test 'edit page loads for your account and non-placement match' do
     oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account)
+    prior_match = create(:match, oauth_account: oauth_account)
+    match = create(:match, oauth_account: oauth_account, placement: false,
+                   prior_match: prior_match)
+    refute match.placement?
+    refute match.placement_log?
+
+    sign_in_as(oauth_account)
+    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
+
+    assert_response :ok
+    assert_select "form[action='/matches/#{match.id}']"
+  end
+
+  test 'edit page loads for your account and placement log match' do
+    oauth_account = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account, map: nil,
+                   placement: false, prior_match: nil)
+    refute match.placement?
+    assert match.placement_log?
+
+    sign_in_as(oauth_account)
+    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
+
+    assert_response :ok
+    assert_select "form[action='/matches/#{match.id}']"
+  end
+
+  test 'edit page loads for your account and placement match' do
+    oauth_account = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account, placement: true)
+    assert match.placement?
+    refute match.placement_log?
 
     sign_in_as(oauth_account)
     get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
