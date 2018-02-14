@@ -1,6 +1,5 @@
 class Friend < ApplicationRecord
   MAX_NAME_LENGTH = 30
-  MAX_FRIENDS_PER_MATCH = 5
 
   belongs_to :user
 
