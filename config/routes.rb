@@ -25,7 +25,7 @@ Rails.application.routes.draw do
   delete '/season/:season/:battletag' => 'matches#wipe', season: /\d+/
   get '/season/:season/:battletag/confirm-wipe' => 'matches#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
-  put '/matches/:id' => 'matches#update'
+  put '/matches/:id' => 'matches#update', as: :update_match
 
   get '/settings' => 'users#settings', as: :settings
 

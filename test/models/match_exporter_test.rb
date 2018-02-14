@@ -2,10 +2,10 @@ require 'test_helper'
 
 class MatchExporterTest < ActiveSupport::TestCase
   setup do
-    @map1 = create(:map, name: 'Hanamura')
-    @map2 = create(:map, name: 'Junkertown')
+    @map1 = create(:map)
+    @map2 = create(:map)
     @oauth_account = create(:oauth_account)
-    @hero1 = create(:hero, name: 'Genji')
+    @hero1 = create(:hero)
   end
 
   test 'generates CSV of season matches' do
@@ -32,8 +32,8 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal 'Rank,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver' +
                  ',Enemy Thrower,Group', lines[0]
     assert_equal %q(1234,,,,,"",,,,,""), lines[1]
-    assert_equal %q(1254,Hanamura,,,evening,"",,Y,,,""), lines[2]
-    assert_equal %q(1273,Junkertown,,weekday,morning,Genji,,,Y,,""), lines[3]
-    assert_equal %q(1295,Hanamura,this is so cool,,,"",,,,,"Rob, Siege"), lines[4]
+    assert_equal %Q(1254,#{@map1.name},,,evening,"",,Y,,,""), lines[2]
+    assert_equal %Q(1273,#{@map2.name},,weekday,morning,#{@hero1.name},,,Y,,""), lines[3]
+    assert_equal %Q(1295,#{@map1.name},this is so cool,,,"",,,,,"Rob, Siege"), lines[4]
   end
 end

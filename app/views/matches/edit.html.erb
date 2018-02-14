@@ -15,7 +15,7 @@
 <% end %>
 
 <% if @match.placement_log? %>
-  <%= form_for(@match, method: :put) do |f| %>
+  <%= form_for(@match, method: :put, url: update_match_path(@match.id)) do |f| %>
     <%= render partial: 'matches/placement_rank_form',
                locals: { form: f, match: @match } %>
     <button type="submit" class="btn btn-large btn-primary">
@@ -23,7 +23,7 @@
     </button>
   <% end %>
 <% elsif @match.oauth_account.finished_placements?(@match.season) %>
-  <%= form_for(@match, method: :put) do |f| %>
+  <%= form_for(@match, method: :put, url: update_match_path(@match.id)) do |f| %>
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes: @heroes, friends: @friends } %>
@@ -37,7 +37,7 @@
     <span class="text-small text-gray">All fields optional except SR</span>
   <% end %>
 <% else %>
-  <%= form_for(@match, method: :put) do |f| %>
+  <%= form_for(@match, method: :put, url: update_match_path(@match.id)) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes: @heroes, friends: @friends } %>
