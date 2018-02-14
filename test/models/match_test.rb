@@ -23,8 +23,10 @@ class MatchTest < ActiveSupport::TestCase
     user = create(:user)
     oauth_account = create(:oauth_account, user: user)
     match = create(:match, oauth_account: oauth_account)
+    other_match = create(:match, oauth_account: oauth_account)
     friend = create(:friend, user: user, name: 'Rob')
     match_friend = create(:match_friend, match: match, friend: friend)
+    create(:match_friend, friend: friend, match: other_match)
     names = %w[Jamie Seed]
 
     assert_difference 'MatchFriend.count' do
@@ -35,7 +37,8 @@ class MatchTest < ActiveSupport::TestCase
 
     assert_equal names, match.reload.friend_names
     refute MatchFriend.exists?(match_friend.id)
-    assert Friend.exists?(friend.id), 'should not delete friend when friend removed from match'
+    assert Friend.exists?(friend.id),
+      'should not delete friend when friend removed from match but still in other matches'
   end
 
   test 'adds existing friend to match based on name' do

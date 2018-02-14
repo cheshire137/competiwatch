@@ -9,6 +9,8 @@ class MatchFriend < ApplicationRecord
   validate :friend_user_matches_account
   validate :group_size_within_limit
 
+  after_destroy :delete_straggler_friend
+
   private
 
   def group_size_within_limit
@@ -28,5 +30,9 @@ class MatchFriend < ApplicationRecord
     unless friend.user == oauth_account.user
       errors.add(:friend, "must be a friend of the owner of account #{oauth_account}")
     end
+  end
+
+  def delete_straggler_friend
+    friend.destroy if friend && friend.matches.empty?
   end
 end
