@@ -78,7 +78,6 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :ok
-    assert_template 'matches/edit'
     assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
   end
 
@@ -93,7 +92,6 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :ok
-    assert_template 'matches/edit'
 
     text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
@@ -121,7 +119,6 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     put "/matches/#{match.id}", params: { match: { rank: Match::MAX_RANK + 1, map_id: map.id } }
 
     assert_response :ok
-    assert_template 'matches/edit'
     assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
   end
 
@@ -134,7 +131,6 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     put "/matches/#{match.id}", params: { match: { rank: 1234 }, friend_names: %w[A B C D E F] }
 
     assert_response :ok
-    assert_template 'matches/edit'
 
     text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
