@@ -32,16 +32,23 @@ class MatchesController < ApplicationController
   end
 
   def create
-    friend_names = params[:friend_names] || []
-    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
-      return redirect_to(matches_path(@season, @oauth_account))
-    end
-
     @match = @oauth_account.matches.new(match_params)
     @match.season = @season
 
+    friend_names = params[:friend_names] || []
+    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+
+      @friends = current_user.friend_names
+      @maps = get_maps
+      @heroes = get_heroes
+      @latest_match = @oauth_account.matches.ordered_by_time.last
+
+      return render('matches/edit')
+    end
+
     unless @match.save
+      @friends = current_user.friend_names
       @maps = get_maps
       @heroes = get_heroes
       @latest_match = @oauth_account.matches.ordered_by_time.last
