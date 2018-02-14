@@ -1,6 +1,9 @@
-<div class="Box p-3 mb-3">
+<div class="Box p-3 mb-3 js-friends-container">
   <dl class="form-group mt-0">
-    <dt>Who did you group with?</dt>
+    <dt class="d-flex flex-items-center flex-justify-between">
+      Who did you group with?
+      <span class="d-none text-normal js-max-friends-message">Too many selected</span>
+    </dt>
     <dd>
       <% friends.each do |name| %>
         <div class="form-checkbox my-0 friend-form-checkbox d-inline-block">

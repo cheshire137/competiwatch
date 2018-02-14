@@ -55,7 +55,7 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal names, match.reload.friend_names
   end
 
-  test 'leaves existing friend in match when adding new friend' do
+  test 'leaves existing friend in match when adding another existing friend' do
     user = create(:user)
     oauth_account = create(:oauth_account, user: user)
     match = create(:match, oauth_account: oauth_account)
