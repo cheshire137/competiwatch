@@ -41,4 +41,13 @@ class UserTest < ActiveSupport::TestCase
     refute OauthAccount.exists?(oauth_account1.id)
     refute OauthAccount.exists?(oauth_account2.id)
   end
+
+  test 'friend_names returns unique, sorted list of names' do
+    user = create(:user)
+    friend1 = create(:friend, user: user, name: 'Gilly')
+    friend2 = create(:friend, user: user, name: 'Alice')
+    friend3 = create(:friend, user: user, name: 'Zed')
+
+    assert_equal %w[Alice Gilly Zed], user.friend_names
+  end
 end
