@@ -22,5 +22,5 @@ before_script:
   - psql -c 'CREATE DATABASE travis_ci_test' -U postgres
 script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
-  - RAILS_ENV=test bundle exec rake db:seed
   - RAILS_ENV=test bundle exec rake
+  - RAILS_ENV=test bundle exec rake db:seed
