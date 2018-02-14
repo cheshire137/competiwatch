@@ -1,7 +1,7 @@
-Rank,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver,Enemy Thrower
-3932,,,,,"",,,,
-3903,Watchpoint: Gibraltar,"red Junkrat, favored team",,,"",N,Y,N,N
-3928,Lijiang Tower,unfavored team,,,"",,,,
-3954,Junkertown,first game w/o perf. SR,,,"",N,N,N,N
-3931,Hollywood,"overextending, feeding teammate",,,"",N,N,N,Y
-3954,Hanamura,favored,,,"",,,,
+Rank,Group,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver,Enemy Thrower
+3932,"",,,,,"",,,,
+3903,"Jamie",Watchpoint: Gibraltar,"red Junkrat, favored team",,,"",N,Y,N,N
+3928,"Jamie, Rob",Lijiang Tower,unfavored team,,,"",,,,
+3954,"Siege",Junkertown,first game w/o perf. SR,,,"",N,N,N,N
+3931,"",Hollywood,"overextending, feeding teammate",,,"",N,N,N,Y
+3954,"",Hanamura,favored,,,"",,,,

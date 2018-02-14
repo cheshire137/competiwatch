@@ -33,13 +33,18 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     create(:map, name: 'Junkertown')
     create(:map, name: 'Hollywood')
     create(:map, name: 'Hanamura')
-    oauth_account = create(:oauth_account)
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
     csv = fixture_file_upload('files/valid-match-import.csv')
     season = 5
 
-    assert_difference "oauth_account.matches.in_season(#{season}).count", 6 do
-      sign_in_as(oauth_account)
-      post "/import/#{season}/#{oauth_account.to_param}", params: { csv: csv }
+    assert_difference "user.friends.count", 3 do
+      assert_difference "MatchFriend.count", 4 do
+        assert_difference "oauth_account.matches.in_season(#{season}).count", 6 do
+          sign_in_as(oauth_account)
+          post "/import/#{season}/#{oauth_account.to_param}", params: { csv: csv }
+        end
+      end
     end
 
     assert_redirected_to matches_path(season, oauth_account)
@@ -49,12 +54,14 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
       { rank: 3932 },
       {
         rank: 3903, map: 'Watchpoint: Gibraltar', comment: 'red Junkrat, favored team',
-        ally_leaver: false, ally_thrower: true, enemy_leaver: false, enemy_thrower: false
+        ally_leaver: false, ally_thrower: true, enemy_leaver: false, enemy_thrower: false,
+        friend_names: %w[Jamie]
       },
-      { rank: 3928, map: 'Lijiang Tower', comment: 'unfavored team' },
+      { rank: 3928, map: 'Lijiang Tower', comment: 'unfavored team', friend_names: %w[Jamie Rob] },
       {
         rank: 3954, map: 'Junkertown', comment: 'first game w/o perf. SR',
-        ally_leaver: false, ally_thrower: false, enemy_leaver: false, enemy_thrower: false
+        ally_leaver: false, ally_thrower: false, enemy_leaver: false, enemy_thrower: false,
+        friend_names: %w[Siege]
       },
       {
         rank: 3931, map: 'Hollywood', comment: 'overextending, feeding teammate',
