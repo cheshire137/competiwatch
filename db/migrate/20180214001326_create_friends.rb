@@ -6,8 +6,8 @@ class CreateFriends < ActiveRecord::Migration[5.1]
     end
     add_index :friends, [:user_id, :name], unique: true
 
-    execute "INSERT INTO friends (name, user_id) " \
-            "SELECT name, user_id FROM match_friends ON CONFLICT DO NOTHING"
+    execute 'INSERT INTO friends (name, user_id) ' \
+            'SELECT name, user_id FROM match_friends ON CONFLICT DO NOTHING'
   end
 
   def down

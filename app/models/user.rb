@@ -4,7 +4,7 @@ class User < ApplicationRecord
   validates :battletag, presence: true, uniqueness: true
 
   has_many :oauth_accounts, dependent: :destroy
-  has_many :friends, class_name: 'MatchFriend', dependent: :destroy
+  has_many :friends, dependent: :destroy
 
   alias_attribute :to_s, :battletag
 
