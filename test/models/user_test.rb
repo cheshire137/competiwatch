@@ -18,16 +18,15 @@ class UserTest < ActiveSupport::TestCase
 
   test 'deletes friends when deleted' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
-    match_friend1 = create(:match_friend, user: user, oauth_account: oauth_account)
-    match_friend2 = create(:match_friend, user: user, oauth_account: oauth_account)
+    friend1 = create(:friend, user: user)
+    friend2 = create(:friend, user: user)
 
-    assert_difference 'MatchFriend.count', -2 do
+    assert_difference 'Friend.count', -2 do
       user.destroy
     end
 
-    refute MatchFriend.exists?(match_friend1.id)
-    refute MatchFriend.exists?(match_friend2.id)
+    refute MatchFriend.exists?(friend1.id)
+    refute MatchFriend.exists?(friend2.id)
   end
 
   test 'deletes OAuth accounts when deleted' do
@@ -41,5 +40,14 @@ class UserTest < ActiveSupport::TestCase
 
     refute OauthAccount.exists?(oauth_account1.id)
     refute OauthAccount.exists?(oauth_account2.id)
+  end
+
+  test 'friend_names returns unique, sorted list of names' do
+    user = create(:user)
+    friend1 = create(:friend, user: user, name: 'Gilly')
+    friend2 = create(:friend, user: user, name: 'Alice')
+    friend3 = create(:friend, user: user, name: 'Zed')
+
+    assert_equal %w[Alice Gilly Zed], user.friend_names
   end
 end

@@ -3,6 +3,14 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def match_form_action(match)
+    if match.persisted?
+      update_match_path(match.id)
+    else
+      matches_path(match.season, match.oauth_account)
+    end
+  end
+
   def friends_in(matches)
     friend_names = {}
     matches.map do |match|

@@ -4,14 +4,14 @@ class User < ApplicationRecord
   validates :battletag, presence: true, uniqueness: true
 
   has_many :oauth_accounts, dependent: :destroy
-  has_many :friends, class_name: 'MatchFriend', dependent: :destroy
+  has_many :friends, dependent: :destroy
 
   alias_attribute :to_s, :battletag
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
   def friend_names
-    friends.order_by_name.group(:name).pluck(:name)
+    friends.order_by_name.pluck(:name)
   end
 
   def self.find_by_battletag(battletag)

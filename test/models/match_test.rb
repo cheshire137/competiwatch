@@ -8,6 +8,71 @@ class MatchTest < ActiveSupport::TestCase
     assert_includes match.errors.messages[:season], "can't be blank"
   end
 
+  test 'creates new friends from given name list' do
+    match = create(:match)
+    names = %w[Jamie Seed]
+
+    assert_difference ['MatchFriend.count', 'Friend.count'], 2 do
+      match.set_friends_from_names names
+    end
+
+    assert_equal names, match.reload.friend_names
+  end
+
+  test 'removes match friends not in given name list' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account)
+    friend = create(:friend, user: user, name: 'Rob')
+    match_friend = create(:match_friend, match: match, friend: friend)
+    names = %w[Jamie Seed]
+
+    assert_difference 'MatchFriend.count' do
+      assert_difference 'Friend.count', 2 do
+        match.set_friends_from_names names
+      end
+    end
+
+    assert_equal names, match.reload.friend_names
+    refute MatchFriend.exists?(match_friend.id)
+    assert Friend.exists?(friend.id), 'should not delete friend when friend removed from match'
+  end
+
+  test 'adds existing friend to match based on name' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account)
+    friend = create(:friend, user: user, name: 'Rob')
+    match_friend = create(:match_friend, match: match, friend: friend)
+    names = %w[Rob Seed]
+
+    assert_difference 'MatchFriend.count' do
+      assert_difference 'Friend.count' do
+        match.set_friends_from_names names
+      end
+    end
+
+    assert_equal names, match.reload.friend_names
+  end
+
+  test 'leaves existing friend in match when adding another existing friend' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account)
+    friend1 = create(:friend, user: user, name: 'Rob')
+    friend2 = create(:friend, user: user, name: 'Seed')
+    match_friend = create(:match_friend, match: match, friend: friend1)
+    names = %w[Rob Seed]
+
+    assert_difference 'MatchFriend.count' do
+      assert_no_difference 'Friend.count' do
+        match.set_friends_from_names names
+      end
+    end
+
+    assert_equal names, match.reload.friend_names
+  end
+
   test 'deletes friends when deleted' do
     match = create(:match)
     match_friend1 = create(:match_friend, match: match)

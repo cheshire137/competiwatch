@@ -10,10 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180211180914) do
+ActiveRecord::Schema.define(version: 20180214001757) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "friends", force: :cascade do |t|
+    t.string "name", limit: 30, null: false
+    t.integer "user_id", null: false
+    t.index ["user_id", "name"], name: "index_friends_on_user_id_and_name", unique: true
+  end
 
   create_table "heroes", force: :cascade do |t|
     t.string "name", limit: 30, null: false
@@ -41,11 +47,9 @@ ActiveRecord::Schema.define(version: 20180211180914) do
   end
 
   create_table "match_friends", force: :cascade do |t|
-    t.string "name", limit: 30, null: false
     t.integer "match_id", null: false
-    t.integer "user_id", null: false
-    t.index ["match_id", "name"], name: "index_match_friends_on_match_id_and_name", unique: true
-    t.index ["user_id"], name: "index_match_friends_on_user_id"
+    t.integer "friend_id", null: false
+    t.index ["match_id", "friend_id"], name: "index_match_friends_on_match_id_and_friend_id", unique: true
   end
 
   create_table "matches", force: :cascade do |t|

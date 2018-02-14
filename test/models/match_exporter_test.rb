@@ -4,7 +4,10 @@ class MatchExporterTest < ActiveSupport::TestCase
   setup do
     @map1 = create(:map)
     @map2 = create(:map)
-    @oauth_account = create(:oauth_account)
+    user = create(:user)
+    @oauth_account = create(:oauth_account, user: user)
+    @friend1 = create(:friend, user: user, name: 'Siege')
+    @friend2 = create(:friend, user: user, name: 'Rob')
     @hero1 = create(:hero)
   end
 
@@ -20,8 +23,8 @@ class MatchExporterTest < ActiveSupport::TestCase
     match3.heroes << @hero1
     match4 = create(:match, season: season, oauth_account: @oauth_account, rank: 1295,
                     map: @map1, prior_match: match3, comment: 'this is so cool')
-    create(:match_friend, match: match4, name: 'Siege')
-    create(:match_friend, match: match4, name: 'Rob')
+    create(:match_friend, match: match4, friend: @friend1)
+    create(:match_friend, match: match4, friend: @friend2)
 
     exporter = MatchExporter.new(oauth_account: @oauth_account, season: season)
     csv = exporter.export

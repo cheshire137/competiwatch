@@ -1,7 +1,33 @@
-<div class="form-group mt-0">
-  <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
-    <span>Who did you group with?</span>
-    <span class="text-small text-gray text-normal">Separate with commas</span>
+<div class="Box p-3 mb-3 js-friends-container">
+  <% if friends.any? %>
+    <dl class="form-group mt-0">
+      <dt class="d-flex flex-items-center flex-justify-between">
+        Who did you group with?
+        <span class="d-none text-normal js-max-friends-message">Too many selected</span>
+      </dt>
+      <dd>
+        <% friends.each do |name| %>
+          <div class="form-checkbox my-0 friend-form-checkbox d-inline-block">
+            <label for="friend-<%= name %>" class="text-normal css-truncate">
+              <input <% if match.friend_names.include?(name) %>checked<% end %> name="friend_names[]" value="<%= name %>" id="friend-<%= name %>" type="checkbox">
+              <span class="css-truncate-target"><%= name %></span>
+            </label>
+          </div>
+        <% end %>
+      </dd>
+    </dl>
+  <% end %>
+  <div class="form-group my-0">
+    <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
+      <span>
+        <% if friends.any? %>
+          Other players you grouped with:
+        <% else %>
+          Who did you group with?
+        <% end %>
+      </span>
+      <span class="text-small text-gray text-normal">Separate with commas</span>
+    </div>
+    <div id="friends-list" class="position-relative form-control width-full clearfix taggle-container"></div>
   </div>
-  <div id="friends-list" data-selected-friends=<%= match.friend_names.to_json %> data-friends="<%= friends.to_json %>" class="position-relative border clearfix taggle-container"></div>
 </div>

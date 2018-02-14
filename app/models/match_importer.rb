@@ -53,9 +53,7 @@ class MatchImporter
 
     if match.persisted? && (friend_name_str = row['group']).present?
       friend_names = split_string(friend_name_str)
-      friend_names.each do |name|
-        match.friends.create(name: name, user: @oauth_account.user)
-      end
+      match.set_friends_from_names friend_names
     end
 
     if match.persisted? && (hero_name_str = row['heroes']).present?

@@ -37,6 +37,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'dotenv-rails', '~> 2.2.1'
   gem 'factory_girl_rails', '~> 4.9.0'
+  gem 'rails-controller-testing', '~> 1.0.2'
 end
 
 group :development do

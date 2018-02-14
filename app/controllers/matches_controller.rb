@@ -35,16 +35,16 @@ class MatchesController < ApplicationController
     @match = @oauth_account.matches.new(match_params)
     @match.season = @season
 
-    unless @match.save
-      @maps = get_maps
-      @heroes = get_heroes
-      @latest_match = @oauth_account.matches.ordered_by_time.last
-
-      return render('matches/edit')
+    friend_names = params[:friend_names] || []
+    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+      return render_edit_on_fail
     end
 
+    return render_edit_on_fail unless @match.save
+
     @match.set_heroes_from_ids(params[:heroes])
-    @match.set_friends_from_names(params[:friend_names] || [])
+    @match.set_friends_from_names(friend_names)
 
     redirect_to matches_path(@season, @oauth_account)
   end
@@ -57,20 +57,21 @@ class MatchesController < ApplicationController
   end
 
   def update
+    @oauth_account = @match.oauth_account
     @match.assign_attributes(match_params)
 
-    unless @match.save
-      @maps = get_maps
-      @heroes = get_heroes
-      @latest_match = @match.oauth_account.matches.ordered_by_time.last
-
-      return render('matches/edit')
+    friend_names = params[:friend_names] || []
+    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+      return render_edit_on_fail
     end
 
-    @match.set_heroes_from_ids(params[:heroes])
-    @match.set_friends_from_names(params[:friend_names] || [])
+    return render_edit_on_fail unless @match.save
 
-    redirect_to matches_path(@match.season, @match.oauth_account)
+    @match.set_heroes_from_ids(params[:heroes])
+    @match.set_friends_from_names(friend_names)
+
+    redirect_to matches_path(@match.season, @oauth_account)
   end
 
   def export
@@ -100,6 +101,15 @@ class MatchesController < ApplicationController
   end
 
   private
+
+  def render_edit_on_fail
+    @friends = current_user.friend_names
+    @maps = get_maps
+    @heroes = get_heroes
+    @latest_match = @oauth_account.matches.ordered_by_time.last
+
+    render 'matches/edit'
+  end
 
   def match_params
     params.require(:match).

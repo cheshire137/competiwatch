@@ -1,58 +1,47 @@
 require 'test_helper'
 
 class MatchFriendTest < ActiveSupport::TestCase
-  test 'requires name' do
-    match_friend = MatchFriend.new
-
-    refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:name], "can't be blank"
-  end
-
   test 'disallows more than 5 others in your match group' do
-    match = create(:match)
-    match_friend1 = create(:match_friend, match: match, name: 'Rob')
-    match_friend2 = create(:match_friend, match: match, name: 'Zion')
-    match_friend3 = create(:match_friend, match: match, name: 'Siege')
-    match_friend4 = create(:match_friend, match: match, name: 'Bell')
-    match_friend5 = create(:match_friend, match: match, name: 'Ptero')
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account)
+    friends = []
+    5.times { |i| friends << create(:friend, name: "Friend#{i}", user: user) }
+    match_friend1 = create(:match_friend, match: match, friend: friends[0])
+    match_friend2 = create(:match_friend, match: match, friend: friends[1])
+    match_friend3 = create(:match_friend, match: match, friend: friends[2])
+    match_friend4 = create(:match_friend, match: match, friend: friends[3])
+    match_friend5 = create(:match_friend, match: match, friend: friends[4])
     match_friend6 = MatchFriend.new(match: match)
 
     refute_predicate match_friend6, :valid?
     assert_includes match_friend6.errors.messages[:match],
-      'already has a full group: you, Bell, Ptero, Rob, Siege, Zion'
+      'already has a full group: you, Friend0, Friend1, Friend2, Friend3, Friend4'
   end
 
-  test 'requires unique name + match' do
+  test 'requires unique friend + match' do
     match_friend1 = create(:match_friend)
-    match_friend = MatchFriend.new(match_id: match_friend1.match_id, name: match_friend1.name)
+    match_friend = MatchFriend.new(match_id: match_friend1.match_id,
+                                   friend_id: match_friend1.friend_id)
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:name], 'has already been taken'
+    assert_includes match_friend.errors.messages[:friend_id], 'has already been taken'
   end
 
-  test 'validates name length' do
-    name = 'a' * (MatchFriend::MAX_NAME_LENGTH + 1)
-    match_friend = MatchFriend.new(name: name)
-
-    refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:name],
-      "is too long (maximum is #{MatchFriend::MAX_NAME_LENGTH} characters)"
-  end
-
-  test 'requires user' do
+  test 'requires friend' do
     match_friend = MatchFriend.new
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:user], 'must exist'
+    assert_includes match_friend.errors.messages[:friend], 'must exist'
   end
 
-  test 'requires user to match account user' do
-    user = create(:user)
+  test 'requires friend user to match account user' do
+    friend = create(:friend)
     match = create(:match)
-    match_friend = MatchFriend.new(user: user, match: match)
+    match_friend = MatchFriend.new(friend: friend, match: match)
 
     refute_predicate match_friend, :valid?
-    assert_includes match_friend.errors.messages[:user],
-      "must be the owner of account #{match.oauth_account}"
+    assert_includes match_friend.errors.messages[:friend],
+      "must be a friend of the owner of account #{match.oauth_account}"
   end
 end

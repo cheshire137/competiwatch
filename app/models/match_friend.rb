@@ -1,17 +1,13 @@
 class MatchFriend < ApplicationRecord
-  MAX_NAME_LENGTH = 30
   MAX_FRIENDS_PER_MATCH = 5
 
   belongs_to :match
-  belongs_to :user
+  belongs_to :friend
   has_one :oauth_account, through: :match
 
-  validates :name, presence: true, uniqueness: { scope: :match_id },
-    length: { maximum: MAX_NAME_LENGTH }
-  validate :user_matches_account
+  validates :friend_id, uniqueness: { scope: :match_id }
+  validate :friend_user_matches_account
   validate :group_size_within_limit
-
-  scope :order_by_name, ->{ order('LOWER(name) ASC') }
 
   private
 
@@ -26,11 +22,11 @@ class MatchFriend < ApplicationRecord
     end
   end
 
-  def user_matches_account
-    return unless user && oauth_account
+  def friend_user_matches_account
+    return unless friend && oauth_account
 
-    unless user == oauth_account.user
-      errors.add(:user, "must be the owner of account #{oauth_account}")
+    unless friend.user == oauth_account.user
+      errors.add(:friend, "must be a friend of the owner of account #{oauth_account}")
     end
   end
 end
