@@ -167,13 +167,15 @@ class Match < ApplicationRecord
   end
 
   def set_friends_from_names(names)
-    friends_to_remove = friends - friends.where(name: names)
-    friends_to_remove.each(&:destroy)
+    match_friends_to_remove = match_friends -
+      match_friends.joins(:friend).where(friends: { name: names })
+    match_friends_to_remove.each(&:destroy)
 
     names.each do |name|
-      friend = friends.where(name: name).first_or_initialize
-      friend.user = user
-      friend.save
+      friend = user.friends.where(name: name).first_or_create
+      if friend.persisted?
+        match_friends.where(friend: friend).first_or_create
+      end
     end
   end
 
