@@ -1,7 +1,22 @@
-<div class="form-group mt-0">
-  <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
-    <span>Who did you group with?</span>
-    <span class="text-small text-gray text-normal">Separate with commas</span>
+<div class="Box p-3 mb-3">
+  <dl class="form-group mt-0">
+    <dt>Who did you group with?</dt>
+    <dd>
+      <% friends.each do |name| %>
+        <div class="form-checkbox my-0 friend-form-checkbox d-inline-block">
+          <label for="friend-<%= name %>" class="text-normal css-truncate">
+            <input <% if match.friend_names.include?(name) %>checked<% end %> name="friend_names[]" value="<%= name %>" id="friend-<%= name %>" type="checkbox">
+            <span class="css-truncate-target"><%= name %></span>
+          </label>
+        </div>
+      <% end %>
+    </dd>
+  </dl>
+  <div class="form-group my-0">
+    <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
+      <span>Other players you grouped with:</span>
+      <span class="text-small text-gray text-normal">Separate with commas</span>
+    </div>
+    <div id="friends-list" class="position-relative form-control width-full clearfix taggle-container"></div>
   </div>
-  <div id="friends-list" class="position-relative form-control width-full clearfix taggle-container"></div>
 </div>
