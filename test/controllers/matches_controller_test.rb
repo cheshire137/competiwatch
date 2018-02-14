@@ -67,6 +67,21 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to matches_path(1, oauth_account)
   end
 
+  test 'renders edit form when create fails' do
+    oauth_account = create(:oauth_account)
+
+    assert_no_difference 'Match.count' do
+      sign_in_as(oauth_account)
+      post "/season/1/#{oauth_account.to_param}", params: {
+        match: { rank: Match::MAX_RANK + 1 }
+      }
+    end
+
+    assert_response :ok
+    assert_template 'matches/edit'
+    assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
+  end
+
   test 'shows error message when too many friends are given on create' do
     oauth_account = create(:oauth_account)
 
@@ -77,10 +92,11 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
       }
     end
 
-    assert_redirected_to matches_path(1, oauth_account)
-    message = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your " \
-              "group."
-    assert_equal message, flash[:error]
+    assert_response :ok
+    assert_template 'matches/edit'
+
+    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    assert_select '.flash-error', text: text
   end
 
   test 'can update your own match' do
