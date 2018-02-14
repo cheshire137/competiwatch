@@ -80,6 +80,34 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_equal 1234, match.rank
   end
 
+  test 'renders edit page when update fails' do
+    oauth_account = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account)
+    map = create(:map)
+
+    sign_in_as(oauth_account)
+    put "/matches/#{match.id}", params: { match: { rank: Match::MAX_RANK + 1, map_id: map.id } }
+
+    assert_response :ok
+    assert_template 'matches/edit'
+    assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
+  end
+
+  test 'renders edit page when too many friends are chosen' do
+    oauth_account = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account)
+    map = create(:map)
+
+    sign_in_as(oauth_account)
+    put "/matches/#{match.id}", params: { match: { rank: 1234 }, friend_names: %w[A B C D E F] }
+
+    assert_response :ok
+    assert_template 'matches/edit'
+
+    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    assert_select '.flash-error', text: text
+  end
+
   test "cannot update another user's match" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
