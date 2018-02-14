@@ -67,6 +67,22 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to matches_path(1, oauth_account)
   end
 
+  test 'shows error message when too many friends are given on create' do
+    oauth_account = create(:oauth_account)
+
+    assert_no_difference 'Match.count' do
+      sign_in_as(oauth_account)
+      post "/season/1/#{oauth_account.to_param}", params: {
+        match: { rank: 2500 }, friend_names: %w[A B C D E F]
+      }
+    end
+
+    assert_redirected_to matches_path(1, oauth_account)
+    message = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your " \
+              "group."
+    assert_equal message, flash[:error]
+  end
+
   test 'can update your own match' do
     oauth_account = create(:oauth_account)
     match = create(:match, oauth_account: oauth_account)
