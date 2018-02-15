@@ -1,35 +1,43 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
+    battletag = auth.info.battletag
     account = OauthAccount.where(provider: auth.provider, uid: auth.uid,
-                                 battletag: auth.info.battletag).first_or_initialize
-    user = if account.persisted?
-      account.user
+                                 battletag: battletag).first_or_initialize
+    if account.persisted?
+      if signed_in? && account.user.nil?
+        account.user = current_user
+
+        unless account.save
+          message = "Could not link account #{battletag}."
+          return redirect_to(accounts_path, alert: message)
+        end
+      end
+
+      if signed_in? && account.user != current_user
+        message = 'That account is already linked to another user.'
+        return redirect_to(accounts_path, alert: message)
+      end
     else
-      User.new(battletag: auth.info.battletag)
-    end
+      user = User.new(battletag: battletag)
 
-    if signed_in? && user.persisted? && user != current_user
-      message = 'That account is already linked to another user.'
-      return redirect_to(accounts_path, alert: message)
-    end
+      unless user.save
+        message = "Failed to sign in via Battle.net as #{battletag}."
+        return redirect_to(root_path, alert: message)
+      end
 
-    if user.new_record? && !user.save
-      message = "Failed to sign in via Battle.net as #{auth.info.battletag}."
-      return redirect_to(root_path, alert: message)
-    end
-
-    account.user = user
-    if (account.new_record? || account.changed?) && !account.save
-      message = "Failed to sign in via Battle.net as #{auth.info.battletag}."
-      return redirect_to(root_path, alert: message)
+      account.user = user
+      unless account.save
+        message = "Failed to sign in via Battle.net as #{battletag}."
+        return redirect_to(root_path, alert: message)
+      end
     end
 
     if signed_in?
-      redirect_to accounts_path, notice: "Successfully linked #{account.battletag}."
+      redirect_to accounts_path, notice: "Successfully linked #{battletag}."
     else
-      session[:sign_in_battletag] = account.battletag
-      sign_in_and_redirect user, event: :authentication
+      session[:sign_in_battletag] = battletag
+      sign_in_and_redirect account.user, event: :authentication
     end
   end
 
