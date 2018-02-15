@@ -1,4 +1,4 @@
-FactoryGirl.define do
+FactoryBot.define do
   factory :map do
     name { "Hanamura#{Map.count}" }
     map_type 'assault'

@@ -4,7 +4,7 @@ require 'rails/test_help'
 OmniAuth.config.test_mode = true
 
 class ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   def mock_bnet_omniauth(uid:, battletag:)
     OmniAuth.config.mock_auth[:bnet] = OmniAuth::AuthHash.new(
