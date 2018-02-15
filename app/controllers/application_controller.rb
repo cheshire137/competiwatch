@@ -19,7 +19,7 @@ class ApplicationController < ActionController::Base
     battletag = User.battletag_from_param(params[:battletag])
     @oauth_account = OauthAccount.find_by_battletag(battletag)
     unless @oauth_account
-      render file: Rails.root.join('public', '404.html'), status: :not_found
+      return render(file: Rails.root.join('public', '404.html'), status: :not_found)
     end
     unless @oauth_account.user == current_user
       render file: Rails.root.join('public', '404.html'), status: :not_found
