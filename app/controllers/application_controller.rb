@@ -3,6 +3,24 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def after_sign_in_path_for(resource)
+    stored_location = stored_location_for(resource)
+    return stored_location if stored_location
+
+    if resource.is_a?(User)
+      if session[:sign_in_battletag].present?
+        battletag = User.parameterize(session[:sign_in_battletag])
+        path = matches_path(Match::LATEST_SEASON, battletag)
+        session.delete(:sign_in_battletag)
+        path
+      else
+        matches_path(Match::LATEST_SEASON, resource.oauth_accounts.first)
+      end
+    else
+      super
+    end
+  end
+
   def set_streaks(matches)
     matches_by_id = matches.map { |match| [match.id, match] }.to_h
     matches.each do |match|

@@ -28,6 +28,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     if signed_in?
       redirect_to accounts_path, notice: "Successfully linked #{account.battletag}."
     else
+      session[:sign_in_battletag] = account.battletag
       sign_in_and_redirect user, event: :authentication
     end
   end
