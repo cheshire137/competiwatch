@@ -49,3 +49,16 @@
     <% end %>
   </p>
 <% end %>
+
+<% if @friends.any? %>
+  <h2 class="h3 text-normal mt-4 mb-2">Group Members</h2>
+  <p>
+    <span class="text-bold">Grouped with:</span>
+    <%= @friends.join(', ') %>
+  </p>
+
+  <p>
+    <span class="text-bold">Most frequently grouped with:</span>
+    <%= @most_frequent_friends.join(', ') %>
+  </p>
+<% end %>
