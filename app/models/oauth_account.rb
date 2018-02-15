@@ -10,6 +10,11 @@ class OauthAccount < ApplicationRecord
   alias_attribute :to_s, :battletag
 
   has_many :matches, dependent: :destroy
+  has_many :heroes, through: :matches
+
+  def active_seasons
+    matches.select('DISTINCT season').order(:season).map(&:season)
+  end
 
   def wipe_season(season)
     matches.in_season(season).destroy_all

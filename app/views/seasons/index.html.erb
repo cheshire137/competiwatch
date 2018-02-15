@@ -3,3 +3,26 @@
 <% content_for(:breadcrumb) do %>
   <%= account_switcher(@oauth_account) %> / <%= season_switcher(:all) %>
 <% end %>
+
+<% if @active_seasons.any? %>
+  <p>
+    <span class="text-bold">Active in seasons:</span>
+    <%= @active_seasons.map(&:to_s).join(', ') %>
+  </p>
+<% end %>
+
+<p>
+  <span class="text-bold">Matches logged:</span>
+  <%= number_with_delimiter @total_matches %>
+</p>
+
+<% if @heroes.any? %>
+  <p class="d-flex flex-items-center">
+    <span class="text-bold mr-2 d-inline-block">Heroes played:</span>
+    <% @heroes.each do |hero| %>
+      <span class="tooltipped tooltipped-n mr-2 d-inline-block" aria-label="<%= hero.name %>">
+        <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 30, height: 30) %>
+      </span>
+    <% end %>
+  </p>
+<% end %>
