@@ -42,12 +42,37 @@ class UserTest < ActiveSupport::TestCase
     refute OauthAccount.exists?(oauth_account2.id)
   end
 
-  test 'friend_names returns unique, sorted list of names' do
+  test "friend_names returns all user's friends when season has no matches" do
+    user = create(:user)
+    friend1 = create(:friend, user: user, name: 'Tamara')
+    friend2 = create(:friend, user: user, name: 'Marcus')
+    friend3 = create(:friend, user: user, name: 'Phillipe')
+
+    assert_equal %w[Marcus Phillipe Tamara], user.friend_names(3)
+  end
+
+  test 'friend_names returns unique, sorted list of names from friends in matches that season' do
     user = create(:user)
     friend1 = create(:friend, user: user, name: 'Gilly')
     friend2 = create(:friend, user: user, name: 'Alice')
     friend3 = create(:friend, user: user, name: 'Zed')
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    season = 4
+    match1 = create(:match, oauth_account: oauth_account1, season: season)
+    create(:match_friend, match: match1, friend: friend1)
+    match2 = create(:match, oauth_account: oauth_account2, season: season)
+    create(:match_friend, match: match2, friend: friend2)
+    match3 = create(:match, oauth_account: oauth_account2, season: season + 1)
+    create(:match_friend, match: match3, friend: friend3)
+    match4 = create(:match, oauth_account: oauth_account2, season: season)
+    create(:match_friend, match: match4, friend: friend2)
 
-    assert_equal %w[Alice Gilly Zed], user.friend_names
+    result = user.friend_names(season)
+
+    assert_includes result, friend1.name
+    assert_includes result, friend2.name
+    refute_includes result, friend3.name, 'should not include friend from a different season'
+    assert_equal 2, result.size, 'should not return duplicate names'
   end
 end

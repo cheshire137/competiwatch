@@ -5,13 +5,20 @@ class User < ApplicationRecord
 
   has_many :oauth_accounts, dependent: :destroy
   has_many :friends, dependent: :destroy
+  has_many :matches, through: :oauth_accounts
 
   alias_attribute :to_s, :battletag
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
-  def friend_names
-    friends.order_by_name.pluck(:name)
+  def friend_names(season)
+    season_matches = matches.in_season(season).includes(:friends)
+    if season_matches.empty?
+      friends.order_by_name.pluck(:name)
+    else
+      season_matches.flat_map(&:friends).uniq.
+        sort_by { |friend| friend.name.downcase }.map(&:name)
+    end
   end
 
   def self.find_by_battletag(battletag)
