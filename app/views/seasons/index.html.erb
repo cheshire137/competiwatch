@@ -18,13 +18,13 @@
         <tbody>
           <tr>
             <th rowspan="2" class="pr-2">SR range:</th>
-            <td class="pr-2 pb-1"><%= @lowest_sr %></td>
+            <td class="pr-2 pb-1 text-center"><%= @lowest_sr %></td>
             <td rowspan="2" class="pr-2">&ndash;</td>
-            <td class="pb-1"><%= @highest_sr %></td>
+            <td class="pb-1 text-center"><%= @highest_sr %></td>
           </tr>
           <tr>
-            <td class="pr-2"><%= rank_image(@lowest_sr) %></td>
-            <td><%= rank_image(@highest_sr) %></td>
+            <td class="pr-2 text-center"><%= rank_image(@lowest_sr) %></td>
+            <td class="text-center"><%= rank_image(@highest_sr) %></td>
           </tr>
         </tbody>
       </table>
