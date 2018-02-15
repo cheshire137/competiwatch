@@ -9,6 +9,7 @@ class MatchesController < ApplicationController
     @maps = get_maps
     @heroes = get_heroes
     @friends = current_user.friend_names(@season)
+    @all_friends = current_user.all_friend_names
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
 
@@ -54,6 +55,7 @@ class MatchesController < ApplicationController
     @maps = get_maps
     @heroes = get_heroes
     @friends = current_user.friend_names(@match.season)
+    @all_friends = current_user.all_friend_names
   end
 
   def update
@@ -104,6 +106,7 @@ class MatchesController < ApplicationController
 
   def render_edit_on_fail
     @friends = current_user.friend_names(@match.season)
+    @all_friends = current_user.all_friend_names
     @maps = get_maps
     @heroes = get_heroes
     @latest_match = @oauth_account.matches.ordered_by_time.last

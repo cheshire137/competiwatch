@@ -14,11 +14,15 @@ class User < ApplicationRecord
   def friend_names(season)
     season_matches = matches.in_season(season).includes(:friends)
     if season_matches.empty?
-      friends.order_by_name.pluck(:name)
+      all_friend_names
     else
       season_matches.flat_map(&:friends).uniq.
         sort_by { |friend| friend.name.downcase }.map(&:name)
     end
+  end
+
+  def all_friend_names
+    friends.order_by_name.pluck(:name)
   end
 
   def self.find_by_battletag(battletag)

@@ -28,7 +28,8 @@
 </div>
 <div class="clearfix">
   <div class="col-6 float-left pr-4">
-    <%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
+    <%= render partial: 'matches/friends',
+               locals: { form: form, match: match, friends: friends, all_friends: all_friends } %>
   </div>
   <div class="col-6 float-left">
     <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>

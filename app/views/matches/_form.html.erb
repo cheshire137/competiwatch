@@ -26,7 +26,8 @@
       </div>
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
-    <%= render partial: 'matches/friends', locals: { form: form, match: match, friends: friends } %>
+    <%= render partial: 'matches/friends',
+               locals: { form: form, match: match, friends: friends, all_friends: all_friends } %>
     <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
   <div class="col-6 float-left">
