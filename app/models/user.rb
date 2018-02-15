@@ -11,6 +11,22 @@ class User < ApplicationRecord
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
+  def merge_with(primary_user)
+    success = true
+
+    oauth_accounts.each do |oauth_account|
+      oauth_account.user = primary_user
+      success = success && oauth_account.save
+    end
+
+    friends.each do |friend|
+      friend.user = primary_user
+      success = success && friend.save
+    end
+
+    success && destroy
+  end
+
   def friend_names(season)
     season_matches = matches.in_season(season).includes(:friends)
     if season_matches.empty?
