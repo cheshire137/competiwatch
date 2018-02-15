@@ -14,7 +14,7 @@
     <% end %>
 
     <div class="mb-4">
-      <span class="text-bold">Matches logged:</span>
+      <div class="text-bold">Matches logged:</div>
       <%= number_with_delimiter @total_matches %>
       &mdash;
       <span class="text-green">
@@ -42,8 +42,8 @@
     </div>
 
     <% if @heroes.any? %>
-      <div class="d-flex flex-items-center mb-4">
-        <span class="text-bold mr-2 d-inline-block">Heroes played:</span>
+      <div class="mb-4">
+        <div class="text-bold mb-1">Heroes played:</div>
         <% @heroes.each do |hero| %>
           <span class="tooltipped tooltipped-n mr-2 d-inline-block" aria-label="<%= hero.name %>">
             <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 30, height: 30) %>
