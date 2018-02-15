@@ -15,7 +15,7 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
     get "/seasons/#{oauth_account.to_param}"
 
     assert_response :ok
-    assert_select 'p', text: /Matches logged:\s+0/
+    assert_select 'div', text: /Matches logged:\s+0/
   end
 
   test 'index page loads successfully for authenticated user with matches' do
@@ -28,8 +28,8 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
     get "/seasons/#{oauth_account.to_param}"
 
     assert_response :ok
-    assert_select 'p', text: /Matches logged:\s+3/
-    assert_select 'p', text: /Active in seasons:\s+1, 2, 3/
+    assert_select 'div', text: /Matches logged:\s+3/
+    assert_select 'div', text: /Active in seasons:\s+1, 2, 3/
   end
 
   test "won't let you view all season data for another user's account" do
