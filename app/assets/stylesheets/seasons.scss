@@ -1,3 +1,37 @@
-// Place all the styles related to the seasons controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.rank-image {
+  position: relative;
+}
+
+.rank-bronze {
+  top: -11px;
+  height: 15px;
+}
+
+.rank-silver {
+  top: -8px;
+  height: 18px;
+}
+
+.rank-gold {
+  height: 22px;
+  top: -4px;
+}
+
+.rank-platinum {
+  height: 23px;
+  top: -3px;
+}
+
+.rank-diamond {
+  height: 22px;
+  top: -3px;
+}
+
+.rank-master {
+  height: 23px;
+  top: -1px;
+}
+
+.rank-grandmaster {
+  height: 26px;
+}

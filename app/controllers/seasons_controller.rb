@@ -7,7 +7,11 @@ class SeasonsController < ApplicationController
     @total_matches = @oauth_account.matches.count
     @heroes = @oauth_account.heroes.group(:id).order_by_name
 
-    matches = @oauth_account.matches.includes(:friends)
+    matches = @oauth_account.matches.includes(:friends).ordered_by_time
+
+    all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
+    @lowest_sr = all_ranks.min
+    @highest_sr = all_ranks.max
 
     @total_wins = matches.select(&:win?).size
     @total_losses = matches.select(&:loss?).size

@@ -13,6 +13,23 @@
       </div>
     <% end %>
 
+    <% if @lowest_sr && @highest_sr %>
+      <table class="mb-4">
+        <tbody>
+          <tr>
+            <th rowspan="2" class="pr-2">SR range:</th>
+            <td class="pr-2 pb-1"><%= @lowest_sr %></td>
+            <td rowspan="2" class="pr-2">&ndash;</td>
+            <td class="pb-1"><%= @highest_sr %></td>
+          </tr>
+          <tr>
+            <td class="pr-2"><%= rank_image(@lowest_sr) %></td>
+            <td><%= rank_image(@highest_sr) %></td>
+          </tr>
+        </tbody>
+      </table>
+    <% end %>
+
     <div class="mb-4">
       <div class="text-bold">Matches logged:</div>
       <%= number_with_delimiter @total_matches %>
