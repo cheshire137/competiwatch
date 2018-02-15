@@ -4,61 +4,107 @@
   <%= account_switcher(@oauth_account) %> / <%= season_switcher(:all) %>
 <% end %>
 
-<% if @active_seasons.any? %>
-  <p>
-    <span class="text-bold">Active in seasons:</span>
-    <%= @active_seasons.map(&:to_s).join(', ') %>
-  </p>
-<% end %>
-
-<p>
-  <span class="text-bold">Matches logged:</span>
-  <%= number_with_delimiter @total_matches %>
-  &mdash;
-  <span class="text-green">
-    <span class="text-bold">
-      <%= number_with_delimiter @total_wins %>
-    </span>
-    <%= 'win'.pluralize(@total_wins) %>
-  </span>
-  &middot;
-  <span class="text-red">
-    <span class="text-bold">
-      <%= number_with_delimiter @total_losses %>
-    </span>
-    <%= 'loss'.pluralize(@total_losses) %>
-  </span>
-  &middot;
-  <span class="text-orange">
-    <span class="text-bold">
-      <%= number_with_delimiter @total_draws %>
-    </span>
-    <%= 'draw'.pluralize(@total_draws) %>
-  </span>
-  &mdash;
-  <%= @win_percent %>% win percentage
-</p>
-
-<% if @heroes.any? %>
-  <p class="d-flex flex-items-center">
-    <span class="text-bold mr-2 d-inline-block">Heroes played:</span>
-    <% @heroes.each do |hero| %>
-      <span class="tooltipped tooltipped-n mr-2 d-inline-block" aria-label="<%= hero.name %>">
-        <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 30, height: 30) %>
-      </span>
+<div class="clearfix">
+  <div class="col-6 float-left">
+    <% if @active_seasons.any? %>
+      <div class="mb-4">
+        <span class="text-bold">Active in seasons:</span>
+        <%= @active_seasons.map(&:to_s).join(', ') %>
+      </div>
     <% end %>
-  </p>
-<% end %>
 
-<% if @friends.any? %>
-  <h2 class="h3 text-normal mt-4 mb-2">Group Members</h2>
-  <p>
-    <span class="text-bold">Grouped with:</span>
-    <%= @friends.join(', ') %>
-  </p>
+    <div class="mb-4">
+      <span class="text-bold">Matches logged:</span>
+      <%= number_with_delimiter @total_matches %>
+      &mdash;
+      <span class="text-green">
+        <span class="text-bold">
+          <%= number_with_delimiter @total_wins %>
+        </span>
+        <%= 'win'.pluralize(@total_wins) %>
+      </span>
+      &middot;
+      <span class="text-red">
+        <span class="text-bold">
+          <%= number_with_delimiter @total_losses %>
+        </span>
+        <%= 'loss'.pluralize(@total_losses) %>
+      </span>
+      &middot;
+      <span class="text-orange">
+        <span class="text-bold">
+          <%= number_with_delimiter @total_draws %>
+        </span>
+        <%= 'draw'.pluralize(@total_draws) %>
+      </span>
+      &mdash;
+      <%= @win_percent %>% win percentage
+    </div>
 
-  <p>
-    <span class="text-bold">Most frequently grouped with:</span>
-    <%= @most_frequent_friends.join(', ') %>
-  </p>
-<% end %>
+    <% if @heroes.any? %>
+      <div class="d-flex flex-items-center mb-4">
+        <span class="text-bold mr-2 d-inline-block">Heroes played:</span>
+        <% @heroes.each do |hero| %>
+          <span class="tooltipped tooltipped-n mr-2 d-inline-block" aria-label="<%= hero.name %>">
+            <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 30, height: 30) %>
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <% if @friends.any? %>
+    <div class="col-6 float-left">
+      <h2 class="h3 text-normal mt-0 mb-2">Group Members</h2>
+      <div class="mb-4">
+        <span class="text-bold">Grouped with:</span>
+        <%= @friends.join(', ') %>
+      </div>
+
+      <div class="mb-4">
+        <span class="text-bold">Most frequently grouped with:</span>
+        <%= @most_frequent_friends.join(', ') %>
+      </div>
+
+      <% if @most_winning_friends.any? %>
+        <div class="mb-4">
+          <span class="text-bold">Most frequently won with:</span>
+          <span class="d-inline-block">
+            <% @most_winning_friends.each do |name| %>
+              <span class="mr-4 d-inline-block">
+                <%= name %> &middot;
+                <span class="text-gray">
+                  <%= @win_rates_by_friend[name] %>% with
+                  <%= number_with_delimiter @match_counts_by_friend[name] %> <%= 'game'.pluralize(@match_counts_by_friend[name]) %>
+                </span>
+              </span>
+            <% end %>
+          </span>
+          <p class="note mb-0">
+            *Group members with the highest win percentage with whom you played more than one match
+          </p>
+        </div>
+      <% end %>
+
+      <% if @most_losing_friends.any? %>
+        <div class="mb-4">
+          <span class="text-bold">Most frequently lost with:</span>
+          <span class="d-inline-block">
+            <% @most_losing_friends.each do |name| %>
+              <span class="mr-4 d-inline-block">
+                <%= name %> &middot;
+                <span class="text-gray">
+                  <%= @win_rates_by_friend[name] %>% with
+                  <%= number_with_delimiter @match_counts_by_friend[name] %> <%= 'game'.pluralize(@match_counts_by_friend[name]) %>
+                </span>
+              </span>
+            <% end %>
+          </span>
+          <p class="note mb-0">
+            *Group members with the lowest win percentage with whom you played more than one match
+          </p>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
