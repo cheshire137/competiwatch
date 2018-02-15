@@ -1,28 +1,28 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
-    user = if signed_in?
-      current_user
+    account = OauthAccount.where(provider: auth.provider, uid: auth.uid,
+                                 battletag: auth.info.battletag).first_or_initialize
+    user = if account.persisted?
+      account.user
     else
-      User.find_by_battletag(auth.info.battletag) || User.new(battletag: auth.info.battletag)
+      User.new(battletag: auth.info.battletag)
+    end
+
+    if signed_in? && user.persisted? && user != current_user
+      message = 'That account is already linked to another user.'
+      return redirect_to(accounts_path, alert: message)
     end
 
     if user.new_record? && !user.save
-      return redirect_to(root_path, alert: 'Failed to sign in via Battle.net.')
-    end
-
-    account = OauthAccount.where(provider: auth.provider, uid: auth.uid).first_or_initialize
-    if account.persisted? && account.user != user
-      message = 'That account is already linked to another user.'
-      return redirect_to(accounts_path, alert: message) if signed_in?
+      message = "Failed to sign in via Battle.net as #{auth.info.battletag}."
       return redirect_to(root_path, alert: message)
     end
 
     account.user = user
-    account.battletag = auth.info.battletag
-
-    if account.changed? && !account.save
-      flash[:alert] = "Failed to connect Battle.net account #{auth.info.battletag}."
+    if (account.new_record? || account.changed?) && !account.save
+      message = "Failed to sign in via Battle.net as #{auth.info.battletag}."
+      return redirect_to(root_path, alert: message)
     end
 
     if signed_in?
