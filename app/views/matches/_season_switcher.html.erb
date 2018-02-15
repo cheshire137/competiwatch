@@ -1,14 +1,23 @@
 <div class="dropdown js-menu-container d-inline-block">
   <button class="btn-link no-underline text-white p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-    Season <%= selected_season %>
+    <% if selected_season == :all %>
+      All seasons
+    <% else %>
+      Season <%= selected_season %>
+    <% end %>
     <div class="dropdown-caret"></div>
   </button>
 
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
+      <li>
+        <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= seasons_path(params[:battletag]) %>">
+          All seasons
+        </a>
+      </li>
       <% season_options.each do |label, season| %>
         <li>
-          <a class="dropdown-item <%= 'text-bold' if season == selected_season %>" href="<%= url_with(season: season) %>">
+          <a class="dropdown-item <%= 'text-bold' if season == selected_season %>" href="<%= season_switcher_season_path(season) %>">
             <%= label %>
           </a>
         </li>
