@@ -18,12 +18,13 @@ Rails.application.routes.draw do
   get '/trends/:season/:battletag/group-size-chart' => 'trends#group_size_chart', as: :group_size_chart
   get '/trends/:season/:battletag/group-member-chart' => 'trends#group_member_chart', as: :group_member_chart
 
-  get '/matches/confirm-wipe/:battletag' => 'matches#wipe_season_select', as: :wipe_season_select, season: /\d+/
+  get '/seasons/choose-season-to-wipe' => 'seasons#choose_season_to_wipe', as: :choose_season_to_wipe, season: /\d+/
+  get '/season/:season/:battletag/confirm-wipe' => 'seasons#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
+  delete '/season/:season/:battletag' => 'seasons#wipe', season: /\d+/
+
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
   post '/season/:season/:battletag' => 'matches#create', season: /\d+/
   post '/season/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
-  delete '/season/:season/:battletag' => 'matches#wipe', season: /\d+/
-  get '/season/:season/:battletag/confirm-wipe' => 'matches#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
 

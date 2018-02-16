@@ -87,21 +87,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  def wipe_season_select
-  end
-
-  def confirm_wipe
-    @match_count = @oauth_account.matches.in_season(@season).count
-  end
-
-  def wipe
-    match_count = @oauth_account.matches.in_season(@season).count
-    @oauth_account.matches.in_season(@season).destroy_all
-    flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
-      "#{@oauth_account} in season #{@season}."
-    redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
-  end
-
   private
 
   def render_edit_on_fail
