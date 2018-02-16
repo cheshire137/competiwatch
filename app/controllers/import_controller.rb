@@ -25,16 +25,18 @@ class ImportController < ApplicationController
       render 'import/index'
     elsif results.all?
       flash[:notice] = "Successfully imported #{@matches.size} " +
-        "#{'match'.pluralize(@matches.size)} to #{@season}."
+        "#{'match'.pluralize(@matches.size)} to #{@oauth_account} season #{@season}."
       redirect_to matches_path(@season, @oauth_account)
     elsif results.any?
       success_count = @matches.select(&:persisted?).size
       failure_count = @matches.select(&:new_record?).size
       flash[:alert] = "Imported #{success_count} #{'match'.pluralize(success_count)}, but " +
-        "#{failure_count} #{'match'.pluralize(failure_count)} failed to import."
+        "#{failure_count} #{'match'.pluralize(failure_count)} failed to import to " +
+        "#{@oauth_account} season #{@season}."
       render 'import/index'
     else
-      flash[:error] = "Failed to import #{@matches.size} #{'match'.pluralize(@matches.size)}."
+      flash[:error] = "Failed to import #{@matches.size} #{'match'.pluralize(@matches.size)} to " +
+                      "#{@oauth_account} season #{@season}."
       render 'import/index'
     end
   end
