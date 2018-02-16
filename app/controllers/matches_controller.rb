@@ -1,8 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:index, :create, :wipe_season_select, :confirm_wipe,
-                                           :wipe, :export]
-  before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe, :export]
+  before_action :set_oauth_account, only: [:index, :create, :export]
+  before_action :set_season, only: [:index, :create, :export]
   before_action :set_match, only: [:edit, :update]
 
   def index

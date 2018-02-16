@@ -1,6 +1,7 @@
 class SeasonsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account, except: [:choose_season_to_wipe]
+  before_action :set_season, only: [:confirm_wipe, :wipe]
 
   def index
     @active_seasons = @oauth_account.active_seasons
