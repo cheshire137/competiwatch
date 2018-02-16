@@ -20,6 +20,10 @@ function activateTab(link, tabContent) {
   if (link.classList.contains('js-trends-tab')) {
     remoteLoadCharts()
   }
+
+  setTimeout(function() {
+    window.scroll({ top: 0, left: 0, behavior: 'smooth' })
+  }, 100)
 }
 
 on('click', '.js-tab', function(event) {
