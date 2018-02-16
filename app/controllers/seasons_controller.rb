@@ -58,7 +58,9 @@ class SeasonsController < ApplicationController
   end
 
   def confirm_wipe
-    @match_count = @oauth_account.matches.in_season(@season).count
+    @matches = @oauth_account.matches.in_season(@season).includes(:heroes, :map, :friends).
+      ordered_by_time
+    @match_count = @matches.count
   end
 
   def wipe

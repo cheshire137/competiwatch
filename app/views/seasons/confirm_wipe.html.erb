@@ -11,7 +11,16 @@
     <%= @season %>. Are you sure you want to delete them?
   </p>
 
-  <%= form_tag matches_path(@season, @oauth_account), method: :delete do %>
+  <ul class="list-style-none">
+    <% @matches.each_with_index do |match, i| %>
+      <li<% if i > 0%> class="mt-2"<% end %>>
+        <%= render partial: 'matches/match_summary',
+                   locals: { match: match, index: i, matches: @matches } %>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= form_tag matches_path(@season, @oauth_account), method: :delete, class: 'mt-4' do %>
     <button type="submit" class="btn btn-danger" data-confirm="Are you sure?">
       Yes, delete season <%= @season %>
     </button>

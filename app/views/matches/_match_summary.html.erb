@@ -1,0 +1,35 @@
+<div class="d-flex match-summary Box p-2 f4 flex-items-center">
+  <span class="text-bold text-gray"><%= match_number(index, match, matches) %></span>
+  <% if match.win? %>
+    <span class="text-green">Win</span>
+  <% elsif match.loss? %>
+    <span class="text-red">Loss</span>
+  <% elsif match.draw? %>
+    <span class="text-orange">Draw</span>
+  <% end %>
+  <% if match.rank %>
+    <span class="text-bold d-flex flex-items-center">
+      <span class="d-inline-block mr-2"><%= match.rank %></span>
+      <%= rank_image(match.rank) %>
+    </span>
+  <% elsif match.placement? %>
+    <span class="text-gray">Placement</span>
+  <% end %>
+  <% if match.map %>
+    <span class="background-<%= match.map.slug %> px-1 rounded-1"><%= match.map %></span>
+  <% end %>
+  <% if match.heroes.any? %>
+    <span class="hero-portrait-container">
+      <% match.heroes.sort_by(&:name).each do |hero| %>
+        <span class="tooltipped tooltipped-n d-inline-block" aria-label="<%= hero.name %>">
+          <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
+        </span>
+      <% end %>
+    </span>
+  <% end %>
+  <% if match.friends.any? %>
+    <span class="css-truncate tooltipped tooltipped-s tooltipped-multiline" aria-label="<%= match.friend_names.join(', ') %>">
+      <span class="css-truncate-target"><%= match.friend_names.join(', ') %></span>
+    </span>
+  <% end %>
+</div>

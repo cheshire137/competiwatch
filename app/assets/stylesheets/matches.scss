@@ -94,3 +94,9 @@
   width: 21%;
   margin-right: 2%;
 }
+
+.match-summary span {
+  + span {
+    margin-left: 16px;
+  }
+}
