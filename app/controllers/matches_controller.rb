@@ -1,8 +1,7 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:index, :create, :wipe_season_select, :confirm_wipe,
-                                           :wipe, :export]
-  before_action :set_season, only: [:index, :create, :confirm_wipe, :wipe, :export]
+  before_action :set_oauth_account, only: [:index, :create, :export]
+  before_action :set_season, only: [:index, :create, :export]
   before_action :set_match, only: [:edit, :update]
 
   def index
@@ -85,21 +84,6 @@ class MatchesController < ApplicationController
         send_data @oauth_account.export(@season), filename: filename
       end
     end
-  end
-
-  def wipe_season_select
-  end
-
-  def confirm_wipe
-    @match_count = @oauth_account.matches.in_season(@season).count
-  end
-
-  def wipe
-    match_count = @oauth_account.matches.in_season(@season).count
-    @oauth_account.matches.in_season(@season).destroy_all
-    flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
-      "#{@oauth_account} in season #{@season}."
-    redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
   end
 
   private

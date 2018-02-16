@@ -1,0 +1,40 @@
+<% content_for(:title, 'Choose a season to wipe') %>
+
+<% content_for(:breadcrumb) do %>
+  Choose a season to wipe
+<% end %>
+
+<p>
+  <a href="<%= root_path %>">&larr; Cancel, do not delete match history</a>
+</p>
+
+<p class="mb-4">
+  Choose a competitive season to preview its matches. Nothing will be deleted yet, you will be asked to confirm:
+</p>
+
+<div class="d-flex flex-justify-between flex-wrap">
+  <% @oauth_accounts.each do |oauth_account| %>
+    <div class="Box p-3 account-box">
+      <h3 class="h3 mb-2 text-normal"><%= oauth_account %></h3>
+      <ul class="list-style-none">
+        <% seasons = @seasons_for_account[oauth_account.id] %>
+        <% if seasons.present? %>
+          <% seasons.sort.each_with_index do |season, i| %>
+            <% match_count = @match_counts[[oauth_account.id, season]] %>
+
+            <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
+              <a class="d-flex flex-justify-between flex-items-center" href="<%= confirm_season_wipe_path(season, oauth_account) %>">
+                Season <%= season %>
+                <span class="text-gray text-small">
+                  <%= pluralize match_count, 'match' %>
+                </span>
+              </a>
+            </li>
+          <% end %>
+        <% else %>
+          <li>No matches</li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

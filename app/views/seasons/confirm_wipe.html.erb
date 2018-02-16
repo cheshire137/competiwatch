@@ -1,0 +1,32 @@
+<% content_for(:title, "#{@oauth_account} / Season #{@season} / Confirm wipe") %>
+
+<% content_for(:breadcrumb) do %>
+  <%= @oauth_account %> / Season <%= @season %> / Confirm wipe
+<% end %>
+
+<% if @match_count > 0 %>
+  <p><a href="<%= choose_season_to_wipe_path %>">&larr; Choose another season or account</a></p>
+
+  <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
+    <strong><%= @oauth_account %></strong> has
+    <strong><%= @match_count %></strong> <%= 'match'.pluralize(@match_count) %> in season
+    <%= @season %>. Are you sure you want to delete them?
+  </p>
+
+  <ul class="list-style-none">
+    <% @matches.each_with_index do |match, i| %>
+      <li<% if i > 0%> class="mt-2"<% end %>>
+        <%= render partial: 'matches/match_summary',
+                   locals: { match: match, index: i, matches: @matches } %>
+      </li>
+    <% end %>
+  </ul>
+
+  <%= form_tag matches_path(@season, @oauth_account), method: :delete, class: 'mt-4' do %>
+    <button type="submit" class="btn btn-danger" data-confirm="Are you sure?">
+      Yes, delete season <%= @season %>
+    </button>
+  <% end %>
+<% else %>
+  <p>You have no matches in season <%= @season %> &mdash; there's nothing to delete!</p>
+<% end %>
