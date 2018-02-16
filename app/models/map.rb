@@ -15,4 +15,13 @@ class Map < ApplicationRecord
   def image_name
     @image_name ||= "#{slug}.png"
   end
+
+  def chart_label
+    return 'WP: Gibraltar' if name == 'Watchpoint: Gibraltar'
+    return 'Volskaya' if name == 'Volskaya Industries'
+    return 'B. World' if name == 'Blizzard World'
+    return 'H. Lunar Colony' if name == 'Horizon Lunar Colony'
+    return 'Anubis' if name == 'Temple of Anubis'
+    name
+  end
 end

@@ -231,7 +231,7 @@ class TrendsController < ApplicationController
       end
     end
 
-    @map_names = maps_by_id.values.map(&:name)
+    @map_names = maps_by_id.values.map(&:chart_label)
     map_ids = maps_by_id.keys
     @win_counts = map_ids.map { |map_id| wins_by_map_id[map_id] || 0 }
     @loss_counts = map_ids.map { |map_id| losses_by_map_id[map_id] || 0 }
