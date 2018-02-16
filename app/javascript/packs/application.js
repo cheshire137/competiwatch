@@ -9,10 +9,10 @@
 
 import './https-redirect.js'
 import './confirm-click.js'
+import './sticky-nav.js'
 import './tabs.js'
 import './remote-load.js'
 import './dropdowns.js'
 import './match-time.js'
 import './charts.js'
 import './friends.js'
-import './sticky-nav.js'

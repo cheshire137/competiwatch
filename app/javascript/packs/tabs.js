@@ -1,6 +1,11 @@
 import {on} from 'delegated-events'
 import remoteLoadCharts from './remote-load-charts.js'
 
+function scrollToHeader() {
+  const header = document.querySelector('.js-top-nav')
+  window.scroll({ top: header.clientHeight, left: 0, behavior: 'smooth' })
+}
+
 function activateTab(link, tabContent) {
   const container = link.closest('.js-tab-container')
   const otherLinks = container.querySelectorAll('.js-tab')
@@ -21,9 +26,7 @@ function activateTab(link, tabContent) {
     remoteLoadCharts()
   }
 
-  setTimeout(function() {
-    window.scroll({ top: 0, left: 0, behavior: 'smooth' })
-  }, 100)
+  setTimeout(scrollToHeader, 100)
 }
 
 on('click', '.js-tab', function(event) {
