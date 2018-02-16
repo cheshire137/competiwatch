@@ -33,6 +33,9 @@ class MatchImporter
     if (placement = row['placement']).present?
       match.placement = placement.downcase == 'y'
     end
+    if (result = row['result']).present?
+      match.result = result
+    end
     if (map_name = row['map']).present?
       match.map_id = map_ids_by_name[map_name.downcase]
     end

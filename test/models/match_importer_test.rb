@@ -10,5 +10,13 @@ class MatchImporterTest < ActiveSupport::TestCase
       importer.import(path)
       assert_empty importer.errors
     end
+
+    matches = oauth_account.matches.placements.ordered_by_time
+    assert_equal :win, matches[0].result
+    assert_equal :win, matches[1].result
+    assert_equal :loss, matches[2].result
+    assert_equal :draw, matches[3].result
+    assert_equal :loss, matches[4].result
+    assert_equal :win, matches[5].result
   end
 end
