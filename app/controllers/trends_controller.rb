@@ -211,7 +211,7 @@ class TrendsController < ApplicationController
     end
   end
 
-  def per_map_win_loss_chart
+  def map_chart
     maps_by_id = Map.order(:name).select([:id, :name]).
       map { |map| [map.id, map] }.to_h
     matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
