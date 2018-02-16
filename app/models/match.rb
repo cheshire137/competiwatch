@@ -65,28 +65,24 @@ class Match < ApplicationRecord
     end
   end
 
+  def placement_char
+    char_for_boolean(placement)
+  end
+
   def ally_thrower_char
-    unless ally_thrower.nil?
-      ally_thrower? ? 'Y' : 'N'
-    end
+    char_for_boolean(ally_thrower)
   end
 
   def ally_leaver_char
-    unless ally_leaver.nil?
-      ally_leaver? ? 'Y' : 'N'
-    end
+    char_for_boolean(ally_leaver)
   end
 
   def enemy_thrower_char
-    unless enemy_thrower.nil?
-      enemy_thrower? ? 'Y' : 'N'
-    end
+    char_for_boolean(enemy_thrower)
   end
 
   def enemy_leaver_char
-    unless enemy_leaver.nil?
-      enemy_leaver? ? 'Y' : 'N'
-    end
+    char_for_boolean(enemy_leaver)
   end
 
   def thrower?
@@ -266,6 +262,12 @@ class Match < ApplicationRecord
   end
 
   private
+
+  def char_for_boolean(flag)
+    unless flag.nil?
+      flag ? 'Y' : 'N'
+    end
+  end
 
   def set_result
     return if result.present?
