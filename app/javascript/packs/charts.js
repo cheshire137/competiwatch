@@ -19,11 +19,18 @@ on('click', '.js-trends-tab', function(event) {
   remoteLoadCharts()
 })
 
+function wholeTicks(value) {
+  if (Number.isInteger(value)) {
+    return value
+  }
+}
+
 const streaksObserver = new SelectorObserver(document, '.js-streaks-chart', function() {
   const context = this.getContext('2d')
   const options = {
     scales: {
-      xAxes: [{ ticks: { autoSkip: true } }]
+      xAxes: [{ ticks: { autoSkip: true } }],
+      yAxes: [{ ticks: { callback: wholeTicks } }]
     },
     responsive: true, maintainAspectRatio: false
   }
@@ -81,7 +88,8 @@ const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-char
   const context = this.getContext('2d')
   const options = {
     scales: {
-      xAxes: [{ ticks: { autoSkip: false } }]
+      xAxes: [{ ticks: { autoSkip: false } }],
+      yAxes: [{ ticks: { callback: wholeTicks } }]
     },
     responsive: true, maintainAspectRatio: false
   }
@@ -121,7 +129,12 @@ winLossBarObserver.observe()
 
 const throwerLeaverObserver = new SelectorObserver(document, '.js-thrower-leaver-chart', function() {
   const context = this.getContext('2d')
-  const options = { responsive: true, maintainAspectRatio: false }
+  const options = {
+    responsive: true, maintainAspectRatio: false,
+    scales: {
+      yAxes: [{ ticks: { callback: wholeTicks } }]
+    }
+  }
   const labels = this.getAttribute('data-labels')
   const allies = this.getAttribute('data-allies')
   const enemies = this.getAttribute('data-enemies')
@@ -152,7 +165,8 @@ const heroesObserver = new SelectorObserver(document, '.js-heroes-chart', functi
   const context = this.getContext('2d')
   const options = {
     scales: {
-      xAxes: [{ ticks: { autoSkip: false } }]
+      xAxes: [{ ticks: { autoSkip: false } }],
+      yAxes: [{ ticks: { callback: wholeTicks } }]
     },
     responsive: true, maintainAspectRatio: false
   }
