@@ -1,6 +1,29 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'merge_with moves accounts and friends to given user' do
+    primary_user = create(:user, battletag: 'PrimaryUser#123')
+    secondary_user = create(:user, battletag: 'SecondaryUser#456')
+    friend1 = create(:friend, user: secondary_user)
+    friend2 = create(:friend, user: secondary_user)
+    oauth_account1 = create(:oauth_account, user: secondary_user)
+    oauth_account2 = create(:oauth_account, user: secondary_user)
+
+    assert_no_difference ['OauthAccount.count', 'Friend.count'] do
+      assert_difference 'User.count', -1 do
+        assert secondary_user.merge_with(primary_user), 'should return true on success'
+        assert_empty secondary_user.oauth_accounts.reload
+        assert_empty secondary_user.friends.reload
+      end
+    end
+
+    assert_equal primary_user, friend1.reload.user
+    assert_equal primary_user, friend2.reload.user
+    assert_equal primary_user, oauth_account1.reload.user
+    assert_equal primary_user, oauth_account2.reload.user
+    refute User.exists?(secondary_user.id), 'secondary user should have been deleted'
+  end
+
   test 'requires battletag' do
     user = User.new
 
