@@ -79,12 +79,35 @@ dt {
   color: #b9b9b9;
 }
 
+$container-width: 1014px;
+
 .container {
-  width: 1014px;
+  width: $container-width;
+}
+
+.sticky-nav {
+  position: fixed;
+  width: $container-width;
+  top: 0;
+  z-index: 999;
+  padding-top: 8px;
+  height: 2.813rem;
+}
+
+.sticky-nav + div {
+  margin-top: 2.813rem;
 }
 
 @media (max-width: 1085px) {
   .container {
-    width: 95%;
+    width: 96%;
+  }
+
+  .sticky-nav {
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding-left: 2%;
+    padding-right: 2%;
   }
 }
