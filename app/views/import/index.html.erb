@@ -34,16 +34,15 @@
 
   <h4 class="h4 mt-4 mb-2">Requirements:</h4>
   <ul class="ml-4">
-    <li>Valid columns: rank, heroes, map, comment, time, day, ally thrower, ally leaver, enemy thrower, enemy leaver, group</li>
-    <li>Rank is required</li>
+    <li><span class="text-bold">Valid columns:</span> rank, heroes, map, comment, time, day, ally thrower, ally leaver, enemy thrower, enemy leaver, group, result, placement</li>
+    <li>Rank is required for non-placement matches</li>
     <li>Valid values for 'day' column: weekday, weekend</li>
     <li>Valid values for 'time' column: morning, afternoon, evening, night</li>
-    <li>Valid values for thrower and leaver columns: Y, N</li>
+    <li>Valid values for thrower, leaver, and placement columns: Y, N</li>
+    <li>Valid values for result column: win, loss, draw</li>
     <li>'Group' should be a comma-separated list of the people who grouped with you</li>
     <li>Column order does not matter</li>
     <li>A header row is required; it is case insensitive</li>
-    <li>The first row after the header row must contain your starting SR for the season</li>
-    <li>Cannot import individual placement matches</li>
     <li>Hero names must be comma-separated; case doesn't matter</li>
   </ul>
 </div>
@@ -55,6 +54,7 @@
       <nav class="tabnav-tabs">
         <a href="#sample1" class="tabnav-tab selected js-tab">Sample file #1</a>
         <a href="#sample2" class="tabnav-tab js-tab">Sample file #2</a>
+        <a href="#sample3" class="tabnav-tab js-tab">Sample file #3</a>
       </nav>
     </div>
 
@@ -84,6 +84,25 @@ weekend,3925,Junkertown,"slightly favored, PotG",</pre>
 3474,evening,Hollywood,</pre>
 
       Includes your SR, what general time you played, which map you played on, and which heroes you played.
+    </div>
+
+    <div id="sample3" class="js-tab-contents d-none border p-3 border-top-0">
+      <p>This file includes 10 placement matches and a regular match:</p>
+      <pre class="mb-2">placement,result,rank,map,comment
+Y,win,,Hanamura,""
+Y,win,,Nepal,"trickled"
+Y,loss,,Ilios,""
+Y,draw,,Junkertown,"Close game"
+Y,loss,,"King's Row","what was Winston doing"
+Y,win,,"Blizzard World",""
+Y,win,,Oasis,"ez"
+Y,loss,,"Watchpoint: Gibraltar",""
+Y,win,,Eichenwalde,""
+Y,loss,3115,Ilios,"couldn't stop Junkrat"
+N,,3135,Numbani,"good teamwork"
+</pre>
+
+      Includes whether the match was a placement match or not, what the outcome of the placement match was, your SR, which map you played on, and a comment about the match.
     </div>
   </div>
 </div>
