@@ -24,10 +24,15 @@ class MatchImporter
   private
 
   def import_match(row, prior_match:)
-    match = @oauth_account.matches.new(rank: row['rank'].to_i, season: @season,
-                                       comment: row['comment'], prior_match: prior_match,
-                                       placement: false)
+    match = @oauth_account.matches.new(season: @season, comment: row['comment'],
+                                       prior_match: prior_match)
 
+    if (rank = row['rank']).present?
+      match.rank = rank.to_i
+    end
+    if (placement = row['placement']).present?
+      match.placement = placement.downcase == 'y'
+    end
     if (map_name = row['map']).present?
       match.map_id = map_ids_by_name[map_name.downcase]
     end
