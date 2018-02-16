@@ -24,6 +24,10 @@ class User < ApplicationRecord
       success = success && friend.save
     end
 
+    # Need to refresh the lists so #destroy doesn't delete them
+    oauth_accounts.reload
+    friends.reload
+
     success && destroy
   end
 
