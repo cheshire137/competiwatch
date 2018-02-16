@@ -1,10 +1,11 @@
 class MatchImporter
-  attr_reader :matches
+  attr_reader :matches, :errors
 
   def initialize(oauth_account:, season:)
     @oauth_account = oauth_account
     @season = season
     @matches = []
+    @errors = []
   end
 
   def import(path)
@@ -23,10 +24,18 @@ class MatchImporter
   private
 
   def import_match(row, prior_match:)
-    match = @oauth_account.matches.new(rank: row['rank'].to_i, season: @season,
-                                       comment: row['comment'], prior_match: prior_match,
-                                       placement: false)
+    match = @oauth_account.matches.new(season: @season, comment: row['comment'],
+                                       prior_match: prior_match)
 
+    if (rank = row['rank']).present?
+      match.rank = rank.to_i
+    end
+    if (placement = row['placement']).present?
+      match.placement = placement.downcase == 'y'
+    end
+    if (result = row['result']).present?
+      match.result = result
+    end
     if (map_name = row['map']).present?
       match.map_id = map_ids_by_name[map_name.downcase]
     end
@@ -49,7 +58,9 @@ class MatchImporter
       match.enemy_leaver = enemy_leaver.downcase == 'y'
     end
 
-    match.save
+    unless match.save
+      errors << match.errors
+    end
 
     if match.persisted? && (friend_name_str = row['group']).present?
       friend_names = split_string(friend_name_str)

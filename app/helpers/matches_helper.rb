@@ -85,14 +85,26 @@ module MatchesHelper
     [['', '']] + valid_maps
   end
 
+  def placement_count(matches)
+    index = 0
+    while matches[index] && matches[index].placement?
+      index += 1
+    end
+    index
+  end
+
   def match_number(index, match, matches)
     first_match = matches.first
+    total_placements = placement_count(matches)
     if first_match.placement_log?
       index
     else
       number = index + 1
-      prefix = if match.placement?
-        'P'
+      prefix = ''
+      if match.placement?
+        prefix = 'P'
+      else
+        number -= total_placements
       end
       "#{prefix}#{number}"
     end
