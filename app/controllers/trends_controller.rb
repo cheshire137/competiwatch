@@ -122,6 +122,37 @@ class TrendsController < ApplicationController
     end
   end
 
+  def day_time_chart
+    matches = @oauth_account.matches.in_season(@season).
+      select([:time_of_day, :day_of_week, :result]).with_day_and_time.with_result
+
+    wins_by_day_time = Hash.new(0)
+    losses_by_day_time = Hash.new(0)
+    draws_by_day_time = Hash.new(0)
+
+    matches.each do |match|
+      key = match.day_time_summary
+      if match.win?
+        wins_by_day_time[key] += 1
+      elsif match.loss?
+        losses_by_day_time[key] += 1
+      elsif match.draw?
+        draws_by_day_time[key] += 1
+      end
+    end
+
+    @day_times = []
+    Match::DAY_OF_WEEK_MAPPINGS.each_key do |day_of_week|
+      Match::TIME_OF_DAY_MAPPINGS.each_key do |time_of_day|
+        @day_times << Match.day_time_summary(day_of_week, time_of_day)
+      end
+    end
+
+    @win_counts = @day_times.map { |key| wins_by_day_time[key] || 0 }
+    @loss_counts = @day_times.map { |key| losses_by_day_time[key] || 0 }
+    @draw_counts = @day_times.map { |key| draws_by_day_time[key] || 0 }
+  end
+
   def time_chart
     matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
       where("time_of_day IS NOT NULL").with_result

@@ -42,7 +42,8 @@ class Match < ApplicationRecord
   }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
-  scope :with_result, ->{ where("result IS NOT NULL") }
+  scope :with_result, ->{ where('result IS NOT NULL') }
+  scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
 
   def group_size
     friends.to_a.size + 1
@@ -114,6 +115,17 @@ class Match < ApplicationRecord
     elsif time_of_day == :night
       "🌝"
     end
+  end
+
+  def self.day_time_summary(day_of_week, time_of_day)
+    values = [day_of_week, time_of_day]
+    emojis = [emoji_for_day_of_week(values[0]), emoji_for_time_of_day(values[1])]
+    suffixes = values.map { |sym| sym.to_s.humanize }
+    emojis.join(' ') + ' ' + suffixes.join(' ')
+  end
+
+  def day_time_summary
+    self.class.day_time_summary(day_of_week, time_of_day)
   end
 
   def last_placement?
