@@ -28,9 +28,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         return redirect_to(accounts_path, message_opts)
       end
     else
-      user = User.new(battletag: battletag)
+      user = User.where(battletag: battletag).first_or_initialize
 
-      unless user.save
+      if user.new_record? && !user.save
         message = "Failed to sign in via Battle.net as #{battletag}."
         return redirect_to(root_path, alert: message)
       end
