@@ -2,4 +2,6 @@
   Wins/Losses by Day of Week
   <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= @season %></span>
 </h3>
-<canvas class="js-win-loss-bar-chart" data-labels="<%= @days.to_json %>" data-wins="<%= @win_counts.to_json %>" data-losses="<%= @loss_counts.to_json %>" data-draws="<%= @draw_counts.to_json %>"></canvas>
+<div class="small-chart-container">
+  <canvas class="js-win-loss-bar-chart" data-labels="<%= @days.to_json %>" data-wins="<%= @win_counts.to_json %>" data-losses="<%= @loss_counts.to_json %>" data-draws="<%= @draw_counts.to_json %>"></canvas>
+</div>

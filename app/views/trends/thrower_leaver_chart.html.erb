@@ -2,4 +2,6 @@
   Throwers/Leavers
   <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= @season %></span>
 </h3>
-<canvas class="js-thrower-leaver-chart" data-labels="<%= @types.to_json %>" data-allies="<%= @allies.to_json %>" data-enemies="<%= @enemies.to_json %>"></canvas>
+<div class="small-chart-container">
+  <canvas class="js-thrower-leaver-chart" data-labels="<%= @types.to_json %>" data-allies="<%= @allies.to_json %>" data-enemies="<%= @enemies.to_json %>"></canvas>
+</div>

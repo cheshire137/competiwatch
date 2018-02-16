@@ -121,7 +121,7 @@ class Match < ApplicationRecord
     values = [day_of_week, time_of_day]
     emojis = [emoji_for_day_of_week(values[0]), emoji_for_time_of_day(values[1])]
     suffixes = values.map { |sym| sym.to_s.humanize }
-    emojis.join(' ') + ' ' + suffixes.join(' ')
+    [emojis.join(' '), suffixes.join(' ')]
   end
 
   def day_time_summary
