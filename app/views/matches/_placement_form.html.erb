@@ -4,7 +4,7 @@
 <input type="hidden" name="match[placement]" value="1">
 
 <div class="clearfix">
-  <div class="col-6 float-left pr-4">
+  <div class="col-md-12 col-lg-6 float-left pr-4">
     <% if match.last_placement? %>
       <div class="form-group mt-0 d-flex flex-items-center">
         <%= form.label :rank, 'Where did you place?', class: 'mr-2 sr-field-label' %>
@@ -22,16 +22,16 @@
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
   </div>
-  <div class="col-6 float-left">
+  <div class="col-md-12 col-lg-6 float-left">
     <%= render partial: 'matches/hero_options', locals: { heroes: heroes, match: match } %>
   </div>
 </div>
 <div class="clearfix">
-  <div class="col-6 float-left pr-4">
+  <div class="col-md-12 col-lg-6 float-left pr-4">
     <%= render partial: 'matches/friends',
                locals: { form: form, match: match, friends: friends, all_friends: all_friends } %>
   </div>
-  <div class="col-6 float-left">
+  <div class="col-md-12 col-lg-6 float-left">
     <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
 </div>
