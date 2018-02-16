@@ -1,11 +1,11 @@
 <% content_for(:title, 'Log In') %>
 
 <div class="text-center d-flex flex-items-center flex-justify-center">
-  <div class="col-5 pr-4 f4">
-    Track your competitive match history per season in Overwatch. View charts of
-    your performance, import past seasons, and export your data.
-  </div>
-  <div class="pl-4">
+  <div class="col-6">
+    <div class="mb-4 f3">
+      Track your competitive match history per season in Overwatch. View charts of
+      your performance, import past seasons, and export your data.
+    </div>
     <a class="btn-green h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
   </div>
 </div>
