@@ -45,7 +45,7 @@ class Hero < ApplicationRecord
   def self.flatten_name(name)
     full_name = full_name_from_alias(name)
     flattened_name = full_name.mb_chars.normalize(:kd).gsub(/[^\x00-\x7F]/n,'')
-    slug_for(flattened_name)
+    slug_for(flattened_name).to_s
   end
 
   def slug

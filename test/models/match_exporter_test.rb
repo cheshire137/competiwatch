@@ -88,7 +88,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal @map1, match4.map
     assert_equal 'this is so cool', match4.comment
     assert_empty match4.heroes
-    assert_equal [@friend1, @friend2], match4.friends
+    assert_equal [@friend2, @friend1].map(&:name), match4.friends.map(&:name)
 
     File.delete(path)
   end
