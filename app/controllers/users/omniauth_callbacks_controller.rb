@@ -15,8 +15,17 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
 
       if signed_in? && account.user != current_user
-        message = 'That account is already linked to another user.'
-        return redirect_to(accounts_path, alert: message)
+        other_user = account.user
+        success = if other_user.merge_with(current_user)
+          account.user = current_user
+          account.save
+        end
+        message_opts = if success
+          { notice: "Successfully linked #{battletag}." }
+        else
+          { alert: "Could not link account #{battletag}." }
+        end
+        return redirect_to(accounts_path, message_opts)
       end
     else
       user = User.new(battletag: battletag)
