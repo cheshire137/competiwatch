@@ -79,35 +79,26 @@ dt {
   color: #b9b9b9;
 }
 
-$container-width: 1014px;
-
 .container {
-  width: $container-width;
+  width: 1014px;
 }
 
-.sticky-nav,
-.sticky-nav-placeholder {
-  height: 2.813rem;
-}
+@supports(position:sticky) {
+  .sticky-nav-container {
+    margin-top: -8px;
+  }
 
-.sticky-nav {
-  position: fixed;
-  width: $container-width;
-  top: 0;
-  z-index: 999;
-  padding-top: 8px;
+  .sticky-nav {
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    padding-top: 8px;
+    z-index: 999;
+  }
 }
 
 @media (max-width: 1085px) {
   .container {
     width: 96%;
-  }
-
-  .sticky-nav {
-    left: 0;
-    right: 0;
-    width: 100%;
-    padding-left: 2%;
-    padding-right: 2%;
   }
 }
