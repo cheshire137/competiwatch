@@ -19,12 +19,14 @@ class User < ApplicationRecord
       success = success && oauth_account.save
     end
 
-    friends.each do |friend|
-      if Friend.exists?(user_id: primary_user, name: friend.name)
-        success = success && friend.destroy
+    friends.each do |secondary_friend|
+      primary_friend = primary_user.friends.find_by_name(secondary_friend.name)
+      if primary_friend
+        MatchFriend.where(friend_id: secondary_friend.id).update_all(friend_id: primary_friend.id)
+        success = success && secondary_friend.destroy
       else
-        friend.user = primary_user
-        success = success && friend.save
+        secondary_friend.user = primary_user
+        success = success && secondary_friend.save
       end
     end
 
