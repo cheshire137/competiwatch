@@ -5,6 +5,7 @@
 <% end %>
 
 <div class="js-tab-container">
+  <div class="d-none js-sticky-nav-placeholder sticky-nav-placeholder"></div>
   <div class="tabnav js-sticky-nav bg-white">
     <%= render partial: 'matches/tabs',
                locals: { matches: @matches, oauth_account: @oauth_account, season: @season } %>

@@ -85,17 +85,17 @@ $container-width: 1014px;
   width: $container-width;
 }
 
+.sticky-nav,
+.sticky-nav-placeholder {
+  height: 2.813rem;
+}
+
 .sticky-nav {
   position: fixed;
   width: $container-width;
   top: 0;
   z-index: 999;
   padding-top: 8px;
-  height: 2.813rem;
-}
-
-.sticky-nav + div {
-  margin-top: 2.813rem;
 }
 
 @media (max-width: 1085px) {
