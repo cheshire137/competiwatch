@@ -1,7 +1,7 @@
-Placement,Group,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver,Enemy Thrower
-Y,"",,,,,"",,,,
-Y,"Jamie",Watchpoint: Gibraltar,"red Junkrat, favored team",,,"",N,Y,N,N
-Y,"Jamie, Rob",Lijiang Tower,unfavored team,,,"",,,,
-Y,"Siege",Junkertown,first game w/o perf. SR,,,"",N,N,N,N
-Y,"",Hollywood,"overextending, feeding teammate",,,"",N,N,N,Y
-Y,"",Hanamura,favored,,,"",,,,
+Placement,Result,Group,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver,Enemy Thrower
+Y,win,"",,,,,"",,,,
+Y,win,"Jamie",Watchpoint: Gibraltar,"red Junkrat, favored team",,,"",N,Y,N,N
+Y,loss,"Jamie, Rob",Lijiang Tower,unfavored team,,,"",,,,
+Y,draw,"Siege",Junkertown,first game w/o perf. SR,,,"",N,N,N,N
+Y,loss,"",Hollywood,"overextending, feeding teammate",,,"",N,N,N,Y
+Y,win,"",Hanamura,favored,,,"",,,,
