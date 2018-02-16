@@ -1,10 +1,11 @@
 class MatchImporter
-  attr_reader :matches
+  attr_reader :matches, :errors
 
   def initialize(oauth_account:, season:)
     @oauth_account = oauth_account
     @season = season
     @matches = []
+    @errors = []
   end
 
   def import(path)
@@ -49,7 +50,9 @@ class MatchImporter
       match.enemy_leaver = enemy_leaver.downcase == 'y'
     end
 
-    match.save
+    unless match.save
+      errors << match.errors
+    end
 
     if match.persisted? && (friend_name_str = row['group']).present?
       friend_names = split_string(friend_name_str)
