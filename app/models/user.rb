@@ -20,8 +20,12 @@ class User < ApplicationRecord
     end
 
     friends.each do |friend|
-      friend.user = primary_user
-      success = success && friend.save
+      if Friend.exists?(user_id: primary_user, name: friend.name)
+        success = success && friend.destroy
+      else
+        friend.user = primary_user
+        success = success && friend.save
+      end
     end
 
     # Need to refresh the lists so #destroy doesn't delete them

@@ -1,6 +1,21 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'merge_with handles dupe friends' do
+    primary_user = create(:user)
+    friend1 = create(:friend, user: primary_user, name: 'Luis')
+    secondary_user = create(:user)
+    friend2 = create(:friend, user: secondary_user, name: 'Luis')
+
+    assert_difference 'Friend.count', -1 do
+      assert secondary_user.merge_with(primary_user), 'should return true on success'
+    end
+
+    assert_equal primary_user, friend1.reload.user
+    refute Friend.exists?(friend2.id), 'should have deleted friend with same name'
+    refute User.exists?(secondary_user.id), 'secondary user should have been deleted'
+  end
+
   test 'merge_with moves accounts and friends to given user' do
     primary_user = create(:user, battletag: 'PrimaryUser#123')
     secondary_user = create(:user, battletag: 'SecondaryUser#456')
