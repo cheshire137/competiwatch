@@ -47,7 +47,7 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
     @match.set_friends_from_names(friend_names)
 
-    redirect_to matches_path(@season, @oauth_account)
+    redirect_to matches_path(@season, @oauth_account, anchor: "match-row-#{@match.id}")
   end
 
   def edit
@@ -73,7 +73,7 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
     @match.set_friends_from_names(friend_names)
 
-    redirect_to matches_path(@match.season, @oauth_account)
+    redirect_to matches_path(@match.season, @oauth_account, anchor: "match-row-#{@match.id}")
   end
 
   def export

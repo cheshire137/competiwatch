@@ -64,7 +64,9 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
       post "/season/1/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
     end
 
-    assert_redirected_to matches_path(1, oauth_account)
+    match = oauth_account.matches.ordered_by_time.last
+    refute_nil match
+    assert_redirected_to matches_path(1, oauth_account, anchor: "match-row-#{match.id}")
   end
 
   test 'renders edit form when create fails' do
@@ -105,7 +107,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(oauth_account)
     put "/matches/#{match.id}", params: { match: { rank: 1234, map_id: map.id } }
 
-    assert_redirected_to matches_path(match.season, oauth_account)
+    assert_redirected_to matches_path(match.season, oauth_account, anchor: "match-row-#{match.id}")
     assert_equal map, match.reload.map
     assert_equal 1234, match.rank
   end

@@ -18,7 +18,7 @@
     </thead>
     <tbody>
       <% matches.each_with_index do |match, i| %>
-        <tr class="<%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
+        <tr id="match-row-<%= match.id %>" class="<%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
           <td class="match-cell match-number-cell">
             <%= match_number(i, match, matches) %>
           </td>
