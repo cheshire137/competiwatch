@@ -54,8 +54,10 @@
         </span>
         <%= 'draw'.pluralize(@total_draws) %>
       </span>
-      &mdash;
-      <%= @win_percent %>% win percentage
+      <% if @total_matches > 0 %>
+        &mdash;
+        <%= @win_percent %>% win percentage
+      <% end %>
     </div>
 
     <% if @match_counts_by_hero.any? %>
