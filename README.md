@@ -19,7 +19,7 @@ you to import past seasons from a spreadsheet as well as export your data.
 ----
 
 ![Screenshot of trends](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot-trends.png)
-![Screenshot of map win loss chart](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot3.png)
+![Screenshot of charts](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot-charts.png)
 ![Screenshot of streaks chart](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot4.png)
 
 ## How to Develop
