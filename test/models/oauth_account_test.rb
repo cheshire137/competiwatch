@@ -1,6 +1,22 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
+  test "can_be_unlinked? returns true when it is not the user's only account" do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+
+    assert_predicate oauth_account1, :can_be_unlinked?
+    assert_predicate oauth_account2, :can_be_unlinked?
+  end
+
+  test "can_be_unlinked? returns false when it is the user's only account" do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+
+    refute_predicate oauth_account, :can_be_unlinked?
+  end
+
   test "default? returns true when it is the user's default OAuth account" do
     oauth_account = create(:oauth_account)
     oauth_account.user.default_oauth_account = oauth_account

@@ -12,6 +12,10 @@ class OauthAccount < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :heroes, through: :matches
 
+  def can_be_unlinked?
+    user && user.oauth_accounts.count > 1
+  end
+
   def default?
     user && user.default_oauth_account == self
   end
