@@ -1,6 +1,27 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
+  test 'season_is_public? returns true when a season share exists' do
+    oauth_account = create(:oauth_account)
+    season = 4
+    season_share = create(:season_share, oauth_account: oauth_account, season: season)
+
+    assert oauth_account.season_is_public?(season)
+  end
+
+  test 'season_is_public? returns false when no season share exists' do
+    oauth_account = create(:oauth_account)
+
+    refute oauth_account.season_is_public?(4)
+  end
+
+  test 'season_is_public? returns false when season share exists for a different season' do
+    oauth_account = create(:oauth_account)
+    season_share = create(:season_share, oauth_account: oauth_account, season: 2)
+
+    refute oauth_account.season_is_public?(3)
+  end
+
   test 'removes itself as default_oauth_account from user if user is unlinked' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)

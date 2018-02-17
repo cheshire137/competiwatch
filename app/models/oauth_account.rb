@@ -15,6 +15,10 @@ class OauthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  def season_is_public?(season)
+    season_shares.exists?(season: season)
+  end
+
   def can_be_unlinked?
     user && user.oauth_accounts.count > 1
   end
