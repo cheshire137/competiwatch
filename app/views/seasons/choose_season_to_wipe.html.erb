@@ -12,9 +12,9 @@
   Choose a competitive season to preview its matches. Nothing will be deleted yet, you will be asked to confirm:
 </p>
 
-<div class="d-flex flex-justify-between flex-wrap">
+<div class="d-flex-md flex-justify-between-md flex-wrap">
   <% @oauth_accounts.each do |oauth_account| %>
-    <div class="Box p-3 account-box">
+    <div class="Box p-3 mb-4-sm account-box">
       <h3 class="h3 mb-2 text-normal"><%= oauth_account %></h3>
       <ul class="list-style-none">
         <% seasons = @seasons_for_account[oauth_account.id] %>
