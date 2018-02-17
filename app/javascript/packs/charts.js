@@ -95,7 +95,10 @@ roleChartObserver.observe()
 
 const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', function() {
   const context = this.getContext('2d')
-  const options = { responsive: true, maintainAspectRatio: false }
+  const options = {
+    responsive: true, maintainAspectRatio: false,
+    legend: { position: 'left' }
+  }
   const wins = this.getAttribute('data-wins')
   const losses = this.getAttribute('data-losses')
   const draws = this.getAttribute('data-draws')

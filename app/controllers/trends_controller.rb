@@ -248,16 +248,8 @@ class TrendsController < ApplicationController
       end
     end
 
-    @match_counts = Hero::ROLES.map { |role| match_counts_by_role[role] || 0 }
-    @roles = []
-    Hero::ROLES.each_with_index do |role, i|
-      # Stupid Chart.js hack to get good spacing in the radar chart
-      if i < 2 || i > Hero::ROLES.size - 2
-        @roles << role
-      else
-        @roles << [role, '']
-      end
-    end
+    @roles = Hero::ROLES
+    @match_counts = @roles.map { |role| match_counts_by_role[role] || 0 }
   end
 
   def win_loss_chart
