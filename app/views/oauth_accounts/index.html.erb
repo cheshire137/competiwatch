@@ -6,13 +6,16 @@
     <ul class="list-style-none">
       <% @oauth_accounts.each_with_index do |oauth_account, i| %>
         <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
-          <%= oauth_account %>
-          &mdash;
-          <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
-            <button type="submit" class="btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %>?">
-              Remove
-            </button>
-          <% end %>
+          <div class="d-flex flex-justify-between flex-items-center">
+            <%= oauth_account %>
+            <% if oauth_account.can_be_unlinked? %>
+              <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
+                <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %>?">
+                  Unlink
+                </button>
+              <% end %>
+            <% end %>
+          </div>
           <% if oauth_account.default? %>
             <p class="note">
               You are currently signed in via this account
