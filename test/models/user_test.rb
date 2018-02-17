@@ -1,6 +1,14 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'requires user to own their default OAuth account' do
+    user = create(:user)
+    user.default_oauth_account = create(:oauth_account)
+
+    refute_predicate user, :valid?
+    assert_includes user.errors.messages[:default_oauth_account], 'must be one of your accounts'
+  end
+
   test 'merge_with handles duplicate friends' do
     primary_user = create(:user)
     primary_account = create(:oauth_account, user: primary_user)

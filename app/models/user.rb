@@ -1,11 +1,14 @@
 class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:bnet]
 
-  validates :battletag, presence: true, uniqueness: true
-
   has_many :oauth_accounts, dependent: :destroy
   has_many :friends, dependent: :destroy
   has_many :matches, through: :oauth_accounts
+
+  belongs_to :default_oauth_account, class_name: 'OauthAccount', required: false
+
+  validates :battletag, presence: true, uniqueness: true
+  validate :default_oauth_account_is_owned
 
   alias_attribute :to_s, :battletag
 
@@ -68,5 +71,13 @@ class User < ApplicationRecord
 
   def to_param
     self.class.parameterize(battletag)
+  end
+
+  def default_oauth_account_is_owned
+    return unless default_oauth_account
+
+    unless oauth_accounts.include?(default_oauth_account)
+      errors.add(:default_oauth_account, 'must be one of your accounts')
+    end
   end
 end

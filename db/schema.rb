@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180214001757) do
+ActiveRecord::Schema.define(version: 20180217173246) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -98,7 +98,9 @@ ActiveRecord::Schema.define(version: 20180214001757) do
     t.string "battletag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "default_oauth_account_id"
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
+    t.index ["default_oauth_account_id"], name: "index_users_on_default_oauth_account_id"
   end
 
 end
