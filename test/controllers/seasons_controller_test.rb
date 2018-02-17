@@ -20,9 +20,9 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
 
   test 'index page loads successfully for authenticated user with matches' do
     oauth_account = create(:oauth_account)
-    create(:match, oauth_account: oauth_account, season: 1)
-    create(:match, oauth_account: oauth_account, season: 2)
-    create(:match, oauth_account: oauth_account, season: 3)
+    create(:match, oauth_account: oauth_account, season: 1, result: :win)
+    create(:match, oauth_account: oauth_account, season: 2, result: :loss)
+    create(:match, oauth_account: oauth_account, season: 3, result: :draw)
 
     sign_in_as(oauth_account)
     get "/seasons/#{oauth_account.to_param}"
