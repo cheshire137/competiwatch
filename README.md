@@ -10,7 +10,7 @@ you to import past seasons from a spreadsheet as well as export your data.
 
 ## Screenshots
 
-![Screenshot of match history](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot1.png)
+![Screenshot of match history](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot-top.png)
 
 ----
 
