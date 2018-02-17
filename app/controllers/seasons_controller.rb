@@ -5,10 +5,10 @@ class SeasonsController < ApplicationController
 
   def index
     @active_seasons = @oauth_account.active_seasons
-    @total_matches = @oauth_account.matches.count
+    @total_matches = @oauth_account.matches.with_result.count
     @heroes = @oauth_account.heroes.group(:id).order_by_name
 
-    matches = @oauth_account.matches.includes(:friends).ordered_by_time
+    matches = @oauth_account.matches.includes(:friends).with_result.ordered_by_time
 
     all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
     @lowest_sr = all_ranks.min
