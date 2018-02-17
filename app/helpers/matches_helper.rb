@@ -3,6 +3,10 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def show_thrower_leaver_chart?(matches)
+    matches.any? { |match| match.thrower? || match.leaver? }
+  end
+
   def show_role_chart?(matches)
     show_heroes_chart?(matches)
   end
