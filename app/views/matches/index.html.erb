@@ -35,7 +35,8 @@
     </div>
 
     <div id="trends" class="js-tab-contents d-none">
-      <%= render partial: 'matches/trends', locals: { matches: @matches } %>
+      <%= render partial: 'matches/trends',
+                 locals: { matches: @matches, season: @season, oauth_account: @oauth_account } %>
     </div>
   <% end %>
 
