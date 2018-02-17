@@ -4,6 +4,10 @@ module MatchesHelper
   NEUTRAL_COLOR = [254,234,138].freeze
 
   def show_role_chart?(matches)
+    show_heroes_chart?(matches)
+  end
+
+  def show_heroes_chart?(matches)
     matches.any? { |match| match.heroes.any? }
   end
 
