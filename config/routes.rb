@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   get '/trends/:season/:battletag/group-member-chart' => 'trends#group_member_chart', as: :group_member_chart
   get '/trends/:season/:battletag/role-chart' => 'trends#role_chart', as: :role_chart
 
+  get '/season/:season/:battletag' => 'seasons#show', as: :season, season: /\d+/
   get '/seasons/choose-season-to-wipe' => 'seasons#choose_season_to_wipe', as: :choose_season_to_wipe, season: /\d+/
   get '/season/:season/:battletag/confirm-wipe' => 'seasons#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   delete '/season/:season/:battletag' => 'seasons#wipe', season: /\d+/

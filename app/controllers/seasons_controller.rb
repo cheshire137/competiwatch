@@ -3,6 +3,10 @@ class SeasonsController < ApplicationController
   before_action :set_oauth_account, except: [:choose_season_to_wipe]
   before_action :set_season, only: [:confirm_wipe, :wipe]
 
+  def show
+
+  end
+
   def index
     @active_seasons = @oauth_account.active_seasons
     @total_matches = @oauth_account.matches.with_result.count
