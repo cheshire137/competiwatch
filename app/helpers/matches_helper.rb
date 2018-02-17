@@ -113,7 +113,7 @@ module MatchesHelper
 
   def map_options(maps)
     valid_maps = maps.map { |map| [map.name, map.id] }
-    [['', '']] + valid_maps
+    [['Choose a map', '']] + valid_maps
   end
 
   def placement_count(matches)

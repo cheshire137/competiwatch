@@ -67,10 +67,6 @@ a.ui-button:active,
   flex: 1 0 auto;
 }
 
-.form-select {
-  background-image: none;
-}
-
 dt {
   font-weight: 700;
 }
@@ -111,11 +107,23 @@ dt {
   .d-block-sm {
     display: block !important;
   }
+
+  .mb-1-sm {
+    margin-bottom: 4px !important;
+  }
+
+  .mr-3-sm {
+    margin-right: 16px !important;
+  }
 }
 
 @media (min-width: 768px) {
   .d-flex-md {
     display: flex !important;
+  }
+
+  .form-select {
+    background-image: none;
   }
 
   .flex-items-center-md {

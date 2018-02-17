@@ -18,7 +18,7 @@
     </dl>
   <% end %>
   <div class="form-group my-0">
-    <div class="text-bold mb-2 d-flex flex-items-center flex-justify-between">
+    <div class="text-bold mb-2 d-flex-md flex-items-center-md flex-justify-between-md">
       <span>
         <% if friends.any? %>
           Other players you grouped with:
@@ -26,7 +26,7 @@
           Who did you group with?
         <% end %>
       </span>
-      <span class="text-small text-gray text-normal">Separate with commas</span>
+      <span class="text-small d-block-sm text-gray text-normal">Separate with commas</span>
     </div>
     <div id="friends-list" data-friends="<%= all_friends.to_json %>" class="position-relative form-control width-full clearfix taggle-container"></div>
     <% if friends.empty? %>

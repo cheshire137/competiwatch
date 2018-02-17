@@ -1,7 +1,3 @@
-.form-hero-checkbox {
-  width: 33%;
-}
-
 .hero-portrait-container {
   height: 20px;
 }
@@ -91,12 +87,21 @@
 }
 
 .friend-form-checkbox.form-checkbox {
-  width: 21%;
   margin-right: 2%;
 }
 
 .match-summary span {
   + span {
     margin-left: 16px;
+  }
+}
+
+@media (min-width: 768px) {
+  .friend-form-checkbox.form-checkbox {
+    width: 21%;
+  }
+
+  .form-hero-checkbox {
+    width: 33%;
   }
 }
