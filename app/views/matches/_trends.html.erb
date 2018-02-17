@@ -1,8 +1,3 @@
-<%
-  unique_friend_count = friends_in(matches).size
-  short_group_member_graph = unique_friend_count <= 6
-%>
-
 <div class="clearfix mb-4">
   <div class="col-6 float-left">
     <div data-url="<%= win_loss_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
@@ -27,16 +22,12 @@
   <div class="col-6 float-left">
     <div data-url="<%= group_size_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
   </div>
-  <% if short_group_member_graph %>
-    <div class="col-6 float-left">
-      <div data-url="<%= group_member_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
-    </div>
-  <% end %>
+  <div class="col-6 float-left">
+    <div data-url="<%= role_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
+  </div>
 </div>
-<% unless short_group_member_graph %>
-  <hr class="mb-4 pt-4">
-  <div data-url="<%= group_member_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
-<% end %>
+<hr class="mb-4 pt-4">
+<div data-url="<%= group_member_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
 <hr class="mb-4 pt-4">
 <div data-url="<%= map_chart_path(@season, @oauth_account) %>" class="js-remote-chart"></div>
 <hr class="mb-4 pt-4">

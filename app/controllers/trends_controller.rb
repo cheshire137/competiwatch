@@ -238,6 +238,28 @@ class TrendsController < ApplicationController
     @draw_counts = map_ids.map { |map_id| draws_by_map_id[map_id] || 0 }
   end
 
+  def role_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
+    match_counts_by_role = Hash.new(0)
+
+    matches.each do |match|
+      match.heroes.each do |hero|
+        match_counts_by_role[hero.role] += 1
+      end
+    end
+
+    @match_counts = Hero::ROLES.map { |role| match_counts_by_role[role] || 0 }
+    @roles = []
+    Hero::ROLES.each_with_index do |role, i|
+      # Stupid Chart.js hack to get good spacing in the radar chart
+      if i < 2 || i > Hero::ROLES.size - 2
+        @roles << role
+      else
+        @roles << [role, '']
+      end
+    end
+  end
+
   def win_loss_chart
     matches = @oauth_account.matches.in_season(@season).group(:result).count
     @win_count = matches[Match::RESULT_MAPPINGS[:win]]

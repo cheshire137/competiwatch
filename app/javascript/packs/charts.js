@@ -64,6 +64,35 @@ const streaksObserver = new SelectorObserver(document, '.js-streaks-chart', func
 })
 streaksObserver.observe()
 
+const roleChartObserver = new SelectorObserver(document, '.js-role-chart', function() {
+  const context = this.getContext('2d')
+  const options = {
+    responsive: true, maintainAspectRatio: false, legend: false
+  }
+  const roles = this.getAttribute('data-roles')
+  const matchCounts = this.getAttribute('data-matches')
+  const data = {
+    labels: JSON.parse(roles),
+    datasets: [
+      {
+        label: '# Matches',
+        backgroundColor: 'rgba(151, 67, 173, 0.7)',
+        pointBackgroundColor: 'rgba(151, 67, 173, 0.7)',
+        pointBorderColor: '#9743ad',
+        pointHoverBackgroundColor: 'rgba(255, 196, 0, 0.7)',
+        pointHoverBorderColor: '#ffc400',
+        borderColor: '#9743ad',
+        borderWidth: 2,
+        pointRadius: 3,
+        pointHoverRadius: 4,
+        data: JSON.parse(matchCounts)
+      }
+    ]
+  }
+  new Chart(context, { type: 'radar', data, options })
+})
+roleChartObserver.observe()
+
 const winLossObserver = new SelectorObserver(document, '.js-win-loss-chart', function() {
   const context = this.getContext('2d')
   const options = { responsive: true, maintainAspectRatio: false }
