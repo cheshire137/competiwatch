@@ -1,7 +1,10 @@
 class SeasonsController < ApplicationController
-  before_action :authenticate_user!
-  before_action :set_oauth_account, except: [:choose_season_to_wipe]
-  before_action :set_season, only: [:confirm_wipe, :wipe]
+  before_action :authenticate_user!, except: :show
+  before_action :set_oauth_account, except: :choose_season_to_wipe
+  before_action :ensure_oauth_account_exists, except: :choose_season_to_wipe
+  before_action :ensure_oauth_account_is_mine, except: [:choose_season_to_wipe, :show]
+  before_action :set_season, only: [:confirm_wipe, :wipe, :show]
+  before_action :ensure_season_is_visible, only: :show
 
   def show
 
@@ -86,5 +89,13 @@ class SeasonsController < ApplicationController
     flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
       "#{@oauth_account} in season #{@season}."
     redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
+  end
+
+  private
+
+  def ensure_season_is_visible
+    return if signed_in? && current_user == @oauth_account.user
+    return if @oauth_account.season_is_public?(@season)
+    render file: Rails.root.join('public', '404.html'), status: :not_found
   end
 end

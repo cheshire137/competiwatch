@@ -1,6 +1,8 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account, only: [:index, :create, :export]
+  before_action :ensure_oauth_account_exists, only: [:index, :create, :export]
+  before_action :ensure_oauth_account_is_mine, only: [:index, :create, :export]
   before_action :set_season, only: [:index, :create, :export]
   before_action :set_match, only: [:edit, :update]
 
