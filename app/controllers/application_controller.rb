@@ -8,15 +8,8 @@ class ApplicationController < ActionController::Base
     return stored_location if stored_location
 
     if resource.is_a?(User)
-      if session[:sign_in_battletag].present?
-        battletag = User.parameterize(session[:sign_in_battletag])
-        path = matches_path(Match::LATEST_SEASON, battletag)
-        session.delete(:sign_in_battletag)
-        path
-      else
-        oauth_account = resource.default_oauth_account || resource.oauth_accounts.first
-        matches_path(Match::LATEST_SEASON, oauth_account)
-      end
+      oauth_account = resource.default_oauth_account || resource.oauth_accounts.first
+      matches_path(Match::LATEST_SEASON, oauth_account)
     else
       super
     end
