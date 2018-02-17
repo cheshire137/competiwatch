@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180217180258) do
+ActiveRecord::Schema.define(version: 20180217225151) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,13 @@ ActiveRecord::Schema.define(version: 20180217180258) do
     t.string "battletag"
     t.index ["provider", "uid"], name: "index_oauth_accounts_on_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_oauth_accounts_on_user_id"
+  end
+
+  create_table "season_shares", force: :cascade do |t|
+    t.integer "season", null: false
+    t.integer "oauth_account_id", null: false
+    t.datetime "created_at", null: false
+    t.index ["oauth_account_id", "season"], name: "index_season_shares_on_oauth_account_id_and_season", unique: true
   end
 
   create_table "users", force: :cascade do |t|
