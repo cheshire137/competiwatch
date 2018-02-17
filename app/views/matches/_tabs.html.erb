@@ -1,33 +1,54 @@
-<nav class="tabnav-tabs">
-  <a href="#match-history" class="tabnav-tab selected js-tab">
-    <span class="ion hide-sm ion-ios-list-outline"></span>
-    Match history
-  </a>
-  <% if oauth_account.finished_placements?(season) %>
-    <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
-      <span class="ion hide-sm ion-compose"></span>
-      Log a match
+<nav class="tabnav-tabs d-flex flex-justify-between flex-items-center">
+  <div>
+    <a href="#match-history" class="tabnav-tab selected js-tab">
+      <span class="ion hide-sm ion-ios-list-outline"></span>
+      Match history
     </a>
-  <% else %>
-    <a href="#log-placement-matches" class="tabnav-tab js-tab">
-      <span class="ion hide-sm ion-compose"></span>
-      Log placement match
-    </a>
-    <% unless oauth_account.any_placements?(season) %>
-      <a href="#log-placement-rank" class="tabnav-tab js-tab">
+    <% if oauth_account.finished_placements?(season) %>
+      <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
         <span class="ion hide-sm ion-compose"></span>
-        Log placement SR
+        Log a match
+      </a>
+    <% else %>
+      <a href="#log-placement-matches" class="tabnav-tab js-tab">
+        <span class="ion hide-sm ion-compose"></span>
+        Log placement match
+      </a>
+      <% unless oauth_account.any_placements?(season) %>
+        <a href="#log-placement-rank" class="tabnav-tab js-tab">
+          <span class="ion hide-sm ion-compose"></span>
+          Log placement SR
+        </a>
+      <% end %>
+    <% end %>
+    <% if matches.any? %>
+      <a href="#trends" class="tabnav-tab js-trends-tab js-tab">
+        <span class="ion hide-sm ion-stats-bars"></span>
+        Trends
+      </a>
+      <a href="#export-csv" class="tabnav-tab js-tab">
+        <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
+        Export
       </a>
     <% end %>
-  <% end %>
-  <% if matches.any? %>
-    <a href="#trends" class="tabnav-tab js-trends-tab js-tab">
-      <span class="ion hide-sm ion-stats-bars"></span>
-      Trends
-    </a>
-    <a href="#export-csv" class="tabnav-tab js-tab">
-      <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
-      Export
-    </a>
-  <% end %>
+  </div>
+
+  <div class="dropdown js-menu-container d-inline-block">
+    <button class="btn-link no-underline text-gray text-small p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+      <% if oauth_account.season_is_public?(season) %>
+        <span class="ion ion-eye mr-1 d-inline-block"></span>
+        Publicly visible
+      <% else %>
+        <span class="ion ion-locked mr-1 d-inline-block"></span>
+        Only visible to you
+      <% end %>
+      <div class="dropdown-caret"></div>
+    </button>
+    <div class="dropdown-menu-content js-menu-content">
+      <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
+        <li>
+        </li>
+      </ul>
+    </div>
+  </div>
 </nav>
