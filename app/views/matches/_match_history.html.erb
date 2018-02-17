@@ -2,34 +2,34 @@
   <table class="matches-table width-full">
     <thead>
       <tr>
-        <th class="match-header">#</th>
-        <th class="match-header">Win/Loss</th>
+        <th class="match-header hide-sm">#</th>
+        <th class="match-header hide-sm">Win/Loss</th>
         <th class="match-header no-wrap">+/- SR</th>
         <th class="match-header">Rank</th>
-        <th class="match-header no-wrap">Streak</th>
+        <th class="match-header hide-sm no-wrap">Streak</th>
         <th class="match-header">Map</th>
-        <th class="match-header">Comment</th>
-        <th class="match-header">Day/Time</th>
-        <th class="match-header">Heroes</th>
-        <th class="match-header">Group</th>
-        <th class="match-header tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
+        <th class="match-header hide-sm">Comment</th>
+        <th class="match-header hide-sm">Day/Time</th>
+        <th class="match-header hide-sm">Heroes</th>
+        <th class="match-header hide-sm">Group</th>
+        <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
         <th class="match-header"><span class="ion-gear-b ion"></span></th>
       </tr>
     </thead>
     <tbody>
       <% matches.each_with_index do |match, i| %>
         <tr id="match-row-<%= match.id %>" class="<%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
-          <td class="match-cell match-number-cell">
+          <td class="match-cell hide-sm match-number-cell">
             <%= match_number(i, match, matches) %>
           </td>
-          <td class="match-cell result-cell result-<%= match.result %>"><%= match_result(match) %></td>
+          <td class="match-cell hide-sm result-cell result-<%= match.result %>"><%= match_result(match) %></td>
           <td class="match-cell sr-change-cell" style="<%= match_rank_change_style(match, matches) %>">
             <%= match_rank_change(match, matches) %>
           </td>
           <td class="match-cell rank-cell <%= match_rank_class(match, placement_rank) %>">
             <%= match.rank || '--' %>
           </td>
-          <td class="match-cell <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
+          <td class="match-cell hide-sm <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
             <% if match.win? %>
               <%= match.win_streak %>
             <% elsif match.loss? %>
@@ -37,14 +37,14 @@
             <% end %>
           </td>
           <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
-          <td class="match-cell comment-cell">
+          <td class="match-cell hide-sm comment-cell">
             <% if match.comment.present? %>
               <span class="tooltipped tooltipped-multiline tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
                 <%= truncate match.comment, length: 25 %>
               </span>
             <% end %>
           </td>
-          <td class="match-cell time-cell no-wrap">
+          <td class="match-cell hide-sm time-cell no-wrap">
             <div>
               <%= day_of_week_emoji(match.day_of_week) %>
               <%= match.day_of_week.to_s.humanize %>
@@ -52,17 +52,17 @@
             <%= time_of_day_emoji(match.time_of_day) %>
             <%= match.time_of_day.to_s.humanize %>
           </td>
-          <td class="match-cell heroes-cell">
+          <td class="match-cell hide-sm heroes-cell">
             <% match.heroes.sort_by(&:name).each do |hero| %>
               <span class="tooltipped tooltipped-n d-inline-block hero-portrait-container" aria-label="<%= hero.name %>">
                 <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
               </span>
             <% end %>
           </td>
-          <td class="match-cell friends-cell">
+          <td class="match-cell hide-sm friends-cell">
             <%= match.friend_names.join(', ') %>
           </td>
-          <td class="match-cell throwers-leavers-cell">
+          <td class="match-cell hide-sm throwers-leavers-cell">
             <% if match.thrower? %>
               <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
             <% end %>
