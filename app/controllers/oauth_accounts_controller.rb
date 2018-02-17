@@ -7,7 +7,13 @@ class OauthAccountsController < ApplicationController
   end
 
   def destroy
-    if @oauth_account.destroy
+    unless @oauth_account.can_be_unlinked?
+      flash[:error] = "#{@oauth_account} cannot be unlinked from your account."
+      return redirect_to(accounts_path)
+    end
+
+    @oauth_account.user = nil
+    if @oauth_account.save
       flash[:notice] = "Successfully disconnected #{@oauth_account}."
     else
       flash[:error] = "Could not disconnect #{@oauth_account}."
