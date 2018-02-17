@@ -16,12 +16,14 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
       if signed_in? && account.user != current_user
         other_user = account.user
+        battletags = other_user.oauth_accounts.pluck(:battletag) -
+          current_user.oauth_accounts.pluck(:battletag)
         success = if other_user.merge_with(current_user)
           account.user = current_user
           account.save
         end
         message_opts = if success
-          { notice: "Successfully linked #{battletag}." }
+          { notice: "Successfully linked #{battletags.join(', ')}." }
         else
           { alert: "Could not link account #{battletag}." }
         end
