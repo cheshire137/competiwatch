@@ -1,7 +1,7 @@
 <% content_for(:title, 'Your Battle.net Accounts') %>
 
-<div class="d-flex flex-justify-between">
-  <div class="col-5">
+<div class="d-flex-md flex-justify-between-md">
+  <div class="col-5-md mb-4-sm">
     <h2 class="mb-2 mt-0 h3 text-normal">Your Accounts</h2>
     <ul class="list-style-none">
       <% @oauth_accounts.each_with_index do |oauth_account, i| %>
@@ -26,7 +26,7 @@
     </ul>
   </div>
 
-  <div class="col-6">
+  <div class="col-md-6">
     <h2 class="mb-2 mt-0 h3 text-normal">Connect Another Account</h2>
     <p>
       Be sure to <a target="_blank" rel="noopener noreferrer" href="https://us.battle.net/forums/en/?logout" class="text-bold">log out of Battle.net</a>
