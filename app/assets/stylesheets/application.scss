@@ -115,11 +115,23 @@ dt {
   .mr-3-sm {
     margin-right: 16px !important;
   }
+
+  .mb-3-sm {
+    margin-bottom: 16px !important;
+  }
 }
 
 @media (min-width: 768px) {
   .d-flex-md {
     display: flex !important;
+  }
+
+  .pl-2-md {
+    padding-left: 8px !important;
+  }
+
+  .pr-2-md {
+    padding-right: 8px !important;
   }
 
   .form-select {
