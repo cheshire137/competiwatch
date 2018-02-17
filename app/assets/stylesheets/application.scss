@@ -102,3 +102,9 @@ dt {
     width: 96%;
   }
 }
+
+@media (max-width: 544px) {
+  .tab-contents {
+    overflow: auto;
+  }
+}

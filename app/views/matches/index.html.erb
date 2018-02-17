@@ -10,7 +10,7 @@
                locals: { matches: @matches, oauth_account: @oauth_account, season: @season } %>
   </div>
 
-  <div id="match-history" class="js-tab-contents">
+  <div id="match-history" class="js-tab-contents tab-contents">
     <%= render partial: 'matches/match_history',
                locals: { matches: @matches, placement_rank: @placement_rank,
                          longest_win_streak: @longest_win_streak,
@@ -25,7 +25,7 @@
   </div>
 
   <% if @matches.any? %>
-    <div id="export-csv" class="js-tab-contents d-none">
+    <div id="export-csv" class="js-tab-contents tab-contents d-none">
       <p>Export your season <%= @season %> match history as a CSV file.</p>
       <%= form_tag export_matches_path(@season, @oauth_account, format: :csv) do %>
         <button type="submit" class="btn btn-primary">
@@ -34,14 +34,14 @@
       <% end %>
     </div>
 
-    <div id="trends" class="js-tab-contents d-none">
+    <div id="trends" class="js-tab-contents tab-contents d-none">
       <%= render partial: 'matches/trends',
                  locals: { matches: @matches, season: @season, oauth_account: @oauth_account } %>
     </div>
   <% end %>
 
   <% if @oauth_account.finished_placements?(@season) %>
-    <div id="log-match" class="js-tab-contents d-none">
+    <div id="log-match" class="js-tab-contents tab-contents d-none">
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
@@ -53,7 +53,7 @@
       <% end %>
     </div>
   <% else %>
-    <div id="log-placement-matches" class="js-tab-contents d-none">
+    <div id="log-placement-matches" class="js-tab-contents tab-contents d-none">
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/placement_form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
@@ -65,7 +65,7 @@
     </div>
 
     <% unless @oauth_account.any_placements?(@season) %>
-      <div id="log-placement-rank" class="js-tab-contents d-none">
+      <div id="log-placement-rank" class="js-tab-contents tab-contents d-none">
         <%= form_for(@match) do |f| %>
           <%= render partial: 'matches/placement_rank_form',
                      locals: { form: f, match: @match } %>
