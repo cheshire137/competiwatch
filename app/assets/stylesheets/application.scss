@@ -107,4 +107,22 @@ dt {
   .tab-contents {
     overflow: auto;
   }
+
+  .d-block-sm {
+    display: block !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .d-flex-md {
+    display: flex !important;
+  }
+
+  .flex-items-center-md {
+    align-items: center !important;
+  }
+
+  .flex-justify-between-md {
+    justify-content: space-between !important;
+  }
 }

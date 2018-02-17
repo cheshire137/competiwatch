@@ -1,16 +1,14 @@
 <div class="bg-blue box-shadow js-top-nav text-gray-light main-nav">
   <div class="container">
-    <div class="d-flex py-3 flex-justify-between flex-items-center">
-      <div class="d-flex flex-items-center">
-        <h1 class="h1">
-          <a class="text-white no-underline" href="<%= home_page_path %>">Competiwatch</a>
-          <% if content_for?(:breadcrumb) %>
-            <span class="text-normal h4">
-              / <%= yield :breadcrumb %>
-            </span>
-          <% end %>
-        </h1>
-      </div>
+    <div class="d-flex-md py-3 flex-justify-between-md flex-items-center-md">
+      <h1 class="h1">
+        <a class="text-white no-underline" href="<%= home_page_path %>">Competiwatch</a>
+        <% if content_for?(:breadcrumb) %>
+          <span class="text-normal h4 d-block-sm">
+            <span class="hide-sm">/ </span><%= yield :breadcrumb %>
+          </span>
+        <% end %>
+      </h1>
       <% if signed_in? %>
         <div class="d-flex flex-items-center">
           <a class="text-white d-inline-block mr-4" href="<%= settings_path %>">Settings</a>
