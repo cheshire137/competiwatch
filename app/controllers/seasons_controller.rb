@@ -19,8 +19,9 @@ class SeasonsController < ApplicationController
     @total_draws = matches.select(&:draw?).size
     @win_percent = (@total_wins / @total_matches.to_f * 100).round(1)
 
-    @friends = matches.flat_map(&:friends).uniq.map(&:name).sort_by { |name| name.downcase }
-    @match_counts_by_friend = matches.flat_map(&:friends).inject({}) do |hash, friend|
+    friends = matches.flat_map(&:friends)
+    @friends = friends.uniq.map(&:name).sort_by(&:downcase)
+    @match_counts_by_friend = friends.inject({}) do |hash, friend|
       hash[friend.name] ||= 0
       hash[friend.name] += 1
       hash
