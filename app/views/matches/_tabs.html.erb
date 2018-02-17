@@ -1,15 +1,33 @@
 <nav class="tabnav-tabs">
-  <a href="#match-history" class="tabnav-tab selected js-tab">Match history</a>
+  <a href="#match-history" class="tabnav-tab selected js-tab">
+    <span class="ion ion-ios-list-outline"></span>
+    Match history
+  </a>
   <% if oauth_account.finished_placements?(season) %>
-    <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">Log a match</a>
+    <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
+      <span class="ion ion-compose"></span>
+      Log a match
+    </a>
   <% else %>
-    <a href="#log-placement-matches" class="tabnav-tab js-tab">Log placement match</a>
+    <a href="#log-placement-matches" class="tabnav-tab js-tab">
+      <span class="ion ion-compose"></span>
+      Log placement match
+    </a>
     <% unless oauth_account.any_placements?(season) %>
-      <a href="#log-placement-rank" class="tabnav-tab js-tab">Log starting SR</a>
+      <a href="#log-placement-rank" class="tabnav-tab js-tab">
+        <span class="ion ion-compose"></span>
+        Log starting SR
+      </a>
     <% end %>
   <% end %>
   <% if matches.any? %>
-    <a href="#trends" class="tabnav-tab js-trends-tab js-tab">Trends</a>
-    <a href="#export-csv" class="tabnav-tab js-tab">Export</a>
+    <a href="#trends" class="tabnav-tab js-trends-tab js-tab">
+      <span class="ion ion-stats-bars"></span>
+      Trends
+    </a>
+    <a href="#export-csv" class="tabnav-tab js-tab">
+      <span class="ion ion-ios-cloud-download-outline"></span>
+      Export
+    </a>
   <% end %>
 </nav>
