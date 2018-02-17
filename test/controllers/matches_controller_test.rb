@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   test 'index page redirects anonymous user' do
-    get '/matches/1/DPSMain22-1234'
+    get '/season/1/DPSMain22-1234'
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
@@ -12,7 +12,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    get "/matches/1/#{oauth_account.to_param}"
+    get "/season/1/#{oauth_account.to_param}"
 
     assert_response :ok
   end
@@ -51,7 +51,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    get "/matches/1/#{oauth_account2.to_param}"
+    get "/season/1/#{oauth_account2.to_param}"
 
     assert_response :not_found
   end
