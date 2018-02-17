@@ -27,7 +27,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         end
         return redirect_to(accounts_path, message_opts)
       end
-    else
+    end
+
+    if account.new_record? || account.user.nil?
       user = User.where(battletag: battletag).first_or_initialize
 
       if user.new_record? && !user.save
