@@ -22,9 +22,9 @@ Rails.application.routes.draw do
   get '/season/:season/:battletag/confirm-wipe' => 'seasons#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   delete '/season/:season/:battletag' => 'seasons#wipe', season: /\d+/
 
-  get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
-  post '/season/:season/:battletag' => 'matches#create', season: /\d+/
-  post '/season/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
+  get '/matches/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
+  post '/matches/:season/:battletag' => 'matches#create', season: /\d+/
+  post '/matches/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
 

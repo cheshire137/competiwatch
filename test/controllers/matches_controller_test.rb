@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   test 'index page redirects anonymous user' do
-    get '/season/1/DPSMain22-1234'
+    get '/matches/1/DPSMain22-1234'
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
@@ -12,7 +12,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    get "/season/1/#{oauth_account.to_param}"
+    get "/matches/1/#{oauth_account.to_param}"
 
     assert_response :ok
   end
@@ -22,7 +22,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    post "/season/5/#{oauth_account2.to_param}/export.csv"
+    post "/matches/5/#{oauth_account2.to_param}/export.csv"
 
     assert_response :not_found
   end
@@ -31,7 +31,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    post "/season/5/#{oauth_account.to_param}/export.csv"
+    post "/matches/5/#{oauth_account.to_param}/export.csv"
 
     assert_response :ok
   end
@@ -41,7 +41,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    post "/season/1/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
+    post "/matches/1/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
 
     assert_response :not_found
   end
@@ -51,7 +51,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    get "/season/1/#{oauth_account2.to_param}"
+    get "/matches/1/#{oauth_account2.to_param}"
 
     assert_response :not_found
   end
@@ -61,7 +61,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference 'oauth_account.matches.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
+      post "/matches/1/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
     end
 
     match = oauth_account.matches.ordered_by_time.last
@@ -74,7 +74,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: {
+      post "/matches/1/#{oauth_account.to_param}", params: {
         match: { rank: Match::MAX_RANK + 1 }
       }
     end
@@ -88,7 +88,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: {
+      post "/matches/1/#{oauth_account.to_param}", params: {
         match: { rank: 2500 }, friend_names: %w[A B C D E F]
       }
     end
