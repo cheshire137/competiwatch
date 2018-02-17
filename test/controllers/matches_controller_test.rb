@@ -1,18 +1,41 @@
 require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
-  test 'index page redirects anonymous user' do
-    get '/season/1/DPSMain22-1234'
+  test 'index page 404s for anonymous user when season is not visible' do
+    oauth_account = create(:oauth_account)
 
-    assert_response :redirect
-    assert_redirected_to 'http://www.example.com/'
+    get "/season/1/#{oauth_account.to_param}"
+
+    assert_response :not_found
   end
 
-  test 'index page loads successfully for authenticated user' do
+  test 'index page 404s for authenticated user when season is not visible' do
+    oauth_account = create(:oauth_account)
+    other_account = create(:oauth_account)
+
+    sign_in_as(other_account)
+    get "/season/1/#{oauth_account.to_param}"
+
+    assert_response :not_found
+  end
+
+  test 'index page loads successfully for the user who owns the account' do
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
     get "/season/1/#{oauth_account.to_param}"
+
+    assert_response :ok
+  end
+
+  test 'index page loads successfully for other user when season is shared' do
+    oauth_account = create(:oauth_account)
+    other_account = create(:oauth_account)
+    season = 1
+    create(:season_share, season: season, oauth_account: oauth_account)
+
+    sign_in_as(other_account)
+    get "/season/#{season}/#{oauth_account.to_param}"
 
     assert_response :ok
   end

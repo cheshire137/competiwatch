@@ -1,10 +1,11 @@
 class MatchesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_user!, except: :index
   before_action :set_oauth_account, only: [:index, :create, :export]
   before_action :ensure_oauth_account_exists, only: [:index, :create, :export]
-  before_action :ensure_oauth_account_is_mine, only: [:index, :create, :export]
+  before_action :ensure_oauth_account_is_mine, only: [:create, :export]
   before_action :set_season, only: [:index, :create, :export]
   before_action :set_match, only: [:edit, :update]
+  before_action :ensure_season_is_visible, only: :index
 
   def index
     @maps = get_maps
@@ -105,6 +106,12 @@ class MatchesController < ApplicationController
     unless @match && @match.user == current_user
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
+  end
+
+  def ensure_season_is_visible
+    return if signed_in? && current_user == @oauth_account.user
+    return if @oauth_account.season_is_public?(@season)
+    render file: Rails.root.join('public', '404.html'), status: :not_found
   end
 
   def get_maps

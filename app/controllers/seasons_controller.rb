@@ -1,21 +1,9 @@
 class SeasonsController < ApplicationController
-  before_action :authenticate_user!, except: :show
+  before_action :authenticate_user!
   before_action :set_oauth_account, except: :choose_season_to_wipe
   before_action :ensure_oauth_account_exists, except: :choose_season_to_wipe
-  before_action :ensure_oauth_account_is_mine, except: [:choose_season_to_wipe, :show]
-  before_action :set_season, only: [:confirm_wipe, :wipe, :show]
-  before_action :ensure_season_is_visible, only: :show
-
-  def show
-    @matches = @oauth_account.matches.in_season(@season).
-      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
-
-    set_streaks(@matches)
-    @longest_win_streak = @matches.map(&:win_streak).compact.max
-    @longest_loss_streak = @matches.map(&:loss_streak).compact.max
-
-    @placement_rank = placement_rank_from(@matches, season: @season, oauth_account: @oauth_account)
-  end
+  before_action :ensure_oauth_account_is_mine, except: [:choose_season_to_wipe]
+  before_action :set_season, only: [:confirm_wipe, :wipe]
 
   def index
     @active_seasons = @oauth_account.active_seasons
@@ -96,13 +84,5 @@ class SeasonsController < ApplicationController
     flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
       "#{@oauth_account} in season #{@season}."
     redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
-  end
-
-  private
-
-  def ensure_season_is_visible
-    return if signed_in? && current_user == @oauth_account.user
-    return if @oauth_account.season_is_public?(@season)
-    render file: Rails.root.join('public', '404.html'), status: :not_found
   end
 end
