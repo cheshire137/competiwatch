@@ -26,8 +26,9 @@ class SeasonsController < ApplicationController
       hash[friend.name] += 1
       hash
     end
-    max = @match_counts_by_friend.values.max
-    @most_frequent_friends = @match_counts_by_friend.select { |name, count| count == max }.keys
+    @most_frequent_match_count = @match_counts_by_friend.values.max
+    @most_frequent_friends = @match_counts_by_friend.
+      select { |name, count| count == @most_frequent_match_count }.keys
 
     win_counts_by_friend = matches.select(&:win?).flat_map(&:friends).inject({}) do |hash, friend|
       hash[friend.name] ||= 0
