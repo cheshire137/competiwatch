@@ -7,6 +7,13 @@ module SeasonsHelper
     end
   end
 
+  def hero_bar_width(hero_match_count, max_hero_match_count, total_match_count)
+    hero_percent = (hero_match_count.to_f / total_match_count) * 100
+    max_percent = (max_hero_match_count.to_f / total_match_count) * 100
+    percent = (hero_percent / max_percent) * 100
+    percent + 2
+  end
+
   def rank_tier(rank)
     if rank < 1500
       :bronze

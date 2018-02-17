@@ -6,9 +6,18 @@ class SeasonsController < ApplicationController
   def index
     @active_seasons = @oauth_account.active_seasons
     @total_matches = @oauth_account.matches.with_result.count
-    @heroes = @oauth_account.heroes.group(:id).order_by_name
 
-    matches = @oauth_account.matches.includes(:friends).with_result.ordered_by_time
+    matches = @oauth_account.matches.includes(:friends, :heroes).with_result.ordered_by_time
+
+    @match_counts_by_hero = matches.inject({}) do |hash, match|
+      match.heroes.each do |hero|
+        hash[hero] ||= 0
+        hash[hero] += 1
+      end
+      hash
+    end
+    @match_counts_by_hero = @match_counts_by_hero.sort_by { |_hero, count| -count }.to_h
+    @max_hero_match_count = @match_counts_by_hero.values.first
 
     all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
     @lowest_sr = all_ranks.min
