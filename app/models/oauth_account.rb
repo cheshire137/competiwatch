@@ -1,5 +1,5 @@
 class OauthAccount < ApplicationRecord
-  belongs_to :user
+  belongs_to :user, required: false
 
   validates :battletag, presence: true
   validates :provider, presence: true
