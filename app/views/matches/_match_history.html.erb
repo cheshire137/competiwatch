@@ -27,7 +27,12 @@
             <%= match_rank_change(match, matches) %>
           </td>
           <td class="match-cell rank-cell <%= match_rank_class(match, placement_rank) %>">
-            <%= match.rank || '--' %>
+            <div class="d-flex flex-items-center flex-justify-center">
+              <% if show_match_rank_image?(match) %>
+                <%= rank_image(match.rank, classes: 'd-inline-block mr-1 hide-sm') %>
+              <% end %>
+              <%= match.rank || '--' %>
+            </div>
           </td>
           <td class="match-cell hide-sm <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
             <% if match.win? %>

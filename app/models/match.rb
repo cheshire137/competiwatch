@@ -45,6 +45,29 @@ class Match < ApplicationRecord
   scope :with_result, ->{ where('result IS NOT NULL') }
   scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
 
+  def self.rank_tier(rank)
+    if rank < 1500
+      :bronze
+    elsif rank < 2000
+      :silver
+    elsif rank < 2500
+      :gold
+    elsif rank < 3000
+      :platinum
+    elsif rank < 3500
+      :diamond
+    elsif rank < 4000
+      :master
+    else
+      :grandmaster
+    end
+  end
+
+  def rank_tier
+    return unless rank.present?
+    self.class.rank_tier(rank)
+  end
+
   def group_size
     friends.to_a.size + 1
   end

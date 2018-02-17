@@ -3,6 +3,12 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def show_match_rank_image?(match)
+    return false unless match.rank
+    return true if match.placement_log?
+    match.prior_match && match.prior_match.rank_tier != match.rank_tier
+  end
+
   def show_map_chart?(matches)
     matches.any? { |match| match.map.present? }
   end
