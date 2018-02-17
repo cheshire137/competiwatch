@@ -14,7 +14,8 @@ class ApplicationController < ActionController::Base
         session.delete(:sign_in_battletag)
         path
       else
-        matches_path(Match::LATEST_SEASON, resource.oauth_accounts.first)
+        oauth_account = resource.default_oauth_account || resource.oauth_accounts.first
+        matches_path(Match::LATEST_SEASON, oauth_account)
       end
     else
       super
