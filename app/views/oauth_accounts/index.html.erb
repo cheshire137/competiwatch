@@ -4,14 +4,19 @@
   <div class="col-5">
     <h2 class="mb-2 mt-0 h3 text-normal">Your Accounts</h2>
     <ul class="list-style-none">
-      <% @oauth_accounts.each do |oauth_account| %>
-        <li>
+      <% @oauth_accounts.each_with_index do |oauth_account, i| %>
+        <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
           <%= oauth_account %>
           &mdash;
           <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
             <button type="submit" class="btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %>?">
               Remove
             </button>
+          <% end %>
+          <% if oauth_account.default? %>
+            <p class="note">
+              You are currently signed in via this account
+            </p>
           <% end %>
         </li>
       <% end %>
@@ -22,7 +27,7 @@
     <h2 class="mb-2 mt-0 h3 text-normal">Connect Another Account</h2>
     <p>
       Be sure to <a target="_blank" rel="noopener noreferrer" href="https://us.battle.net/forums/en/?logout" class="text-bold">log out of Battle.net</a>
-      if you are already signed in as <span class="text-bold"><%= current_user %></span>.
+      if you are already signed in as one of the linked accounts on the left.
       Then:
     </p>
     <a href="<%= user_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large">
