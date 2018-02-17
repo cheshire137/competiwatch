@@ -3,7 +3,7 @@ class OauthAccountsController < ApplicationController
   before_action :set_oauth_account, only: [:destroy]
 
   def index
-    @oauth_accounts = current_user.oauth_accounts.order_by_battletag
+    @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag
   end
 
   def destroy
