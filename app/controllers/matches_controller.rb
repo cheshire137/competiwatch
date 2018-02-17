@@ -19,14 +19,7 @@ class MatchesController < ApplicationController
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
 
     @latest_match = @matches.last
-
-    placement_log_match = @matches.placement_logs.first
-    @placement_rank = if placement_log_match
-      placement_log_match.rank
-    else
-      last_placement = @oauth_account.last_placement_match_in(@season)
-      last_placement.rank if last_placement
-    end
+    @placement_rank = placement_rank_from(@matches, season: @season, oauth_account: @oauth_account)
 
     placement = !@oauth_account.finished_placements?(@season)
     @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season,
