@@ -7,7 +7,14 @@ class SeasonsController < ApplicationController
   before_action :ensure_season_is_visible, only: :show
 
   def show
+    @matches = @oauth_account.matches.in_season(@season).
+      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
 
+    set_streaks(@matches)
+    @longest_win_streak = @matches.map(&:win_streak).compact.max
+    @longest_loss_streak = @matches.map(&:loss_streak).compact.max
+
+    @placement_rank = placement_rank_from(@matches, season: @season, oauth_account: @oauth_account)
   end
 
   def index

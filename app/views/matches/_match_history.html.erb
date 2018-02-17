@@ -1,3 +1,5 @@
+<% can_edit = signed_in? && oauth_account.user == current_user %>
+
 <% if matches.any? %>
   <table class="matches-table width-full">
     <thead>
@@ -13,7 +15,9 @@
         <th class="match-header hide-sm">Heroes</th>
         <th class="match-header hide-sm">Group</th>
         <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
-        <th class="match-header"><span class="ion-gear-b ion"></span></th>
+        <% if can_edit %>
+          <th class="match-header"><span class="ion-gear-b ion"></span></th>
+        <% end %>
       </tr>
     </thead>
     <tbody>
@@ -75,18 +79,23 @@
               <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
             <% end %>
           </td>
-          <td class="match-cell options-cell">
-            <a href="<%= match_path(season, oauth_account, match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
-              <span class="ion-edit ion"></span>
-            </a>
-          </td>
+          <% if can_edit %>
+            <td class="match-cell options-cell">
+              <a href="<%= match_path(season, oauth_account, match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
+                <span class="ion-edit ion"></span>
+              </a>
+            </td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
   </table>
 <% else %>
   <div class="blankslate mb-4">
-    <p>You have not logged any competitive matches in season <%= season %><% if oauth_accounts.size > 1 %> on <span class="text-bold"><%= oauth_account %></span><% end %>.</p>
-    You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
+    <p><%= oauth_account %> has not logged any competitive matches in season <%= season %>.</p>
+
+    <% if can_edit %>
+      You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
+    <% end %>
   </div>
 <% end %>
