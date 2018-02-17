@@ -3,6 +3,10 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def show_group_size_chart?(matches)
+    show_group_member_chart?(matches)
+  end
+
   def show_group_member_chart?(matches)
     matches.any? { |match| match.friends.any? }
   end
