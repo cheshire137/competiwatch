@@ -98,7 +98,7 @@
           <div class="d-flex flex-items-center">
             <span class="ion-trophy mr-3 ion f1 text-gray"></span>
             <div>
-              <span class="text-bold">Most frequently won with:</span>
+              <span class="text-bold">Highest win percentage:</span>
               <% @most_winning_friends.each do |name| %>
                 <div>
                   <%= name %> &middot;
@@ -121,7 +121,7 @@
           <div class="d-flex flex-items-center">
             <span class="ion-heart-broken mr-3 ion f1 text-gray"></span>
             <div>
-              <span class="text-bold">Most frequently lost with:</span>
+              <span class="text-bold">Lowest win percentage:</span>
               <% @most_losing_friends.each do |name| %>
                 <div>
                   <%= name %> &middot;
