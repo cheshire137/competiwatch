@@ -32,9 +32,9 @@ function activateTab(link, tabContent) {
 }
 
 on('click', '.js-tab', function(event) {
-  const link = event.target
+  const link = event.currentTarget
   const selector = link.getAttribute('href')
-  if (selector.indexOf('#') !== 0) {
+  if (selector && selector.indexOf('#') !== 0) {
     return
   }
 
