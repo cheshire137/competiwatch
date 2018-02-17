@@ -49,6 +49,11 @@
       <ul class="dropdown-menu season-share-dropdown-menu dropdown-menu-se">
         <li>
           <% if season_is_public %>
+            <%= form_tag season_share_path(season, oauth_account), method: :delete do %>
+              <button type="submit" class="dropdown-item text-small btn-link">
+                Only let me see my matches
+              </button>
+            <% end %>
           <% else %>
             <%= form_tag season_share_path(season, oauth_account) do %>
               <button type="submit" class="dropdown-item text-small btn-link">

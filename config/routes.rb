@@ -29,6 +29,7 @@ Rails.application.routes.draw do
   put '/matches/:id' => 'matches#update', as: :update_match
 
   post '/season/:season/:battletag/share' => 'season_shares#create', as: :season_share, season: /\d+/
+  delete '/season/:season/:battletag/share' => 'season_shares#destroy', season: /\d+/
 
   get '/settings' => 'users#settings', as: :settings
 

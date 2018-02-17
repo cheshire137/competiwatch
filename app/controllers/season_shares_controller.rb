@@ -17,4 +17,18 @@ class SeasonSharesController < ApplicationController
 
     redirect_to matches_path(@season, @oauth_account)
   end
+
+  def destroy
+    season_share = SeasonShare.where(oauth_account: @oauth_account,
+                                     season: @season).first
+
+    if season_share.nil? || season_share.destroy
+      flash[:notice] = "#{@oauth_account}'s season #{@season} is now only visible to you."
+    else
+      flash[:error] = "Could not change #{@oauth_account}'s season #{@season} visibility; it " +
+                      'is still publicly visible.'
+    end
+
+    redirect_to matches_path(@season, @oauth_account)
+  end
 end
