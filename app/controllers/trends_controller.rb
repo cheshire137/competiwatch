@@ -153,64 +153,6 @@ class TrendsController < ApplicationController
     @draw_counts = @day_times.map { |key| draws_by_day_time[key] || 0 }
   end
 
-  def time_chart
-    matches = @oauth_account.matches.in_season(@season).select([:time_of_day, :result]).
-      where("time_of_day IS NOT NULL").with_result
-
-    wins_by_time = Hash.new(0)
-    losses_by_time = Hash.new(0)
-    draws_by_time = Hash.new(0)
-
-    matches.each do |match|
-      if match.win?
-        wins_by_time[match.time_of_day] += 1
-      elsif match.loss?
-        losses_by_time[match.time_of_day] += 1
-      elsif match.draw?
-        draws_by_time[match.time_of_day] += 1
-      end
-    end
-
-    times = Match::TIME_OF_DAY_MAPPINGS.keys
-    @win_counts = times.map { |time| wins_by_time[time] || 0 }
-    @loss_counts = times.map { |time| losses_by_time[time] || 0 }
-    @draw_counts = times.map { |time| draws_by_time[time] || 0 }
-    @times = times.map do |time|
-      emoji = Match.emoji_for_time_of_day(time)
-      suffix = time.to_s.humanize
-      "#{emoji} #{suffix}"
-    end
-  end
-
-  def day_chart
-    matches = @oauth_account.matches.in_season(@season).select([:day_of_week, :result]).
-      where("day_of_week IS NOT NULL").with_result
-
-    wins_by_day = Hash.new(0)
-    losses_by_day = Hash.new(0)
-    draws_by_day = Hash.new(0)
-
-    matches.each do |match|
-      if match.win?
-        wins_by_day[match.day_of_week] += 1
-      elsif match.loss?
-        losses_by_day[match.day_of_week] += 1
-      elsif match.draw?
-        draws_by_day[match.day_of_week] += 1
-      end
-    end
-
-    days = Match::DAY_OF_WEEK_MAPPINGS.keys
-    @win_counts = days.map { |day| wins_by_day[day] || 0 }
-    @loss_counts = days.map { |day| losses_by_day[day] || 0 }
-    @draw_counts = days.map { |day| draws_by_day[day] || 0 }
-    @days = days.map do |day|
-      emoji = Match.emoji_for_day_of_week(day)
-      suffix = day.to_s.humanize
-      "#{emoji} #{suffix}"
-    end
-  end
-
   def map_chart
     maps_by_id = Map.order(:name).select([:id, :name]).
       map { |map| [map.id, map] }.to_h

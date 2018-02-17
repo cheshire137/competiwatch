@@ -11,8 +11,6 @@ Rails.application.routes.draw do
   get '/trends/:season/:battletag/win-loss-chart' => 'trends#win_loss_chart', as: :win_loss_chart
   get '/trends/:season/:battletag/map-chart' => 'trends#map_chart', as: :map_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
-  get '/trends/:season/:battletag/day-chart' => 'trends#day_chart', as: :day_chart
-  get '/trends/:season/:battletag/time-chart' => 'trends#time_chart', as: :time_chart
   get '/trends/:season/:battletag/day-time-chart' => 'trends#day_time_chart', as: :day_time_chart
   get '/trends/:season/:battletag/thrower-leaver-chart' => 'trends#thrower_leaver_chart', as: :thrower_leaver_chart
   get '/trends/:season/:battletag/heroes-chart' => 'trends#heroes_chart', as: :heroes_chart
