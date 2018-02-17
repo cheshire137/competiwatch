@@ -14,7 +14,7 @@ you to import past seasons from a spreadsheet as well as export your data.
 
 ----
 
-![Screenshot of match form](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot5.png)
+![Screenshot of match form](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot-log.png)
 
 ----
 
