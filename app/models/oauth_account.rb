@@ -12,6 +12,10 @@ class OauthAccount < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :heroes, through: :matches
 
+  def default?
+    user && user.default_oauth_account == self
+  end
+
   def active_seasons
     matches.select('DISTINCT season').order(:season).map(&:season)
   end

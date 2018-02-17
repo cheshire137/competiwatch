@@ -1,6 +1,19 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
+  test "default? returns true when it is the user's default OAuth account" do
+    oauth_account = create(:oauth_account)
+    oauth_account.user.default_oauth_account = oauth_account
+
+    assert_predicate oauth_account, :default?
+  end
+
+  test "default? returns false when it is not the user's default OAuth account" do
+    oauth_account = create(:oauth_account)
+
+    refute_predicate oauth_account, :default?
+  end
+
   test 'requires battletag' do
     oauth_account = OauthAccount.new
 
