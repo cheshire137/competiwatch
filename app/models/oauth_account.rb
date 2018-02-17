@@ -7,6 +7,8 @@ class OauthAccount < ApplicationRecord
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
 
+  after_update :remove_default, if: :saved_change_to_user_id?
+
   alias_attribute :to_s, :battletag
 
   has_many :matches, dependent: :destroy
@@ -64,5 +66,15 @@ class OauthAccount < ApplicationRecord
 
   def to_param
     User.parameterize(battletag)
+  end
+
+  def remove_default
+    return unless user_id_before_last_save
+
+    user = User.where(id: user_id_before_last_save).first
+    return unless user && user.default_oauth_account == self
+
+    user.default_oauth_account = user.oauth_accounts.first
+    user.save
   end
 end

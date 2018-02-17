@@ -1,6 +1,20 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
+  test 'removes itself as default_oauth_account from user if user is unlinked' do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    user.default_oauth_account = oauth_account1
+    user.save!
+
+    oauth_account1.user = nil
+    oauth_account1.save!
+
+    assert_equal oauth_account2, user.reload.default_oauth_account,
+      'user default OAuth account should be updated'
+  end
+
   test "can_be_unlinked? returns true when it is not the user's only account" do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
