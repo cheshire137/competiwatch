@@ -34,19 +34,28 @@
   </div>
 
   <div class="dropdown js-menu-container d-inline-block">
-    <button class="btn-link no-underline text-gray text-small p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-      <% if oauth_account.season_is_public?(season) %>
+    <% season_is_public = oauth_account.season_is_public?(season) %>
+    <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+      <% if season_is_public %>
         <span class="ion ion-eye mr-1 d-inline-block"></span>
-        Publicly visible
+        <span class="text-small">Publicly visible</span>
       <% else %>
         <span class="ion ion-locked mr-1 d-inline-block"></span>
-        Only visible to you
+        <span class="text-small">Only visible to you</span>
       <% end %>
       <div class="dropdown-caret"></div>
     </button>
     <div class="dropdown-menu-content js-menu-content">
-      <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
+      <ul class="dropdown-menu season-share-dropdown-menu dropdown-menu-se">
         <li>
+          <% if season_is_public %>
+          <% else %>
+            <%= form_tag season_share_path(season, oauth_account) do %>
+              <button type="submit" class="dropdown-item text-small btn-link">
+                Allow others to see my matches
+              </button>
+            <% end %>
+          <% end %>
         </li>
       </ul>
     </div>

@@ -28,6 +28,8 @@ Rails.application.routes.draw do
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
 
+  post '/season/:season/:battletag/share' => 'season_shares#create', as: :season_share, season: /\d+/
+
   get '/settings' => 'users#settings', as: :settings
 
   get '/accounts' => 'oauth_accounts#index', as: :accounts

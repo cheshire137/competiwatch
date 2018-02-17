@@ -8,23 +8,24 @@ class MatchesController < ApplicationController
   before_action :ensure_season_is_visible, only: :index
 
   def index
-    @maps = get_maps
-    @heroes = get_heroes
-    @friends = current_user.friend_names(@season)
-    @all_friends = current_user.all_friend_names
+    @can_edit = signed_in? && @oauth_account.user == current_user
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
-
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
-
     @latest_match = @matches.last
     @placement_rank = placement_rank_from(@matches, season: @season, oauth_account: @oauth_account)
 
-    placement = !@oauth_account.finished_placements?(@season)
-    @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season,
-                                        placement: placement)
+    if @can_edit
+      @maps = get_maps
+      @heroes = get_heroes
+      @friends = current_user.friend_names(@season)
+      @all_friends = current_user.all_friend_names
+      placement = !@oauth_account.finished_placements?(@season)
+      @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season,
+                                          placement: placement)
+    end
   end
 
   def create
@@ -120,5 +121,15 @@ class MatchesController < ApplicationController
 
   def get_heroes
     Rails.cache.fetch('heroes') { Hero.order(:name) }
+  end
+
+  def placement_rank_from(matches, season:, oauth_account:)
+    placement_log_match = matches.placement_logs.first
+    if placement_log_match
+      placement_log_match.rank
+    else
+      last_placement = oauth_account.last_placement_match_in(season)
+      last_placement.rank if last_placement
+    end
   end
 end

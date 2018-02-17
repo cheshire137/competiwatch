@@ -23,16 +23,6 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def placement_rank_from(matches, season:, oauth_account:)
-    placement_log_match = matches.placement_logs.first
-    if placement_log_match
-      placement_log_match.rank
-    else
-      last_placement = oauth_account.last_placement_match_in(season)
-      last_placement.rank if last_placement
-    end
-  end
-
   def set_season
     @season = params[:season].to_i
   end
