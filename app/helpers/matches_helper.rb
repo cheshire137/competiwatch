@@ -3,6 +3,10 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def show_role_chart?(matches)
+    matches.any? { |match| match.heroes.any? }
+  end
+
   def show_day_time_chart?(matches)
     matches.any? { |match| match.day_of_week.present? || match.time_of_day.present? }
   end
