@@ -1,9 +1,9 @@
 <div class="clearfix mb-4">
-  <div class="col-6 float-left">
+  <div class="col-md-6 float-md-left">
     <div data-url="<%= win_loss_chart_path(season, oauth_account) %>" class="js-remote-chart"></div>
   </div>
   <% if show_role_chart?(matches) %>
-    <div class="col-6 float-left">
+    <div class="col-md-6 float-md-left">
       <div data-url="<%= role_chart_path(season, oauth_account) %>" class="js-remote-chart"></div>
     </div>
   <% end %>
@@ -16,12 +16,12 @@
   <hr class="mb-4 pt-4">
   <div class="clearfix">
     <% if show_group_size_chart?(matches) %>
-      <div class="col-6 float-left">
+      <div class="col-md-6 float-md-left">
         <div data-url="<%= group_size_chart_path(season, oauth_account) %>" class="js-remote-chart"></div>
       </div>
     <% end %>
     <% if show_thrower_leaver_chart?(matches) %>
-      <div class="col-6 float-left">
+      <div class="col-md-6 float-md-left">
         <div data-url="<%= thrower_leaver_chart_path(season, oauth_account) %>" class="js-remote-chart"></div>
       </div>
     <% end %>
