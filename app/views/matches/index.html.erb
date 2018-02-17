@@ -1,14 +1,20 @@
 <% content_for(:title, "Season #{@season} / #{@oauth_account}") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+  <% if @can_edit %>
+    <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+  <% else %>
+    <%= @oauth_account %> / Season <%= @season %>
+  <% end %>
 <% end %>
 
 <div class="js-tab-container sticky-nav-container">
-  <div class="tabnav sticky-nav bg-white">
-    <%= render partial: 'matches/tabs',
-               locals: { matches: @matches, oauth_account: @oauth_account, season: @season } %>
-  </div>
+  <% if @can_edit %>
+    <div class="tabnav sticky-nav bg-white">
+      <%= render partial: 'matches/tabs',
+                 locals: { matches: @matches, oauth_account: @oauth_account, season: @season } %>
+    </div>
+  <% end %>
 
   <div id="match-history" class="js-tab-contents tab-contents">
     <%= render partial: 'matches/match_history',
@@ -16,23 +22,28 @@
                          longest_win_streak: @longest_win_streak,
                          longest_loss_streak: @longest_loss_streak,
                          season: @season, oauth_account: @oauth_account } %>
-    <p class="mt-4 text-small">
-      You can also
-      <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
-      for this season on <span class="text-bold"><%= @oauth_account %></span>
-      if you already have it in a spreadsheet.
-    </p>
+
+    <% if @can_edit %>
+      <p class="mt-4 text-small">
+        You can also
+        <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
+        for this season on <span class="text-bold"><%= @oauth_account %></span>
+        if you already have it in a spreadsheet.
+      </p>
+    <% end %>
   </div>
 
   <% if @matches.any? %>
-    <div id="export-csv" class="js-tab-contents tab-contents d-none">
-      <p>Export your season <%= @season %> match history as a CSV file.</p>
-      <%= form_tag export_matches_path(@season, @oauth_account, format: :csv) do %>
-        <button type="submit" class="btn btn-primary">
-          Download season <%= @season %>
-        </button>
-      <% end %>
-    </div>
+    <% if @can_edit %>
+      <div id="export-csv" class="js-tab-contents tab-contents d-none">
+        <p>Export your season <%= @season %> match history as a CSV file.</p>
+        <%= form_tag export_matches_path(@season, @oauth_account, format: :csv) do %>
+          <button type="submit" class="btn btn-primary">
+            Download season <%= @season %>
+          </button>
+        <% end %>
+      </div>
+    <% end %>
 
     <div id="trends" class="js-tab-contents tab-contents d-none">
       <%= render partial: 'matches/trends',
@@ -40,40 +51,42 @@
     </div>
   <% end %>
 
-  <% if @oauth_account.finished_placements?(@season) %>
-    <div id="log-match" class="js-tab-contents tab-contents d-none">
-      <%= form_for(@match) do |f| %>
-        <%= render partial: 'matches/form',
-                   locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                             heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
-        <button type="submit" class="mr-2 btn btn-large btn-primary">
-          Log Match
-        </button>
-        <span class="text-small text-gray">All fields optional except SR</span>
-      <% end %>
-    </div>
-  <% else %>
-    <div id="log-placement-matches" class="js-tab-contents tab-contents d-none">
-      <%= form_for(@match) do |f| %>
-        <%= render partial: 'matches/placement_form',
-                   locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                             heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
-        <button type="submit" class="btn btn-large btn-primary">
-          Log Match
-        </button>
-      <% end %>
-    </div>
-
-    <% unless @oauth_account.any_placements?(@season) %>
-      <div id="log-placement-rank" class="js-tab-contents tab-contents d-none">
+  <% if @can_edit %>
+    <% if @oauth_account.finished_placements?(@season) %>
+      <div id="log-match" class="js-tab-contents tab-contents d-none">
         <%= form_for(@match) do |f| %>
-          <%= render partial: 'matches/placement_rank_form',
-                     locals: { form: f, match: @match } %>
+          <%= render partial: 'matches/form',
+                     locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                               heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
+          <button type="submit" class="mr-2 btn btn-large btn-primary">
+            Log Match
+          </button>
+          <span class="text-small text-gray">All fields optional except SR</span>
+        <% end %>
+      </div>
+    <% else %>
+      <div id="log-placement-matches" class="js-tab-contents tab-contents d-none">
+        <%= form_for(@match) do |f| %>
+          <%= render partial: 'matches/placement_form',
+                     locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                               heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
           <button type="submit" class="btn btn-large btn-primary">
-            Save Starting SR
+            Log Match
           </button>
         <% end %>
       </div>
+
+      <% unless @oauth_account.any_placements?(@season) %>
+        <div id="log-placement-rank" class="js-tab-contents tab-contents d-none">
+          <%= form_for(@match) do |f| %>
+            <%= render partial: 'matches/placement_rank_form',
+                       locals: { form: f, match: @match } %>
+            <button type="submit" class="btn btn-large btn-primary">
+              Save Starting SR
+            </button>
+          <% end %>
+        </div>
+      <% end %>
     <% end %>
   <% end %>
 </div>
