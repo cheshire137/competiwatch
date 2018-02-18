@@ -1,0 +1,29 @@
+<div class="mb-4">
+  <div class="text-bold">Matches logged:</div>
+  <%= number_with_delimiter total_matches %>
+  &mdash;
+  <span class="text-green">
+    <span class="text-bold">
+      <%= number_with_delimiter total_wins %>
+    </span>
+    <%= 'win'.pluralize(total_wins) %>
+  </span>
+  &middot;
+  <span class="text-red">
+    <span class="text-bold">
+      <%= number_with_delimiter total_losses %>
+    </span>
+    <%= 'loss'.pluralize(total_losses) %>
+  </span>
+  &middot;
+  <span class="text-orange">
+    <span class="text-bold">
+      <%= number_with_delimiter total_draws %>
+    </span>
+    <%= 'draw'.pluralize(total_draws) %>
+  </span>
+  <% if total_matches > 0 %>
+    &mdash;
+    <%= win_percent(total_wins, total_matches) %>% win percentage
+  <% end %>
+</div>

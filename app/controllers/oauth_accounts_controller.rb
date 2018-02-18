@@ -5,6 +5,14 @@ class OauthAccountsController < ApplicationController
   before_action :set_season, only: :stats
 
   def stats
+    @total_matches = current_user.matches.with_result.in_season(@season).count
+
+    matches = current_user.matches.includes(:friends, :heroes).in_season(@season).with_result.
+      ordered_by_time
+
+    @total_wins = matches.select(&:win?).size
+    @total_losses = matches.select(&:loss?).size
+    @total_draws = matches.select(&:draw?).size
   end
 
   def index

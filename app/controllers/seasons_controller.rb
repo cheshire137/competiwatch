@@ -27,9 +27,6 @@ class SeasonsController < ApplicationController
     @total_wins = matches.select(&:win?).size
     @total_losses = matches.select(&:loss?).size
     @total_draws = matches.select(&:draw?).size
-    @win_percent = if @total_matches > 0
-      (@total_wins / @total_matches.to_f * 100).round(1)
-    end
 
     friends = matches.flat_map(&:friends)
     @friends = friends.uniq.map(&:name).sort_by(&:downcase)

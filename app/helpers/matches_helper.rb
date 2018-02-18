@@ -3,6 +3,12 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def win_percent(wins, total)
+    if total > 0
+      (wins / total.to_f * 100).round(1)
+    end
+  end
+
   def show_match_rank_image?(match)
     return false unless match.rank
     return true if match.placement_log?

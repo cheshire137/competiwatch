@@ -30,35 +30,9 @@
       </table>
     <% end %>
 
-    <div class="mb-4">
-      <div class="text-bold">Matches logged:</div>
-      <%= number_with_delimiter @total_matches %>
-      &mdash;
-      <span class="text-green">
-        <span class="text-bold">
-          <%= number_with_delimiter @total_wins %>
-        </span>
-        <%= 'win'.pluralize(@total_wins) %>
-      </span>
-      &middot;
-      <span class="text-red">
-        <span class="text-bold">
-          <%= number_with_delimiter @total_losses %>
-        </span>
-        <%= 'loss'.pluralize(@total_losses) %>
-      </span>
-      &middot;
-      <span class="text-orange">
-        <span class="text-bold">
-          <%= number_with_delimiter @total_draws %>
-        </span>
-        <%= 'draw'.pluralize(@total_draws) %>
-      </span>
-      <% if @total_matches > 0 %>
-        &mdash;
-        <%= @win_percent %>% win percentage
-      <% end %>
-    </div>
+    <%= render partial: 'matches/matches_logged',
+               locals: { total_matches: @total_matches, total_wins: @total_wins,
+                         total_losses: @total_losses, total_draws: @total_draws } %>
 
     <% if @match_counts_by_hero.any? %>
       <div class="mb-4">

@@ -3,3 +3,11 @@
 <% content_for(:breadcrumb) do %>
   <%= account_switcher(:all) %> / <%= season_switcher(@season) %>
 <% end %>
+
+<div class="clearfix">
+  <div class="col-md-6 pr-4-md float-md-left">
+    <%= render partial: 'matches/matches_logged',
+               locals: { total_matches: @total_matches, total_wins: @total_wins,
+                         total_losses: @total_losses, total_draws: @total_draws } %>
+  </div>
+</div>
