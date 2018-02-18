@@ -10,9 +10,20 @@ class OauthAccountsController < ApplicationController
     matches = current_user.matches.includes(:friends, :heroes).in_season(@season).with_result.
       ordered_by_time
 
+    @total_accounts = matches.map(&:oauth_account_id).uniq.size
     @total_wins = matches.select(&:win?).size
     @total_losses = matches.select(&:loss?).size
     @total_draws = matches.select(&:draw?).size
+
+    @match_counts_by_hero = matches.inject({}) do |hash, match|
+      match.heroes.each do |hero|
+        hash[hero] ||= 0
+        hash[hero] += 1
+      end
+      hash
+    end
+    @match_counts_by_hero = @match_counts_by_hero.sort_by { |_hero, count| -count }.to_h
+    @max_hero_match_count = @match_counts_by_hero.values.first
 
     all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
     @lowest_sr = all_ranks.min
