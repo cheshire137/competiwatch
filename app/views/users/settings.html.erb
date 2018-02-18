@@ -4,62 +4,24 @@
   Settings
 <% end %>
 
-<div class="clearfix mb-3">
-  <div class="col-md-6 mb-3-sm float-md-left pr-2-md">
-    <div class="Box p-3 d-flex flex-items-center">
-      <span class="ion-ios-download-outline ion f1 text-gray"></span>
-      <div class="ml-4">
-        <a class="h3" href="<%= import_path(Match::LATEST_SEASON, current_user) %>">
-          Import match history
-        </a>
-        <div>
-          Import competitive matches per season from a file.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6 float-md-left pl-2-md">
-    <div class="Box p-3 d-flex flex-items-center">
-      <span class="ion-ios-close-outline ion f1 text-gray"></span>
-      <div class="ml-4">
-        <a class="h3" href="<%= choose_season_to_wipe_path %>">
-          Wipe match history
-        </a>
-        <div>
-          Remove matches by season for individual accounts.
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="d-flex-md flex-justify-between-md mb-3">
+  <%= settings_box(icon_class: 'ion-link',
+                   title: 'Manage Battle.net accounts',
+                   url: accounts_path,
+                   description: 'Connect your alternate accounts to track their matches.') %>
+  <%= settings_box(icon_class: 'ion-eye',
+                   title: 'Manage match visibility',
+                   url: season_shares_path,
+                   description: 'Change whether others can view your match history.') %>
 </div>
 
-<div class="clearfix">
-  <div class="col-md-6 float-md-left pr-2-md">
-    <div class="Box p-3 d-flex flex-items-center">
-      <span class="ion-link ion f1 text-gray"></span>
-      <div class="ml-4">
-        <a class="h3" href="<%= accounts_path %>">
-          Manage Battle.net accounts
-        </a>
-        <div>
-          Connect your alternate accounts to track their matches.
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="col-md-6 float-md-left pl-2-md">
-    <div class="Box p-3 d-flex flex-items-center">
-      <span class="ion-eye ion f1 text-gray"></span>
-      <div class="ml-4">
-        <a class="h3" href="<%= season_shares_path %>">
-          Manage match visibility
-        </a>
-        <div>
-          Change whether others can view your match history.
-        </div>
-      </div>
-    </div>
-  </div>
+<div class="d-flex-md flex-justify-between-md">
+  <%= settings_box(icon_class: 'ion-ios-download-outline',
+                   title: 'Import match history',
+                   url: import_path(Match::LATEST_SEASON, current_user),
+                   description: 'Import competitive matches per season from a file.') %>
+  <%= settings_box(icon_class: 'ion-ios-close-outline',
+                   title: 'Wipe match history',
+                   url: choose_season_to_wipe_path,
+                   description: 'Remove matches by season for individual accounts.') %>
 </div>
