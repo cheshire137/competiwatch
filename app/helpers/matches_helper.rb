@@ -3,17 +3,6 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
-  def current_battletag_param
-    return params[:battletag] if params[:battletag]
-    battletag = current_user.default_oauth_account.try(:battletag) || current_user.battletag
-    User.parameterize(battletag)
-  end
-
-  def current_season
-    return params[:season] if params[:season]
-    Match::LATEST_SEASON
-  end
-
   def show_match_rank_image?(match)
     return false unless match.rank
     return true if match.placement_log?

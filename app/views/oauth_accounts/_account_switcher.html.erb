@@ -13,14 +13,16 @@
 
     <div class="dropdown-menu-content js-menu-content">
       <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
-        <li>
-          <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= account_season_path(current_season) %>">
-            All accounts
-          </a>
-        </li>
+        <% if params[:season] %>
+          <li>
+            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= account_season_path(params[:season]) %>">
+              All accounts
+            </a>
+          </li>
+        <% end %>
         <% oauth_accounts.each do |oauth_account| %>
           <li>
-            <a class="dropdown-item <%= 'text-bold' if oauth_account == selected_account %>" href="<%= url_with(battletag: oauth_account.to_param) %>">
+            <a class="dropdown-item <%= 'text-bold' if oauth_account == selected_account %>" href="<%= account_switcher_url(oauth_account) %>">
               <%= oauth_account %>
             </a>
           </li>
