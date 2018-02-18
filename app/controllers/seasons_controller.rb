@@ -7,19 +7,22 @@ class SeasonsController < ApplicationController
 
   def index
     matches = []
+    includes = [:friends, :heroes]
 
     if @oauth_account
       @active_seasons = @oauth_account.active_seasons
       matches = @oauth_account.matches
     else
+      includes << :oauth_account
       matches = current_user.matches.in_season(@season)
     end
 
-    matches = matches.includes(:friends, :heroes).with_result.ordered_by_time
+    matches = matches.includes(includes).with_result.ordered_by_time
     @total_matches = matches.count
 
     unless @oauth_account
       @total_accounts = matches.map(&:oauth_account_id).uniq.size
+      @account_battletags = matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
     end
 
     @match_counts_by_hero = matches.inject({}) do |hash, match|

@@ -11,6 +11,12 @@
         <span class="text-bold">Active in seasons:</span>
         <%= @active_seasons.map(&:to_s).join(', ') %>
       </div>
+    <% elsif @total_accounts && @account_battletags %>
+      <div class="mb-4">
+        <strong><%= @total_accounts %></strong>
+        <%= 'account'.pluralize(@total_accounts) %> with matches
+        <div class="text-gray"><%= @account_battletags.join(', ') %></div>
+      </div>
     <% end %>
 
     <%= render partial: 'seasons/rank_range',
