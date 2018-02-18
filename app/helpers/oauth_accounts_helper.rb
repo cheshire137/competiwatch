@@ -6,7 +6,7 @@ module OauthAccountsHelper
 
   def account_switcher_url(oauth_account)
     if params[:controller] == 'seasons' && params[:action] == 'index'
-      seasons_path(oauth_account)
+      all_seasons_stats_path(oauth_account)
     else
       url_with(battletag: oauth_account.to_param)
     end

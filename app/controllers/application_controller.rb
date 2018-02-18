@@ -37,13 +37,7 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_oauth_account_if_battletag
-    return unless params[:battletag]
-    set_oauth_account
-  end
-
   def ensure_oauth_account_is_mine
-    return unless @oauth_account
     unless @oauth_account.user == current_user
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end

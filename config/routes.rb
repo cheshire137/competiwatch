@@ -40,8 +40,8 @@ Rails.application.routes.draw do
   get '/import/:season/:battletag' => 'import#index', as: :import, season: /\d+/
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
 
-  get '/seasons/:battletag' => 'seasons#index', as: :seasons
-  get '/season/all-accounts/:season' => 'seasons#index', as: :all_accounts
+  get '/stats/all-seasons/:battletag' => 'stats#all_seasons', as: :all_seasons_stats
+  get '/stats/all-accounts/:season' => 'stats#all_accounts', as: :all_accounts_stats
 
   root to: 'login#index'
 end
