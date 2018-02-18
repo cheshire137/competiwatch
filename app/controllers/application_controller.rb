@@ -24,7 +24,9 @@ class ApplicationController < ActionController::Base
   end
 
   def set_season
-    @season = params[:season].to_i
+    @season = if params[:season]
+      params[:season].to_i
+    end
   end
 
   def set_oauth_account
