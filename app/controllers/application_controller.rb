@@ -30,9 +30,6 @@ class ApplicationController < ActionController::Base
   def set_oauth_account
     battletag = User.battletag_from_param(params[:battletag])
     @oauth_account = OauthAccount.find_by_battletag(battletag)
-  end
-
-  def ensure_oauth_account_exists
     unless @oauth_account
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end

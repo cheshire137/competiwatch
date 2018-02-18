@@ -1,6 +1,5 @@
 class TrendsController < ApplicationController
   before_action :set_oauth_account
-  before_action :ensure_oauth_account_exists
   before_action :set_season
   before_action :ensure_season_is_visible
   layout false
