@@ -35,12 +35,8 @@
   <% if @matches.any? %>
     <% if @can_edit %>
       <div id="export-csv" class="js-tab-contents tab-contents d-none">
-        <p>Export your season <%= @season %> match history as a CSV file.</p>
-        <%= form_tag export_matches_path(@season, @oauth_account, format: :csv) do %>
-          <button type="submit" class="btn btn-primary">
-            Download season <%= @season %>
-          </button>
-        <% end %>
+        <%= render partial: 'matches/export',
+                   locals: { season: @season, oauth_account: @oauth_account } %>
       </div>
     <% end %>
 
