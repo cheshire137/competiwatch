@@ -1,14 +1,26 @@
 class SeasonsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, except: :choose_season_to_wipe
+  before_action :set_oauth_account, except: [:index, :choose_season_to_wipe]
+  before_action :set_oauth_account_if_battletag, only: :index
   before_action :ensure_oauth_account_is_mine, except: :choose_season_to_wipe
-  before_action :set_season, only: [:confirm_wipe, :wipe]
+  before_action :set_season, only: [:confirm_wipe, :wipe, :index]
 
   def index
-    @active_seasons = @oauth_account.active_seasons
-    @total_matches = @oauth_account.matches.with_result.count
+    matches = []
 
-    matches = @oauth_account.matches.includes(:friends, :heroes).with_result.ordered_by_time
+    if @oauth_account
+      @active_seasons = @oauth_account.active_seasons
+      matches = @oauth_account.matches
+    else
+      matches = current_user.matches.in_season(@season)
+    end
+
+    matches = matches.includes(:friends, :heroes).with_result.ordered_by_time
+    @total_matches = matches.count
+
+    unless @oauth_account
+      @total_accounts = matches.map(&:oauth_account_id).uniq.size
+    end
 
     @match_counts_by_hero = matches.inject({}) do |hash, match|
       match.heroes.each do |hero|

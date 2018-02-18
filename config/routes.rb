@@ -22,7 +22,6 @@ Rails.application.routes.draw do
   get '/season/:season/:battletag/confirm-wipe' => 'seasons#confirm_wipe', as: :confirm_season_wipe, season: /\d+/
   delete '/season/:season/:battletag' => 'seasons#wipe', season: /\d+/
 
-  get '/season/all-accounts/:season' => 'oauth_accounts#stats', as: :account_season
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
   post '/matches/:season/:battletag' => 'matches#create', season: /\d+/
   post '/matches/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
@@ -42,6 +41,7 @@ Rails.application.routes.draw do
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
 
   get '/seasons/:battletag' => 'seasons#index', as: :seasons
+  get '/season/all-accounts/:season' => 'seasons#index', as: :all_accounts
 
   root to: 'login#index'
 end

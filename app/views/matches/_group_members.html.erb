@@ -1,0 +1,59 @@
+<div class="mb-4">
+  <span class="text-bold">Grouped with:</span>
+  <%= friends.join(', ') %>
+</div>
+
+<div class="mb-4 d-flex flex-items-center">
+  <span class="ion-ios-people mr-3 ion f1 text-gray"></span>
+  <div>
+    <span class="text-bold">Most frequently grouped with:</span>
+    <%= most_frequent_friends.join(', ') %>
+    with <%= pluralize(most_frequent_match_count, 'match') %>
+  </div>
+</div>
+
+<% if most_winning_friends.any? %>
+  <div class="mb-4">
+    <div class="d-flex flex-items-center">
+      <span class="ion-trophy mr-3 ion f1 text-gray"></span>
+      <div>
+        <span class="text-bold">Highest win percentage:</span>
+        <% most_winning_friends.each do |name| %>
+          <div>
+            <%= name %> &middot;
+            <span class="text-gray">
+              <%= win_rates_by_friend[name] %>% with
+              <%= number_with_delimiter match_counts_by_friend[name] %> <%= 'game'.pluralize(match_counts_by_friend[name]) %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <p class="note mb-0">
+      *Players with whom you had the highest win percentage after playing more than one match
+    </p>
+  </div>
+<% end %>
+
+<% if @most_losing_friends.any? %>
+  <div class="mb-4">
+    <div class="d-flex flex-items-center">
+      <span class="ion-heart-broken mr-3 ion f1 text-gray"></span>
+      <div>
+        <span class="text-bold">Lowest win percentage:</span>
+        <% @most_losing_friends.each do |name| %>
+          <div>
+            <%= name %> &middot;
+            <span class="text-gray">
+              <%= win_rates_by_friend[name] %>% with
+              <%= number_with_delimiter match_counts_by_friend[name] %> <%= 'game'.pluralize(match_counts_by_friend[name]) %>
+            </span>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <p class="note mb-0">
+      *Players with whom you had the lowest win percentage after playing more than one match
+    </p>
+  </div>
+<% end %>
