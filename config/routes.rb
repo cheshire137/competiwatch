@@ -41,6 +41,7 @@ Rails.application.routes.draw do
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
 
   get '/seasons/:battletag' => 'seasons#index', as: :seasons
+  get '/seasons/:season/all' => 'oauth_accounts#stats', as: :account_season
 
   root to: 'login#index'
 end

@@ -2,6 +2,10 @@ class OauthAccountsController < ApplicationController
   before_action :authenticate_user!
   before_action :set_oauth_account, only: :destroy
   before_action :ensure_oauth_account_is_mine, only: :destroy
+  before_action :set_season, only: :stats
+
+  def stats
+  end
 
   def index
     @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag

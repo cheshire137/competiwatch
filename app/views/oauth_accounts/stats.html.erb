@@ -1,0 +1,5 @@
+<% content_for(:title, "Season #{@season} / All Accounts") %>
+
+<% content_for(:breadcrumb) do %>
+  <%= account_switcher(:all) %> / <%= season_switcher(@season) %>
+<% end %>

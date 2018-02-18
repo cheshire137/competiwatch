@@ -11,7 +11,7 @@
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
       <li>
-        <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= seasons_path(params[:battletag]) %>">
+        <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= seasons_path(current_battletag_param) %>">
           All seasons
         </a>
       </li>
