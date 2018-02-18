@@ -1,8 +1,18 @@
 class SeasonSharesController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account
-  before_action :ensure_oauth_account_is_mine
-  before_action :set_season
+  before_action :set_oauth_account, except: :index
+  before_action :ensure_oauth_account_is_mine, except: :index
+  before_action :set_season, except: :index
+
+  def index
+    @all_seasons = 1..Match::LATEST_SEASON
+    @shared_seasons_by_oauth_account_id = current_user.season_shares.inject({}) do |hash, season_share|
+      hash[season_share.oauth_account_id] ||= []
+      hash[season_share.oauth_account_id] << season_share.season
+      hash
+    end
+    @oauth_accounts = current_user.oauth_accounts.order_by_battletag
+  end
 
   def create
     season_share = SeasonShare.where(oauth_account: @oauth_account,

@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
 
+  get '/shared-seasons' => 'season_shares#index', as: :season_shares
   post '/season/:season/:battletag/share' => 'season_shares#create', as: :season_share, season: /\d+/
   delete '/season/:season/:battletag/share' => 'season_shares#destroy', season: /\d+/
 

@@ -4,6 +4,7 @@ class User < ApplicationRecord
   has_many :oauth_accounts, dependent: :destroy
   has_many :friends, dependent: :destroy
   has_many :matches, through: :oauth_accounts
+  has_many :season_shares, through: :oauth_accounts
 
   belongs_to :default_oauth_account, class_name: 'OauthAccount', required: false
 
