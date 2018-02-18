@@ -13,6 +13,10 @@ class OauthAccountsController < ApplicationController
     @total_wins = matches.select(&:win?).size
     @total_losses = matches.select(&:loss?).size
     @total_draws = matches.select(&:draw?).size
+
+    all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
+    @lowest_sr = all_ranks.min
+    @highest_sr = all_ranks.max
   end
 
   def index

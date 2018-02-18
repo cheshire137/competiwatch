@@ -13,22 +13,8 @@
       </div>
     <% end %>
 
-    <% if @lowest_sr && @highest_sr %>
-      <table class="mb-4">
-        <tbody>
-          <tr>
-            <th rowspan="2" class="pr-2">SR range:</th>
-            <td class="pr-2 pb-1 text-center"><%= @lowest_sr %></td>
-            <td rowspan="2" class="pr-2">&ndash;</td>
-            <td class="pb-1 text-center"><%= @highest_sr %></td>
-          </tr>
-          <tr>
-            <td class="pr-2 text-center"><%= rank_image(@lowest_sr) %></td>
-            <td class="text-center"><%= rank_image(@highest_sr) %></td>
-          </tr>
-        </tbody>
-      </table>
-    <% end %>
+    <%= render partial: 'matches/rank_range',
+               locals: { lowest_sr: @lowest_sr, highest_sr: @highest_sr } %>
 
     <%= render partial: 'matches/matches_logged',
                locals: { total_matches: @total_matches, total_wins: @total_wins,

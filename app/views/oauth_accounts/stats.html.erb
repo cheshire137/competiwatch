@@ -6,6 +6,9 @@
 
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">
+    <%= render partial: 'matches/rank_range',
+               locals: { lowest_sr: @lowest_sr, highest_sr: @highest_sr } %>
+
     <%= render partial: 'matches/matches_logged',
                locals: { total_matches: @total_matches, total_wins: @total_wins,
                          total_losses: @total_losses, total_draws: @total_draws } %>
