@@ -16,6 +16,12 @@
             All seasons
           </a>
         </li>
+      <% else %>
+        <li>
+          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= stats_path %>">
+            All seasons
+          </a>
+        </li>
       <% end %>
       <% season_options.each do |label, season| %>
         <li>

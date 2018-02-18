@@ -4,6 +4,9 @@ class StatsController < ApplicationController
   before_action :ensure_oauth_account_is_mine, only: :all_seasons
   before_action :set_season, only: :all_accounts
 
+  def index
+  end
+
   def all_seasons
     @active_seasons = @oauth_account.active_seasons
     matches = @oauth_account.matches.includes([:friends, :heroes]).with_result.ordered_by_time

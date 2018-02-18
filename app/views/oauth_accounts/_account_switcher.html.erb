@@ -19,6 +19,12 @@
               All accounts
             </a>
           </li>
+        <% else %>
+          <li>
+            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= stats_path %>">
+              All accounts
+            </a>
+          </li>
         <% end %>
         <% oauth_accounts.each do |oauth_account| %>
           <li>

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
 
   get '/stats/all-seasons/:battletag' => 'stats#all_seasons', as: :all_seasons_stats
   get '/stats/all-accounts/:season' => 'stats#all_accounts', as: :all_accounts_stats
+  get '/stats' => 'stats#index', as: :stats
 
   root to: 'login#index'
 end

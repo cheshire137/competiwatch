@@ -1,7 +1,11 @@
 module SeasonsHelper
   def season_switcher_season_path(season)
-    if params[:controller] == 'stats' && params[:battletag]
-      matches_path(battletag: params[:battletag], season: season)
+    if params[:controller] == 'stats'
+      if params[:battletag]
+        matches_path(battletag: params[:battletag], season: season)
+      else
+        all_accounts_stats_path(season)
+      end
     else
       url_with(season: season)
     end
