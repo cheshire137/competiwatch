@@ -6,22 +6,22 @@
 
 <div class="d-flex-md flex-wrap">
   <% @oauth_accounts.each do |oauth_account| %>
-    <div class="Box p-3 mb-4-sm mr-4 account-box">
+    <div class="Box p-3 mb-4-sm mr-4-md account-box">
       <h3 class="h3 mb-2 text-normal"><%= oauth_account %></h3>
       <ul class="list-style-none">
         <% shared_seasons = @shared_seasons_by_oauth_account_id[oauth_account.id] || [] %>
         <% @all_seasons.each_with_index do |season, i| %>
           <% is_shared = shared_seasons.include?(season) %>
 
-          <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'background-junkertown' if is_shared %> <% if i > 0 %>border-top<% end %>">
-            Season <%= season %>
+          <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'background-oasis' if is_shared %> <% if i > 0 %>border-top<% end %>">
+            <a href="<%= matches_path(season, oauth_account) %>" class="no-wrap">Season <%= season %></a>
             <span class="text-gray">
               <% if is_shared %>
                 <span class="ion ion-eye mr-1 d-inline-block"></span>
-                <span class="text-small">Publicly visible</span>
+                <span class="text-small no-wrap">Publicly visible</span>
               <% else %>
                 <span class="ion ion-locked mr-1 d-inline-block"></span>
-                <span class="text-small">Only visible to you</span>
+                <span class="text-small no-wrap">Only visible to you</span>
               <% end %>
             </span>
           </li>
