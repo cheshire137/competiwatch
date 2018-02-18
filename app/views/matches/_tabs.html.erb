@@ -43,7 +43,7 @@
       <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
         <% if season_is_public %>
           <span class="ion ion-eye mr-1 d-inline-block"></span>
-          <span class="text-small">Publicly visible</span>
+          <span class="text-small">Visible to others</span>
         <% else %>
           <span class="ion ion-locked mr-1 d-inline-block"></span>
           <span class="text-small">Only visible to you</span>
@@ -55,14 +55,16 @@
           <li>
             <% if season_is_public %>
               <%= form_tag season_share_path(season, oauth_account), method: :delete do %>
-                <button type="submit" class="dropdown-item text-small btn-link">
-                  Only let me see my matches
+                <button type="submit" class="dropdown-item btn-link">
+                  <span class="ion ion-locked mr-1 d-inline-block"></span>
+                  <span class="text-small">Only let me see my matches</span>
                 </button>
               <% end %>
             <% else %>
               <%= form_tag season_share_path(season, oauth_account) do %>
-                <button type="submit" class="dropdown-item text-small btn-link">
-                  Allow others to see my matches
+                <button type="submit" class="dropdown-item btn-link">
+                  <span class="ion ion-eye mr-1 d-inline-block"></span>
+                  <span class="text-small">Allow others to view</span>
                 </button>
               <% end %>
             <% end %>
