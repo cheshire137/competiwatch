@@ -9,12 +9,11 @@
 <% end %>
 
 <div class="js-tab-container sticky-nav-container">
-  <% if @can_edit %>
-    <div class="tabnav sticky-nav bg-white">
-      <%= render partial: 'matches/tabs',
-                 locals: { matches: @matches, oauth_account: @oauth_account, season: @season } %>
-    </div>
-  <% end %>
+  <div class="tabnav sticky-nav bg-white">
+    <%= render partial: 'matches/tabs',
+               locals: { matches: @matches, oauth_account: @oauth_account,
+                         season: @season, can_edit: @can_edit } %>
+  </div>
 
   <div id="match-history" class="js-tab-contents tab-contents">
     <%= render partial: 'matches/match_history',

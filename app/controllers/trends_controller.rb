@@ -1,9 +1,8 @@
 class TrendsController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_oauth_account
   before_action :ensure_oauth_account_exists
-  before_action :ensure_oauth_account_is_mine
   before_action :set_season
+  before_action :ensure_season_is_visible
   layout false
 
   def heroes_chart

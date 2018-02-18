@@ -109,12 +109,6 @@ class MatchesController < ApplicationController
     end
   end
 
-  def ensure_season_is_visible
-    return if signed_in? && current_user == @oauth_account.user
-    return if @oauth_account.season_is_public?(@season)
-    render file: Rails.root.join('public', '404.html'), status: :not_found
-  end
-
   def get_maps
     Rails.cache.fetch('maps') { Map.order(:name).select([:id, :name]) }
   end

@@ -4,21 +4,23 @@
       <span class="ion hide-sm ion-ios-list-outline"></span>
       Match history
     </a>
-    <% if oauth_account.finished_placements?(season) %>
-      <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
-        <span class="ion hide-sm ion-compose"></span>
-        Log a match
-      </a>
-    <% else %>
-      <a href="#log-placement-matches" class="tabnav-tab js-tab">
-        <span class="ion hide-sm ion-compose"></span>
-        Log placement match
-      </a>
-      <% unless oauth_account.any_placements?(season) %>
-        <a href="#log-placement-rank" class="tabnav-tab js-tab">
+    <% if can_edit %>
+      <% if oauth_account.finished_placements?(season) %>
+        <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
           <span class="ion hide-sm ion-compose"></span>
-          Log placement SR
+          Log a match
         </a>
+      <% else %>
+        <a href="#log-placement-matches" class="tabnav-tab js-tab">
+          <span class="ion hide-sm ion-compose"></span>
+          Log placement match
+        </a>
+        <% unless oauth_account.any_placements?(season) %>
+          <a href="#log-placement-rank" class="tabnav-tab js-tab">
+            <span class="ion hide-sm ion-compose"></span>
+            Log placement SR
+          </a>
+        <% end %>
       <% end %>
     <% end %>
     <% if matches.any? %>
@@ -26,43 +28,47 @@
         <span class="ion hide-sm ion-stats-bars"></span>
         Trends
       </a>
-      <a href="#export-csv" class="tabnav-tab js-tab">
-        <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
-        Export
-      </a>
+      <% if can_edit %>
+        <a href="#export-csv" class="tabnav-tab js-tab">
+          <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
+          Export
+        </a>
+      <% end %>
     <% end %>
   </div>
 
-  <div class="dropdown js-menu-container d-inline-block">
-    <% season_is_public = oauth_account.season_is_public?(season) %>
-    <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-      <% if season_is_public %>
-        <span class="ion ion-eye mr-1 d-inline-block"></span>
-        <span class="text-small">Publicly visible</span>
-      <% else %>
-        <span class="ion ion-locked mr-1 d-inline-block"></span>
-        <span class="text-small">Only visible to you</span>
-      <% end %>
-      <div class="dropdown-caret"></div>
-    </button>
-    <div class="dropdown-menu-content js-menu-content">
-      <ul class="dropdown-menu season-share-dropdown-menu dropdown-menu-se">
-        <li>
-          <% if season_is_public %>
-            <%= form_tag season_share_path(season, oauth_account), method: :delete do %>
-              <button type="submit" class="dropdown-item text-small btn-link">
-                Only let me see my matches
-              </button>
+  <% if can_edit %>
+    <div class="dropdown js-menu-container d-inline-block">
+      <% season_is_public = oauth_account.season_is_public?(season) %>
+      <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+        <% if season_is_public %>
+          <span class="ion ion-eye mr-1 d-inline-block"></span>
+          <span class="text-small">Publicly visible</span>
+        <% else %>
+          <span class="ion ion-locked mr-1 d-inline-block"></span>
+          <span class="text-small">Only visible to you</span>
+        <% end %>
+        <div class="dropdown-caret"></div>
+      </button>
+      <div class="dropdown-menu-content js-menu-content">
+        <ul class="dropdown-menu season-share-dropdown-menu dropdown-menu-se">
+          <li>
+            <% if season_is_public %>
+              <%= form_tag season_share_path(season, oauth_account), method: :delete do %>
+                <button type="submit" class="dropdown-item text-small btn-link">
+                  Only let me see my matches
+                </button>
+              <% end %>
+            <% else %>
+              <%= form_tag season_share_path(season, oauth_account) do %>
+                <button type="submit" class="dropdown-item text-small btn-link">
+                  Allow others to see my matches
+                </button>
+              <% end %>
             <% end %>
-          <% else %>
-            <%= form_tag season_share_path(season, oauth_account) do %>
-              <button type="submit" class="dropdown-item text-small btn-link">
-                Allow others to see my matches
-              </button>
-            <% end %>
-          <% end %>
-        </li>
-      </ul>
+          </li>
+        </ul>
+      </div>
     </div>
-  </div>
+  <% end %>
 </nav>
