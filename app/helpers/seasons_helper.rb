@@ -1,6 +1,6 @@
 module SeasonsHelper
   def season_switcher_season_path(season)
-    if params[:controller] == 'seasons' && params[:battletag]
+    if params[:controller] == 'stats' && params[:battletag]
       matches_path(battletag: params[:battletag], season: season)
     else
       url_with(season: season)
