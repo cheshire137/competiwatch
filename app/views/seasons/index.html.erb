@@ -13,14 +13,14 @@
       </div>
     <% end %>
 
-    <%= render partial: 'matches/rank_range',
+    <%= render partial: 'seasons/rank_range',
                locals: { lowest_sr: @lowest_sr, highest_sr: @highest_sr } %>
 
-    <%= render partial: 'matches/matches_logged',
+    <%= render partial: 'seasons/matches_logged',
                locals: { total_matches: @total_matches, total_wins: @total_wins,
                          total_losses: @total_losses, total_draws: @total_draws } %>
 
-    <%= render partial: 'matches/heroes_played',
+    <%= render partial: 'seasons/heroes_played',
                locals: { match_counts_by_hero: @match_counts_by_hero,
                          max_hero_match_count: @max_hero_match_count,
                          total_matches: @total_matches } %>
@@ -30,7 +30,7 @@
     <div class="col-md-6 float-md-left">
       <h2 class="h3 text-normal mt-0 mb-2">Group Members</h2>
 
-      <%= render partial: 'matches/group_members',
+      <%= render partial: 'seasons/group_members',
                  locals: { friends: @friends, most_frequent_friends: @most_frequent_friends,
                            most_frequent_match_count: @most_frequent_match_count,
                            most_winning_friends: @most_winning_friends,
