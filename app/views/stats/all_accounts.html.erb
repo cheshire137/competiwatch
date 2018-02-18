@@ -1,14 +1,15 @@
-<% content_for(:title, "All Seasons / #{@oauth_account}") %>
+<% content_for(:title, "All Accounts / #{current_user}") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(:all) %> / <%= season_switcher(:all) %>
+  <%= account_switcher(:all) %> / <%= season_switcher(@season) %>
 <% end %>
 
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">
     <div class="mb-4">
-      <span class="text-bold">Active in seasons:</span>
-      <%= @active_seasons.map(&:to_s).join(', ') %>
+      <strong><%= @total_accounts %></strong>
+      <%= 'account'.pluralize(@total_accounts) %> with matches
+      <div class="text-gray"><%= @account_battletags.join(', ') %></div>
     </div>
 
     <%= render partial: 'seasons/rank_range',
