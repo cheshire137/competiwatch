@@ -26,6 +26,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/season/1/#{oauth_account.to_param}"
 
     assert_response :ok
+    assert_select "form[action='/season/1/#{oauth_account.to_param}']"
   end
 
   test 'index page loads successfully for other user when season is shared' do
