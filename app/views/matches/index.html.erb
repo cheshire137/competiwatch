@@ -60,7 +60,8 @@
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                             heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
+                             heroes_by_role: @heroes_by_role, friends: @friends,
+                             all_friends: @all_friends } %>
         <button type="submit" class="mr-2 btn btn-large btn-primary">
           Log Match
         </button>
@@ -72,7 +73,8 @@
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/placement_form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                             heroes: @heroes, friends: @friends, all_friends: @all_friends } %>
+                             heroes_by_role: @heroes_by_role, friends: @friends,
+                             all_friends: @all_friends } %>
         <button type="submit" class="btn btn-large btn-primary">
           Log Match
         </button>

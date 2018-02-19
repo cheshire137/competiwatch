@@ -29,6 +29,11 @@ class Hero < ApplicationRecord
     ALIASES[hero_alias.downcase.to_sym] || hero_alias
   end
 
+  def self.pretty_role(role)
+    return role if role == 'DPS'
+    role.humanize
+  end
+
   def self.slug_for(name)
     case name
     when 'D.Va' then 'dva'

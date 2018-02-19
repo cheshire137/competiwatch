@@ -96,13 +96,17 @@
   }
 }
 
+.hero-box {
+  width: 48%;
+}
+
 @media (min-width: 768px) {
   .friend-form-checkbox.form-checkbox {
     width: 21%;
   }
 
-  .form-hero-checkbox {
-    width: 33%;
+  .hero-box {
+    width: 30%;
   }
 }
 

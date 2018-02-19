@@ -19,7 +19,7 @@ class MatchesController < ApplicationController
 
     if @can_edit
       @maps = get_maps
-      @heroes = get_heroes
+      @heroes_by_role = get_heroes_by_role
       @friends = current_user.friend_names(@season)
       @all_friends = current_user.all_friend_names
       placement = !@oauth_account.finished_placements?(@season)
@@ -49,7 +49,7 @@ class MatchesController < ApplicationController
   def edit
     @latest_match = @match.oauth_account.matches.ordered_by_time.last
     @maps = get_maps
-    @heroes = get_heroes
+    @heroes_by_role = get_heroes_by_role
     @friends = current_user.friend_names(@match.season)
     @all_friends = current_user.all_friend_names
   end
@@ -78,7 +78,7 @@ class MatchesController < ApplicationController
     @friends = current_user.friend_names(@match.season)
     @all_friends = current_user.all_friend_names
     @maps = get_maps
-    @heroes = get_heroes
+    @heroes_by_role = get_heroes_by_role
     @latest_match = @oauth_account.matches.ordered_by_time.last
 
     render 'matches/edit'
@@ -102,8 +102,9 @@ class MatchesController < ApplicationController
     Rails.cache.fetch('maps') { Map.order(:name).select([:id, :name]) }
   end
 
-  def get_heroes
-    Rails.cache.fetch('heroes') { Hero.order(:name) }
+  def get_heroes_by_role
+    heroes = Rails.cache.fetch('heroes') { Hero.order(:name) }
+    heroes.group_by(&:role)
   end
 
   def placement_rank_from(matches, season:, oauth_account:)
