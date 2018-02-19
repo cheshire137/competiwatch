@@ -32,7 +32,7 @@
     <span class="d-inline-block text-right text-bold mr-2 group-members-label"><%= friend_names.join(', ') %></span>
     <span class="group-win-rate-label text-center mr-2"><%= win_rate %>%</span>
     <span class="d-flex flex-auto">
-      <span class="group-members-bar hero-bar-lucio d-inline-block rounded-2" style="width: <%= win_rate %>%"></span>
+      <span class="group-members-bar d-inline-block rounded-2" style="width: <%= win_rate %>%; background-color: <%= win_rate_color(win_rate) %>"></span>
     </span>
   </div>
   <% i += 1 %>
