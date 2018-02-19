@@ -10,16 +10,17 @@
   <%
     win_rate = win_rates_by_group_members[friend_names]
     show_divider = match_count != prev_match_count
+    should_collapse = match_count < 3
   %>
   <% if show_divider %>
     <hr>
     <% prev_match_count = match_count %>
   <% end %>
   <% if i == 0 || show_divider %>
-    <% if match_count == 1 %>
-      <button type="button" data-target=".js-group-stats-details-target" class="js-toggle-details btn-link text-gray width-full text-center h4 text-normal mb-2">
+    <% if should_collapse %>
+      <button type="button" data-target=".js-group-stats-details-target-<%= match_count %>" class="js-toggle-details btn-link text-gray width-full text-center h4 text-normal mb-2">
         <span class="ion-chevron-right text-small ion"></span>
-        1 match
+        <%= pluralize(match_count, 'match') %>
       </button>
     <% else %>
       <h4 class="h4 text-center text-gray text-normal mb-2">
@@ -27,7 +28,7 @@
       </h4>
     <% end %>
   <% end %>
-  <div class="d-flex flex-items-center mb-1 <%= 'd-none js-group-stats-details-target' if match_count == 1 %>">
+  <div class="d-flex flex-items-center mb-1 <%= "d-none js-group-stats-details-target-#{match_count}" if should_collapse %>">
     <span class="d-inline-block text-right text-bold mr-2 group-members-label"><%= friend_names.join(', ') %></span>
     <span class="group-win-rate-label text-center mr-2"><%= win_rate %>%</span>
     <span class="d-flex flex-auto">
