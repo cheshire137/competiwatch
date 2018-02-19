@@ -15,6 +15,10 @@ class User < ApplicationRecord
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
 
+  def active_seasons
+    matches.select('DISTINCT season').order('season').map(&:season)
+  end
+
   def merge_with(primary_user)
     success = true
 

@@ -1,23 +1,21 @@
-<% content_for(:title, "All Seasons / #{@oauth_account}") %>
+<% content_for(:title, "All Seasons and Accounts / Stats") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(@oauth_account || :all) %> / <%= season_switcher(@season || :all) %>
+  <%= account_switcher(:all) %> / <%= season_switcher(:all) %>
 <% end %>
 
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">
-    <% if @active_seasons && @active_seasons.any? %>
-      <div class="mb-4">
-        <span class="text-bold">Active in seasons:</span>
-        <%= @active_seasons.map(&:to_s).join(', ') %>
-      </div>
-    <% elsif @total_accounts && @account_battletags %>
-      <div class="mb-4">
-        <strong><%= @total_accounts %></strong>
-        <%= 'account'.pluralize(@total_accounts) %> with matches
-        <div class="text-gray"><%= @account_battletags.join(', ') %></div>
-      </div>
-    <% end %>
+    <div class="mb-4">
+      <strong><%= @total_accounts %></strong>
+      <%= 'account'.pluralize(@total_accounts) %> with matches
+      <div class="text-gray"><%= @account_battletags.join(', ') %></div>
+    </div>
+
+    <div class="mb-4">
+      <span class="text-bold">Active in seasons:</span>
+      <%= @active_seasons.map(&:to_s).join(', ') %>
+    </div>
 
     <%= render partial: 'seasons/rank_range',
                locals: { lowest_sr: @lowest_sr, highest_sr: @highest_sr } %>

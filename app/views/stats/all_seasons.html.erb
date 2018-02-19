@@ -1,0 +1,39 @@
+<% content_for(:title, "All Seasons / #{@oauth_account} / Stats") %>
+
+<% content_for(:breadcrumb) do %>
+  <%= account_switcher(@oauth_account) %> / <%= season_switcher(:all) %>
+<% end %>
+
+<div class="clearfix">
+  <div class="col-md-6 pr-4-md float-md-left">
+    <div class="mb-4">
+      <span class="text-bold">Active in seasons:</span>
+      <%= @active_seasons.map(&:to_s).join(', ') %>
+    </div>
+
+    <%= render partial: 'seasons/rank_range',
+               locals: { lowest_sr: @lowest_sr, highest_sr: @highest_sr } %>
+
+    <%= render partial: 'seasons/matches_logged',
+               locals: { total_matches: @total_matches, total_wins: @total_wins,
+                         total_losses: @total_losses, total_draws: @total_draws } %>
+
+    <%= render partial: 'seasons/heroes_played',
+               locals: { match_counts_by_hero: @match_counts_by_hero,
+                         max_hero_match_count: @max_hero_match_count,
+                         total_matches: @total_matches } %>
+  </div>
+
+  <% if @friends.any? %>
+    <div class="col-md-6 float-md-left">
+      <h2 class="h3 text-normal mt-0 mb-2">Group Members</h2>
+
+      <%= render partial: 'seasons/group_members',
+                 locals: { friends: @friends, most_frequent_friends: @most_frequent_friends,
+                           most_frequent_match_count: @most_frequent_match_count,
+                           most_winning_friends: @most_winning_friends,
+                           win_rates_by_friend: @win_rates_by_friend,
+                           match_counts_by_friend: @match_counts_by_friend } %>
+    </div>
+  <% end %>
+</div>
