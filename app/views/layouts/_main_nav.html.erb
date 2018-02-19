@@ -1,13 +1,8 @@
 <div class="bg-blue box-shadow js-top-nav text-gray-light main-nav">
   <div class="container">
-    <div class="d-flex-md py-3 flex-justify-between-md flex-items-center-md">
+    <div class="d-flex-md py-2 flex-justify-between-md flex-items-center-md">
       <h1 class="h1 d-flex flex-items-center">
         <a class="text-white no-underline d-inline-block mr-4-md" href="<%= home_page_path %>">Competiwatch</a>
-        <% if content_for?(:breadcrumb) %>
-          <span class="text-normal h4 d-block-sm">
-            <%= yield :breadcrumb %>
-          </span>
-        <% end %>
       </h1>
       <% if signed_in? %>
         <div class="d-flex flex-items-center">
@@ -24,3 +19,10 @@
     </div>
   </div>
 </div>
+<% if content_for?(:breadcrumb) %>
+  <div class="h4 py-2 text-normal bg-blue-light">
+    <div class="container">
+      <%= yield :breadcrumb %>
+    </div>
+  </div>
+<% end %>
