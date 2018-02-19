@@ -41,13 +41,15 @@ heroes_by_role = {
   :'off-tank' => ['D.Va', 'Roadhog', 'Zarya'],
   tank: ['Winston', 'Reinhardt', 'Orisa'],
   hitscan: ['McCree', 'Soldier: 76', 'Widowmaker'],
-  DPS: ['Pharah', 'Sombra', 'Reaper', 'Doomfist', 'Junkrat'],
-  flanker: ['Genji', 'Tracer']
+  DPS: ['Pharah', 'Reaper', 'Doomfist', 'Junkrat'],
+  flanker: ['Genji', 'Sombra', 'Tracer']
 }
 
 heroes_by_role.each do |role, hero_names|
   puts "Creating #{role} heroes: #{hero_names.to_sentence}"
   hero_names.each do |name|
-    Hero.where(name: name, role: role).first_or_create
+    hero = Hero.where(name: name).first_or_initialize
+    hero.role = role
+    hero.save if hero.new_record? || hero.changed?
   end
 end
