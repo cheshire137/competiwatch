@@ -9,25 +9,13 @@
           </span>
         <% end %>
       </h1>
-      <% if signed_in? %>
-        <div class="d-flex flex-items-center">
-          <a class="text-white d-inline-block mr-4" href="<%= settings_path %>">Settings</a>
-          <%= form_tag sign_out_path, method: :delete do %>
-            <button type="submit" class="text-white btn-link">
-              Log out
-            </button>
-          <% end %>
-        </div>
-      <% elsif !is_page?('login', 'index') %>
-        <a class="text-white d-inline-block" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
-      <% end %>
     </div>
   </div>
 </div>
 <% if signed_in? %>
   <div class="border-bottom">
     <div class="container">
-      <nav class="UnderlineNav border-bottom-0">
+      <nav class="UnderlineNav border-bottom-0 d-flex-md flex-justify-between-md">
         <div class="UnderlineNav-body">
           <%
             season = params[:season] || Match::LATEST_SEASON
@@ -36,6 +24,18 @@
           %>
           <a href="<%= matches_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_matches_page?(season, battletag) %>" role="tab">Matches</a>
           <a href="<%= trends_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, battletag) %>" role="tab">Trends</a>
+        </div>
+        <div class="UnderlineNav-body">
+          <% if signed_in? %>
+            <a class="UnderlineNav-item <%= 'selected' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
+            <%= form_tag sign_out_path, method: :delete do %>
+              <button type="submit" class="UnderlineNav-item btn-link">
+                Log out
+              </button>
+            <% end %>
+          <% elsif !is_page?('login', 'index') %>
+            <a class="UnderlineNav-item" role="tab" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
+          <% end %>
         </div>
       </nav>
     </div>

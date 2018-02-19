@@ -1,4 +1,8 @@
-<% content_for(:title, 'Your Battle.net Accounts') %>
+<% content_for(:title, 'Your Battle.net accounts') %>
+
+<% content_for(:breadcrumb) do %>
+  <a href="<%= settings_path %>">Settings</a> / Your Battle.net accounts
+<% end %>
 
 <div class="d-flex-md flex-justify-between-md">
   <div class="col-5-md mb-4-sm">

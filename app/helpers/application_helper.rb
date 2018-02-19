@@ -15,6 +15,11 @@ module ApplicationHelper
     params[:season] == season
   end
 
+  def is_settings_page?
+    is_page?('users', 'settings') || is_page?('oauth_accounts', 'index') ||
+      is_page?('season_shares', 'index') || is_page?('seasons', 'choose_season_to_wipe')
+  end
+
   def is_battletag_page?(battletag)
     params[:battletag] == battletag
   end
