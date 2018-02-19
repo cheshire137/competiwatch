@@ -10,7 +10,9 @@
 
 <div class="clearfix mb-4">
   <div class="col-md-6 float-md-left">
-    <%= render partial: 'trends/win_loss_chart' %>
+    <%= render partial: 'trends/win_loss_chart',
+               locals: { win_count: @win_count, loss_count: @loss_count,
+                         draw_count: @draw_count, season: @season } %>
   </div>
   <% if show_role_chart?(@matches) %>
     <div class="col-md-6 float-md-left">
