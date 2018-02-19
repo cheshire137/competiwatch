@@ -4,7 +4,7 @@ class TrendsController < ApplicationController
   before_action :ensure_season_is_visible
 
   def index
-    @can_edit = signed_in? && @oauth_account.user == current_user
+    @is_owner = signed_in? && @oauth_account.user == current_user
     win_loss_chart
     group_stats
     day_time_chart
@@ -15,15 +15,19 @@ class TrendsController < ApplicationController
     role_chart
     streaks_chart
     thrower_leaver_chart
-    @matches = @oauth_account.matches.in_season(@season).
-      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
+    @matches = account_matches_in_season.includes(:prior_match, :heroes, :map, :friends).
+      ordered_by_time
   end
 
   private
 
+  def account_matches_in_season
+    @account_matches_in_season ||= @oauth_account.matches.in_season(@season)
+  end
+
   def thrower_leaver_chart
     @thrower_leaver_types = ['Throwers', 'Leavers']
-    matches = @oauth_account.matches.in_season(@season).
+    matches = account_matches_in_season.
       select([:ally_thrower, :ally_leaver, :enemy_thrower, :enemy_leaver]).
       where("ally_thrower IS NOT NULL OR enemy_thrower IS NOT NULL OR " +
             "ally_leaver IS NOT NULL OR enemy_leaver IS NOT NULL")
@@ -43,7 +47,7 @@ class TrendsController < ApplicationController
   end
 
   def streaks_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:prior_match).
+    matches = account_matches_in_season.includes(:prior_match).
       ordered_by_time.to_a
     set_streaks(matches)
 
@@ -53,7 +57,7 @@ class TrendsController < ApplicationController
   end
 
   def role_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
+    matches = account_matches_in_season.includes(:heroes).with_result
     match_counts_by_role = Hash.new(0)
 
     matches.each do |match|
@@ -69,7 +73,7 @@ class TrendsController < ApplicationController
   def map_chart
     maps_by_id = Map.order(:name).select([:id, :name]).
       map { |map| [map.id, map] }.to_h
-    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
+    matches = account_matches_in_season.select([:map_id, :result]).
       with_result
 
     wins_by_map_id = Hash.new(0)
@@ -94,7 +98,7 @@ class TrendsController < ApplicationController
   end
 
   def group_size_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).
+    matches = account_matches_in_season.includes(:friends).
       with_result
 
     wins_by_group_size = Hash.new(0)
@@ -127,7 +131,7 @@ class TrendsController < ApplicationController
   end
 
   def day_time_chart
-    matches = @oauth_account.matches.in_season(@season).
+    matches = account_matches_in_season.
       select([:time_of_day, :day_of_week, :result]).with_day_and_time.with_result
 
     wins_by_day_time = Hash.new(0)
@@ -158,14 +162,14 @@ class TrendsController < ApplicationController
   end
 
   def win_loss_chart
-    matches = @oauth_account.matches.in_season(@season).group(:result).count
+    matches = account_matches_in_season.group(:result).count
     @win_count = matches[Match::RESULT_MAPPINGS[:win]]
     @loss_count = matches[Match::RESULT_MAPPINGS[:loss]]
     @draw_count = matches[Match::RESULT_MAPPINGS[:draw]]
   end
 
   def group_member_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
+    matches = account_matches_in_season.includes(:friends).with_result
 
     wins_by_group_member = Hash.new(0)
     losses_by_group_member = Hash.new(0)
@@ -192,7 +196,7 @@ class TrendsController < ApplicationController
   end
 
   def heroes_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
+    matches = account_matches_in_season.includes(:heroes).with_result
 
     wins_by_hero_id = Hash.new(0)
     losses_by_hero_id = Hash.new(0)
@@ -227,7 +231,7 @@ class TrendsController < ApplicationController
   end
 
   def group_stats
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
+    matches = account_matches_in_season.includes(:friends).with_result
 
     hasher = ->(hash, match) do
       group_members = match.friend_names

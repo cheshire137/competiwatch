@@ -1,7 +1,7 @@
 <% content_for(:title, "Season #{@season} / #{@oauth_account} / Trends") %>
 
 <% content_for(:breadcrumb) do %>
-  <% if @can_edit %>
+  <% if @is_owner %>
     <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %> / Trends
   <% else %>
     <%= @oauth_account %> / Season <%= @season %> / Trends
