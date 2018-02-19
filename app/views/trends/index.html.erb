@@ -22,7 +22,9 @@
 </div>
 <% if show_day_time_chart?(@matches) %>
   <hr class="mb-4 pt-4">
-  <div data-url="<%= day_time_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+  <%= render partial: 'trends/day_time_chart',
+             locals: { day_times: @day_times, win_counts: @win_counts, season: @season,
+                       loss_counts: @loss_counts, draw_counts: @draw_counts } %>
 <% end %>
 <% if show_group_size_chart?(@matches) || show_thrower_leaver_chart?(@matches) %>
   <hr class="mb-4 pt-4">
