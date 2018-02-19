@@ -2,9 +2,8 @@ import {on} from 'delegated-events'
 import remoteLoadContent from './remote-load-content.js'
 
 function activateTab(link, tabContent) {
-  const container = link.closest('.js-tab-container')
-  const otherLinks = container.querySelectorAll('.js-tab')
-  const otherTabContents = container.querySelectorAll('.js-tab-contents')
+  const otherLinks = document.querySelectorAll('.js-tab')
+  const otherTabContents = document.querySelectorAll('.js-tab-contents')
 
   for (const otherLink of otherLinks) {
     otherLink.classList.remove('selected')
@@ -22,8 +21,8 @@ function activateTab(link, tabContent) {
   }
 
   setTimeout(function() {
-    if (typeof container.scrollIntoView === 'function') {
-      container.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
+    if (typeof document.scrollIntoView === 'function') {
+      document.scrollIntoView({ behavior: 'smooth', block: 'start', inline: 'nearest' })
     } else {
       const header = document.querySelector('.js-top-nav')
       window.scroll({ top: header.clientHeight, left: 0, behavior: 'smooth' })

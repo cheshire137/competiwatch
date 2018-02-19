@@ -10,20 +10,34 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
   <body class="layout-container">
-    <header class="mb-4">
-      <%= render partial: 'layouts/main_nav' %>
+    <header class="bg-blue box-shadow js-top-nav text-gray-light main-nav">
+      <div class="container">
+        <div class="d-flex-md py-2 flex-justify-between-md flex-items-center-md">
+          <h1 class="h1 lh-condensed">
+            <a class="text-white no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
+            <% if content_for(:title) && !is_page?('login', 'index') %>
+              <span class="h3 lh-condensed text-normal d-inline-block text-white">
+                <%= yield :title %>
+              </span>
+            <% end %>
+          </h1>
+        </div>
+      </div>
     </header>
     <div class="container layout-children-container mb-4">
+      <%= render partial: 'layouts/main_nav' %>
       <% if alert.present? %>
-        <p class="p-3 mb-4 rounded-2 flash-error"><%= alert %></p>
+        <p class="p-3 mt-4 rounded-2 flash-error"><%= alert %></p>
       <% end %>
       <% if flash[:error].present? %>
-        <p class="p-3 mb-4 rounded-2 flash-error"><%= flash[:error] %></p>
+        <p class="p-3 mt-4 rounded-2 flash-error"><%= flash[:error] %></p>
       <% end %>
       <% if notice.present? %>
-        <p class="p-3 mb-4 rounded-2 flash-success"><%= notice %></p>
+        <p class="p-3 mt-4 rounded-2 flash-success"><%= notice %></p>
       <% end %>
-      <%= yield %>
+      <div class="mt-4">
+        <%= yield %>
+      </div>
     </div>
     <footer class="my-4 border-top text-small text-gray py-4">
       <div class="container pt-4 text-center">
