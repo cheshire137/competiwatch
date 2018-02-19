@@ -5,14 +5,29 @@ class StatsController < ApplicationController
   before_action :set_season, only: :all_accounts
 
   def index
+    @active_seasons = current_user.active_seasons
+    matches = current_user.matches.includes(:friends, :heroes, :oauth_account).with_result.
+      ordered_by_time
+    @total_matches = matches.count
+    @total_accounts = matches.map(&:oauth_account_id).uniq.size
+    @account_battletags = matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(matches)
+    @lowest_sr, @highest_sr = get_lowest_and_highest_rank(matches)
+    @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(matches)
+    @friends, @match_counts_by_friend = get_friends_and_match_counts(matches)
+    @most_frequent_match_count = @match_counts_by_friend.values.max
+    @most_frequent_friends = @match_counts_by_friend.
+      select { |name, count| count == @most_frequent_match_count }.keys
+    @win_rates_by_friend = get_win_rates_by_friend(matches, @match_counts_by_friend)
+    @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
+    @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
   end
 
   def all_seasons
     @active_seasons = @oauth_account.active_seasons
     matches = @oauth_account.matches.includes([:friends, :heroes]).with_result.ordered_by_time
     @total_matches = matches.count
-    @match_counts_by_hero = get_match_counts_by_hero(matches)
-    @max_hero_match_count = @match_counts_by_hero.values.first
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(matches)
     @friends, @match_counts_by_friend = get_friends_and_match_counts(matches)
@@ -29,8 +44,7 @@ class StatsController < ApplicationController
     @total_matches = matches.count
     @total_accounts = matches.map(&:oauth_account_id).uniq.size
     @account_battletags = matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
-    @match_counts_by_hero = get_match_counts_by_hero(matches)
-    @max_hero_match_count = @match_counts_by_hero.values.first
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(matches)
     @friends, @match_counts_by_friend = get_friends_and_match_counts(matches)
@@ -99,6 +113,8 @@ class StatsController < ApplicationController
       end
       hash
     end
-    result.sort_by { |_hero, count| -count }.to_h
+    result = result.sort_by { |_hero, count| -count }.to_h
+    max_hero_match_count = result.values.first
+    [result, max_hero_match_count]
   end
 end

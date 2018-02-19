@@ -5,6 +5,13 @@ class StatsControllerTest < ActionDispatch::IntegrationTest
     @oauth_account = create(:oauth_account)
   end
 
+  test 'stats page redirects anonymous user' do
+    get '/stats'
+
+    assert_response :redirect
+    assert_redirected_to 'http://www.example.com/'
+  end
+
   test 'all seasons page redirects anonymous user' do
     get "/stats/all-seasons/#{@oauth_account.to_param}"
 
@@ -17,6 +24,14 @@ class StatsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
+  end
+
+  test 'stats page loads successfully for authenticated user with no matches' do
+    sign_in_as(@oauth_account)
+    get '/stats'
+
+    assert_response :ok
+    assert_select 'div', text: /Matches logged:\s+0/
   end
 
   test 'all seasons page loads successfully for authenticated user with no matches' do
@@ -33,6 +48,21 @@ class StatsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select 'div', text: /Matches logged:\s+0/
+  end
+
+  test 'stats page loads successfully for authenticated user with matches' do
+    oauth_account2 = create(:oauth_account, user: @oauth_account.user)
+    create(:match, oauth_account: @oauth_account, season: 1, result: :win)
+    create(:match, oauth_account: oauth_account2, season: 2, result: :loss)
+    create(:match, oauth_account: @oauth_account, season: 3, result: :draw)
+
+    sign_in_as(@oauth_account)
+    get '/stats'
+
+    assert_response :ok
+    assert_select 'div', text: /Matches logged:\s+3/
+    assert_select 'div', text: /Active in seasons:\s+1, 2, 3/
+    assert_select 'div', text: /2\s+accounts with matches/
   end
 
   test 'all seasons page loads successfully for authenticated user with matches' do
