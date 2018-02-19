@@ -104,7 +104,7 @@ class MatchesController < ApplicationController
 
   def get_heroes_by_role
     heroes = Rails.cache.fetch('heroes') { Hero.order(:name) }
-    heroes.group_by(&:role)
+    heroes.group_by(&:role).sort_by { |role, _heroes| Hero::ROLE_SORT[role] }.to_h
   end
 
   def placement_rank_from(matches, season:, oauth_account:)

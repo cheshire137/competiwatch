@@ -10,6 +10,16 @@ class Hero < ApplicationRecord
 
   has_and_belongs_to_many :matches
 
+  ROLE_SORT = {
+    'DPS' => 0,
+    'hitscan' => 1,
+    'flanker' => 2,
+    'tank' => 3,
+    'off-tank' => 4,
+    'healer' => 5,
+    'defense' => 6
+  }.freeze
+
   ALIASES = {
     widow: 'Widowmaker',
     torb: 'Torbjörn',
