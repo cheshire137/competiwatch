@@ -3,6 +3,15 @@ module ApplicationHelper
     url_for(params.permit(:battletag, :season).merge(options))
   end
 
+  def current_battletag
+    if signed_in?
+      params[:battletag] || current_user.default_oauth_account.try(:to_param) ||
+        current_user.to_param
+    else
+      params[:battletag]
+    end
+  end
+
   def is_matches_page?(season, battletag)
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end

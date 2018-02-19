@@ -3,8 +3,7 @@
     <div class="UnderlineNav-body">
       <%
         season = params[:season] || Match::LATEST_SEASON
-        battletag = params[:battletag] || current_user.default_oauth_account.try(:to_param) ||
-          current_user.to_param
+        battletag = current_battletag
       %>
       <% if content_for?(:match_tabs) %>
         <%= yield :match_tabs %>
