@@ -117,23 +117,33 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  test 'win/loss chart 404s for anonymous user when season not shared' do
-    get "/trends/2/#{@oauth_account.to_param}/win-loss-chart"
+  test 'index page 404s for anonymous user when season not shared' do
+    get "/trends/2/#{@oauth_account.to_param}"
 
     assert_response :not_found
   end
 
-  test 'win/loss chart loads for owner' do
+  test 'index page loads for owner' do
     sign_in_as(@oauth_account)
-    get "/trends/2/#{@oauth_account.to_param}/win-loss-chart"
+    get "/trends/2/#{@oauth_account.to_param}"
 
     assert_response :ok
   end
 
-  test 'win/loss chart loads for anonymous user when season is shared' do
+  test 'index page loads for anonymous user when season is shared' do
     create(:season_share, oauth_account: @oauth_account, season: 2)
 
-    get "/trends/2/#{@oauth_account.to_param}/win-loss-chart"
+    get "/trends/2/#{@oauth_account.to_param}"
+
+    assert_response :ok
+  end
+
+  test 'index page loads for a user who is not the owner when season is shared' do
+    create(:season_share, oauth_account: @oauth_account, season: 2)
+    other_account = create(:oauth_account)
+
+    sign_in_as(other_account)
+    get "/trends/2/#{@oauth_account.to_param}"
 
     assert_response :ok
   end

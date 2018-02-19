@@ -42,6 +42,10 @@
 @import "primer-dropdown/index.scss";
 @import "forms.scss";
 
+.UnderlineNav-item.selected {
+  border-bottom-color: $pink;
+}
+
 .ui-state-active,
 .ui-widget-content .ui-state-active,
 .ui-widget-header .ui-state-active,

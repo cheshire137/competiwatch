@@ -4,6 +4,7 @@ class TrendsController < ApplicationController
   before_action :ensure_season_is_visible
 
   def index
+    win_loss_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -225,13 +226,6 @@ class TrendsController < ApplicationController
     @match_counts = @roles.map { |role| match_counts_by_role[role] || 0 }
   end
 
-  def win_loss_chart
-    matches = @oauth_account.matches.in_season(@season).group(:result).count
-    @win_count = matches[Match::RESULT_MAPPINGS[:win]]
-    @loss_count = matches[Match::RESULT_MAPPINGS[:loss]]
-    @draw_count = matches[Match::RESULT_MAPPINGS[:draw]]
-  end
-
   def streaks_chart
     matches = @oauth_account.matches.in_season(@season).includes(:prior_match).
       ordered_by_time.to_a
@@ -240,5 +234,14 @@ class TrendsController < ApplicationController
     @game_numbers = (1..matches.size).to_a
     @win_streaks = matches.map { |match| match.win_streak || 0 }
     @loss_streaks = matches.map { |match| match.loss_streak || 0 }
+  end
+
+  private
+
+  def win_loss_chart
+    matches = @oauth_account.matches.in_season(@season).group(:result).count
+    @win_count = matches[Match::RESULT_MAPPINGS[:win]]
+    @loss_count = matches[Match::RESULT_MAPPINGS[:loss]]
+    @draw_count = matches[Match::RESULT_MAPPINGS[:draw]]
   end
 end

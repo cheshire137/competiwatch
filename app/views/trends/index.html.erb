@@ -10,7 +10,7 @@
 
 <div class="clearfix mb-4">
   <div class="col-md-6 float-md-left">
-    <div data-url="<%= win_loss_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+    <%= render partial: 'trends/win_loss_chart' %>
   </div>
   <% if show_role_chart?(@matches) %>
     <div class="col-md-6 float-md-left">

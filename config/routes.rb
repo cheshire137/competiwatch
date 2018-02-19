@@ -10,7 +10,6 @@ Rails.application.routes.draw do
 
   get '/trends/:season/:battletag' => 'trends#index', as: :trends
   get '/trends/:season/:battletag/group-stats' => 'trends#group_stats', as: :group_stats
-  get '/trends/:season/:battletag/win-loss-chart' => 'trends#win_loss_chart', as: :win_loss_chart
   get '/trends/:season/:battletag/map-chart' => 'trends#map_chart', as: :map_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
   get '/trends/:season/:battletag/day-time-chart' => 'trends#day_time_chart', as: :day_time_chart
