@@ -1,5 +1,5 @@
 import {on} from 'delegated-events'
-import remoteLoadCharts from './remote-load-charts.js'
+import remoteLoadContent from './remote-load-content.js'
 
 function activateTab(link, tabContent) {
   const container = link.closest('.js-tab-container')
@@ -18,7 +18,7 @@ function activateTab(link, tabContent) {
   link.classList.add('selected')
 
   if (link.classList.contains('js-trends-tab')) {
-    remoteLoadCharts()
+    remoteLoadContent()
   }
 
   setTimeout(function() {

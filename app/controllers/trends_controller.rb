@@ -4,6 +4,34 @@ class TrendsController < ApplicationController
   before_action :ensure_season_is_visible
   layout false
 
+  def group_stats
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
+
+    hasher = ->(hash, match) do
+      group_members = match.friend_names
+      if group_members.any?
+        hash[group_members] ||= 0
+        hash[group_members] += 1
+      end
+      hash
+    end
+
+    @wins_by_group_members = matches.select(&:win?).inject({}, &hasher)
+    @match_counts_by_group_members = matches.inject({}, &hasher)
+
+    unique_groups = @wins_by_group_members.keys.sort
+    @win_rates_by_group_members = unique_groups.inject({}) do |hash, friend_names|
+      wins = @wins_by_group_members[friend_names]
+      total = @match_counts_by_group_members[friend_names]
+      hash[friend_names] = (wins / total.to_f * 100).round
+      hash
+    end
+    @win_rates_by_group_members = @win_rates_by_group_members.
+      sort_by { |_friend_names, win_rate| -win_rate }.to_h
+
+    @max_group_win_rate = @win_rates_by_group_members.values.first
+  end
+
   def heroes_chart
     matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
 

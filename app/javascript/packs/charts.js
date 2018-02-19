@@ -1,7 +1,7 @@
 import Chart from 'chart.js'
 import SelectorObserver from 'selector-observer'
 import {on} from 'delegated-events'
-import remoteLoadCharts from './remote-load-charts.js'
+import remoteLoadContent from './remote-load-content.js'
 
 const winColor = '#29fd2f'
 const transparentWinColor = 'rgba(41,253,47,0.7)'
@@ -16,7 +16,7 @@ const enemyColor = '#FD9629'
 const transparentEnemyColor = 'rgba(253,150,41,0.7)'
 
 on('click', '.js-trends-tab', function(event) {
-  remoteLoadCharts()
+  remoteLoadContent()
 })
 
 function wholeTicks(value) {

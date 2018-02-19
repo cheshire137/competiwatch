@@ -49,7 +49,14 @@ module MatchesHelper
 
   def win_percent(wins, total)
     if total > 0
-      (wins / total.to_f * 100).round(1)
+      pct = wins / total.to_f * 100
+      rounded_to_one = pct.round(1)
+      rounded = pct.round
+      if rounded == rounded_to_one
+        rounded
+      else
+        rounded_to_one
+      end
     end
   end
 
@@ -57,6 +64,10 @@ module MatchesHelper
     return false unless match.rank
     return true if match.placement_log?
     match.prior_match && match.prior_match.rank_tier != match.rank_tier
+  end
+
+  def show_group_stats?(matches)
+    show_group_member_chart?(matches)
   end
 
   def show_map_chart?(matches)
