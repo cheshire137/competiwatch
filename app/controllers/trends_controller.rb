@@ -11,6 +11,7 @@ class TrendsController < ApplicationController
     group_member_chart
     heroes_chart
     group_size_chart
+    map_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -34,33 +35,6 @@ class TrendsController < ApplicationController
 
     @allies = @types.map { |type| allies_by_type[type] || 0 }
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
-  end
-
-  def map_chart
-    maps_by_id = Map.order(:name).select([:id, :name]).
-      map { |map| [map.id, map] }.to_h
-    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
-      with_result
-
-    wins_by_map_id = Hash.new(0)
-    losses_by_map_id = Hash.new(0)
-    draws_by_map_id = Hash.new(0)
-
-    matches.each do |match|
-      if match.win?
-        wins_by_map_id[match.map_id] += 1
-      elsif match.loss?
-        losses_by_map_id[match.map_id] += 1
-      elsif match.draw?
-        draws_by_map_id[match.map_id] += 1
-      end
-    end
-
-    @map_names = maps_by_id.values.map(&:chart_label)
-    map_ids = maps_by_id.keys
-    @win_counts = map_ids.map { |map_id| wins_by_map_id[map_id] || 0 }
-    @loss_counts = map_ids.map { |map_id| losses_by_map_id[map_id] || 0 }
-    @draw_counts = map_ids.map { |map_id| draws_by_map_id[map_id] || 0 }
   end
 
   def role_chart
@@ -88,6 +62,33 @@ class TrendsController < ApplicationController
   end
 
   private
+
+  def map_chart
+    maps_by_id = Map.order(:name).select([:id, :name]).
+      map { |map| [map.id, map] }.to_h
+    matches = @oauth_account.matches.in_season(@season).select([:map_id, :result]).
+      with_result
+
+    wins_by_map_id = Hash.new(0)
+    losses_by_map_id = Hash.new(0)
+    draws_by_map_id = Hash.new(0)
+
+    matches.each do |match|
+      if match.win?
+        wins_by_map_id[match.map_id] += 1
+      elsif match.loss?
+        losses_by_map_id[match.map_id] += 1
+      elsif match.draw?
+        draws_by_map_id[match.map_id] += 1
+      end
+    end
+
+    @map_names = maps_by_id.values.map(&:chart_label)
+    map_ids = maps_by_id.keys
+    @map_win_counts = map_ids.map { |map_id| wins_by_map_id[map_id] || 0 }
+    @map_loss_counts = map_ids.map { |map_id| losses_by_map_id[map_id] || 0 }
+    @map_draw_counts = map_ids.map { |map_id| draws_by_map_id[map_id] || 0 }
+  end
 
   def group_size_chart
     matches = @oauth_account.matches.in_season(@season).includes(:friends).

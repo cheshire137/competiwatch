@@ -54,7 +54,9 @@
 <% end %>
 <% if show_map_chart?(@matches) %>
   <hr class="mb-4 pt-4">
-  <div data-url="<%= map_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+  <%= render partial: 'trends/map_chart',
+             locals: { win_counts: @map_win_counts, season: @season, map_names: @map_names,
+                       loss_counts: @map_loss_counts, draw_counts: @map_draw_counts } %>
 <% end %>
 <hr class="mb-4 pt-4">
 <div data-url="<%= streaks_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>

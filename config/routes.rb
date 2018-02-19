@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   end
 
   get '/trends/:season/:battletag' => 'trends#index', as: :trends
-  get '/trends/:season/:battletag/map-chart' => 'trends#map_chart', as: :map_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
   get '/trends/:season/:battletag/thrower-leaver-chart' => 'trends#thrower_leaver_chart', as: :thrower_leaver_chart
   get '/trends/:season/:battletag/role-chart' => 'trends#role_chart', as: :role_chart
