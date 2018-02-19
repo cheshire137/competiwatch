@@ -1,6 +1,17 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'active_seasons returns list of seasons user had matches across accounts' do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    create(:match, oauth_account: oauth_account1, season: 1)
+    create(:match, oauth_account: oauth_account1, season: 2)
+    create(:match, oauth_account: oauth_account2, season: 4)
+
+    assert_equal [1, 2, 4], user.active_seasons
+  end
+
   test 'requires user to own their default OAuth account' do
     user = create(:user)
     user.default_oauth_account = create(:oauth_account)
