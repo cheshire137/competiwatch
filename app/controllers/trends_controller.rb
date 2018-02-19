@@ -114,8 +114,6 @@ class TrendsController < ApplicationController
         'Solo'
       elsif group_size == 2
         'Duo'
-      elsif group_size == 3
-        'Trio'
       else
         "#{group_size}-stack"
       end

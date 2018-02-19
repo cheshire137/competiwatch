@@ -1,0 +1,41 @@
+<%
+  all_ranks = matches.map(&:rank)
+  total_match_count = matches.size
+%>
+
+<div class="blankslate mb-3 p-3">
+  <div class="d-flex mb-2 flex-items-center flex-justify-between">
+    <h2 class="h3 my-0 text-normal">Season <%= season %> Summary</h2>
+    <div>
+      <span class="text-bold">
+        <%= win_percent(matches.select(&:win?).size, total_match_count) %>%
+      </span>
+      win rate
+    </div>
+    <div>
+      <span class="text-bold"><%= total_match_count %></span> <%= 'match'.pluralize(total_match_count) %> logged
+    </div>
+  </div>
+  <div class="d-flex flex-wrap flex-justify-between">
+    <div class="d-flex flex-items-center">
+      <span class="text-bold d-inline-block mr-2">Season high:</span>
+      <%= rank_image(max_rank = all_ranks.max, classes: 'd-inline-block mr-1') %>
+      <%= max_rank %>
+    </div>
+    <div class="d-flex flex-items-center">
+      <span class="text-bold d-inline-block mr-2">Season low:</span>
+      <%= rank_image(min_rank = all_ranks.min, classes: 'd-inline-block mr-1') %>
+      <%= min_rank %>
+    </div>
+    <div class="d-flex flex-items-center">
+      <span class="text-bold d-inline-block mr-2">Season final:</span>
+      <%= rank_image(final_rank = all_ranks.last, classes: 'd-inline-block mr-1') %>
+      <%= final_rank %>
+    </div>
+  </div>
+  <% if matches.any? { |match| match.friends.any? } %>
+    <div class="d-flex mt-2 flex-justify-between flex-wrap">
+      <%= group_size_summary(matches) %>
+    </div>
+  <% end %>
+</div>

@@ -3,6 +3,50 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def get_match_count_by_group_size(matches)
+    match_count_by_group_size = matches.inject({}) do |hash, match|
+      key = match.group_size
+      hash[key] ||= 0
+      hash[key] += 1
+      hash
+    end
+    match_count_by_group_size.sort_by { |group_size, _match_count| group_size }.to_h
+  end
+
+  def group_size_summary(matches)
+    match_count_by_group_size = get_match_count_by_group_size(matches)
+    descriptions = {
+      1 => 'solo queuing',
+      2 => 'duo queuing',
+      3 => '3-stack',
+      4 => '4-stack',
+      5 => '5-stack',
+      6 => '6-stack'
+    }
+    summaries = []
+    match_count_by_group_size.each do |group_size, match_count|
+      suffix = if group_size < 3
+        safe_join([
+          " #{'match'.pluralize(match_count)}",
+          '<br>'.html_safe,
+          content_tag(:span, descriptions[group_size], class: 'text-small text-gray')
+        ])
+      else
+        safe_join([
+          " #{'match'.pluralize(match_count)}",
+          '<br>'.html_safe,
+          content_tag(:span, "in a #{descriptions[group_size]}", class: 'text-small text-gray')
+        ])
+      end
+      summary = safe_join([
+        content_tag(:span, match_count, class: 'text-bold'),
+        content_tag(:span, suffix)
+      ])
+      summaries << content_tag(:div, summary, class: 'text-center')
+    end
+    safe_join(summaries)
+  end
+
   def win_percent(wins, total)
     if total > 0
       (wins / total.to_f * 100).round(1)

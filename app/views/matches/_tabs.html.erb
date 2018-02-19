@@ -4,7 +4,7 @@
       <span class="ion hide-sm ion-ios-list-outline"></span>
       Match history
     </a>
-    <% if can_edit %>
+    <% if can_edit && !past_season %>
       <% if oauth_account.finished_placements?(season) %>
         <a href="#log-match" class="tabnav-tab js-log-match-tab js-tab">
           <span class="ion hide-sm ion-compose"></span>

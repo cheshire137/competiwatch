@@ -12,10 +12,15 @@
   <div class="tabnav sticky-nav bg-white">
     <%= render partial: 'matches/tabs',
                locals: { matches: @matches, oauth_account: @oauth_account,
-                         season: @season, can_edit: @can_edit } %>
+                         season: @season, can_edit: @can_edit, past_season: @past_season } %>
   </div>
 
   <div id="match-history" class="js-tab-contents tab-contents">
+    <% if @past_season %>
+      <%= render partial: 'matches/tldr',
+                 locals: { matches: @matches, season: @season } %>
+    <% end %>
+
     <%= render partial: 'matches/match_history',
                locals: { matches: @matches, placement_rank: @placement_rank,
                          longest_win_streak: @longest_win_streak,
@@ -26,7 +31,7 @@
       <p class="mt-4 text-small">
         You can also
         <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
-        for this season on <span class="text-bold"><%= @oauth_account %></span>
+        for season <%= @season %> on <span class="text-bold"><%= @oauth_account %></span>
         if you already have it in a spreadsheet.
       </p>
     <% end %>
