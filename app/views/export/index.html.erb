@@ -1,0 +1,31 @@
+<% content_for(:title, 'Export matches') %>
+
+<p>Download your match history for each season as a <abbr title="Comma Separated Value">CSV</abbr> file.</p>
+
+<div class="d-flex-md flex-wrap">
+  <% @oauth_accounts.each do |oauth_account| %>
+    <% any_matches = false %>
+    <div class="Box p-3 mb-4-sm mr-4-md account-box">
+      <h3 class="h3 mb-2 text-normal"><%= oauth_account %></h3>
+      <ul class="list-style-none">
+        <% @seasons.each do |season| %>
+          <% match_count = @match_counts[[oauth_account.id, season]] || 0 %>
+          <% if match_count > 0 %>
+            <% any_matches = true %>
+            <li>
+              <%= form_tag export_matches_path(season, oauth_account, format: :csv) do %>
+                <button type="submit" class="btn-link d-flex flex-items-center width-full flex-justify-between">
+                  Download season <%= season %>
+                  <span class="text-small text-gray"><%= pluralize(match_count, 'match') %></span>
+                </button>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+        <% unless any_matches %>
+          <li>No matches logged for this account</li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+</div>

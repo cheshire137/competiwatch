@@ -8,12 +8,6 @@
       <%= render partial: 'matches/log_match_tabs',
                  locals: { oauth_account: oauth_account, season: season } %>
     <% end %>
-    <% if can_edit && matches.any? %>
-      <a href="#export-csv" class="tabnav-tab js-tab">
-        <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
-        Export
-      </a>
-    <% end %>
   </div>
 
   <% if can_edit && past_season %>

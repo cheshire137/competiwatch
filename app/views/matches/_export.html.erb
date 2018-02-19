@@ -1,6 +1,0 @@
-<p>Export <%= oauth_account %>'s season <%= season %> match history as a CSV file.</p>
-<%= form_tag export_matches_path(season, oauth_account, format: :csv) do %>
-  <button type="submit" class="btn btn-primary">
-    Download season <%= season %>
-  </button>
-<% end %>

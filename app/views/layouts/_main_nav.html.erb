@@ -24,6 +24,7 @@
           %>
           <a href="<%= matches_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_matches_page?(season, battletag) %>" role="tab">Matches</a>
           <a href="<%= trends_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, battletag) %>" role="tab">Trends</a>
+          <a href="<%= export_path %>" class="UnderlineNav-item <%= 'selected' if is_page?('export', 'index') %>" role="tab">Export</a>
         </div>
         <div class="UnderlineNav-body">
           <% if signed_in? %>

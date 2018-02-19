@@ -43,13 +43,6 @@
     <% end %>
   </div>
 
-  <% if @can_edit && @matches.any? %>
-    <div id="export-csv" class="js-tab-contents tab-contents d-none">
-      <%= render partial: 'matches/export',
-                 locals: { season: @season, oauth_account: @oauth_account } %>
-    </div>
-  <% end %>
-
   <% if @can_edit %>
     <% if @oauth_account.finished_placements?(@season) %>
       <div id="log-match" class="js-tab-contents tab-contents d-none">

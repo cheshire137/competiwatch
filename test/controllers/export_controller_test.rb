@@ -1,6 +1,13 @@
 require 'test_helper'
 
 class ExportControllerTest < ActionDispatch::IntegrationTest
+  test 'index page redirects anonymous user' do
+    get '/export'
+
+    assert_response :redirect
+    assert_redirected_to 'http://www.example.com/'
+  end
+
   test "cannot export another user's season" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
