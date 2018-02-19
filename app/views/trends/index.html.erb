@@ -40,7 +40,9 @@
     <% end %>
     <% if show_thrower_leaver_chart?(@matches) %>
       <div class="col-md-6 float-md-left">
-        <div data-url="<%= thrower_leaver_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+        <%= render partial: 'trends/thrower_leaver_chart',
+                   locals: { season: @season, types: @thrower_leaver_types,
+                             allies: @thrower_leaver_allies, enemies: @thrower_leaver_enemies } %>
       </div>
     <% end %>
   </div>

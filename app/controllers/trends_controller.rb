@@ -14,12 +14,15 @@ class TrendsController < ApplicationController
     map_chart
     role_chart
     streaks_chart
+    thrower_leaver_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
 
+  private
+
   def thrower_leaver_chart
-    @types = ['Throwers', 'Leavers']
+    @thrower_leaver_types = ['Throwers', 'Leavers']
     matches = @oauth_account.matches.in_season(@season).
       select([:ally_thrower, :ally_leaver, :enemy_thrower, :enemy_leaver]).
       where("ally_thrower IS NOT NULL OR enemy_thrower IS NOT NULL OR " +
@@ -35,11 +38,9 @@ class TrendsController < ApplicationController
       enemies_by_type['Leavers'] += 1 if match.enemy_leaver?
     end
 
-    @allies = @types.map { |type| allies_by_type[type] || 0 }
-    @enemies = @types.map { |type| enemies_by_type[type] || 0 }
+    @thrower_leaver_allies = @thrower_leaver_types.map { |type| allies_by_type[type] || 0 }
+    @thrower_leaver_enemies = @thrower_leaver_types.map { |type| enemies_by_type[type] || 0 }
   end
-
-  private
 
   def streaks_chart
     matches = @oauth_account.matches.in_season(@season).includes(:prior_match).
