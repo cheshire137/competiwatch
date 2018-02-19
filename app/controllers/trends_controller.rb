@@ -12,6 +12,7 @@ class TrendsController < ApplicationController
     heroes_chart
     group_size_chart
     map_chart
+    role_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -37,20 +38,6 @@ class TrendsController < ApplicationController
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
   end
 
-  def role_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
-    match_counts_by_role = Hash.new(0)
-
-    matches.each do |match|
-      match.heroes.each do |hero|
-        match_counts_by_role[hero.role] += 1
-      end
-    end
-
-    @roles = Hero::ROLES
-    @match_counts = @roles.map { |role| match_counts_by_role[role] || 0 }
-  end
-
   def streaks_chart
     matches = @oauth_account.matches.in_season(@season).includes(:prior_match).
       ordered_by_time.to_a
@@ -62,6 +49,20 @@ class TrendsController < ApplicationController
   end
 
   private
+
+  def role_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
+    match_counts_by_role = Hash.new(0)
+
+    matches.each do |match|
+      match.heroes.each do |hero|
+        match_counts_by_role[hero.role] += 1
+      end
+    end
+
+    @roles = Hero::ROLES
+    @role_match_counts = @roles.map { |role| match_counts_by_role[role] || 0 }
+  end
 
   def map_chart
     maps_by_id = Map.order(:name).select([:id, :name]).
