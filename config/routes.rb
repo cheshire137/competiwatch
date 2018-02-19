@@ -23,8 +23,8 @@ Rails.application.routes.draw do
   delete '/season/:season/:battletag' => 'seasons#wipe', season: /\d+/
 
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
-  post '/matches/:season/:battletag' => 'matches#create', season: /\d+/
-  post '/matches/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
+  post '/season/:season/:battletag' => 'matches#create', season: /\d+/
+  post '/season/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
 
