@@ -12,27 +12,6 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @match2_friend = create(:match_friend, match: @match2, friend: @friend)
   end
 
-  test 'heroes chart 404s for anonymous user when season not shared' do
-    get "/trends/2/#{@oauth_account.to_param}/heroes-chart"
-
-    assert_response :not_found
-  end
-
-  test 'heroes chart loads for owner' do
-    sign_in_as(@oauth_account)
-    get "/trends/2/#{@oauth_account.to_param}/heroes-chart"
-
-    assert_response :ok
-  end
-
-  test 'heroes chart loads for anonymous user when season is shared' do
-    create(:season_share, oauth_account: @oauth_account, season: 2)
-
-    get "/trends/2/#{@oauth_account.to_param}/heroes-chart"
-
-    assert_response :ok
-  end
-
   test 'thrower/leaver chart 404s for anonymous user when season not shared' do
     get "/trends/2/#{@oauth_account.to_param}/thrower-leaver-chart"
 

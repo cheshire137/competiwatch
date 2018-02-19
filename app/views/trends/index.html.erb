@@ -57,7 +57,9 @@
 <div data-url="<%= streaks_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
 <% if show_heroes_chart?(@matches) %>
   <hr class="mb-4 pt-4">
-  <div data-url="<%= heroes_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+  <%= render partial: 'trends/heroes_chart',
+             locals: { season: @season, heroes: @heroes, win_counts: @heroes_win_counts,
+                       loss_counts: @heroes_loss_counts, draw_counts: @heroes_draw_counts } %>
 <% end %>
 <% if show_group_stats?(@matches) %>
   <hr class="mb-4 pt-4">

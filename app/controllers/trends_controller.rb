@@ -9,43 +9,9 @@ class TrendsController < ApplicationController
     group_stats
     day_time_chart
     group_member_chart
+    heroes_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
-  end
-
-  def heroes_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
-
-    wins_by_hero_id = Hash.new(0)
-    losses_by_hero_id = Hash.new(0)
-    draws_by_hero_id = Hash.new(0)
-    hero_names_by_id = {}
-
-    matches.each do |match|
-      match.heroes.each do |hero|
-        hero_names_by_id[hero.id] = hero.name
-
-        if match.win?
-          wins_by_hero_id[hero.id] ||= 0
-          wins_by_hero_id[hero.id] += 1
-        elsif match.loss?
-          losses_by_hero_id[hero.id] ||= 0
-          losses_by_hero_id[hero.id] += 1
-        elsif match.draw?
-          draws_by_hero_id[hero.id] ||= 0
-          draws_by_hero_id[hero.id] += 1
-        end
-      end
-    end
-
-    hero_names_by_id = hero_names_by_id.
-      sort_by { |id, name| Hero.flatten_name(name) }.to_h
-
-    hero_ids = hero_names_by_id.keys
-    @win_counts = hero_ids.map { |hero_id| wins_by_hero_id[hero_id] || 0 }
-    @loss_counts = hero_ids.map { |hero_id| losses_by_hero_id[hero_id] || 0 }
-    @draw_counts = hero_ids.map { |hero_id| draws_by_hero_id[hero_id] || 0 }
-    @heroes = hero_names_by_id.values
   end
 
   def thrower_leaver_chart
@@ -218,6 +184,41 @@ class TrendsController < ApplicationController
     @group_member_win_counts = @group_members.map { |group_member| wins_by_group_member[group_member] || 0 }
     @group_member_loss_counts = @group_members.map { |group_member| losses_by_group_member[group_member] || 0 }
     @group_member_draw_counts = @group_members.map { |group_member| draws_by_group_member[group_member] || 0 }
+  end
+
+  def heroes_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
+
+    wins_by_hero_id = Hash.new(0)
+    losses_by_hero_id = Hash.new(0)
+    draws_by_hero_id = Hash.new(0)
+    hero_names_by_id = {}
+
+    matches.each do |match|
+      match.heroes.each do |hero|
+        hero_names_by_id[hero.id] = hero.name
+
+        if match.win?
+          wins_by_hero_id[hero.id] ||= 0
+          wins_by_hero_id[hero.id] += 1
+        elsif match.loss?
+          losses_by_hero_id[hero.id] ||= 0
+          losses_by_hero_id[hero.id] += 1
+        elsif match.draw?
+          draws_by_hero_id[hero.id] ||= 0
+          draws_by_hero_id[hero.id] += 1
+        end
+      end
+    end
+
+    hero_names_by_id = hero_names_by_id.
+      sort_by { |id, name| Hero.flatten_name(name) }.to_h
+
+    hero_ids = hero_names_by_id.keys
+    @heroes_win_counts = hero_ids.map { |hero_id| wins_by_hero_id[hero_id] || 0 }
+    @heroes_loss_counts = hero_ids.map { |hero_id| losses_by_hero_id[hero_id] || 0 }
+    @heroes_draw_counts = hero_ids.map { |hero_id| draws_by_hero_id[hero_id] || 0 }
+    @heroes = hero_names_by_id.values
   end
 
   def group_stats
