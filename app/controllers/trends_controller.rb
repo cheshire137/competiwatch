@@ -8,6 +8,7 @@ class TrendsController < ApplicationController
     win_loss_chart
     group_stats
     day_time_chart
+    group_member_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -66,33 +67,6 @@ class TrendsController < ApplicationController
 
     @allies = @types.map { |type| allies_by_type[type] || 0 }
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
-  end
-
-  def group_member_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
-
-    wins_by_group_member = Hash.new(0)
-    losses_by_group_member = Hash.new(0)
-    draws_by_group_member = Hash.new(0)
-    @group_members = []
-
-    matches.each do |match|
-      match.friend_names.each do |group_member|
-        @group_members << group_member unless @group_members.include?(group_member)
-        if match.win?
-          wins_by_group_member[group_member] += 1
-        elsif match.loss?
-          losses_by_group_member[group_member] += 1
-        elsif match.draw?
-          draws_by_group_member[group_member] += 1
-        end
-      end
-    end
-
-    @group_members = @group_members.sort
-    @win_counts = @group_members.map { |group_member| wins_by_group_member[group_member] || 0 }
-    @loss_counts = @group_members.map { |group_member| losses_by_group_member[group_member] || 0 }
-    @draw_counts = @group_members.map { |group_member| draws_by_group_member[group_member] || 0 }
   end
 
   def group_size_chart
@@ -207,9 +181,9 @@ class TrendsController < ApplicationController
       end
     end
 
-    @win_counts = @day_times.map { |key| wins_by_day_time[key] || 0 }
-    @loss_counts = @day_times.map { |key| losses_by_day_time[key] || 0 }
-    @draw_counts = @day_times.map { |key| draws_by_day_time[key] || 0 }
+    @day_time_win_counts = @day_times.map { |key| wins_by_day_time[key] || 0 }
+    @day_time_loss_counts = @day_times.map { |key| losses_by_day_time[key] || 0 }
+    @day_time_draw_counts = @day_times.map { |key| draws_by_day_time[key] || 0 }
   end
 
   def win_loss_chart
@@ -217,6 +191,33 @@ class TrendsController < ApplicationController
     @win_count = matches[Match::RESULT_MAPPINGS[:win]]
     @loss_count = matches[Match::RESULT_MAPPINGS[:loss]]
     @draw_count = matches[Match::RESULT_MAPPINGS[:draw]]
+  end
+
+  def group_member_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
+
+    wins_by_group_member = Hash.new(0)
+    losses_by_group_member = Hash.new(0)
+    draws_by_group_member = Hash.new(0)
+    @group_members = []
+
+    matches.each do |match|
+      match.friend_names.each do |group_member|
+        @group_members << group_member unless @group_members.include?(group_member)
+        if match.win?
+          wins_by_group_member[group_member] += 1
+        elsif match.loss?
+          losses_by_group_member[group_member] += 1
+        elsif match.draw?
+          draws_by_group_member[group_member] += 1
+        end
+      end
+    end
+
+    @group_members = @group_members.sort
+    @group_member_win_counts = @group_members.map { |group_member| wins_by_group_member[group_member] || 0 }
+    @group_member_loss_counts = @group_members.map { |group_member| losses_by_group_member[group_member] || 0 }
+    @group_member_draw_counts = @group_members.map { |group_member| draws_by_group_member[group_member] || 0 }
   end
 
   def group_stats

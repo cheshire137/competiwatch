@@ -23,8 +23,8 @@
 <% if show_day_time_chart?(@matches) %>
   <hr class="mb-4 pt-4">
   <%= render partial: 'trends/day_time_chart',
-             locals: { day_times: @day_times, win_counts: @win_counts, season: @season,
-                       loss_counts: @loss_counts, draw_counts: @draw_counts } %>
+             locals: { day_times: @day_times, win_counts: @day_time_win_counts, season: @season,
+                       loss_counts: @day_time_loss_counts, draw_counts: @day_time_draw_counts } %>
 <% end %>
 <% if show_group_size_chart?(@matches) || show_thrower_leaver_chart?(@matches) %>
   <hr class="mb-4 pt-4">
@@ -43,7 +43,11 @@
 <% end %>
 <% if show_group_member_chart?(@matches) %>
   <hr class="mb-4 pt-4">
-  <div data-url="<%= group_member_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+  <%= render partial: 'trends/group_member_chart',
+             locals: { season: @season, group_members: @group_members,
+                       win_counts: @group_member_win_counts,
+                       loss_counts: @group_member_loss_counts,
+                       draw_counts: @group_member_draw_counts } %>
 <% end %>
 <% if show_map_chart?(@matches) %>
   <hr class="mb-4 pt-4">

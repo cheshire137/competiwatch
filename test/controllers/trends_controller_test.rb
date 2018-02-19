@@ -169,27 +169,6 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  test 'group member chart 404s for anonymous user when season not shared' do
-    get "/trends/2/#{@oauth_account.to_param}/group-member-chart"
-
-    assert_response :not_found
-  end
-
-  test 'group member chart loads for owner' do
-    sign_in_as(@oauth_account)
-    get "/trends/2/#{@oauth_account.to_param}/group-member-chart"
-
-    assert_response :ok
-  end
-
-  test 'group member chart loads for anonymous user when season is shared' do
-    create(:season_share, oauth_account: @oauth_account, season: 2)
-
-    get "/trends/2/#{@oauth_account.to_param}/group-member-chart"
-
-    assert_response :ok
-  end
-
   test 'role chart 404s for anonymous user when season not shared' do
     get "/trends/2/#{@oauth_account.to_param}/role-chart"
 
