@@ -17,8 +17,7 @@
   <% if show_role_chart?(@matches) %>
     <div class="col-md-6 float-md-left">
       <%= render partial: 'trends/role_chart',
-                 locals: { season: @season, match_counts: @role_match_counts,
-                           roles: @roles } %>
+                 locals: { season: @season, match_counts: @role_match_counts, roles: @roles } %>
     </div>
   <% end %>
 </div>
@@ -61,7 +60,9 @@
                        loss_counts: @map_loss_counts, draw_counts: @map_draw_counts } %>
 <% end %>
 <hr class="mb-4 pt-4">
-<div data-url="<%= streaks_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<%= render partial: 'trends/streaks_chart',
+           locals: { season: @season, game_numbers: @game_numbers, win_streaks: @win_streaks,
+                     loss_streaks: @loss_streaks } %>
 <% if show_heroes_chart?(@matches) %>
   <hr class="mb-4 pt-4">
   <%= render partial: 'trends/heroes_chart',

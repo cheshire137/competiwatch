@@ -13,6 +13,7 @@ class TrendsController < ApplicationController
     group_size_chart
     map_chart
     role_chart
+    streaks_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -38,6 +39,8 @@ class TrendsController < ApplicationController
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
   end
 
+  private
+
   def streaks_chart
     matches = @oauth_account.matches.in_season(@season).includes(:prior_match).
       ordered_by_time.to_a
@@ -47,8 +50,6 @@ class TrendsController < ApplicationController
     @win_streaks = matches.map { |match| match.win_streak || 0 }
     @loss_streaks = matches.map { |match| match.loss_streak || 0 }
   end
-
-  private
 
   def role_chart
     matches = @oauth_account.matches.in_season(@season).includes(:heroes).with_result
