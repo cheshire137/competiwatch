@@ -12,7 +12,6 @@ Rails.application.routes.draw do
   get '/trends/:season/:battletag/map-chart' => 'trends#map_chart', as: :map_chart
   get '/trends/:season/:battletag/streaks-chart' => 'trends#streaks_chart', as: :streaks_chart
   get '/trends/:season/:battletag/thrower-leaver-chart' => 'trends#thrower_leaver_chart', as: :thrower_leaver_chart
-  get '/trends/:season/:battletag/group-size-chart' => 'trends#group_size_chart', as: :group_size_chart
   get '/trends/:season/:battletag/role-chart' => 'trends#role_chart', as: :role_chart
 
   get '/seasons/choose-season-to-wipe' => 'seasons#choose_season_to_wipe', as: :choose_season_to_wipe, season: /\d+/

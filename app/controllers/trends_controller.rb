@@ -10,6 +10,7 @@ class TrendsController < ApplicationController
     day_time_chart
     group_member_chart
     heroes_chart
+    group_size_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
   end
@@ -33,39 +34,6 @@ class TrendsController < ApplicationController
 
     @allies = @types.map { |type| allies_by_type[type] || 0 }
     @enemies = @types.map { |type| enemies_by_type[type] || 0 }
-  end
-
-  def group_size_chart
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).
-      with_result
-
-    wins_by_group_size = Hash.new(0)
-    losses_by_group_size = Hash.new(0)
-    draws_by_group_size = Hash.new(0)
-
-    matches.each do |match|
-      if match.win?
-        wins_by_group_size[match.group_size] += 1
-      elsif match.loss?
-        losses_by_group_size[match.group_size] += 1
-      elsif match.draw?
-        draws_by_group_size[match.group_size] += 1
-      end
-    end
-
-    group_sizes = (1..6).to_a
-    @win_counts = group_sizes.map { |group_size| wins_by_group_size[group_size] || 0 }
-    @loss_counts = group_sizes.map { |group_size| losses_by_group_size[group_size] || 0 }
-    @draw_counts = group_sizes.map { |group_size| draws_by_group_size[group_size] || 0 }
-    @group_sizes = group_sizes.map do |group_size|
-      if group_size == 1
-        'Solo'
-      elsif group_size == 2
-        'Duo'
-      else
-        "#{group_size}-stack"
-      end
-    end
   end
 
   def map_chart
@@ -120,6 +88,39 @@ class TrendsController < ApplicationController
   end
 
   private
+
+  def group_size_chart
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).
+      with_result
+
+    wins_by_group_size = Hash.new(0)
+    losses_by_group_size = Hash.new(0)
+    draws_by_group_size = Hash.new(0)
+
+    matches.each do |match|
+      if match.win?
+        wins_by_group_size[match.group_size] += 1
+      elsif match.loss?
+        losses_by_group_size[match.group_size] += 1
+      elsif match.draw?
+        draws_by_group_size[match.group_size] += 1
+      end
+    end
+
+    group_sizes = (1..6).to_a
+    @group_size_win_counts = group_sizes.map { |group_size| wins_by_group_size[group_size] || 0 }
+    @group_size_loss_counts = group_sizes.map { |group_size| losses_by_group_size[group_size] || 0 }
+    @group_size_draw_counts = group_sizes.map { |group_size| draws_by_group_size[group_size] || 0 }
+    @group_sizes = group_sizes.map do |group_size|
+      if group_size == 1
+        'Solo'
+      elsif group_size == 2
+        'Duo'
+      else
+        "#{group_size}-stack"
+      end
+    end
+  end
 
   def day_time_chart
     matches = @oauth_account.matches.in_season(@season).

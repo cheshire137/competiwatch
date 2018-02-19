@@ -31,7 +31,10 @@
   <div class="clearfix">
     <% if show_group_size_chart?(@matches) %>
       <div class="col-md-6 float-md-left">
-        <div data-url="<%= group_size_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+        <%= render partial: 'trends/group_size_chart',
+                   locals: { season: @season, win_counts: @group_size_win_counts,
+                             loss_counts: @group_size_loss_counts,
+                             draw_counts: @group_size_draw_counts, group_sizes: @group_sizes } %>
       </div>
     <% end %>
     <% if show_thrower_leaver_chart?(@matches) %>
