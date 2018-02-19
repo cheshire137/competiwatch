@@ -1,14 +1,14 @@
 <h3 class="h3 flex-justify-center d-flex flex-items-center mb-2">
   Win Rates by Group
-  <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= @season %></span>
+  <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= season %></span>
 </h3>
 <%
-  prev_match_count = @match_counts_by_group_members[@win_rates_by_group_members.keys.first]
+  prev_match_count = match_counts_by_group_members[win_rates_by_group_members.keys.first]
   i = 0
 %>
-<% @match_counts_by_group_members.each do |friend_names, match_count| %>
+<% match_counts_by_group_members.each do |friend_names, match_count| %>
   <%
-    win_rate = @win_rates_by_group_members[friend_names]
+    win_rate = win_rates_by_group_members[friend_names]
     show_divider = match_count != prev_match_count
   %>
   <% if show_divider %>

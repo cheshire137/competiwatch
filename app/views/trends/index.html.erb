@@ -57,8 +57,10 @@
   <hr class="mb-4 pt-4">
   <div class="clearfix">
     <div class="col-md-6 float-md-left">
-      <div data-url="<%= group_stats_path(@season, @oauth_account) %>" class="js-remote-content"></div
-        >
+      <%= render partial: 'trends/group_stats',
+           locals: { wins_by_group_members: @wins_by_group_members, season: @season,
+                     match_counts_by_group_members: @match_counts_by_group_members,
+                     win_rates_by_group_members: @win_rates_by_group_members } %>
     </div>
   </div>
 <% end %>

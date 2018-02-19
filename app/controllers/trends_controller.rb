@@ -6,37 +6,9 @@ class TrendsController < ApplicationController
   def index
     @can_edit = signed_in? && @oauth_account.user == current_user
     win_loss_chart
+    group_stats
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
-  end
-
-  def group_stats
-    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
-
-    hasher = ->(hash, match) do
-      group_members = match.friend_names
-      if group_members.any?
-        hash[group_members] ||= 0
-        hash[group_members] += 1
-      end
-      hash
-    end
-
-    @wins_by_group_members = matches.select(&:win?).inject({}, &hasher)
-    @match_counts_by_group_members = matches.inject({}, &hasher)
-
-    unique_groups = @match_counts_by_group_members.keys.sort
-    @win_rates_by_group_members = unique_groups.inject({}) do |hash, friend_names|
-      wins = @wins_by_group_members[friend_names] || 0
-      total = @match_counts_by_group_members[friend_names]
-      hash[friend_names] = (wins / total.to_f * 100).round
-      hash
-    end
-
-    @match_counts_by_group_members = @match_counts_by_group_members.sort_by do |friend_names, match_count|
-      win_rate = @win_rates_by_group_members[friend_names]
-      [-match_count, -win_rate, friend_names.size, friend_names.join(',')]
-    end.to_h
   end
 
   def heroes_chart
@@ -244,5 +216,34 @@ class TrendsController < ApplicationController
     @win_count = matches[Match::RESULT_MAPPINGS[:win]]
     @loss_count = matches[Match::RESULT_MAPPINGS[:loss]]
     @draw_count = matches[Match::RESULT_MAPPINGS[:draw]]
+  end
+
+  def group_stats
+    matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result
+
+    hasher = ->(hash, match) do
+      group_members = match.friend_names
+      if group_members.any?
+        hash[group_members] ||= 0
+        hash[group_members] += 1
+      end
+      hash
+    end
+
+    @wins_by_group_members = matches.select(&:win?).inject({}, &hasher)
+    @match_counts_by_group_members = matches.inject({}, &hasher)
+
+    unique_groups = @match_counts_by_group_members.keys.sort
+    @win_rates_by_group_members = unique_groups.inject({}) do |hash, friend_names|
+      wins = @wins_by_group_members[friend_names] || 0
+      total = @match_counts_by_group_members[friend_names]
+      hash[friend_names] = (wins / total.to_f * 100).round
+      hash
+    end
+
+    @match_counts_by_group_members = @match_counts_by_group_members.sort_by do |friend_names, match_count|
+      win_rate = @win_rates_by_group_members[friend_names]
+      [-match_count, -win_rate, friend_names.size, friend_names.join(',')]
+    end.to_h
   end
 end
