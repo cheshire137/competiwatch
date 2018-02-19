@@ -4,6 +4,7 @@ class TrendsController < ApplicationController
   before_action :ensure_season_is_visible
 
   def index
+    @can_edit = signed_in? && @oauth_account.user == current_user
     win_loss_chart
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
