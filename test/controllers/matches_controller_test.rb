@@ -92,6 +92,21 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to matches_path(1, oauth_account, anchor: "match-row-#{match.id}")
   end
 
+  test 'logs a match for owner when season is shared' do
+    oauth_account = create(:oauth_account)
+    season = 8
+    create(:season_share, oauth_account: oauth_account, season: season)
+
+    assert_difference 'oauth_account.matches.in_season(season).count' do
+      sign_in_as(oauth_account)
+      post "/matches/#{season}/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
+    end
+
+    match = oauth_account.matches.ordered_by_time.last
+    refute_nil match
+    assert_redirected_to matches_path(season, oauth_account, anchor: "match-row-#{match.id}")
+  end
+
   test 'renders edit form when create fails' do
     oauth_account = create(:oauth_account)
 
