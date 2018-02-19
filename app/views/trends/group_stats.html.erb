@@ -6,9 +6,9 @@
   prev_match_count = @match_counts_by_group_members[@win_rates_by_group_members.keys.first]
   i = 0
 %>
-<% @win_rates_by_group_members.each do |friend_names, win_rate| %>
+<% @match_counts_by_group_members.each do |friend_names, match_count| %>
   <%
-    match_count = @match_counts_by_group_members[friend_names]
+    win_rate = @win_rates_by_group_members[friend_names]
     show_divider = match_count != prev_match_count
   %>
   <% if show_divider %>
