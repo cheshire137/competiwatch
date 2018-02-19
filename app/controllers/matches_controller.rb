@@ -1,8 +1,8 @@
 class MatchesController < ApplicationController
   before_action :authenticate_user!, except: :index
-  before_action :set_oauth_account, only: [:index, :create, :export]
-  before_action :ensure_oauth_account_is_mine, only: [:create, :export]
-  before_action :set_season, only: [:index, :create, :export]
+  before_action :set_oauth_account, only: [:index, :create]
+  before_action :ensure_oauth_account_is_mine, only: :create
+  before_action :set_season, only: [:index, :create]
   before_action :set_match, only: [:edit, :update]
   before_action :ensure_season_is_visible, only: :index
 
@@ -70,17 +70,6 @@ class MatchesController < ApplicationController
     @match.set_friends_from_names(friend_names)
 
     redirect_to matches_path(@match.season, @oauth_account, anchor: "match-row-#{@match.id}")
-  end
-
-  def export
-    date = Time.now.strftime('%Y-%m-%d')
-    filename = "#{@oauth_account.to_param}-season-#{@season}-#{date}.csv"
-
-    respond_to do |format|
-      format.csv do
-        send_data @oauth_account.export(@season), filename: filename
-      end
-    end
   end
 
   private

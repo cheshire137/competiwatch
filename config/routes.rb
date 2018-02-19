@@ -16,9 +16,11 @@ Rails.application.routes.draw do
 
   get '/season/:season/:battletag' => 'matches#index', as: :matches, season: /\d+/
   post '/season/:season/:battletag' => 'matches#create', season: /\d+/
-  post '/season/:season/:battletag/export' => 'matches#export', as: :export_matches, season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
+
+  get '/export' => 'export#index', as: :export
+  post '/season/:season/:battletag/export' => 'export#export', as: :export_matches, season: /\d+/
 
   get '/shared-seasons' => 'season_shares#index', as: :season_shares
   post '/season/:season/:battletag/share' => 'season_shares#create', as: :season_share, season: /\d+/
