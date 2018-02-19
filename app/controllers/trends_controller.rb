@@ -2,7 +2,11 @@ class TrendsController < ApplicationController
   before_action :set_oauth_account
   before_action :set_season
   before_action :ensure_season_is_visible
-  layout false
+
+  def index
+    @matches = @oauth_account.matches.in_season(@season).
+      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
+  end
 
   def group_stats
     matches = @oauth_account.matches.in_season(@season).includes(:friends).with_result

@@ -2,7 +2,13 @@
 
 <% content_for(:breadcrumb) do %>
   <% if @can_edit %>
-    <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+    <div class="d-flex flex-items-center flex-justify-between">
+      <div>
+        <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+      </div>
+      <%= render partial: 'matches/season_share_menu',
+                 locals: { oauth_account: @oauth_account, season: @season } %>
+    </div>
   <% else %>
     <%= @oauth_account %> / Season <%= @season %>
   <% end %>
@@ -37,17 +43,10 @@
     <% end %>
   </div>
 
-  <% if @matches.any? %>
-    <% if @can_edit %>
-      <div id="export-csv" class="js-tab-contents tab-contents d-none">
-        <%= render partial: 'matches/export',
-                   locals: { season: @season, oauth_account: @oauth_account } %>
-      </div>
-    <% end %>
-
-    <div id="trends" class="js-tab-contents tab-contents d-none">
-      <%= render partial: 'matches/trends',
-                 locals: { matches: @matches, season: @season, oauth_account: @oauth_account } %>
+  <% if @can_edit && @matches.any? %>
+    <div id="export-csv" class="js-tab-contents tab-contents d-none">
+      <%= render partial: 'matches/export',
+                 locals: { season: @season, oauth_account: @oauth_account } %>
     </div>
   <% end %>
 

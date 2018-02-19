@@ -19,10 +19,25 @@
     </div>
   </div>
 </div>
-<% if content_for?(:breadcrumb) %>
-  <div class="h4 py-2 text-normal bg-blue-light">
+<% if signed_in? %>
+  <div class="border-bottom">
     <div class="container">
-      <%= yield :breadcrumb %>
+      <nav class="UnderlineNav border-bottom-0">
+        <div class="UnderlineNav-body">
+          <%
+            season = params[:season] || Match::LATEST_SEASON
+            battletag = params[:battletag] || current_user.default_oauth_account.try(:to_param) ||
+              current_user.to_param
+          %>
+          <a href="<%= matches_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_matches_page?(season, battletag) %>" role="tab">Matches</a>
+          <a href="<%= trends_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, battletag) %>" role="tab">Trends</a>
+        </div>
+      </nav>
     </div>
+  </div>
+<% end %>
+<% if content_for?(:breadcrumb) %>
+  <div class="container pt-2">
+    <%= yield :breadcrumb %>
   </div>
 <% end %>

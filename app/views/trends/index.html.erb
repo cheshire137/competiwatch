@@ -1,0 +1,62 @@
+<% content_for(:title, "Season #{@season} / #{@oauth_account} / Trends") %>
+
+<% content_for(:breadcrumb) do %>
+  <% if @can_edit %>
+    <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %> / Trends
+  <% else %>
+    <%= @oauth_account %> / Season <%= @season %> / Trends
+  <% end %>
+<% end %>
+
+<div class="clearfix mb-4">
+  <div class="col-md-6 float-md-left">
+    <div data-url="<%= win_loss_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+  </div>
+  <% if show_role_chart?(@matches) %>
+    <div class="col-md-6 float-md-left">
+      <div data-url="<%= role_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+    </div>
+  <% end %>
+</div>
+<% if show_day_time_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div data-url="<%= day_time_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<% end %>
+<% if show_group_size_chart?(@matches) || show_thrower_leaver_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div class="clearfix">
+    <% if show_group_size_chart?(@matches) %>
+      <div class="col-md-6 float-md-left">
+        <div data-url="<%= group_size_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+      </div>
+    <% end %>
+    <% if show_thrower_leaver_chart?(@matches) %>
+      <div class="col-md-6 float-md-left">
+        <div data-url="<%= thrower_leaver_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% if show_group_member_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div data-url="<%= group_member_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<% end %>
+<% if show_map_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div data-url="<%= map_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<% end %>
+<hr class="mb-4 pt-4">
+<div data-url="<%= streaks_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<% if show_heroes_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div data-url="<%= heroes_chart_path(@season, @oauth_account) %>" class="js-remote-content"></div>
+<% end %>
+<% if show_group_stats?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div class="clearfix">
+    <div class="col-md-6 float-md-left">
+      <div data-url="<%= group_stats_path(@season, @oauth_account) %>" class="js-remote-content"></div
+        >
+    </div>
+  </div>
+<% end %>

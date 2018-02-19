@@ -8,31 +8,16 @@
       <%= render partial: 'matches/log_match_tabs',
                  locals: { oauth_account: oauth_account, season: season } %>
     <% end %>
-    <% if matches.any? %>
-      <a href="#trends" class="tabnav-tab js-trends-tab js-tab">
-        <span class="ion hide-sm ion-stats-bars"></span>
-        Trends
+    <% if can_edit && matches.any? %>
+      <a href="#export-csv" class="tabnav-tab js-tab">
+        <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
+        Export
       </a>
-      <% if can_edit %>
-        <a href="#export-csv" class="tabnav-tab js-tab">
-          <span class="ion hide-sm ion-ios-cloud-download-outline"></span>
-          Export
-        </a>
-      <% end %>
     <% end %>
   </div>
 
-  <% if can_edit %>
-    <div>
-      <% if past_season %>
-        <%= render partial: 'matches/log_match_tabs',
-                   locals: { oauth_account: oauth_account, season: season } %>
-      <% end %>
-
-      <div class="tabnav-tab">
-        <%= render partial: 'matches/season_share_menu',
-                   locals: { oauth_account: oauth_account, season: season } %>
-      </div>
-    </div>
+  <% if can_edit && past_season %>
+    <%= render partial: 'matches/log_match_tabs',
+               locals: { oauth_account: oauth_account, season: season } %>
   <% end %>
 </nav>
