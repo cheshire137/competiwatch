@@ -8,6 +8,19 @@ class MatchTest < ActiveSupport::TestCase
     assert_includes match.errors.messages[:season], "can't be blank"
   end
 
+  test 'updates result when rank changes' do
+    oauth_account = create(:oauth_account)
+    match1 = create(:match, oauth_account: oauth_account, rank: 2500)
+    match2 = create(:match, oauth_account: oauth_account, rank: 2525, prior_match: match1)
+
+    assert_equal :win, match2.result
+
+    match2.rank = 2475
+    assert match2.save
+
+    assert_equal :loss, match2.reload.result
+  end
+
   test 'creates new friends from given name list' do
     match = create(:match)
     names = %w[Jamie Seed]
