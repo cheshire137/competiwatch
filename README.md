@@ -24,6 +24,10 @@ you to import past seasons from a spreadsheet as well as export your data.
 
 ## How to Develop
 
+Models in Competiwatch:
+
+![Entity relationship diagram](https://raw.githubusercontent.com/cheshire137/competiwatch/master/entity-relationship-diagram.jpg)
+
 You will need Ruby, [Bundler](http://bundler.io/), PostgreSQL, and npm installed.
 
 ```bash
