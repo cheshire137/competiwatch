@@ -24,10 +24,6 @@ you to import past seasons from a spreadsheet as well as export your data.
 
 ## How to Develop
 
-Models in Competiwatch:
-
-![Entity relationship diagram](https://raw.githubusercontent.com/cheshire137/competiwatch/master/entity-relationship-diagram.jpg)
-
 You will need Ruby, [Bundler](http://bundler.io/), PostgreSQL, and npm installed.
 
 ```bash
@@ -49,6 +45,12 @@ as "Web Site". Update .env so that `BNET_APP_HOST` is set to your `your-ngrok-id
 
 Start the Rails server via `bundle exec rails s`. Now you should be able to go to
 `https://your-ngrok-id-here.ngrok.io/` and sign in via Battle.net.
+
+## Architecture
+
+Models in Competiwatch:
+
+![Entity relationship diagram](https://raw.githubusercontent.com/cheshire137/competiwatch/master/entity-relationship-diagram.jpg)
 
 ## How to Deploy to Heroku
 
