@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class ExportControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   setup do
     @season = seasons(:two)
   end

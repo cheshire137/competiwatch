@@ -6,7 +6,6 @@ OmniAuth.config.test_mode = true
 
 class ActiveSupport::TestCase
   include FactoryBot::Syntax::Methods
-  fixtures :all
 
   setup do
     Rails.cache.clear

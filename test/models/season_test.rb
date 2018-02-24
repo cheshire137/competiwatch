@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class SeasonTest < ActiveSupport::TestCase
+  fixtures :seasons
+
   test 'active? returns true for started-but-not-yet-ended season' do
     season = build(:season, started_on: 1.week.ago)
 

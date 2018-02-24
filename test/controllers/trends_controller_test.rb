@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class TrendsControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   setup do
     @past_season = seasons(:one)
     @season = seasons(:two)
