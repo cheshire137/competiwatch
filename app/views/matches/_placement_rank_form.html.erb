@@ -2,6 +2,16 @@
 <%= form.hidden_field :prior_match_id %>
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
+
+<% if match.new_record? && Season.future?(match.season) %>
+  <% season = Season.current_or_latest_number %>
+
+  <p class="p-3 mb-4 rounded-2 flash-error">
+    You are logging a match for a competitive season that hasn't started yet.
+    Do you want to <a href="<%= matches_path(season, match.oauth_account) %>#log-match">log a match in season <%= season %></a>?
+  </p>
+<% end %>
+
 <div class="form-group mt-0 d-flex flex-items-center">
   <%= form.label :rank, 'Where did you place?', class: 'mr-2 sr-field-label' %>
   <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, autofocus: true %>

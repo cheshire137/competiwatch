@@ -5,6 +5,31 @@ class SeasonTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'past? returns true for season that has ended' do
+    season = create(:season, ended_on: 1.week.ago)
+
+    assert Season.past?(season.number)
+  end
+
+  test 'future? returns true for season that has not yet started' do
+    season = create(:season, started_on: 1.week.from_now)
+
+    assert Season.future?(season.number)
+  end
+
+  test 'past? returns true when another season has started' do
+    season = create(:season)
+    create(:season, started_on: 1.day.ago)
+
+    assert Season.past?(season.number)
+  end
+
+  test 'future? returns false when given season has started' do
+    season = create(:season, started_on: 1.day.ago)
+
+    refute Season.future?(season.number)
+  end
+
   test 'current_number returns active season' do
     past_season = create(:season, started_on: 1.year.ago, ended_on: 11.months.ago)
     present_season = create(:season, started_on: 1.month.ago, ended_on: 1.week.from_now)

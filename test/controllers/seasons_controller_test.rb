@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class SeasonsControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    3.times { create(:season) }
+  end
+
   test 'can wipe your own season' do
     oauth_account = create(:oauth_account)
     season = 3

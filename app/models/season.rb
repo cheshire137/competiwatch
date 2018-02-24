@@ -7,19 +7,24 @@ class Season < ApplicationRecord
 
   scope :order_by_number, ->{ order(:number) }
   scope :latest_first, ->{ order(number: :desc) }
+  scope :not_ended, ->{ where('ended_on IS NULL OR ended_on > ?', Date.today) }
+  scope :ended, ->{ where('ended_on < ?', Date.today) }
 
   after_create :reset_latest_number, if: :saved_change_to_number?
 
   delegate :to_s, :to_param, to: :number
+
+  def self.current
+    today = Date.today
+    where('started_on <= ? AND (ended_on > ? OR ended_on IS NULL)', today, today).first
+  end
 
   def self.current_or_latest_number
     current_number || latest_number
   end
 
   def self.current_number
-    today = Date.today
-    season = where('started_on <= ? AND (ended_on > ? OR ended_on IS NULL)', today, today).first
-    season.try(:number)
+    current.try(:number)
   end
 
   def self.latest_number(skip_cache: false)
@@ -36,10 +41,35 @@ class Season < ApplicationRecord
   end
 
   def self.past?(number)
-    active_number = current_or_latest_number
-    if number && active_number
-      number < active_number
+    return unless number
+
+    season = Season.find_by_number(number)
+    if season
+      season.ended?
+    else
+      active_number = current_or_latest_number
+      number < active_number if active_number
     end
+  end
+
+  def self.future?(number)
+    return unless number
+
+    season = Season.find_by_number(number)
+    if season
+      !season.started?
+    else
+      active_number = current_or_latest_number
+      number > active_number if active_number
+    end
+  end
+
+  def ended?
+    ended_on.nil? || ended_on <= Date.today
+  end
+
+  def started?
+    started_on && started_on <= Date.today
   end
 
   private
