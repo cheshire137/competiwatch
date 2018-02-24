@@ -5,6 +5,7 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
     oauth_account2 = create(:oauth_account, user: user)
+    create(:season, number: 3)
     create(:season_share, oauth_account: oauth_account1, season: 1)
     create(:season_share, oauth_account: oauth_account1, season: 2)
     create(:season_share, oauth_account: oauth_account2, season: 3)
