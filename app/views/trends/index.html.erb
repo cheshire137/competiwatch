@@ -8,13 +8,17 @@
 
 <% if @matches.empty? %>
   <div class="blankslate mb-4">
-    <%= @oauth_account %>
-    <% if @past_season %>
-      did not log
+    <% if @future_season %>
+      Season <%= @season %> has not started yet.
     <% else %>
-      has not logged
+      <%= @oauth_account %>
+      <% if @past_season %>
+        did not log
+      <% else %>
+        has not logged
+      <% end %>
+      any competitive matches in season <%= @season %>.
     <% end %>
-    any competitive matches in season <%= @season %>.
   </div>
 <% end %>
 
