@@ -31,7 +31,7 @@ maps_by_type.each do |type, map_names|
     map = Map.where(name: name).first_or_initialize
     map.map_type = type
     map.color = map_colors_by_name[name]
-    map.save if map.new_record? || map.changed?
+    map.save! if map.new_record? || map.changed?
   end
 end
 
@@ -50,7 +50,7 @@ heroes_by_role.each do |role, hero_names|
   hero_names.each do |name|
     hero = Hero.where(name: name).first_or_initialize
     hero.role = role
-    hero.save if hero.new_record? || hero.changed?
+    hero.save! if hero.new_record? || hero.changed?
   end
 end
 
@@ -70,7 +70,7 @@ seasons.each do |number, data|
   puts "Creating season #{number}"
   season = Season.where(number: number).first_or_initialize
   season.assign_attributes(data)
-  season.save if season.new_record? || season.changed?
+  season.save! if season.new_record? || season.changed?
 end
 
 Season.latest_number(skip_cache: true)
