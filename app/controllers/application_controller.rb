@@ -25,11 +25,11 @@ class ApplicationController < ActionController::Base
   end
 
   def set_season
-    @season = if params[:season]
+    @season_number = if params[:season]
       params[:season].to_i
     end
-    @season_record = if @season
-      Season.find_by_number(@season)
+    @season = if @season_number
+      Season.find_by_number(@season_number)
     end
   end
 

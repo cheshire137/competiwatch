@@ -12,7 +12,7 @@ class Season < ApplicationRecord
 
   after_create :reset_latest_number, if: :saved_change_to_number?
 
-  delegate :to_s, :to_param, to: :number
+  delegate :to_s, to: :number
 
   def self.current
     today = Date.today
@@ -70,6 +70,10 @@ class Season < ApplicationRecord
 
   def started?
     started_on && started_on <= Date.today
+  end
+
+  def to_param
+    number.to_s
   end
 
   private

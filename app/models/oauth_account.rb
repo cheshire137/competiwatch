@@ -35,7 +35,8 @@ class OauthAccount < ApplicationRecord
   end
 
   def season_is_public?(season)
-    season_shares.exists?(season: season)
+    season_number = season.is_a?(Season) ? season.number : season
+    season_shares.exists?(season: season_number)
   end
 
   def can_be_unlinked?

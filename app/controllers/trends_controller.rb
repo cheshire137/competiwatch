@@ -7,8 +7,8 @@ class TrendsController < ApplicationController
 
   def index
     @is_owner = signed_in? && @oauth_account.user == current_user
-    @past_season = Season.past?(@season, season: @season_record)
-    @future_season = Season.future?(@season, season: @season_record)
+    @past_season = Season.past?(@season_number, season: @season)
+    @future_season = Season.future?(@season_number, season: @season)
     win_loss_chart
     group_stats
     day_time_chart
@@ -27,7 +27,7 @@ class TrendsController < ApplicationController
   private
 
   def account_matches_in_season
-    @account_matches_in_season ||= @oauth_account.matches.in_season(@season)
+    @account_matches_in_season ||= @oauth_account.matches.in_season(@season_number)
   end
 
   def thrower_leaver_chart

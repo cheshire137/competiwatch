@@ -16,7 +16,7 @@ class SeasonSharesController < ApplicationController
 
   def create
     season_share = SeasonShare.where(oauth_account: @oauth_account,
-                                     season: @season).first_or_initialize
+                                     season: @season_number).first_or_initialize
 
     if season_share.persisted? || season_share.save
       flash[:notice] = "#{@oauth_account}'s season #{@season} can now be viewed by others."
@@ -29,7 +29,7 @@ class SeasonSharesController < ApplicationController
 
   def destroy
     season_share = SeasonShare.where(oauth_account: @oauth_account,
-                                     season: @season).first
+                                     season: @season_number).first
 
     if season_share.nil? || season_share.destroy
       flash[:notice] = "#{@oauth_account}'s season #{@season} is now only visible to you."

@@ -8,34 +8,36 @@ class MatchesController < ApplicationController
 
   def index
     @can_edit = signed_in? && @oauth_account.user == current_user
-    @past_season = Season.past?(@season, season: @season_record)
-    @future_season = Season.future?(@season, season: @season_record)
-    @matches = @oauth_account.matches.in_season(@season).
+    @past_season = Season.past?(@season_number, season: @season)
+    @future_season = Season.future?(@season_number, season: @season)
+    @matches = @oauth_account.matches.in_season(@season_number).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
     @latest_match = @matches.last
-    @placement_rank = placement_rank_from(@matches, season: @season, oauth_account: @oauth_account)
+    @placement_rank = placement_rank_from(@matches, season: @season_number,
+                                          oauth_account: @oauth_account)
 
     if @can_edit
       @maps = get_maps
       @heroes_by_role = get_heroes_by_role
-      @friends = current_user.friend_names(@season)
+      @friends = current_user.friend_names(@season_number)
       @all_friends = current_user.all_friend_names
-      placement = !@oauth_account.finished_placements?(@season)
-      @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season,
+      placement = !@oauth_account.finished_placements?(@season_number)
+      @match = @oauth_account.matches.new(prior_match: @latest_match, season: @season_number,
                                           placement: placement)
     end
   end
 
   def create
     @match = @oauth_account.matches.new(match_params)
-    @match.season = @season
+    @match.season = @season_number
 
     friend_names = params[:friend_names] || []
     if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players " \
+                      'in your group.'
       return render_edit_on_fail
     end
 
@@ -44,7 +46,7 @@ class MatchesController < ApplicationController
     @match.set_heroes_from_ids(params[:heroes])
     @match.set_friends_from_names(friend_names)
 
-    redirect_to matches_path(@season, @oauth_account, anchor: "match-row-#{@match.id}")
+    redirect_to matches_path(@season_number, @oauth_account, anchor: "match-row-#{@match.id}")
   end
 
   def edit
@@ -53,7 +55,7 @@ class MatchesController < ApplicationController
     @heroes_by_role = get_heroes_by_role
     @friends = current_user.friend_names(@match.season)
     @all_friends = current_user.all_friend_names
-    @season_record = Season.find_by_number(@match.season)
+    @season = Season.find_by_number(@match.season)
   end
 
   def destroy
@@ -95,8 +97,8 @@ class MatchesController < ApplicationController
     @maps = get_maps
     @heroes_by_role = get_heroes_by_role
     @latest_match = @oauth_account.matches.ordered_by_time.last
-    unless defined? @season_record
-      @season_record = Season.find_by_number(@match.season)
+    unless defined? @season
+      @season = Season.find_by_number(@match.season)
     end
 
     render 'matches/edit'

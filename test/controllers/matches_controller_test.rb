@@ -1,10 +1,14 @@
 require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @season = create(:season)
+  end
+
   test 'index page 404s for anonymous user when season is not visible' do
     oauth_account = create(:oauth_account)
 
-    get "/season/1/#{oauth_account.to_param}"
+    get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :not_found
   end
@@ -14,7 +18,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     other_account = create(:oauth_account)
 
     sign_in_as(other_account)
-    get "/season/1/#{oauth_account.to_param}"
+    get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :not_found
   end
@@ -23,10 +27,10 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    get "/season/1/#{oauth_account.to_param}"
+    get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :ok
-    assert_select "form[action='/season/1/#{oauth_account.to_param}']"
+    assert_select "form[action='/season/#{@season}/#{oauth_account.to_param}']"
   end
 
   test 'index page loads successfully for other user when season is shared' do
@@ -46,7 +50,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    post "/season/1/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
+    post "/season/#{@season}/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
 
     assert_response :not_found
   end
@@ -56,7 +60,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    get "/season/1/#{oauth_account2.to_param}"
+    get "/season/#{@season}/#{oauth_account2.to_param}"
 
     assert_response :not_found
   end
@@ -66,12 +70,12 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference 'oauth_account.matches.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
+      post "/season/#{@season}/#{oauth_account.to_param}", params: { match: { rank: 2500 } }
     end
 
     match = oauth_account.matches.ordered_by_time.last
     refute_nil match
-    assert_redirected_to matches_path(1, oauth_account, anchor: "match-row-#{match.id}")
+    assert_redirected_to matches_path(@season, oauth_account, anchor: "match-row-#{match.id}")
   end
 
   test 'logs a match for owner of account when season is shared' do
@@ -96,7 +100,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: {
+      post "/season/#{@season}/#{oauth_account.to_param}", params: {
         match: { rank: Match::MAX_RANK + 1 }
       }
     end
@@ -110,7 +114,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
-      post "/season/1/#{oauth_account.to_param}", params: {
+      post "/season/#{@season}/#{oauth_account.to_param}", params: {
         match: { rank: 2500 }, friend_names: %w[A B C D E F]
       }
     end
