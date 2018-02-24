@@ -2,7 +2,7 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @season = create(:season)
+    @season = create(:season, started_on: 1.week.ago)
   end
 
   test 'index page 404s for anonymous user when season is not visible' do
@@ -25,12 +25,37 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'index page loads successfully for the user who owns the account' do
     oauth_account = create(:oauth_account)
+    create(:match, oauth_account: oauth_account, season: @season.number)
+    assert_predicate @season, :active?
 
     sign_in_as(oauth_account)
     get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :ok
+    assert_select '.matches-table'
+    assert_select '.blankslate', false
     assert_select "form[action='/season/#{@season}/#{oauth_account.to_param}']"
+  end
+
+  test 'index page has future season message when no matches' do
+    oauth_account = create(:oauth_account)
+    future_season = create(:season, started_on: 1.month.from_now)
+
+    sign_in_as(oauth_account)
+    get "/season/#{future_season}/#{oauth_account.to_param}"
+
+    assert_select '.blankslate', text: /Season #{future_season} has not started yet./
+  end
+
+  test 'index page has past season message when no matches' do
+    oauth_account = create(:oauth_account)
+    past_season = create(:season, ended_on: 1.year.ago)
+
+    sign_in_as(oauth_account)
+    get "/season/#{past_season}/#{oauth_account.to_param}"
+
+    assert_select '.blankslate',
+      text: /#{oauth_account} did not log any competitive matches in season #{past_season}./
   end
 
   test 'index page loads successfully for other user when season is shared' do
