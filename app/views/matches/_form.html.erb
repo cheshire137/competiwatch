@@ -3,17 +3,17 @@
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
 
-<% if show_season_warning_for?(match, season: season_record) %>
-  <% season = Season.current_or_latest_number %>
+<% if show_season_warning_for?(match, season) %>
+  <% active_season_number = Season.current_or_latest_number %>
 
   <p class="p-3 mb-4 rounded-2 flash-error">
     You are logging a match for a
-    <% if Season.past?(match.season) %>
+    <% if season.past? %>
       past competitive season.
     <% else %>
       competitive season that hasn't started yet.
     <% end %>
-    Do you want to <a href="<%= matches_path(season, match.oauth_account) %>#log-match">log a match in season <%= season %></a>?
+    Do you want to <a href="<%= matches_path(active_season_number, match.oauth_account) %>#log-match">log a match in season <%= active_season_number %></a>?
   </p>
 <% end %>
 

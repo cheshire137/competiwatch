@@ -33,7 +33,7 @@
 <% end %>
 
 <div id="match-history" class="js-tab-contents tab-contents">
-  <% if @past_season && @matches.any? %>
+  <% if @season.past? && @matches.any? %>
     <%= render partial: 'matches/tldr',
                locals: { matches: @matches, season: @season } %>
   <% end %>
@@ -42,10 +42,9 @@
              locals: { matches: @matches, placement_rank: @placement_rank,
                        longest_win_streak: @longest_win_streak,
                        longest_loss_streak: @longest_loss_streak,
-                       season: @season, oauth_account: @oauth_account,
-                       future_season: @future_season } %>
+                       season: @season, oauth_account: @oauth_account } %>
 
-  <% if @can_edit && !@future_season %>
+  <% if @can_edit && !@season.future? %>
     <p class="mt-4 text-small">
       You can also
       <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
@@ -62,7 +61,7 @@
         <%= render partial: 'matches/form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                              heroes_by_role: @heroes_by_role, friends: @friends,
-                             all_friends: @all_friends, season_record: @season_record } %>
+                             all_friends: @all_friends, season: @season } %>
         <button type="submit" class="mr-2 btn btn-large btn-primary">
           Log Match
         </button>
@@ -75,7 +74,7 @@
         <%= render partial: 'matches/placement_form',
                    locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                              heroes_by_role: @heroes_by_role, friends: @friends,
-                             all_friends: @all_friends, season_record: @season_record } %>
+                             all_friends: @all_friends, season: @season } %>
         <button type="submit" class="btn btn-large btn-primary">
           Log Match
         </button>
@@ -86,7 +85,7 @@
       <div id="log-placement-rank" class="js-tab-contents tab-contents d-none">
         <%= form_for(@match) do |f| %>
           <%= render partial: 'matches/placement_rank_form',
-                     locals: { form: f, match: @match } %>
+                     locals: { form: f, match: @match, season: @season } %>
           <button type="submit" class="btn btn-large btn-primary">
             Save Starting SR
           </button>

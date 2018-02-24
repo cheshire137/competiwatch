@@ -8,11 +8,11 @@
 
 <% if @matches.empty? %>
   <div class="blankslate mb-4">
-    <% if @future_season %>
+    <% if @season.future? %>
       Season <%= @season %> has not started yet.
     <% else %>
       <%= @oauth_account %>
-      <% if @past_season %>
+      <% if @season.past? %>
         did not log
       <% else %>
         has not logged

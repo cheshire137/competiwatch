@@ -40,28 +40,12 @@ class Season < ApplicationRecord
     new_value
   end
 
-  def self.past?(number, season: nil)
-    return unless number
-
-    season ||= Season.find_by_number(number)
-    if season
-      season.ended?
-    else
-      active_number = current_or_latest_number
-      number < active_number if active_number
-    end
+  def past?
+    ended?
   end
 
-  def self.future?(number, season: nil)
-    return unless number
-
-    season ||= Season.find_by_number(number)
-    if season
-      !season.started?
-    else
-      active_number = current_or_latest_number
-      number > active_number if active_number
-    end
+  def future?
+    !started?
   end
 
   def ended?

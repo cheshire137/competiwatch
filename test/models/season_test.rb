@@ -8,26 +8,26 @@ class SeasonTest < ActiveSupport::TestCase
   test 'past? returns true for season that has ended' do
     season = create(:season, ended_on: 1.week.ago)
 
-    assert Season.past?(season.number)
+    assert_predicate season, :past?
   end
 
   test 'future? returns true for season that has not yet started' do
     season = create(:season, started_on: 1.week.from_now)
 
-    assert Season.future?(season.number)
+    assert_predicate season, :future?
   end
 
   test 'past? returns true when another season has started' do
     season = create(:season)
     create(:season, started_on: 1.day.ago)
 
-    assert Season.past?(season.number)
+    assert_predicate season, :past?
   end
 
   test 'future? returns false when given season has started' do
     season = create(:season, started_on: 1.day.ago)
 
-    refute Season.future?(season.number)
+    refute_predicate season, :future?
   end
 
   test 'current_number returns active season' do

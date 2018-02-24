@@ -17,7 +17,7 @@
 <% if @match.placement_log? %>
   <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/placement_rank_form',
-               locals: { form: f, match: @match } %>
+               locals: { form: f, match: @match, season: @season } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Starting SR
     </button>
@@ -27,7 +27,7 @@
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends, season_record: @season_record } %>
+                         all_friends: @all_friends, season: @season } %>
     <div class="form-group">
       <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
       <%= f.number_field :season, class: 'form-control season-field' %>
@@ -42,7 +42,7 @@
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends, season_record: @season_record } %>
+                         all_friends: @all_friends, season: @season } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Match
     </button>
