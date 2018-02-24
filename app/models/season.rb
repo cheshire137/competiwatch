@@ -2,10 +2,12 @@ class Season < ApplicationRecord
   LATEST_SEASON_CACHE_KEY = 'latest-season'
 
   validates :number, :max_rank, presence: true, numericality: { greater_than: 0, only_integer: true }
+  validate :starts_later_than_previous_end_date
 
   has_many :matches, foreign_key: 'season', primary_key: 'number'
 
   scope :order_by_number, ->{ order(:number) }
+  scope :latest_end_date_first, ->{ order(ended_on: :desc) }
   scope :latest_first, ->{ order(number: :desc) }
   scope :not_ended, ->{ where('ended_on IS NULL OR ended_on > ?', Date.today) }
   scope :ended, ->{ where('ended_on < ?', Date.today) }
@@ -73,6 +75,19 @@ class Season < ApplicationRecord
 
     if latest_number && number > latest_number
       Rails.cache.delete(LATEST_SEASON_CACHE_KEY)
+    end
+  end
+
+  def starts_later_than_previous_end_date
+    return unless started_on
+
+    previous_season = self.class.latest_end_date_first
+    previous_season = previous_season.where('id <> ?', id) if persisted?
+    previous_season = previous_season.first
+    return unless previous_season
+
+    if previous_season.ended_on && previous_season.ended_on > started_on
+      errors.add(:started_on, "must be on or later than #{previous_season.ended_on}")
     end
   end
 end
