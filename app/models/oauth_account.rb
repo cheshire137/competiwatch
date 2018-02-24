@@ -16,8 +16,12 @@ class OauthAccount < ApplicationRecord
   has_many :season_shares, dependent: :destroy
 
   def career_high
-    highest_sr_match = matches.where('season <> ?', 1).with_rank.order('rank DESC').first
-    highest_sr_match.try(:rank)
+    return unless persisted?
+
+    Rails.cache.fetch(career_high_cache_key) do
+      highest_sr_match = matches.where('season <> ?', 1).with_rank.order('rank DESC').first
+      highest_sr_match.try(:rank)
+    end
   end
 
   def season_is_public?(season)
@@ -86,5 +90,11 @@ class OauthAccount < ApplicationRecord
 
     user.default_oauth_account = user.oauth_accounts.first
     user.save
+  end
+
+  private
+
+  def career_high_cache_key
+    "career-high-#{battletag}"
   end
 end
