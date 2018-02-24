@@ -5,7 +5,7 @@ class SeasonSharesController < ApplicationController
   before_action :set_season, except: :index
 
   def index
-    @all_seasons = 1..Match::LATEST_SEASON
+    @all_seasons = 1..Season.latest_number
     @shared_seasons_by_oauth_account_id = current_user.season_shares.inject({}) do |hash, season_share|
       hash[season_share.oauth_account_id] ||= []
       hash[season_share.oauth_account_id] << season_share.season

@@ -1,8 +1,12 @@
 require 'test_helper'
 
 class ImportControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @season = create(:season)
+  end
+
   test 'import form requires login' do
-    get '/import/3/SomeUser-1234'
+    get "/import/#{@season}/SomeUser-1234"
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
@@ -12,7 +16,7 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    get "/import/3/#{oauth_account.to_param}"
+    get "/import/#{@season}/#{oauth_account.to_param}"
 
     assert_response :ok
   end
@@ -22,7 +26,7 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    get "/import/3/#{oauth_account2.to_param}"
+    get "/import/#{@season}/#{oauth_account2.to_param}"
 
     assert_response :not_found
   end
@@ -36,20 +40,19 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     oauth_account = create(:oauth_account, user: user)
     csv = fixture_file_upload('files/valid-match-import.csv')
-    season = 5
 
     assert_difference "user.friends.count", 3 do
       assert_difference "MatchFriend.count", 4 do
-        assert_difference "oauth_account.matches.in_season(#{season}).count", 6 do
+        assert_difference "oauth_account.matches.in_season(#{@season}).count", 6 do
           sign_in_as(oauth_account)
-          post "/import/#{season}/#{oauth_account.to_param}", params: { csv: csv }
+          post "/import/#{@season}/#{oauth_account.to_param}", params: { csv: csv }
         end
       end
     end
 
-    assert_redirected_to matches_path(season, oauth_account)
+    assert_redirected_to matches_path(@season, oauth_account)
 
-    matches = oauth_account.matches.in_season(season).ordered_by_time
+    matches = oauth_account.matches.in_season(@season).ordered_by_time
     expected = [
       { rank: 3932 },
       {
@@ -72,7 +75,7 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     expected.each_with_index do |details, i|
       rank = details[:rank]
       match = matches[i]
-      refute_nil match, "should have a match with rank #{rank} in season #{season}"
+      refute_nil match, "should have a match with rank #{rank} in season #{@season}"
 
       unless i == 0
         assert_equal matches[i - 1], match.prior_match, 'should have a prior match'
@@ -91,14 +94,13 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
 
   test 'shows error when import fails for your account' do
     oauth_account = create(:oauth_account)
-    season = 4
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
-      post "/import/#{season}/#{oauth_account.to_param}"
+      post "/import/#{@season}/#{oauth_account.to_param}"
     end
 
-    assert_redirected_to import_path(season, oauth_account)
+    assert_redirected_to import_path(@season, oauth_account)
     assert_equal 'No CSV file was provided.', flash[:alert]
   end
 
@@ -109,7 +111,7 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account1)
-      post "/import/3/#{oauth_account2.to_param}", params: { csv: csv }
+      post "/import/#{@season}/#{oauth_account2.to_param}", params: { csv: csv }
     end
 
     assert_response :not_found

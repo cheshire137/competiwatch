@@ -111,7 +111,7 @@ module MatchesHelper
   end
 
   def season_options
-    Match::LATEST_SEASON.downto(1).map { |season| ["Season #{season}", season] }.to_h
+    Season.latest_number.downto(1).map { |season| ["Season #{season}", season] }.to_h
   end
 
   def result_options

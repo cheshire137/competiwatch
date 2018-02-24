@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    8.times { create(:season) }
+  end
+
   test 'can view your own shares' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)

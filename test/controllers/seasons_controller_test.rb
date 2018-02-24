@@ -14,7 +14,7 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
       delete "/season/#{season}/#{oauth_account.to_param}"
     end
 
-    assert_redirected_to matches_path(Match::LATEST_SEASON, oauth_account)
+    assert_redirected_to matches_path(season, oauth_account)
     refute Match.exists?(match1.id)
     refute Match.exists?(match2.id)
     assert Match.exists?(match3.id), 'should not delete my match from another season'

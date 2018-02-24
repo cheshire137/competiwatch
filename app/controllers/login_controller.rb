@@ -7,6 +7,6 @@ class LoginController < ApplicationController
   private
 
   def redirect_if_signed_in
-    redirect_to(matches_path(Match::LATEST_SEASON, current_user)) if signed_in?
+    redirect_to(matches_path(Season.latest_number, current_user)) if signed_in?
   end
 end

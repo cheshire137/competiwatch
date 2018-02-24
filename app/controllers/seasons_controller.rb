@@ -27,6 +27,6 @@ class SeasonsController < ApplicationController
     @oauth_account.matches.in_season(@season).destroy_all
     flash[:notice] = "Removed #{match_count} #{'match'.pluralize(match_count)} for " +
       "#{@oauth_account} in season #{@season}."
-    redirect_to matches_path(Match::LATEST_SEASON, @oauth_account)
+    redirect_to matches_path(@season, @oauth_account)
   end
 end

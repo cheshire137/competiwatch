@@ -4,7 +4,6 @@ class Match < ApplicationRecord
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
-  LATEST_SEASON = 8
 
   attr_accessor :win_streak, :loss_streak
 
@@ -37,7 +36,13 @@ class Match < ApplicationRecord
   scope :draws, ->{ where(result: RESULT_MAPPINGS[:draw]) }
   scope :placements, ->{ where(placement: true) }
   scope :non_placements, ->{ where('placement IS NULL OR placement = ?', false) }
-  scope :in_season, ->(season) { where(season: season) }
+  scope :in_season, ->(season) {
+    if season.is_a?(Season)
+      where(season: season.number)
+    else
+      where(season: season)
+    end
+  }
   scope :placement_logs, ->{
     where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)
   }

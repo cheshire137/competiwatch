@@ -3,10 +3,10 @@
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="0">
 
-<% if match.new_record? && match.season < Match::LATEST_SEASON %>
+<% if match.new_record? && match.season < Season.latest_number %>
   <p class="p-3 mb-4 rounded-2 flash-error">
     You are logging a match for a past competitive season.
-    Do you want to <a href="<%= matches_path(Match::LATEST_SEASON, match.oauth_account) %>#log-match">log a match in season <%= Match::LATEST_SEASON %></a>?
+    Do you want to <a href="<%= matches_path(Season.latest_number, match.oauth_account) %>#log-match">log a match in season <%= Season.latest_number %></a>?
   </p>
 <% end %>
 

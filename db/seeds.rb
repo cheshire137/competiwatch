@@ -72,3 +72,6 @@ seasons.each do |number, data|
   season.assign_attributes(data)
   season.save if season.new_record? || season.changed?
 end
+
+Season.latest_number(skip_cache: true)
+puts "Latest season: #{Season.latest_number}"

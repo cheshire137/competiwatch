@@ -2,7 +2,7 @@
   <nav class="UnderlineNav d-flex-md flex-justify-between-md">
     <div class="UnderlineNav-body">
       <%
-        season = params[:season] || Match::LATEST_SEASON
+        season = params[:season] || Season.latest_number
         battletag = current_battletag
       %>
       <% if content_for?(:match_tabs) %>

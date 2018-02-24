@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ExportControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    @season = create(:season)
+  end
+
   test 'index page redirects anonymous user' do
     get '/export'
 
@@ -13,7 +17,7 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
-    post "/season/5/#{oauth_account2.to_param}/export.csv"
+    post "/season/#{@season}/#{oauth_account2.to_param}/export.csv"
 
     assert_response :not_found
   end
@@ -22,7 +26,7 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
     oauth_account = create(:oauth_account)
 
     sign_in_as(oauth_account)
-    post "/season/5/#{oauth_account.to_param}/export.csv"
+    post "/season/#{@season}/#{oauth_account.to_param}/export.csv"
 
     assert_response :ok
   end

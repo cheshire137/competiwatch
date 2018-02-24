@@ -9,7 +9,7 @@ class ApplicationController < ActionController::Base
 
     if resource.is_a?(User)
       oauth_account = resource.default_oauth_account || resource.oauth_accounts.first
-      matches_path(Match::LATEST_SEASON, oauth_account)
+      matches_path(Season.latest_number, oauth_account)
     else
       super
     end
