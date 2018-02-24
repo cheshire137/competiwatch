@@ -3,6 +3,10 @@ require 'test_helper'
 class OauthAccountTest < ActiveSupport::TestCase
   fixtures :seasons
 
+  setup do
+    Rails.cache.clear
+  end
+
   test 'career_high is nil for new account' do
     assert_nil OauthAccount.new.career_high
   end

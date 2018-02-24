@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class LoginControllerTest < ActionDispatch::IntegrationTest
+  setup do
+    Rails.cache.clear
+  end
+
   test 'loads successfully' do
     get '/'
 
