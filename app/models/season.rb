@@ -12,6 +12,12 @@ class Season < ApplicationRecord
 
   delegate :to_s, :to_param, to: :number
 
+  def self.current_number
+    today = Date.today
+    season = where('started_on <= ? AND (ended_on > ? OR ended_on IS NULL)', today, today).first
+    season.try(:number)
+  end
+
   def self.latest_number(skip_cache: false)
     Rails.cache.delete(LATEST_SEASON_CACHE_KEY) if skip_cache
 

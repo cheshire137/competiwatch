@@ -5,6 +5,14 @@ class SeasonTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'current_number returns active season' do
+    past_season = create(:season, started_on: 1.year.ago, ended_on: 11.months.ago)
+    present_season = create(:season, started_on: 1.month.ago, ended_on: 1.week.from_now)
+    future_season = create(:season, started_on: 1.month.from_now, ended_on: 2.months.from_now)
+
+    assert_equal present_season.number, Season.current_number
+  end
+
   test 'latest_number returns highest season number' do
     create(:season, number: 1)
     create(:season, number: 3)
