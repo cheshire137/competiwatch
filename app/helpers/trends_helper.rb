@@ -36,8 +36,13 @@ module TrendsHelper
   end
 
   def show_career_high_heroes_chart?(matches, oauth_account)
-    return false unless oauth_account.career_high.present?
-    matches.any? { |match| match.season != 1 && match.rank.present? }
+    career_high = oauth_account.career_high
+    return false unless career_high.present?
+
+    matches.any? do |match|
+      match.season != 1 && match.rank &&
+        match.rank >= career_high - TrendsController::CAREER_HIGH_CUTOFF && match.heroes.any?
+    end
   end
 
   def show_role_chart?(matches)

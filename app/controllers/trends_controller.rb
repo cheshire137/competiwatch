@@ -3,6 +3,8 @@ class TrendsController < ApplicationController
   before_action :set_season
   before_action :ensure_season_is_visible
 
+  CAREER_HIGH_CUTOFF = 200
+
   def index
     @is_owner = signed_in? && @oauth_account.user == current_user
     win_loss_chart
@@ -200,7 +202,7 @@ class TrendsController < ApplicationController
     @career_high = @oauth_account.career_high
     return unless @career_high
 
-    cutoff = @career_high - 200
+    cutoff = @career_high - CAREER_HIGH_CUTOFF
     matches = account_matches_in_season.with_rank.with_result.where('rank >= ?', cutoff).
       includes(:heroes)
 
