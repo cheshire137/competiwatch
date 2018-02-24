@@ -15,6 +15,14 @@ module TrendsHelper
     end
   end
 
+  def show_streaks_chart?(matches)
+    show_win_loss_chart?(matches)
+  end
+
+  def show_win_loss_chart?(matches)
+    matches.any?
+  end
+
   def show_group_stats?(matches)
     show_group_member_chart?(matches)
   end
