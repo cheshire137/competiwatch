@@ -53,10 +53,10 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference 'oauth_account.season_shares.count' do
       sign_in_as(oauth_account)
-      post "/season/3/#{oauth_account.to_param}/share"
+      post "/season/2/#{oauth_account.to_param}/share"
     end
 
-    assert_redirected_to matches_path(3, oauth_account)
+    assert_redirected_to matches_path(2, oauth_account)
   end
 
   test 'destroy redirects for anonymous user' do

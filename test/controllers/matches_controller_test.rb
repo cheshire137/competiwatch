@@ -3,7 +3,7 @@ require 'test_helper'
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   setup do
     @past_season = seasons(:one)
-    @season = seasons(:three)
+    @season = seasons(:two)
     @future_season = create(:season, started_on: 4.months.from_now)
   end
 

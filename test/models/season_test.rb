@@ -27,14 +27,14 @@ class SeasonTest < ActiveSupport::TestCase
 
   test 'current_number returns active season' do
     past_season = seasons(:two)
-    present_season = seasons(:three)
+    present_season = seasons(:two)
     future_season = create(:season, started_on: 1.month.from_now, ended_on: 2.months.from_now)
 
     assert_equal present_season.number, Season.current_number
   end
 
   test 'latest_number returns highest season number' do
-    assert_equal seasons(:three).number, Season.latest_number
+    assert_equal seasons(:two).number, Season.latest_number
   end
 
   test 'to_s returns number' do
@@ -85,7 +85,7 @@ class SeasonTest < ActiveSupport::TestCase
   end
 
   test 'requires started_on to be greater than previous season ended_on' do
-    past_season = seasons(:three)
+    past_season = seasons(:two)
     past_season.ended_on = 1.day.ago
     past_season.save!
     new_season = build(:season, started_on: past_season.ended_on - 1.week)

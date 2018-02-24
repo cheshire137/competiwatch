@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ExportControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @season = seasons(:three)
+    @season = seasons(:two)
   end
 
   test 'index page redirects anonymous user' do

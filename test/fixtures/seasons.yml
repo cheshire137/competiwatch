@@ -7,8 +7,3 @@ two:
   number: 2
   max_rank: 5000
   started_on: 2016-09-01
-  ended_on: 2016-11-24
-three:
-  number: 3
-  max_rank: 5000
-  started_on: 2016-12-01

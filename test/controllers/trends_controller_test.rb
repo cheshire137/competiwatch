@@ -3,7 +3,7 @@ require 'test_helper'
 class TrendsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @past_season = seasons(:one)
-    @season = seasons(:three)
+    @season = seasons(:two)
     @future_season = create(:season, started_on: 2.months.from_now)
     @user = create(:user)
     @oauth_account = create(:oauth_account, user: @user)

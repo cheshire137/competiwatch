@@ -24,12 +24,12 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
   test "cannot wipe another user's season" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
-    match1 = create(:match, oauth_account: oauth_account1, season: 3)
-    match2 = create(:match, oauth_account: oauth_account1, season: 3)
+    match1 = create(:match, oauth_account: oauth_account1, season: 2)
+    match2 = create(:match, oauth_account: oauth_account1, season: 2)
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account2)
-      delete "/season/3/#{oauth_account1.to_param}"
+      delete "/season/2/#{oauth_account1.to_param}"
     end
 
     assert_response :not_found
