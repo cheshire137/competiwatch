@@ -11,7 +11,7 @@
         <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, autofocus: true %>
       </div>
     <% end %>
-    <div class="form-group">
+    <div class="form-group <%= 'mt-0' unless match.last_placement? %>">
       <%= form.label :result, 'What was the outcome of the placement match?', class: 'mr-2' %>
       <%= form.select :result, options_for_select(result_options, match.result), {}, { class: 'form-select' } %>
     </div>
