@@ -24,7 +24,7 @@ class SeasonTest < ActiveSupport::TestCase
     assert_predicate season, :past?
   end
 
-  test 'future? returns false when given season has started' do
+  test 'future? returns false when season has started' do
     season = create(:season, started_on: 1.day.ago)
 
     refute_predicate season, :future?

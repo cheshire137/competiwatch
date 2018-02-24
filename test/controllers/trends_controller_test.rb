@@ -17,6 +17,25 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @match2.heroes << @hero2
   end
 
+  test 'says season has not started for future season' do
+    future_season = create(:season, started_on: 1.year.from_now)
+
+    sign_in_as(@oauth_account)
+    get "/trends/#{future_season}/#{@oauth_account.to_param}"
+
+    assert_select '.blankslate', text: /Season #{future_season} has not started yet./
+  end
+
+  test 'says when user has not logged matches in past season' do
+    past_season = create(:season, ended_on: 1.week.ago)
+
+    sign_in_as(@oauth_account)
+    get "/trends/#{past_season}/#{@oauth_account.to_param}"
+
+    assert_select '.blankslate',
+      text: /#{@oauth_account}\s+did not log\s+any competitive matches in season #{past_season}./
+  end
+
   test 'index page 404s for anonymous user when season not shared' do
     get "/trends/#{@season}/#{@oauth_account.to_param}"
 
