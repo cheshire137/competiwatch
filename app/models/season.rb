@@ -40,10 +40,10 @@ class Season < ApplicationRecord
     new_value
   end
 
-  def self.past?(number)
+  def self.past?(number, season: nil)
     return unless number
 
-    season = Season.find_by_number(number)
+    season ||= Season.find_by_number(number)
     if season
       season.ended?
     else
@@ -52,10 +52,10 @@ class Season < ApplicationRecord
     end
   end
 
-  def self.future?(number)
+  def self.future?(number, season: nil)
     return unless number
 
-    season = Season.find_by_number(number)
+    season ||= Season.find_by_number(number)
     if season
       !season.started?
     else

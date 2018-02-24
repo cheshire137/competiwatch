@@ -7,8 +7,8 @@ class TrendsController < ApplicationController
 
   def index
     @is_owner = signed_in? && @oauth_account.user == current_user
-    @past_season = Season.past?(@season)
-    @future_season = Season.future?(@season)
+    @past_season = Season.past?(@season, season: @season_record)
+    @future_season = Season.future?(@season, season: @season_record)
     win_loss_chart
     group_stats
     day_time_chart

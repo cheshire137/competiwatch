@@ -27,7 +27,7 @@
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends } %>
+                         all_friends: @all_friends, season_record: @season_record } %>
     <div class="form-group">
       <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
       <%= f.number_field :season, class: 'form-control season-field' %>
@@ -42,7 +42,7 @@
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends } %>
+                         all_friends: @all_friends, season_record: @season_record } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Match
     </button>

@@ -3,7 +3,7 @@
 <%= form.hidden_field :season %>
 <input type="hidden" name="match[placement]" value="1">
 
-<% if match.new_record? && Season.future?(match.season) %>
+<% if match.new_record? && Season.future?(match.season, season: season_record) %>
   <% season = Season.current_or_latest_number %>
 
   <p class="p-3 mb-4 rounded-2 flash-error">

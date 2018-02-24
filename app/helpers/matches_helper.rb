@@ -3,10 +3,11 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
-  def show_season_warning_for?(match)
+  def show_season_warning_for?(match, season:)
     return false if match.persisted?
 
-    Season.past?(match.season) || Season.future?(match.season)
+    number = match.season
+    Season.past?(number, season: season) || Season.future?(number, season: season)
   end
 
   def get_match_count_by_group_size(matches)
