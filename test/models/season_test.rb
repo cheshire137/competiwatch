@@ -1,60 +1,52 @@
 require 'test_helper'
 
 class SeasonTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
   test 'active? returns true for started-but-not-yet-ended season' do
-    season = create(:season, started_on: 1.week.ago)
+    season = build(:season, started_on: 1.week.ago)
 
     assert_predicate season, :active?
   end
 
   test 'past? returns true for season that has ended' do
-    season = create(:season, ended_on: 1.week.ago)
+    season = build(:season, ended_on: 1.week.ago)
 
     assert_predicate season, :past?
   end
 
   test 'future? returns true for season that has not yet started' do
-    season = create(:season, started_on: 1.week.from_now)
+    season = build(:season, started_on: 1.week.from_now)
 
     assert_predicate season, :future?
   end
 
   test 'future? returns false when season has started' do
-    season = create(:season, started_on: 1.day.ago)
+    season = build(:season, started_on: 1.day.ago)
 
     refute_predicate season, :future?
   end
 
   test 'current_number returns active season' do
-    past_season = create(:season, started_on: 1.year.ago, ended_on: 11.months.ago)
-    present_season = create(:season, started_on: 1.month.ago, ended_on: 1.week.from_now)
+    past_season = seasons(:two)
+    present_season = seasons(:three)
     future_season = create(:season, started_on: 1.month.from_now, ended_on: 2.months.from_now)
 
     assert_equal present_season.number, Season.current_number
   end
 
   test 'latest_number returns highest season number' do
-    create(:season, number: 1)
-    create(:season, number: 3)
-    create(:season, number: 2)
-
-    assert_equal 3, Season.latest_number
+    assert_equal seasons(:three).number, Season.latest_number
   end
 
   test 'to_s returns number' do
-    season = create(:season, number: 4)
+    season = seasons(:two)
 
-    assert_equal '4', season.to_s
+    assert_equal '2', season.to_s
   end
 
   test 'to_param returns number' do
-    season = create(:season, number: 5)
+    season = seasons(:two)
 
-    assert_equal '5', season.to_param
+    assert_equal '2', season.to_param
   end
 
   test 'requires number' do
@@ -90,5 +82,16 @@ class SeasonTest < ActiveSupport::TestCase
 
     refute_predicate season, :valid?
     assert_includes season.errors.messages[:max_rank], 'must be an integer'
+  end
+
+  test 'requires started_on to be greater than previous season ended_on' do
+    past_season = seasons(:three)
+    past_season.ended_on = 1.day.ago
+    past_season.save!
+    new_season = build(:season, started_on: past_season.ended_on - 1.week)
+
+    refute_predicate new_season, :valid?
+    assert_includes new_season.errors.messages[:started_on],
+      "must be on or later than #{past_season.ended_on}"
   end
 end

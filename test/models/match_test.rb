@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
   test 'clears account career high cache if rank is greater' do
     oauth_account = create(:oauth_account)
 

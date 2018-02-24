@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
   test 'career_high is nil for new account' do
     assert_nil OauthAccount.new.career_high
   end
@@ -27,19 +23,19 @@ class OauthAccountTest < ActiveSupport::TestCase
 
   test 'active_seasons returns list of seasons account had matches' do
     oauth_account = create(:oauth_account)
-    create(:match, oauth_account: oauth_account, season: 1)
     create(:match, oauth_account: oauth_account, season: 2)
-    create(:match, oauth_account: oauth_account, season: 4)
+    create(:match, oauth_account: oauth_account, season: 1)
+    create(:match, oauth_account: oauth_account, season: 3)
 
-    assert_equal [1, 2, 4], oauth_account.active_seasons
+    assert_equal [1, 2, 3], oauth_account.active_seasons
   end
 
   test 'season_is_public? returns true when a season share exists' do
     oauth_account = create(:oauth_account)
-    season = 4
-    season_share = create(:season_share, oauth_account: oauth_account, season: season)
+    season = seasons(:two)
+    season_share = create(:season_share, oauth_account: oauth_account, season: season.number)
 
-    assert oauth_account.season_is_public?(season)
+    assert oauth_account.season_is_public?(season.number)
   end
 
   test 'season_is_public? returns false when no season share exists' do

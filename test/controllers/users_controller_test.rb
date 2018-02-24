@@ -3,7 +3,6 @@ require 'test_helper'
 class UsersControllerTest < ActionDispatch::IntegrationTest
   test 'can view your settings' do
     oauth_account = create(:oauth_account)
-    create(:season)
 
     sign_in_as(oauth_account)
     get '/settings'

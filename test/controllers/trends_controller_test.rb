@@ -2,7 +2,9 @@ require 'test_helper'
 
 class TrendsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @season = create(:season, number: 2)
+    @past_season = seasons(:one)
+    @season = seasons(:three)
+    @future_season = create(:season, started_on: 2.months.from_now)
     @user = create(:user)
     @oauth_account = create(:oauth_account, user: @user)
     @hero1 = create(:hero)
@@ -18,22 +20,18 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'says season has not started for future season' do
-    future_season = create(:season, started_on: 1.year.from_now)
-
     sign_in_as(@oauth_account)
-    get "/trends/#{future_season}/#{@oauth_account.to_param}"
+    get "/trends/#{@future_season}/#{@oauth_account.to_param}"
 
-    assert_select '.blankslate', text: /Season #{future_season} has not started yet./
+    assert_select '.blankslate', text: /Season #{@future_season} has not started yet./
   end
 
   test 'says when user has not logged matches in past season' do
-    past_season = create(:season, ended_on: 1.week.ago)
-
     sign_in_as(@oauth_account)
-    get "/trends/#{past_season}/#{@oauth_account.to_param}"
+    get "/trends/#{@past_season}/#{@oauth_account.to_param}"
 
     assert_select '.blankslate',
-      text: /#{@oauth_account}\s+did not log\s+any competitive matches in season #{past_season}./
+      text: /#{@oauth_account}\s+did not log\s+any competitive matches in season #{@past_season}./
   end
 
   test 'index page 404s for anonymous user when season not shared' do

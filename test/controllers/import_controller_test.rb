@@ -2,7 +2,7 @@ require 'test_helper'
 
 class ImportControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @season = create(:season)
+    @season = seasons(:three)
   end
 
   test 'import form requires login' do

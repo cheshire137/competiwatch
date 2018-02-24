@@ -3,9 +3,6 @@ require 'test_helper'
 class StatsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @oauth_account = create(:oauth_account)
-    create(:season, number: 1)
-    create(:season, number: 2)
-    create(:season, number: 3)
   end
 
   test 'stats page redirects anonymous user' do

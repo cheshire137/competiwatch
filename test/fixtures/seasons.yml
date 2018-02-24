@@ -1,0 +1,14 @@
+one:
+  number: 1
+  max_rank: 100
+  started_on: 2016-06-28
+  ended_on: 2016-08-18
+two:
+  number: 2
+  max_rank: 5000
+  started_on: 2016-09-01
+  ended_on: 2016-11-24
+three:
+  number: 3
+  max_rank: 5000
+  started_on: 2016-12-01

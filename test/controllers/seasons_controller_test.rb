@@ -1,13 +1,9 @@
 require 'test_helper'
 
 class SeasonsControllerTest < ActionDispatch::IntegrationTest
-  setup do
-    3.times { create(:season) }
-  end
-
   test 'can wipe your own season' do
     oauth_account = create(:oauth_account)
-    season = 3
+    season = 2
     match1 = create(:match, oauth_account: oauth_account, season: season)
     match2 = create(:match, oauth_account: oauth_account, season: season)
     match3 = create(:match, oauth_account: oauth_account, season: season + 1)
@@ -28,13 +24,12 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
   test "cannot wipe another user's season" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
-    season = 5
-    match1 = create(:match, oauth_account: oauth_account1, season: season)
-    match2 = create(:match, oauth_account: oauth_account1, season: season)
+    match1 = create(:match, oauth_account: oauth_account1, season: 3)
+    match2 = create(:match, oauth_account: oauth_account1, season: 3)
 
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account2)
-      delete "/season/#{season}/#{oauth_account1.to_param}"
+      delete "/season/3/#{oauth_account1.to_param}"
     end
 
     assert_response :not_found
@@ -58,19 +53,18 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account2)
-    get "/season/4/#{oauth_account1.to_param}/confirm-wipe"
+    get "/season/2/#{oauth_account1.to_param}/confirm-wipe"
 
     assert_response :not_found
   end
 
   test 'can confirm wiping my season' do
     oauth_account = create(:oauth_account)
-    season = 4
-    match1 = create(:match, oauth_account: oauth_account, rank: 1234, season: season)
-    match2 = create(:match, oauth_account: oauth_account, rank: 4567, season: season)
+    match1 = create(:match, oauth_account: oauth_account, rank: 1234, season: 2)
+    match2 = create(:match, oauth_account: oauth_account, rank: 4567, season: 2)
 
     sign_in_as(oauth_account)
-    get "/season/#{season}/#{oauth_account.to_param}/confirm-wipe"
+    get "/season/#{2}/#{oauth_account.to_param}/confirm-wipe"
 
     assert_response :ok
     assert_select 'span', text: match1.rank.to_s

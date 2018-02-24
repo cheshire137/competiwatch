@@ -9,7 +9,6 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
 
   test 'redirects to match history for latest season when signed in' do
     oauth_account = create(:oauth_account)
-    create(:season)
 
     sign_in_as(oauth_account)
     get '/'

@@ -2,7 +2,9 @@ require 'test_helper'
 
 class MatchesControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @season = create(:season, started_on: 1.week.ago)
+    @past_season = seasons(:one)
+    @season = seasons(:three)
+    @future_season = create(:season, started_on: 4.months.from_now)
   end
 
   test 'index page 404s for anonymous user when season is not visible' do
@@ -39,33 +41,30 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'index page has future season message when no matches' do
     oauth_account = create(:oauth_account)
-    future_season = create(:season, started_on: 1.month.from_now)
 
     sign_in_as(oauth_account)
-    get "/season/#{future_season}/#{oauth_account.to_param}"
+    get "/season/#{@future_season}/#{oauth_account.to_param}"
 
-    assert_select '.blankslate', text: /Season #{future_season} has not started yet./
+    assert_select '.blankslate', text: /Season #{@future_season} has not started yet./
   end
 
   test 'index page has past season message when no matches' do
     oauth_account = create(:oauth_account)
-    past_season = create(:season, ended_on: 1.year.ago)
 
     sign_in_as(oauth_account)
-    get "/season/#{past_season}/#{oauth_account.to_param}"
+    get "/season/#{@past_season}/#{oauth_account.to_param}"
 
     assert_select '.blankslate',
-      text: /#{oauth_account} did not log any competitive matches in season #{past_season}./
+      text: /#{oauth_account} did not log any competitive matches in season #{@past_season}./
   end
 
   test 'index page loads successfully for other user when season is shared' do
     oauth_account = create(:oauth_account)
     other_account = create(:oauth_account)
-    season = 1
-    create(:season_share, season: season, oauth_account: oauth_account)
+    create(:season_share, season: @season.number, oauth_account: oauth_account)
 
     sign_in_as(other_account)
-    get "/season/#{season}/#{oauth_account.to_param}"
+    get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :ok
   end
@@ -107,17 +106,16 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
     oauth_account2 = create(:oauth_account, user: user)
-    season = 8
-    create(:season_share, oauth_account: oauth_account1, season: season)
+    create(:season_share, oauth_account: oauth_account1, season: @season.number)
 
-    assert_difference 'oauth_account1.matches.in_season(season).count' do
+    assert_difference 'oauth_account1.matches.in_season(@season).count' do
       sign_in_as(oauth_account2)
-      post "/season/#{season}/#{oauth_account1.to_param}", params: { match: { rank: 2500 } }
+      post "/season/#{@season}/#{oauth_account1.to_param}", params: { match: { rank: 2500 } }
     end
 
     match = oauth_account1.matches.ordered_by_time.last
     refute_nil match
-    assert_redirected_to matches_path(season, oauth_account1, anchor: "match-row-#{match.id}")
+    assert_redirected_to matches_path(@season, oauth_account1, anchor: "match-row-#{match.id}")
   end
 
   test 'renders edit form when create fails' do
@@ -126,7 +124,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference 'Match.count' do
       sign_in_as(oauth_account)
       post "/season/#{@season}/#{oauth_account.to_param}", params: {
-        match: { rank: Match::MAX_RANK + 1 }
+        match: { rank: @season.max_rank + 1 }
       }
     end
 
@@ -152,7 +150,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'can delete your own match' do
     oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account)
+    match = create(:match, oauth_account: oauth_account, season: @season.number)
 
     assert_difference 'Match.count', -1 do
       sign_in_as(oauth_account)
@@ -160,7 +158,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal "Successfully deleted #{oauth_account}'s match.", flash[:notice]
-    assert_redirected_to matches_path(match.season, oauth_account)
+    assert_redirected_to matches_path(@season, oauth_account)
     refute Match.exists?(match.id)
   end
 
@@ -192,19 +190,19 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'renders edit page when update fails' do
     oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account)
+    match = create(:match, oauth_account: oauth_account, season: @season.number)
     map = create(:map)
 
     sign_in_as(oauth_account)
     put "/matches/#{match.id}", params: { match: { rank: Match::MAX_RANK + 1, map_id: map.id } }
 
     assert_response :ok
-    assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
+    assert_select '.flash-error', text: /Rank must be less than or equal to #{@season.max_rank}/
   end
 
   test 'renders edit page when too many friends are chosen' do
     oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account)
+    match = create(:match, oauth_account: oauth_account, season: @season.number)
     map = create(:map)
 
     sign_in_as(oauth_account)
@@ -219,7 +217,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test "cannot update another user's match" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account1, rank: 3234)
+    match = create(:match, oauth_account: oauth_account1, rank: 3234, season: @season.number)
 
     sign_in_as(oauth_account2)
     put "/matches/#{match.id}", params: { match: { rank: 1234 } }
@@ -230,14 +228,14 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'edit page loads for your account and non-placement match' do
     oauth_account = create(:oauth_account)
-    prior_match = create(:match, oauth_account: oauth_account)
+    prior_match = create(:match, oauth_account: oauth_account, season: @season.number)
     match = create(:match, oauth_account: oauth_account, placement: false,
-                   prior_match: prior_match)
+                   prior_match: prior_match, season: @season.number)
     refute match.placement?
     refute match.placement_log?
 
     sign_in_as(oauth_account)
-    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
+    get "/matches/#{@season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
     assert_select "form#delete-match[action='/matches/#{match.id}']"
@@ -247,12 +245,12 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test 'edit page loads for your account and placement log match' do
     oauth_account = create(:oauth_account)
     match = create(:match, oauth_account: oauth_account, map: nil,
-                   placement: false, prior_match: nil)
+                   placement: false, prior_match: nil, season: @season.number)
     refute match.placement?
     assert match.placement_log?
 
     sign_in_as(oauth_account)
-    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
+    get "/matches/#{@season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
     assert_select "form#delete-match[action='/matches/#{match.id}']"
@@ -261,12 +259,12 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'edit page loads for your account and placement match' do
     oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account, placement: true)
+    match = create(:match, oauth_account: oauth_account, placement: true, season: @season.number)
     assert match.placement?
     refute match.placement_log?
 
     sign_in_as(oauth_account)
-    get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
+    get "/matches/#{@season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
     assert_select "form#delete-match[action='/matches/#{match.id}']"
@@ -276,10 +274,10 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test "edit page 404s for another user's account and match" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account1)
+    match = create(:match, oauth_account: oauth_account1, season: @season.number)
 
     sign_in_as(oauth_account2)
-    get "/matches/#{match.season}/#{oauth_account1.to_param}/#{match.id}"
+    get "/matches/#{@season}/#{oauth_account1.to_param}/#{match.id}"
 
     assert_response :not_found
   end
