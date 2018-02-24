@@ -9,6 +9,7 @@ class MatchesController < ApplicationController
   def index
     @can_edit = signed_in? && @oauth_account.user == current_user
     @past_season = Season.past?(@season)
+    @future_season = Season.future?(@season)
     @matches = @oauth_account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map, :friends).ordered_by_time
     set_streaks(@matches)

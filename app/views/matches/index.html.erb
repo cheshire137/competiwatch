@@ -42,9 +42,10 @@
              locals: { matches: @matches, placement_rank: @placement_rank,
                        longest_win_streak: @longest_win_streak,
                        longest_loss_streak: @longest_loss_streak,
-                       season: @season, oauth_account: @oauth_account } %>
+                       season: @season, oauth_account: @oauth_account,
+                       future_season: @future_season } %>
 
-  <% if @can_edit %>
+  <% if @can_edit && !@future_season %>
     <p class="mt-4 text-small">
       You can also
       <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
