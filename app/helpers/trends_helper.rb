@@ -8,6 +8,8 @@ module TrendsHelper
       '#fdde73'
     elsif win_rate >= 40
       '#f0a05b'
+    elsif win_rate >= 30
+      '#EC914E'
     else
       '#de4f3b'
     end
