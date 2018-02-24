@@ -12,6 +12,10 @@ class Season < ApplicationRecord
 
   delegate :to_s, :to_param, to: :number
 
+  def self.current_or_latest_number
+    current_number || latest_number
+  end
+
   def self.current_number
     today = Date.today
     season = where('started_on <= ? AND (ended_on > ? OR ended_on IS NULL)', today, today).first
@@ -29,6 +33,13 @@ class Season < ApplicationRecord
     Rails.cache.write(LATEST_SEASON_CACHE_KEY, new_value) if new_value
 
     new_value
+  end
+
+  def self.past?(number)
+    active_number = current_or_latest_number
+    if number && active_number
+      number < active_number
+    end
   end
 
   private

@@ -14,7 +14,7 @@
 <div class="d-flex-md flex-justify-between-md">
   <%= settings_box(icon_class: 'ion-ios-download-outline',
                    title: 'Import match history',
-                   url: import_path(Season.latest_number, current_user),
+                   url: import_path(Season.current_or_latest_number, current_user),
                    description: 'Import competitive matches per season from a file.') %>
   <%= settings_box(icon_class: 'ion-ios-close-outline',
                    title: 'Wipe match history',
