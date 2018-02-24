@@ -15,13 +15,23 @@ class OauthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
-  def career_high
-    return unless persisted?
+  def delete_career_high_cache
+    Rails.cache.delete(career_high_cache_key)
+  end
 
-    Rails.cache.fetch(career_high_cache_key) do
-      highest_sr_match = matches.where('season <> ?', 1).with_rank.order('rank DESC').first
-      highest_sr_match.try(:rank)
-    end
+  def career_high
+    cache_key = career_high_cache_key
+    existing_career_high = Rails.cache.fetch(cache_key)
+    return existing_career_high if existing_career_high
+
+    return unless persisted? && matches.any?
+
+    highest_sr_match = matches.where('season <> ?', 1).with_rank.order('rank DESC').first
+    new_career_high = highest_sr_match.try(:rank)
+
+    Rails.cache.write(cache_key, new_career_high) if new_career_high
+
+    new_career_high
   end
 
   def season_is_public?(season)

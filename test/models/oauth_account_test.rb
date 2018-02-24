@@ -5,13 +5,22 @@ class OauthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'career_high is nil for new account' do
+    assert_nil OauthAccount.new.career_high
+  end
+
+  test 'career_high is nil for account with no matches' do
+    oauth_account = create(:oauth_account)
+
+    assert_nil oauth_account.career_high
+  end
+
   test 'career_high returns highest rank for account' do
     oauth_account = create(:oauth_account)
     create(:match, oauth_account: oauth_account, season: 1, rank: 50)
     create(:match, oauth_account: oauth_account, season: 2, rank: 2501)
     create(:match, oauth_account: oauth_account, season: 4, rank: 2420)
 
-    assert_nil Rails.cache.fetch("career-high-#{oauth_account}")
     assert_equal 2501, oauth_account.career_high
     assert_equal 2501, Rails.cache.fetch("career-high-#{oauth_account}")
   end
@@ -102,7 +111,7 @@ class OauthAccountTest < ActiveSupport::TestCase
     match2 = create(:match, oauth_account: oauth_account)
 
     assert_difference 'Match.count', -2 do
-      oauth_account.destroy
+      oauth_account.reload.destroy
     end
 
     refute Match.exists?(match1.id)

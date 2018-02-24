@@ -16,6 +16,7 @@ class Match < ApplicationRecord
   has_many :friends, through: :match_friends
 
   before_validation :set_result
+  after_create :reset_career_high, if: :saved_change_to_rank?
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -285,6 +286,15 @@ class Match < ApplicationRecord
   end
 
   private
+
+  def reset_career_high
+    return unless rank && oauth_account
+
+    career_high = oauth_account.career_high
+    if career_high && rank > career_high
+      oauth_account.delete_career_high_cache
+    end
+  end
 
   def char_for_boolean(flag)
     unless flag.nil?

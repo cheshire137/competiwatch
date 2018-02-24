@@ -1,6 +1,22 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
+  setup do
+    Rails.cache.clear
+  end
+
+  test 'clears account career high cache if rank is greater' do
+    oauth_account = create(:oauth_account)
+
+    create(:match, rank: 1234, oauth_account: oauth_account) # prime the cache
+    assert_equal 1234, Rails.cache.fetch("career-high-#{oauth_account}")
+
+    create(:match, rank: 1235, oauth_account: oauth_account) # new career high
+    assert_nil Rails.cache.fetch("career-high-#{oauth_account}")
+    assert_equal 1235, oauth_account.career_high
+    assert_equal 1235, Rails.cache.fetch("career-high-#{oauth_account}")
+  end
+
   test 'requires season' do
     match = Match.new
 
