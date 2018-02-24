@@ -40,4 +40,9 @@
       <%= group_size_summary(matches) %>
     </div>
   <% end %>
+  <% if season.started_on && season.ended_on %>
+    <div class="mt-2 flex-justify-between d-flex">
+      <%= pretty_date season.started_on %> - <%= pretty_date season.ended_on %>
+    </div>
+  <% end %>
 </div>

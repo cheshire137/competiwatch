@@ -3,6 +3,10 @@ module ApplicationHelper
     url_for(params.permit(:battletag, :season).merge(options))
   end
 
+  def pretty_date(date)
+    date.to_formatted_s(:long_ordinal)
+  end
+
   def current_battletag
     if signed_in?
       params[:battletag] || current_user.default_oauth_account.try(:to_param) ||

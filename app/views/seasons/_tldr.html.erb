@@ -1,0 +1,8 @@
+<% if season.started_on && season.ended_on %>
+  <div class="blankslate mb-3 p-3">
+    <div class="d-flex flex-items-center flex-justify-between">
+      <h2 class="h3 my-0 text-normal">Season <%= season %></h2>
+      <%= pretty_date season.started_on %> - <%= pretty_date season.ended_on %>
+    </div>
+  </div>
+<% end %>

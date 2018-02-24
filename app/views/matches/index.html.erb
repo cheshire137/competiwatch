@@ -33,9 +33,13 @@
 <% end %>
 
 <div id="match-history" class="js-tab-contents tab-contents">
-  <% if @season.past? && @matches.any? %>
-    <%= render partial: 'matches/tldr',
-               locals: { matches: @matches, season: @season } %>
+  <% if @season.past? %>
+    <% if @matches.any? %>
+      <%= render partial: 'matches/tldr',
+                 locals: { matches: @matches, season: @season } %>
+    <% else %>
+      <%= render partial: 'seasons/tldr', locals: { season: @season } %>
+    <% end %>
   <% end %>
 
   <%= render partial: 'matches/match_history',
