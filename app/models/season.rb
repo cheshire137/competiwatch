@@ -40,6 +40,10 @@ class Season < ApplicationRecord
     new_value
   end
 
+  def active?
+    started? && !ended?
+  end
+
   def past?
     ended?
   end
@@ -49,7 +53,8 @@ class Season < ApplicationRecord
   end
 
   def ended?
-    ended_on.nil? || ended_on <= Date.today
+    return false if ended_on.nil?
+    ended_on <= Date.today
   end
 
   def started?
