@@ -31,9 +31,9 @@
       <% end %>
     </div>
   </nav>
+  <% if content_for?(:breadcrumb) %>
+    <div class="mt-2 pb-2 border-bottom px-2 text-gray">
+      <%= yield :breadcrumb %>
+    </div>
+  <% end %>
 </div>
-<% if content_for?(:breadcrumb) %>
-  <div class="mt-2 text-gray">
-    <%= yield :breadcrumb %>
-  </div>
-<% end %>
