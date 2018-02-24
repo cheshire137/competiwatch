@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180217225151) do
+ActiveRecord::Schema.define(version: 20180224192153) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -99,6 +99,14 @@ ActiveRecord::Schema.define(version: 20180217225151) do
     t.integer "oauth_account_id", null: false
     t.datetime "created_at", null: false
     t.index ["oauth_account_id", "season"], name: "index_season_shares_on_oauth_account_id_and_season", unique: true
+  end
+
+  create_table "seasons", force: :cascade do |t|
+    t.integer "number", null: false
+    t.integer "max_rank", default: 5000, null: false
+    t.date "started_on"
+    t.date "ended_on"
+    t.index ["number"], name: "index_seasons_on_number", unique: true
   end
 
   create_table "users", force: :cascade do |t|

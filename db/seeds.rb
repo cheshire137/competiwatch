@@ -53,3 +53,22 @@ heroes_by_role.each do |role, hero_names|
     hero.save if hero.new_record? || hero.changed?
   end
 end
+
+seasons = {
+  1 => { max_rank: 100, started_on: '2016-06-28', ended_on: '2016-08-18' },
+  2 => { max_rank: 5000, started_on: '2016-09-01', ended_on: '2016-11-24' },
+  3 => { max_rank: 5000, started_on: '2016-12-01', ended_on: '2017-02-22' },
+  4 => { max_rank: 5000, started_on: '2017-03-01', ended_on: '2017-05-29' },
+  5 => { max_rank: 5000, started_on: '2017-05-31', ended_on: '2017-08-29' },
+  6 => { max_rank: 5000, started_on: '2017-09-01', ended_on: '2017-10-29' },
+  7 => { max_rank: 5000, started_on: '2017-11-01', ended_on: '2017-12-29' },
+  8 => { max_rank: 5000, started_on: '2018-01-01', ended_on: '2018-02-25' },
+  9 => { max_rank: 5000, started_on: '2018-02-28' }
+}
+
+seasons.each do |number, data|
+  puts "Creating season #{number}"
+  season = Season.where(number: number).first_or_initialize
+  season.assign_attributes(data)
+  season.save if season.new_record? || season.changed?
+end
