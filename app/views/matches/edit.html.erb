@@ -15,7 +15,7 @@
 <% end %>
 
 <% if @match.placement_log? %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match)) do |f| %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/placement_rank_form',
                locals: { form: f, match: @match } %>
     <button type="submit" class="btn btn-large btn-primary">
@@ -23,7 +23,7 @@
     </button>
   <% end %>
 <% elsif @match.oauth_account.finished_placements?(@match.season) %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match)) do |f| %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
@@ -38,7 +38,7 @@
     <span class="text-small text-gray">All fields optional except SR</span>
   <% end %>
 <% else %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match)) do |f| %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
@@ -47,4 +47,14 @@
       Save Match
     </button>
   <% end %>
+<% end %>
+
+<% if @match.persisted? %>
+  <div class="mt-4 border-top pt-4 text-right">
+    <%= form_for(@match, method: :delete, url: update_match_path(@match), html: { id: 'delete-match' }) do |f| %>
+      <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete this match? This cannot be undone.">
+        Delete match
+      </button>
+    <% end %>
+  </div>
 <% end %>

@@ -121,6 +121,33 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_select '.flash-error', text: text
   end
 
+  test 'can delete your own match' do
+    oauth_account = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account)
+
+    assert_difference 'Match.count', -1 do
+      sign_in_as(oauth_account)
+      delete "/matches/#{match.id}"
+    end
+
+    assert_equal "Successfully deleted #{oauth_account}'s match.", flash[:notice]
+    assert_redirected_to matches_path(match.season, oauth_account)
+    refute Match.exists?(match.id)
+  end
+
+  test "cannot delete someone else's match" do
+    oauth_account1 = create(:oauth_account)
+    oauth_account2 = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account1)
+
+    assert_no_difference 'Match.count' do
+      sign_in_as(oauth_account2)
+      delete "/matches/#{match.id}"
+    end
+
+    assert_response :not_found
+  end
+
   test 'can update your own match' do
     oauth_account = create(:oauth_account)
     match = create(:match, oauth_account: oauth_account)
@@ -184,7 +211,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
-    assert_select "form[action='/matches/#{match.id}']"
+    assert_select "form#delete-match[action='/matches/#{match.id}']"
+    assert_select "form#edit-match[action='/matches/#{match.id}']"
   end
 
   test 'edit page loads for your account and placement log match' do
@@ -198,7 +226,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
-    assert_select "form[action='/matches/#{match.id}']"
+    assert_select "form#delete-match[action='/matches/#{match.id}']"
+    assert_select "form#edit-match[action='/matches/#{match.id}']"
   end
 
   test 'edit page loads for your account and placement match' do
@@ -211,7 +240,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/matches/#{match.season}/#{oauth_account.to_param}/#{match.id}"
 
     assert_response :ok
-    assert_select "form[action='/matches/#{match.id}']"
+    assert_select "form#delete-match[action='/matches/#{match.id}']"
+    assert_select "form#edit-match[action='/matches/#{match.id}']"
   end
 
   test "edit page 404s for another user's account and match" do

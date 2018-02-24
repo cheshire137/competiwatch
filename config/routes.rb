@@ -18,6 +18,7 @@ Rails.application.routes.draw do
   post '/season/:season/:battletag' => 'matches#create', season: /\d+/
   get '/matches/:season/:battletag/:id' => 'matches#edit', as: :match
   put '/matches/:id' => 'matches#update', as: :update_match
+  delete '/matches/:id' => 'matches#destroy'
 
   get '/export' => 'export#index', as: :export
   post '/season/:season/:battletag/export' => 'export#export', as: :export_matches, season: /\d+/

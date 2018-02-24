@@ -3,7 +3,7 @@ class MatchesController < ApplicationController
   before_action :set_oauth_account, only: [:index, :create]
   before_action :ensure_oauth_account_is_mine, only: :create
   before_action :set_season, only: [:index, :create]
-  before_action :set_match, only: [:edit, :update]
+  before_action :set_match, only: [:edit, :update, :destroy]
   before_action :ensure_season_is_visible, only: :index
 
   def index
@@ -52,6 +52,19 @@ class MatchesController < ApplicationController
     @heroes_by_role = get_heroes_by_role
     @friends = current_user.friend_names(@match.season)
     @all_friends = current_user.all_friend_names
+  end
+
+  def destroy
+    season = @match.season
+    @oauth_account = @match.oauth_account
+
+    if @match.destroy
+      flash[:notice] = "Successfully deleted #{@oauth_account}'s match."
+      redirect_to matches_path(season, @oauth_account)
+    else
+      flash[:error] = 'Could not delete match.'
+      render_edit_on_fail
+    end
   end
 
   def update
