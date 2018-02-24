@@ -15,6 +15,11 @@ class OauthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  def career_high
+    highest_sr_match = matches.where('season <> ?', 1).with_rank.order('rank DESC').first
+    highest_sr_match.try(:rank)
+  end
+
   def season_is_public?(season)
     season_shares.exists?(season: season)
   end

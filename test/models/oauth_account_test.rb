@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class OauthAccountTest < ActiveSupport::TestCase
+  test 'career_high returns highest rank for account' do
+    oauth_account = create(:oauth_account)
+    create(:match, oauth_account: oauth_account, season: 1, rank: 50)
+    create(:match, oauth_account: oauth_account, season: 2, rank: 2501)
+    create(:match, oauth_account: oauth_account, season: 4, rank: 2420)
+
+    assert_equal 2501, oauth_account.career_high
+  end
+
   test 'active_seasons returns list of seasons account had matches' do
     oauth_account = create(:oauth_account)
     create(:match, oauth_account: oauth_account, season: 1)
