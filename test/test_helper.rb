@@ -1,6 +1,7 @@
 require File.expand_path('../../config/environment', __FILE__)
 require 'rails/test_help'
 
+ENV['RAILS_ENV'] = 'test'
 OmniAuth.config.test_mode = true
 
 class ActiveSupport::TestCase
