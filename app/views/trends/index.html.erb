@@ -63,6 +63,14 @@
 <%= render partial: 'trends/streaks_chart',
            locals: { season: @season, game_numbers: @game_numbers, win_streaks: @win_streaks,
                      loss_streaks: @loss_streaks } %>
+<% if show_career_high_heroes_chart?(@matches, @oauth_account) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/career_high_heroes_chart',
+             locals: { season: @season, heroes: @career_high_heroes,
+                       win_counts: @career_high_heroes_win_counts,
+                       loss_counts: @career_high_heroes_loss_counts,
+                       draw_counts: @career_high_heroes_draw_counts } %>
+<% end %>
 <% if show_heroes_chart?(@matches) %>
   <hr class="mb-4 pt-4">
   <%= render partial: 'trends/heroes_chart',

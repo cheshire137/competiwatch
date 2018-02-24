@@ -35,6 +35,11 @@ module TrendsHelper
     @show_thrower_leaver_chart = matches.any? { |match| match.thrower? || match.leaver? }
   end
 
+  def show_career_high_heroes_chart?(matches, oauth_account)
+    return false unless oauth_account.career_high.present?
+    matches.any? { |match| match.season != 1 && match.rank.present? }
+  end
+
   def show_role_chart?(matches)
     show_heroes_chart?(matches)
   end

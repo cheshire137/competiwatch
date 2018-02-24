@@ -4,12 +4,16 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = create(:user)
     @oauth_account = create(:oauth_account, user: @user)
+    @hero1 = create(:hero)
+    @hero2 = create(:hero)
     @match1 = create(:match, oauth_account: @oauth_account, season: 2)
+    @match1.heroes << @hero1
     @match2 = create(:match, oauth_account: @oauth_account, season: 2,
                      prior_match: @match1)
     @friend = create(:friend, user: @user)
     @match1_friend = create(:match_friend, match: @match1, friend: @friend)
     @match2_friend = create(:match_friend, match: @match2, friend: @friend)
+    @match2.heroes << @hero2
   end
 
   test 'index page 404s for anonymous user when season not shared' do
