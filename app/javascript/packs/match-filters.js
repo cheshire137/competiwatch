@@ -7,7 +7,10 @@ on('click', '.js-match-filter', function(event) {
   const menuContainer = button.closest('.js-menu-container')
   menuContainer.classList.toggle('active')
 
-  let activeClasses = [classToShow]
+  let activeClasses = []
+  if (!button.classList.contains('selected')) {
+    activeClasses.push(classToShow)
+  }
   if (classToShow !== 'js-filterable-match') {
     const otherClasses = (menuContainer.getAttribute('data-active-filters') || '').
       split(' ').filter(cls => cls.length > 0 && cls.indexOf(classPrefix) < 0)
