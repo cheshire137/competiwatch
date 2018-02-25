@@ -9,15 +9,15 @@ class Season < ApplicationRecord
   scope :order_by_number, ->{ order(:number) }
   scope :latest_end_date_first, ->{ order(ended_on: :desc) }
   scope :latest_first, ->{ order(number: :desc) }
-  scope :not_ended, ->{ where('ended_on IS NULL OR ended_on > ?', Date.today) }
-  scope :ended, ->{ where('ended_on < ?', Date.today) }
+  scope :not_ended, ->{ where('ended_on IS NULL OR ended_on > ?', Date.current) }
+  scope :ended, ->{ where('ended_on < ?', Date.current) }
 
   after_create :reset_latest_number, if: :saved_change_to_number?
 
   delegate :to_s, to: :number
 
   def self.current
-    today = Date.today
+    today = Date.current
     where('started_on <= ? AND (ended_on > ? OR ended_on IS NULL)', today, today).first
   end
 
@@ -56,11 +56,11 @@ class Season < ApplicationRecord
 
   def ended?
     return false if ended_on.nil?
-    ended_on <= Date.today
+    ended_on <= Date.current
   end
 
   def started?
-    started_on && started_on <= Date.today
+    started_on && started_on <= Date.current
   end
 
   def to_param
