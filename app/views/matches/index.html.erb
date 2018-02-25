@@ -6,8 +6,14 @@
       <div>
         <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
       </div>
-      <%= render partial: 'matches/season_share_menu',
-                 locals: { oauth_account: @oauth_account, season: @season } %>
+      <% if @matches.any? %>
+        <div>
+          <%= render partial: 'matches/filter_menu',
+                     locals: { oauth_account: @oauth_account, season: @season } %>
+          <%= render partial: 'matches/season_share_menu',
+                     locals: { oauth_account: @oauth_account, season: @season } %>
+        </div>
+      <% end %>
     </div>
   <% end %>
 
