@@ -2,10 +2,16 @@ import {on} from 'delegated-events'
 
 on('click', '.js-match-filter', function(event) {
   const button = event.currentTarget
+  const classToShow = button.getAttribute('data-filter')
   const menuContainer = button.closest('.js-menu-container')
   menuContainer.classList.toggle('active')
 
-  const classToShow = button.getAttribute('data-filter')
+  const filterButtons = menuContainer.querySelectorAll('.js-match-filter')
+  for (const filterButton of filterButtons) {
+    const isSelected = filterButton.getAttribute('data-filter') === classToShow
+    filterButton.classList.toggle('selected', isSelected)
+  }
+
   const matchContainer = document.querySelector('.js-filterable-matches')
   const matches = matchContainer.querySelectorAll('.js-filterable-match')
   const countEl = document.querySelector('.js-filtered-match-count')

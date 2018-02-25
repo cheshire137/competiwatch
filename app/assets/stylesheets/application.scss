@@ -83,6 +83,26 @@ dt {
   width: 1014px;
 }
 
+.dropdown-selectable {
+  .dropdown-item {
+    padding-left: 28px;
+
+    .dropdown-selected-indicator {
+      display: none;
+    }
+
+    &.selected {
+      color: $blue;
+      padding-left: 10px;
+
+      .dropdown-selected-indicator {
+        display: inline-block;
+        margin-right: 3px;
+      }
+    }
+  }
+}
+
 @supports(position:sticky) {
   .sticky-nav {
     position: -webkit-sticky;

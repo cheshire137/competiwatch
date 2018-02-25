@@ -1,4 +1,4 @@
-<div class="dropdown js-menu-container d-inline-block mr-4">
+<div class="dropdown dropdown-selectable js-menu-container d-inline-block mr-4">
   <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
     <span class="ion ion-android-checkbox-outline d-inline-block"></span>
     <span class="text-small">Filters</span>
@@ -7,35 +7,65 @@
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
       <li>
-        <button data-filter="js-filterable-match" type="button" class="btn-link dropdown-item js-match-filter">All</button>
+        <button data-filter="js-filterable-match" type="button" class="selected btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          All
+        </button>
       </li>
       <li class="dropdown-divider" role="separator"></li>
       <li>
-        <button data-filter="js-result-win" type="button" class="btn-link dropdown-item js-match-filter">Wins</button>
+        <button data-filter="js-result-win" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          Wins
+        </button>
       </li>
       <li>
-        <button data-filter="js-result-loss" type="button" class="btn-link dropdown-item js-match-filter">Losses</button>
+        <button data-filter="js-result-loss" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          Losses
+        </button>
       </li>
       <li>
-        <button data-filter="js-result-draw" type="button" class="btn-link dropdown-item js-match-filter">Draws</button>
+        <button data-filter="js-result-draw" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          Draws
+        </button>
       </li>
       <li class="dropdown-divider" role="separator"></li>
       <li>
-        <button data-filter="js-group-size-1" type="button" class="btn-link dropdown-item js-match-filter">Solo queue</button>
+        <button data-filter="js-group-size-1" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          Solo queue
+        </button>
       </li>
       <li>
-        <button data-filter="js-group-size-2" type="button" class="btn-link dropdown-item js-match-filter">Duo queue</button>
+        <button data-filter="js-group-size-2" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          Duo queue
+        </button>
       </li>
       <li>
-        <button data-filter="js-group-size-3" type="button" class="btn-link dropdown-item js-match-filter">3-stack</button>
+        <button data-filter="js-group-size-3" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          3-stack
+        </button>
       </li>
       <li>
-        <button data-filter="js-group-size-4" type="button" class="btn-link dropdown-item js-match-filter">4-stack</button>
+        <button data-filter="js-group-size-4" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          4-stack
+        </button>
       </li>
       <li>
-        <button data-filter="js-group-size-5" type="button" class="btn-link dropdown-item js-match-filter">5-stack</button>
+        <button data-filter="js-group-size-5" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          5-stack
+        </button>
       <li>
-        <button data-filter="js-group-size-6" type="button" class="btn-link dropdown-item js-match-filter">6-stack</button>
+        <button data-filter="js-group-size-6" type="button" class="btn-link dropdown-item js-match-filter">
+          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+          6-stack
+        </button>
       </li>
       </li>
     </ul>
