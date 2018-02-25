@@ -65,12 +65,25 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   test 'index page loads successfully for other user when season is shared' do
     oauth_account = create(:oauth_account)
     other_account = create(:oauth_account)
+    create(:match, oauth_account: oauth_account, season: @season.number)
     create(:season_share, season: @season.number, oauth_account: oauth_account)
 
     sign_in_as(other_account)
     get "/season/#{@season}/#{oauth_account.to_param}"
 
     assert_response :ok
+    assert_select '.js-match-filter'
+  end
+
+  test 'index page loads successfully for anonymous user when season is shared' do
+    oauth_account = create(:oauth_account)
+    create(:match, oauth_account: oauth_account, season: @season.number)
+    create(:season_share, season: @season.number, oauth_account: oauth_account)
+
+    get "/season/#{@season}/#{oauth_account.to_param}"
+
+    assert_response :ok
+    assert_select '.js-match-filter'
   end
 
   test "won't let you log a match for another user's account" do

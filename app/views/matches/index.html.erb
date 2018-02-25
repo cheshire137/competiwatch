@@ -1,25 +1,31 @@
 <% content_for(:title, "#{@oauth_account} / Season #{@season} / Matches") %>
 
-<% if @can_edit %>
-  <% content_for(:breadcrumb) do %>
-    <div class="d-flex flex-items-center flex-justify-between">
-      <div>
+<% content_for(:breadcrumb) do %>
+  <div class="d-flex flex-items-center flex-justify-between">
+    <div>
+      <% if @can_edit %>
         <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
-        <% if @matches.any? %>
-          / <span class="js-filtered-match-count"><%= @matches.size %></span> shown
-        <% end %>
-      </div>
+      <% else %>
+        <%= @oauth_account %> / Season <%= @season %>
+      <% end %>
       <% if @matches.any? %>
-        <div>
-          <%= render partial: 'matches/filter_menu',
-                     locals: { oauth_account: @oauth_account, season: @season } %>
-          <%= render partial: 'matches/season_share_menu',
-                     locals: { oauth_account: @oauth_account, season: @season } %>
-        </div>
+        / <span class="js-filtered-match-count text-bold"><%= @matches.size %></span> shown
       <% end %>
     </div>
-  <% end %>
+    <% if @matches.any? %>
+      <div>
+        <%= render partial: 'matches/filter_menu',
+                   locals: { oauth_account: @oauth_account, season: @season } %>
+        <% if @can_edit %>
+          <%= render partial: 'matches/season_share_menu',
+                     locals: { oauth_account: @oauth_account, season: @season } %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
 
+<% if @can_edit %>
   <% content_for(:match_tabs) do %>
     <a href="#match-history" class="UnderlineNav-item selected js-tab">
       Matches
