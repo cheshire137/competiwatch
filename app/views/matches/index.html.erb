@@ -5,7 +5,9 @@
     <div class="d-flex flex-items-center flex-justify-between">
       <div>
         <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
-        / <span class="js-filtered-match-count"><%= @matches.size %></span> shown
+        <% if @matches.any? %>
+          / <span class="js-filtered-match-count"><%= @matches.size %></span> shown
+        <% end %>
       </div>
       <% if @matches.any? %>
         <div>

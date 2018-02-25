@@ -8,7 +8,10 @@
 
   <p class="p-3 mb-4 rounded-2 flash-error">
     You are logging a match for a competitive season that hasn't started yet.
-    Do you want to <a href="<%= matches_path(active_season_number, match.oauth_account) %>#log-match">log a match in season <%= active_season_number %></a>?
+
+    <% unless season.number == active_season_number %>
+      Do you want to <a href="<%= matches_path(active_season_number, match.oauth_account) %>#log-match">log a match in season <%= active_season_number %></a>?
+    <% end %>
   </p>
 <% end %>
 

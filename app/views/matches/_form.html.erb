@@ -13,7 +13,10 @@
     <% else %>
       competitive season that hasn't started yet.
     <% end %>
-    Do you want to <a href="<%= matches_path(active_season_number, match.oauth_account) %>#log-match">log a match in season <%= active_season_number %></a>?
+
+    <% unless season.number == active_season_number %>
+      Do you want to <a href="<%= matches_path(active_season_number, match.oauth_account) %>#log-match">log a match in season <%= active_season_number %></a>?
+    <% end %>
   </p>
 <% end %>
 
