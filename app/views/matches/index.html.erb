@@ -48,7 +48,7 @@
                        longest_loss_streak: @longest_loss_streak,
                        season: @season, oauth_account: @oauth_account } %>
 
-  <% if @can_edit && !@season.future? %>
+  <% if @can_edit && !@season.future? && @matches.any? %>
     <p class="mt-4 text-small">
       You can also
       <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
