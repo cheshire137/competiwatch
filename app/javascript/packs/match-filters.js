@@ -8,7 +8,16 @@ on('click', '.js-match-filter', function(event) {
   const classToShow = button.getAttribute('data-filter')
   const matchContainer = document.querySelector('.js-filterable-matches')
   const matches = matchContainer.querySelectorAll('.js-filterable-match')
+  const countEl = document.querySelector('.js-filtered-match-count')
+
+  let visibleCount = 0
   for (const match of matches) {
-    match.classList.toggle('d-none', !match.classList.contains(classToShow))
+    const showMatch = match.classList.contains(classToShow)
+    match.classList.toggle('d-none', !showMatch)
+    if (showMatch) {
+      visibleCount++
+    }
   }
+
+  countEl.textContent = visibleCount
 })

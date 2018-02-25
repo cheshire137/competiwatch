@@ -22,7 +22,7 @@
     </thead>
     <tbody class="js-filterable-matches">
       <% matches.each_with_index do |match, i| %>
-        <tr id="match-row-<%= match.id %>" class="js-filterable-match js-result-<%= match.result %> <%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
+        <tr id="match-row-<%= match.id %>" class="js-filterable-match js-group-size-<%= match.group_size %> js-result-<%= match.result %> <%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %>">
           <td class="match-cell hide-sm match-number-cell">
             <%= match_number(i, match, matches) %>
           </td>
