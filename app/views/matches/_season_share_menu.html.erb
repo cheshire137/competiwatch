@@ -2,10 +2,10 @@
   <% season_is_public = oauth_account.season_is_public?(season) %>
   <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
     <% if season_is_public %>
-      <span class="ion ion-eye mr-1 d-inline-block"></span>
+      <span class="ion ion-eye d-inline-block"></span>
       <span class="text-small">Visible to others</span>
     <% else %>
-      <span class="ion ion-locked mr-1 d-inline-block"></span>
+      <span class="ion ion-locked d-inline-block"></span>
       <span class="text-small">Only visible to you</span>
     <% end %>
     <div class="dropdown-caret"></div>
