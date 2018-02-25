@@ -1,73 +1,142 @@
-<div class="dropdown dropdown-selectable js-menu-container d-inline-block mr-4">
+<div class="dropdown dropdown-wide dropdown-selectable js-menu-container d-inline-block mr-4">
   <button class="btn-link no-underline text-gray p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
     <span class="ion ion-android-checkbox-outline d-inline-block"></span>
     <span class="text-small">Filters</span>
     <div class="dropdown-caret"></div>
   </button>
   <div class="dropdown-menu-content js-menu-content">
-    <ul class="dropdown-menu dropdown-menu-se">
-      <li>
-        <button data-filter="js-filterable-match" type="button" class="selected btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          All
-        </button>
-      </li>
-      <li class="dropdown-divider" role="separator"></li>
-      <li>
-        <button data-filter="js-result-win" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          Wins
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-result-loss" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          Losses
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-result-draw" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          Draws
-        </button>
-      </li>
-      <li class="dropdown-divider" role="separator"></li>
-      <li>
-        <button data-filter="js-group-size-1" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          Solo queue
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-group-size-2" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          Duo queue
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-group-size-3" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          3-stack
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-group-size-4" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          4-stack
-        </button>
-      </li>
-      <li>
-        <button data-filter="js-group-size-5" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          5-stack
-        </button>
-      <li>
-        <button data-filter="js-group-size-6" type="button" class="btn-link dropdown-item js-match-filter">
-          <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
-          6-stack
-        </button>
-      </li>
-      </li>
-    </ul>
+    <div class="dropdown-menu dropdown-menu-sw">
+      <div class="d-flex flex-justify-between">
+        <ul class="list-style-none dropdown-column">
+          <li>
+            <button data-filter="js-filterable-match" type="button" class="selected btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              All
+            </button>
+          </li>
+          <li class="dropdown-divider" role="separator"></li>
+          <li>
+            <div class="dropdown-header">Result</div>
+            <button data-filter="js-result-win" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Wins
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-result-loss" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Losses
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-result-draw" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Draws
+            </button>
+          </li>
+          <li class="dropdown-divider" role="separator"></li>
+          <li>
+            <div class="dropdown-header">Group size</div>
+            <button data-filter="js-group-size-1" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Solo queue
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-group-size-2" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Duo queue
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-group-size-3" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              3-stack
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-group-size-4" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              4-stack
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-group-size-5" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              5-stack
+            </button>
+          <li>
+            <button data-filter="js-group-size-6" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              6-stack
+            </button>
+          </li>
+        </ul>
+        <ul class="list-style-none dropdown-column">
+          <li>
+            <button data-filter="js-thrower-leaver-y" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Thrower/leaver
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-thrower-leaver-n" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              No thrower/leaver
+            </button>
+          </li>
+          <li class="dropdown-divider" role="separator"></li>
+          <li>
+            <div class="dropdown-header">Time</div>
+            <button data-filter="js-time-weekday-morning" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekday morning
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekday-afternoon" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekday afternoon
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekday-evening" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekday evening
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekday-night" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekday night
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekend-morning" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekend morning
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekend-afternoon" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekend afternoon
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekend-evening" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekend evening
+            </button>
+          </li>
+          <li>
+            <button data-filter="js-time-weekend-night" type="button" class="btn-link dropdown-item js-match-filter">
+              <span class="ion ion-checkmark-round dropdown-selected-indicator"></span>
+              Weekend night
+            </button>
+          </li>
+        </ul>
+      </div>
+    </div>
   </div>
 </div>
