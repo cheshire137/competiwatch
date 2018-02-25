@@ -3,13 +3,14 @@ import {on} from 'delegated-events'
 on('click', '.js-match-filter', function(event) {
   const button = event.currentTarget
   const classToShow = button.getAttribute('data-filter')
+  const classPrefix = button.getAttribute('data-filter-prefix')
   const menuContainer = button.closest('.js-menu-container')
   menuContainer.classList.toggle('active')
 
   let activeClasses = [classToShow]
   if (classToShow !== 'js-filterable-match') {
     const otherClasses = (menuContainer.getAttribute('data-active-filters') || '').
-      split(' ').filter(cls => cls.length > 0)
+      split(' ').filter(cls => cls.length > 0 && cls.indexOf(classPrefix) < 0)
     activeClasses = activeClasses.concat(otherClasses)
   }
   menuContainer.setAttribute('data-active-filters', activeClasses.join(' '))
