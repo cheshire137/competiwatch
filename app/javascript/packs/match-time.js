@@ -1,7 +1,11 @@
 import {on} from 'delegated-events'
 
-on('click', '.js-log-match-tab', function() {
+function selectTimeAndDay() {
   const timeSelect = document.getElementById('match_time_of_day')
+  if (!timeSelect) {
+    return
+  }
+
   const daySelect = document.getElementById('match_day_of_week')
   const date = new Date()
   const dayOfWeek = date.getDay()
@@ -23,4 +27,7 @@ on('click', '.js-log-match-tab', function() {
   } else {
     timeSelect.value = 'night'
   }
-})
+}
+
+on('click', '.js-log-match-tab', selectTimeAndDay)
+selectTimeAndDay()
