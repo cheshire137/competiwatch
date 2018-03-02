@@ -188,8 +188,12 @@ module MatchesHelper
 
   def match_rank_change(match, matches)
     return '--' if match.placement?
-    return '' unless match.prior_match
-    match.rank - match.prior_match.rank
+
+    prior_match = match.prior_match
+    return '' unless prior_match
+    return '--' if prior_match.placement?
+
+    match.rank - prior_match.rank
   end
 
   def match_rank_change_style(match, matches)
