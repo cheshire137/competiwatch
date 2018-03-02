@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class StatsControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   setup do
     @oauth_account = create(:oauth_account)
   end
