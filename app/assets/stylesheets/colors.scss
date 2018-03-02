@@ -37,6 +37,7 @@ $text-gray-light: #dbdfe4;
 // Heroes
 $ana: #408fff;
 $bastion: #bac1c9;
+$brigitte: #ac5b3b;
 $doomfist: rgb(224, 78, 52);
 $dva: #ffb3f3;
 $genji: #8cff9a;
@@ -91,6 +92,10 @@ $blizzard-world: #2aa6fb;
 
 .text-bastion {
   color: darken($bastion, 20%);
+}
+
+.text-brigitte {
+  color: $brigitte;
 }
 
 .text-doomfist {
@@ -259,6 +264,10 @@ $blizzard-world: #2aa6fb;
 
 .hero-bar-mercy {
   background-color: rgb(255, 225, 108);
+}
+
+.hero-bar-brigitte {
+  background-color: #8b4b31;
 }
 
 .hero-bar-moira {

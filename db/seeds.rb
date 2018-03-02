@@ -36,7 +36,7 @@ maps_by_type.each do |type, map_names|
 end
 
 heroes_by_role = {
-  healer: ['Mercy', 'Zenyatta', 'Ana', 'Lúcio', 'Moira'],
+  healer: ['Mercy', 'Zenyatta', 'Ana', 'Lúcio', 'Moira', 'Brigitte'],
   defense: ['Symmetra', 'Torbjörn', 'Mei', 'Hanzo', 'Bastion'],
   :'off-tank' => ['D.Va', 'Roadhog', 'Zarya'],
   tank: ['Winston', 'Reinhardt', 'Orisa'],
