@@ -109,13 +109,13 @@ class UserTest < ActiveSupport::TestCase
     refute OauthAccount.exists?(oauth_account2.id)
   end
 
-  test "friend_names returns all user's friends when season has no matches" do
+  test "friend_names returns empty list when season has no matches" do
     user = create(:user)
     friend1 = create(:friend, user: user, name: 'Tamara')
     friend2 = create(:friend, user: user, name: 'Marcus')
     friend3 = create(:friend, user: user, name: 'Phillipe')
 
-    assert_equal %w[Marcus Phillipe Tamara], user.friend_names(3)
+    assert_empty user.friend_names(3)
   end
 
   test 'friend_names returns unique, sorted list of names from friends in matches that season' do
