@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test 'can view your settings' do
     oauth_account = create(:oauth_account)
 

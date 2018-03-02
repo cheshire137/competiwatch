@@ -4,6 +4,8 @@
   <%= account_switcher(@oauth_account) %> / <%= season_switcher(:all) %>
 <% end %>
 
+<%= render partial: 'trends/tabs', locals: { oauth_account: @oauth_account } %>
+
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">
     <div class="mb-4">

@@ -3,6 +3,10 @@ module MatchesHelper
   LOSS_COLORS = [[250,170,124], [246,106,110]].freeze
   NEUTRAL_COLOR = [254,234,138].freeze
 
+  def roles_with_heroes(heroes_by_role, *roles)
+    roles.select { |role| heroes_by_role[role].present? }
+  end
+
   def show_season_warning_for?(match, season)
     return false if match.persisted?
     season.past? || season.future?

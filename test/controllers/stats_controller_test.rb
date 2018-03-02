@@ -56,13 +56,15 @@ class StatsControllerTest < ActionDispatch::IntegrationTest
     oauth_account2 = create(:oauth_account, user: @oauth_account.user)
     create(:match, oauth_account: @oauth_account, season: 1, result: :win)
     create(:match, oauth_account: oauth_account2, season: 2, result: :loss)
+    create(:match, oauth_account: @oauth_account, season: 3, result: :win, placement: true,
+           rank: nil)
     create(:match, oauth_account: @oauth_account, season: 3, result: :draw)
 
     sign_in_as(@oauth_account)
     get '/stats'
 
     assert_response :ok
-    assert_select 'div', text: /Matches logged:\s+3/
+    assert_select 'div', text: /Matches logged:\s+4/
     assert_select 'div', text: /Active in seasons:\s+1, 2, 3/
     assert_select 'div', text: /2\s+accounts with matches/
   end
