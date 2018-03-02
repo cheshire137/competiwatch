@@ -69,7 +69,7 @@ class StatsController < ApplicationController
   end
 
   def get_lowest_and_highest_rank(matches)
-    all_ranks = matches.select { |match| match.season > 1 }.map(&:rank).sort
+    all_ranks = matches.select { |match| match.season > 1 && match.rank }.map(&:rank).sort
     [all_ranks.min, all_ranks.max]
   end
 
