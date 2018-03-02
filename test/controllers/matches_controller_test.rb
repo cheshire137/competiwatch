@@ -59,7 +59,17 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/season/#{@past_season}/#{oauth_account.to_param}"
 
     assert_select '.blankslate',
-      text: /#{oauth_account} did not log any competitive matches in season #{@past_season}./
+      text: /#{oauth_account}\s+did not log\s+any competitive matches in season #{@past_season}./
+  end
+
+  test 'index page has current season message when no matches' do
+    oauth_account = create(:oauth_account)
+
+    sign_in_as(oauth_account)
+    get "/season/#{@season}/#{oauth_account.to_param}"
+
+    assert_select '.blankslate',
+      text: /#{oauth_account}\s+has not logged\s+any competitive matches in season #{@season}./
   end
 
   test 'index page loads successfully for other user when season is shared' do

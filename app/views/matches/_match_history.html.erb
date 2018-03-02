@@ -96,7 +96,15 @@
   </div>
 <% else %>
   <div class="blankslate mb-4">
-    <p><%= oauth_account %> did not log any competitive matches in season <%= season %>.</p>
+    <p>
+      <%= oauth_account %>
+      <% if @season.past? %>
+        did not log
+      <% else %>
+        has not logged
+      <% end %>
+      any competitive matches in season <%= season %>.
+    </p>
 
     <% if can_edit %>
       You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
