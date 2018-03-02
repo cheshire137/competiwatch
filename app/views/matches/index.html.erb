@@ -27,19 +27,19 @@
 
 <% if @can_edit %>
   <% content_for(:match_tabs) do %>
-    <a href="#match-history" class="UnderlineNav-item selected js-tab">
+    <a href="#match-history" class="UnderlineNav-item selected js-tab" role="tab">
       Matches
     </a>
     <% if @oauth_account.finished_placements?(@season) %>
-      <a href="#log-match" class="UnderlineNav-item js-log-match-tab js-tab">
+      <a href="#log-match" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
         Log a match
       </a>
     <% else %>
-      <a href="#log-placement-matches" class="UnderlineNav-item js-tab">
+      <a href="#log-placement-matches" class="UnderlineNav-item js-tab" role="tab">
         Log placement match
       </a>
       <% unless @oauth_account.any_placements?(@season) %>
-        <a href="#log-placement-rank" class="UnderlineNav-item js-tab">
+        <a href="#log-placement-rank" class="UnderlineNav-item js-tab" role="tab">
           Log placement SR
         </a>
       <% end %>
