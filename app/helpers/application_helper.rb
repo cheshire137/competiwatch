@@ -21,6 +21,9 @@ module ApplicationHelper
   end
 
   def is_trends_page?(season, battletag)
+    return true if is_page?('stats', 'index')
+    return true if is_page?('stats', 'all_seasons')
+    return true if is_page?('stats', 'all_accounts')
     is_page?('trends', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
