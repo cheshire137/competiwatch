@@ -19,6 +19,19 @@
       <% end %>
       any competitive matches in season <%= @season %>.
     <% end %>
+    <% if @is_owner %>
+      <div class="mt-2">
+        <a href="<%= all_seasons_stats_path(@oauth_account) %>">
+          View <span class="text-bold"><%= @oauth_account %></span>'s trends across all seasons
+        </a>
+        <% if oauth_accounts.size > 1 %>
+          /
+          <a href="<%= all_accounts_stats_path(@season) %>">
+            View trends for <span class="text-bold">season <%= @season %></span> across all accounts
+          </a>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 
