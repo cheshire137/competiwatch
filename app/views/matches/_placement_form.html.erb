@@ -32,18 +32,12 @@
       <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
       <%= render partial: 'matches/day_field', locals: { form: form, match: match } %>
     </div>
+    <%= render partial: 'matches/friends',
+               locals: { form: form, match: match, friends: friends, all_friends: all_friends } %>
+    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
   </div>
   <div class="col-md-12 col-lg-6 float-left">
     <%= render partial: 'matches/hero_options', locals: { heroes_by_role: heroes_by_role, match: match } %>
-  </div>
-</div>
-<div class="clearfix">
-  <div class="col-md-12 col-lg-6 float-left pr-4">
-    <%= render partial: 'matches/friends',
-               locals: { form: form, match: match, friends: friends, all_friends: all_friends } %>
-  </div>
-  <div class="col-md-12 col-lg-6 float-left">
-    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
 </div>
