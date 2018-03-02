@@ -1,7 +1,7 @@
 <dl class="form-group mt-0">
   <dt>Heroes played:</dt>
   <dd class="d-flex flex-wrap flex-justify-between">
-    <% ['DPS', 'hitscan', 'flanker'].each do |role| %>
+    <% roles_with_heroes(heroes_by_role, 'DPS', 'hitscan', 'flanker').each do |role| %>
       <div class="hero-box mb-4">
         <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role(role) %></h5>
         <%= render partial: 'matches/hero_checkboxes',
@@ -10,14 +10,18 @@
     <% end %>
     <div class="hero-box mb-4">
       <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role('tank') %></h5>
-      <%= render partial: 'matches/hero_checkboxes',
-                 locals: { heroes: heroes_by_role['tank'], match: match } %>
-      <div class="mt-1">
+      <% if heroes_by_role['tank'].present? %>
         <%= render partial: 'matches/hero_checkboxes',
-                   locals: { heroes: heroes_by_role['off-tank'], match: match } %>
-      </div>
+                   locals: { heroes: heroes_by_role['tank'], match: match } %>
+      <% end %>
+      <% if heroes_by_role['off-tank'].present? %>
+        <div class="mt-1">
+          <%= render partial: 'matches/hero_checkboxes',
+                     locals: { heroes: heroes_by_role['off-tank'], match: match } %>
+        </div>
+      <% end %>
     </div>
-    <% ['healer', 'defense'].each do |role| %>
+    <% roles_with_heroes(heroes_by_role, 'healer', 'defense').each do |role| %>
       <div class="hero-box mb-4">
         <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role(role) %></h5>
         <%= render partial: 'matches/hero_checkboxes',
