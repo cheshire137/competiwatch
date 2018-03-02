@@ -46,13 +46,8 @@ class User < ApplicationRecord
   end
 
   def friend_names(season)
-    season_matches = matches.in_season(season).includes(:friends)
-    if season_matches.empty?
-      all_friend_names
-    else
-      season_matches.flat_map(&:friends).uniq.
-        sort_by { |friend| friend.name.downcase }.map(&:name)
-    end
+    matches.in_season(season).includes(:friends).flat_map(&:friends).uniq.
+      sort_by { |friend| friend.name.downcase }.map(&:name)
   end
 
   def all_friend_names
