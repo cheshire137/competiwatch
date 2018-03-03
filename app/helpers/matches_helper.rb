@@ -191,34 +191,50 @@ module MatchesHelper
   end
 
   def match_rank_change(match, matches)
-    return '--' unless match.rank
-
-    prior_match = match.prior_match
-    return '' unless prior_match
-    return '--' unless prior_match.rank
-
-    match.rank - prior_match.rank
+    @rank_changes ||= {}
+    return @rank_changes[match] if @rank_changes.key?(match)
+    @rank_changes[match] = if match.rank
+      prior_match = match.prior_match
+      if prior_match
+        if prior_match.rank
+          match.rank - prior_match.rank
+        else
+          '--'
+        end
+      else
+        ''
+      end
+    else
+      '--'
+    end
   end
 
   def match_rank_change_style(match, matches)
-    return '' if match.placement_log? || match.placement? || match.result.blank?
+    return '' if match.placement_log? || match.placement? || match.result.blank? || match.rank.nil?
 
     color = if match.draw?
       NEUTRAL_COLOR
     else
-      all_ranks = matches.map(&:rank).compact.sort.uniq
-      color_range = if match.win?
-        WIN_COLORS
-      else
-        LOSS_COLORS
-      end
-      gradient = ColorGradient.new(colors: color_range, steps: all_ranks.length)
-      rgb_colors = gradient.rgb
-      index = all_ranks.index(match.rank)
-      rgb_colors[index]
+      win_loss_rank_change_color(match, matches)
     end
 
     "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
+  end
+
+  def win_loss_rank_change_color(match, matches)
+    this_rank_change = match_rank_change(match, matches)
+    rank_changes = matches.select { |other_match| match.result == other_match.result }.
+      map { |other_match| match_rank_change(other_match, matches) }.
+      select { |change| change.present? && change != '--' }.sort.uniq
+    color_range = if match.win?
+      WIN_COLORS
+    else
+      LOSS_COLORS.reverse
+    end
+    gradient = ColorGradient.new(colors: color_range, steps: rank_changes.length)
+    rgb_colors = gradient.rgb
+    index = rank_changes.index(this_rank_change)
+    rgb_colors[index]
   end
 
   def match_rank_class(match, placement_rank)

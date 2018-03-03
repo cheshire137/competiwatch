@@ -39,5 +39,7 @@ Rails.application.routes.draw do
   get '/stats/all-accounts/:season' => 'stats#all_accounts', as: :all_accounts_stats
   get '/stats' => 'stats#index', as: :stats
 
+  get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
+
   root to: 'login#index'
 end
