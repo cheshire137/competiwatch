@@ -321,7 +321,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select "form#delete-match[action='/matches/#{match.id}']"
-    assert_select "form#edit-match[action='/matches/#{match.id}']"
+    assert_select "form#edit-placement-log-match[action='/matches/#{match.id}']"
   end
 
   test 'edit page loads for your account and placement match' do
@@ -335,7 +335,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select "form#delete-match[action='/matches/#{match.id}']"
-    assert_select "form#edit-match[action='/matches/#{match.id}']"
+    assert_select "form#edit-placement-match[action='/matches/#{match.id}']"
   end
 
   test "edit page 404s for another user's account and match" do

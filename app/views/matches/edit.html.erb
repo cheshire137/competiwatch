@@ -15,7 +15,7 @@
 <% end %>
 
 <% if @match.placement_log? %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-placement-log-match' }) do |f| %>
     <%= render partial: 'matches/placement_rank_form',
                locals: { form: f, match: @match, season: @season } %>
     <%= render partial: 'matches/additional_fields',
@@ -25,7 +25,7 @@
     </button>
   <% end %>
 <% elsif @match.placement? %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-placement-match' }) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
