@@ -3,6 +3,7 @@
   show_group_column = matches.any? { |match| match.friends.any? }
   show_heroes_column = matches.any? { |match| match.heroes.any? }
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
+  show_comment_column = matches.any? { |match| match.comment.present? }
 %>
 
 <% if matches.any? %>
@@ -15,7 +16,9 @@
         <th class="match-header">Rank</th>
         <th class="match-header hide-sm no-wrap">Streak</th>
         <th class="match-header">Map</th>
-        <th class="match-header hide-sm">Comment</th>
+        <% if show_comment_column %>
+          <th class="match-header hide-sm">Comment</th>
+        <% end %>
         <% if show_day_time_column %>
           <th class="match-header hide-sm">Day/Time</th>
         <% end %>
@@ -57,13 +60,15 @@
             <% end %>
           </td>
           <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
-          <td class="match-cell hide-sm comment-cell">
-            <% if match.comment.present? %>
-              <span class="tooltipped tooltipped-multiline tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
-                <%= truncate match.comment, length: 25 %>
-              </span>
-            <% end %>
-          </td>
+          <% if show_comment_column %>
+            <td class="match-cell hide-sm comment-cell">
+              <% if match.comment.present? %>
+                <span class="tooltipped tooltipped-multiline tooltipped-e d-inline-block" aria-label="<%= match.comment.gsub(/"/, "'") %>">
+                  <%= truncate match.comment, length: 25 %>
+                </span>
+              <% end %>
+            </td>
+          <% end %>
           <% if show_day_time_column %>
             <td class="match-cell text-center hide-sm time-cell no-wrap">
               <div class="tooltipped tooltipped-n" aria-label="<%= match.day_of_week.to_s.humanize %> <%= match.time_of_day.to_s.humanize %>">
