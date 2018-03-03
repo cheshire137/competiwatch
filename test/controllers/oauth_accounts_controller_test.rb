@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class OauthAccountsControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test 'index loads for authenticated user' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
