@@ -3,6 +3,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def current_page
+    if params[:page].present? && params[:page] =~ /\d+/
+      params[:page].to_i
+    else
+      1
+    end
+  end
+
   def after_sign_in_path_for(resource)
     stored_location = stored_location_for(resource)
     return stored_location if stored_location

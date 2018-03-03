@@ -1,1 +1,50 @@
 <% content_for(:title, 'Admin') %>
+
+<h2 class="h2">
+  Users
+  <span class="text-normal text-gray h3">(<%= @users.total_entries %>)</span>
+</h2>
+<ul class="list-style-none">
+  <% @users.each_with_index do |user, i| %>
+    <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+      <h3 class="h4"><%= user %></h3>
+      <ol class="oauth-accounts-list">
+        <% (@oauth_accounts_by_user_id[user.id] || []).each do |oauth_account| %>
+          <%
+            account_matches = @matches_by_oauth_account_id[oauth_account.id] || []
+            match_count = account_matches.size
+            details_class = if match_count > 0
+              "account-#{oauth_account.id}"
+            end
+          %>
+          <li>
+            <button type="button" class="text-gray-dark btn-link <% if details_class %>js-toggle-details<% end %>" <% if details_class %>data-target=".<%= details_class %>"<% else %>disabled<% end %>>
+              <%= oauth_account %>
+              &mdash;
+              <%= number_with_delimiter match_count %>
+              <%= 'match'.pluralize(match_count) %>
+            </button>
+
+            <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
+              <% @seasons.each do |season| %>
+                <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
+                <div class="mb-1 account-season">
+                  <span class="text-bold">Season <%= season %></span> &mdash;
+                  <%= number_with_delimiter season_match_count %>
+                  <%= 'match'.pluralize(season_match_count) %>
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
+    </li>
+  <% end %>
+</ul>
+
+<% if @users.total_pages > 1 %>
+  <div class="mt-4">
+    <%= page_entries_info @users %>
+    <%= will_paginate @users, page_links: false %>
+  </div>
+<% end %>
