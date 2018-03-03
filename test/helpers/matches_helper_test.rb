@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class MatchesHelperTest < ActionView::TestCase
-  test 'returns darker green for bigger SR change' do
+  test 'returns darker green for bigger SR gain' do
     match1 = build(:match, rank: 3573, placement: true, result: :loss)
     match2 = build(:match, rank: 3547, prior_match: match1, result: :loss) # -26
     match3 = build(:match, rank: 3572, prior_match: match2, result: :win)  # +25
@@ -13,6 +13,19 @@ class MatchesHelperTest < ActionView::TestCase
 
     match4_style = match_rank_change_style(match4, matches)
     assert_equal 'background-color: rgb(140, 200, 128)', match4_style
+  end
+
+  test 'returns darker red for bigger SR loss' do
+    match1 = build(:match, rank: 4016, result: :loss)
+    match2 = build(:match, rank: 3993, result: :loss, prior_match: match1) # -23
+    match3 = build(:match, rank: 3966, result: :loss, prior_match: match2) # -27
+    matches = [match1, match2, match3]
+
+    match2_style = match_rank_change_style(match2, matches)
+    assert_equal 'background-color: rgb(250, 170, 124)', match2_style
+
+    match3_style = match_rank_change_style(match3, matches)
+    assert_equal 'background-color: rgb(246, 106, 110)', match3_style
   end
 
   test 'does not calculate rank change from penultimate to last placement match' do
