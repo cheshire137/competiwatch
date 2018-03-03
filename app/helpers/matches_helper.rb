@@ -228,7 +228,7 @@ module MatchesHelper
     color_range = if match.win?
       WIN_COLORS
     else
-      LOSS_COLORS
+      LOSS_COLORS.reverse
     end
     gradient = ColorGradient.new(colors: color_range, steps: rank_changes.length)
     rgb_colors = gradient.rgb
