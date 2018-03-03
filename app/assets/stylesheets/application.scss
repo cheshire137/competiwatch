@@ -123,11 +123,13 @@ dt {
 }
 
 @supports(position:sticky) {
-  .sticky-nav {
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
-    z-index: 99;
+  @media (min-width: 768px) {
+    .sticky-nav {
+      position: -webkit-sticky;
+      position: sticky;
+      top: 0;
+      z-index: 99;
+    }
   }
 }
 
@@ -160,6 +162,24 @@ dt {
 
   .mb-4-sm {
     margin-bottom: 24px !important;
+  }
+
+  .UnderlineNav {
+    display: block;
+  }
+
+  .UnderlineNav-body {
+    display: inline-block;
+    margin-bottom: 0;
+
+    form {
+      display: inline-block;
+    }
+  }
+
+  .UnderlineNav-item {
+    padding: 3px 6px;
+    display: inline-block;
   }
 }
 
