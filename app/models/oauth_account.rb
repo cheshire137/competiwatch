@@ -19,6 +19,11 @@ class OauthAccount < ApplicationRecord
     Rails.cache.delete(career_high_cache_key)
   end
 
+  def season_high(season)
+    highest_sr_match = matches.in_season(season).with_rank.order('rank DESC').first
+    highest_sr_match.try(:rank)
+  end
+
   def career_high
     cache_key = career_high_cache_key
     existing_career_high = Rails.cache.fetch(cache_key)

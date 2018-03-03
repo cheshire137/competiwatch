@@ -18,6 +18,7 @@ class TrendsController < ApplicationController
     streaks_chart
     thrower_leaver_chart
     career_high_heroes_chart
+    season_high_heroes_chart
     @matches = account_matches_in_season.includes(:prior_match, :heroes, :map, :friends).
       ordered_by_time
   end
@@ -196,6 +197,46 @@ class TrendsController < ApplicationController
     @group_member_win_counts = @group_members.map { |group_member| wins_by_group_member[group_member] || 0 }
     @group_member_loss_counts = @group_members.map { |group_member| losses_by_group_member[group_member] || 0 }
     @group_member_draw_counts = @group_members.map { |group_member| draws_by_group_member[group_member] || 0 }
+  end
+
+  def season_high_heroes_chart
+    @season_high = @oauth_account.season_high(@season)
+    return unless @season_high
+
+    cutoff = @season_high - CAREER_HIGH_CUTOFF
+    matches = account_matches_in_season.with_rank.with_result.where('rank >= ?', cutoff).
+      includes(:heroes)
+
+    wins_by_hero_id = Hash.new(0)
+    losses_by_hero_id = Hash.new(0)
+    draws_by_hero_id = Hash.new(0)
+    hero_names_by_id = {}
+
+    matches.each do |match|
+      match.heroes.each do |hero|
+        hero_names_by_id[hero.id] = hero.name
+
+        if match.win?
+          wins_by_hero_id[hero.id] ||= 0
+          wins_by_hero_id[hero.id] += 1
+        elsif match.loss?
+          losses_by_hero_id[hero.id] ||= 0
+          losses_by_hero_id[hero.id] += 1
+        elsif match.draw?
+          draws_by_hero_id[hero.id] ||= 0
+          draws_by_hero_id[hero.id] += 1
+        end
+      end
+    end
+
+    hero_names_by_id = hero_names_by_id.
+      sort_by { |id, name| Hero.flatten_name(name) }.to_h
+
+    hero_ids = hero_names_by_id.keys
+    @season_high_heroes_win_counts = hero_ids.map { |hero_id| wins_by_hero_id[hero_id] || 0 }
+    @season_high_heroes_loss_counts = hero_ids.map { |hero_id| losses_by_hero_id[hero_id] || 0 }
+    @season_high_heroes_draw_counts = hero_ids.map { |hero_id| draws_by_hero_id[hero_id] || 0 }
+    @season_high_heroes = hero_names_by_id.values
   end
 
   def career_high_heroes_chart
