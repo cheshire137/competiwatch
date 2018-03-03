@@ -9,7 +9,9 @@
         <%= @oauth_account %> / Season <%= @season %>
       <% end %>
       <% if @matches.any? %>
-        / <span class="js-filtered-match-count text-bold"><%= @matches.size %></span> shown
+        <span class="hide-sm">
+          / <span class="js-filtered-match-count text-bold"><%= @matches.size %></span> shown
+        </span>
       <% end %>
     </div>
     <% if @matches.any? %>
