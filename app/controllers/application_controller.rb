@@ -52,4 +52,10 @@ class ApplicationController < ActionController::Base
     return if @oauth_account.season_is_public?(@season)
     render file: Rails.root.join('public', '404.html'), status: :not_found
   end
+
+  def require_admin
+    unless signed_in? && current_user.admin?
+      render file: Rails.root.join('public', '404.html'), status: :not_found
+    end
+  end
 end
