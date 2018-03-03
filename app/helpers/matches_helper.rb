@@ -191,11 +191,11 @@ module MatchesHelper
   end
 
   def match_rank_change(match, matches)
-    return '--' if match.placement?
+    return '--' unless match.rank
 
     prior_match = match.prior_match
     return '' unless prior_match
-    return '--' if prior_match.placement?
+    return '--' unless prior_match.rank
 
     match.rank - prior_match.rank
   end
