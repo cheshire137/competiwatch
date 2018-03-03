@@ -12,7 +12,7 @@ class MatchesHelperTest < ActionView::TestCase
     assert_equal 'background-color: rgb(102, 189, 125)', match3_style
 
     match4_style = match_rank_change_style(match4, matches)
-    assert_equal 'background-color: rgb(140, 200, 128)', match4_style
+    assert_equal 'background-color: rgb(178, 212, 132)', match4_style
   end
 
   test 'returns darker red for bigger SR loss' do

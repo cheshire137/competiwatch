@@ -223,7 +223,8 @@ module MatchesHelper
 
   def win_loss_rank_change_color(match, matches)
     this_rank_change = match_rank_change(match, matches)
-    rank_changes = matches.map { |other_match| match_rank_change(other_match, matches) }.
+    rank_changes = matches.select { |other_match| match.result == other_match.result }.
+      map { |other_match| match_rank_change(other_match, matches) }.
       select { |change| change.present? && change != '--' }.sort.uniq
     color_range = if match.win?
       WIN_COLORS
