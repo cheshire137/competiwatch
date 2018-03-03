@@ -4,6 +4,7 @@
   show_heroes_column = matches.any? { |match| match.heroes.any? }
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
   show_comment_column = matches.any? { |match| match.comment.present? }
+  show_thrower_leaver_column = matches.any? { |match| match.thrower? || match.leaver? }
 %>
 
 <% if matches.any? %>
@@ -28,7 +29,9 @@
         <% if show_group_column %>
           <th class="match-header hide-sm">Group</th>
         <% end %>
-        <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
+        <% if show_thrower_leaver_column %>
+          <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
+        <% end %>
         <% if can_edit %>
           <th class="match-header"><span class="ion-gear-b ion"></span></th>
         <% end %>
@@ -91,14 +94,16 @@
               <%= match.friend_names.join(', ') %>
             </td>
           <% end %>
-          <td class="match-cell hide-sm throwers-leavers-cell">
-            <% if match.thrower? %>
-              <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
-            <% end %>
-            <% if match.leaver? %>
-              <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
-            <% end %>
-          </td>
+          <% if show_thrower_leaver_column %>
+            <td class="match-cell hide-sm throwers-leavers-cell">
+              <% if match.thrower? %>
+                <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
+              <% end %>
+              <% if match.leaver? %>
+                <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
+              <% end %>
+            </td>
+          <% end %>
           <% if can_edit %>
             <td class="match-cell options-cell">
               <a href="<%= match_path(season, oauth_account, match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
