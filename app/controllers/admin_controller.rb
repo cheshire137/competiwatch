@@ -9,6 +9,7 @@ class AdminController < ApplicationController
     @matches_by_oauth_account_id = Match.select([:season, :oauth_account_id]).
       group_by(&:oauth_account_id)
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
+    @userless_accounts = OauthAccount.without_user.order_by_battletag
   end
 
   def link_accounts

@@ -20,11 +20,14 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test 'loads successfully for admin' do
     user = create(:user, admin: true)
     oauth_account = create(:oauth_account, user: user)
+    userless_oauth_account = create(:oauth_account, user: nil)
 
     sign_in_as(oauth_account)
     get '/admin'
 
     assert_response :ok
+    assert_select 'button', text: /#{oauth_account.battletag}/
+    assert_select 'li', text: userless_oauth_account.battletag
   end
 
   test 'non-admin cannot link accounts' do

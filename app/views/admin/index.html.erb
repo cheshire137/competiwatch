@@ -49,6 +49,17 @@
   </div>
 <% end %>
 
+<% if @userless_accounts.any? %>
+  <hr>
+
+  <h2 class="h2">Accounts without users</h2>
+  <ul class="list-style-none">
+    <% @userless_accounts.each do |oauth_account| %>
+      <li><%= oauth_account %></li>
+    <% end %>
+  </ul>
+<% end %>
+
 <hr class="py-4">
 
 <div class="border border-red p-3 mt-4 col-md-6 rounded-2">
