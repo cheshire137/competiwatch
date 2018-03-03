@@ -6,10 +6,16 @@
 </h2>
 <ul class="list-style-none mb-4">
   <% @users.each_with_index do |user, i| %>
+    <% accounts_for_user = @oauth_accounts_by_user_id[user.id] || [] %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4"><%= user %></h3>
       <ol class="oauth-accounts-list">
-        <% (@oauth_accounts_by_user_id[user.id] || []).each do |oauth_account| %>
+        <% if accounts_for_user.empty? %>
+          <li>
+            <em>No accounts</em>
+          </li>
+        <% end %>
+        <% accounts_for_user.each do |oauth_account| %>
           <%
             account_matches = @matches_by_oauth_account_id[oauth_account.id] || []
             match_count = account_matches.size
@@ -64,46 +70,50 @@
 
 <div class="mt-4 clearfix">
   <% if @users.size > 1 %>
-    <div class="border border-red p-3 col-md-6 rounded-2">
-      <h2 class="h2">Merge users</h2>
-      <%= form_tag admin_merge_users_path do %>
-        <div class="form-group">
-          <label for="primary_user_id">Primary user:</label>
-          <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
-          <p class="note">
-            This user will be kept.
-          </p>
-        </div>
-        <div class="form-group">
-          <label for="secondary_user_id">Secondary user:</label>
-          <%= select_tag :secondary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
-          <p class="note">
-            This user will be deleted.
-          </p>
-        </div>
-        <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to combine these users?">
-          Combine users
-        </button>
-      <% end %>
+    <div class="col-md-6 mb-4">
+      <div class="border border-red p-3 rounded-2">
+        <h2 class="h2">Merge users</h2>
+        <%= form_tag admin_merge_users_path do %>
+          <div class="form-group">
+            <label for="primary_user_id">Primary user:</label>
+            <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+            <p class="note">
+              This user will be kept.
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="secondary_user_id">Secondary user:</label>
+            <%= select_tag :secondary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+            <p class="note">
+              This user will be deleted.
+            </p>
+          </div>
+          <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to combine these users?">
+            Combine users
+          </button>
+        <% end %>
+      </div>
     </div>
   <% end %>
 
   <% if @userless_accounts.any? %>
-    <div class="border border-red p-3 col-md-6 rounded-2">
-      <h2 class="h2">Tie account to a user</h2>
-      <%= form_tag admin_update_account_path do %>
-        <div class="form-group">
-          <label for="user_id">User:</label>
-          <%= select_tag :user_id, options_for_select(@user_options), class: 'form-select', required: true %>
-        </div>
-        <div class="form-group">
-          <label for="oauth_account_id">Account:</label>
-          <%= select_tag :oauth_account_id, options_for_select(@userless_account_options), class: 'form-select', required: true %>
-        </div>
-        <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to connect the account to the user?">
-          Connect account to user
-        </button>
-      <% end %>
+    <div class="col-md-6 mb-4">
+      <div class="border border-red p-3 rounded-2">
+        <h2 class="h2">Tie account to a user</h2>
+        <%= form_tag admin_update_account_path do %>
+          <div class="form-group">
+            <label for="user_id">User:</label>
+            <%= select_tag :user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+          </div>
+          <div class="form-group">
+            <label for="oauth_account_id">Account:</label>
+            <%= select_tag :oauth_account_id, options_for_select(@userless_account_options), class: 'form-select', required: true %>
+          </div>
+          <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to connect the account to the user?">
+            Connect account to user
+          </button>
+        <% end %>
+      </div>
     </div>
   <% end %>
 </div>
