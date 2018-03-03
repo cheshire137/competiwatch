@@ -30,7 +30,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_select 'li', text: userless_oauth_account.battletag
   end
 
-  test 'non-admin cannot link accounts' do
+  test 'non-admin cannot merge users' do
     primary_user = create(:user)
     secondary_user = create(:user)
     user = create(:user)
@@ -47,7 +47,34 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test 'admin gets warning if user ID is not specified when merging users' do
+  test 'non-admin cannot edit accounts' do
+    oauth_account = create(:oauth_account)
+    user = create(:user)
+    value_before = oauth_account.user
+
+    sign_in_as(oauth_account)
+    post '/admin/update-account', params: {
+      user_id: user.id, oauth_account_id: oauth_account.id
+    }
+
+    assert_response :not_found
+    assert_equal value_before, oauth_account.reload.user
+  end
+
+  test 'admin gets warning if user ID is not specified when editing an account' do
+    admin_user = create(:user, admin: true)
+    admin_account = create(:oauth_account, user: admin_user)
+
+    sign_in_as(admin_account)
+    post '/admin/update-account', params: { oauth_account_id: admin_account.id }
+
+    assert_nil flash[:notice]
+    assert_equal 'Please specify a user and an account.', flash[:error]
+    assert_equal admin_user, admin_account.reload.user
+    assert_redirected_to admin_path
+  end
+
+  test 'admin gets warning if a user ID is not specified when merging users' do
     admin_user = create(:user, admin: true)
     admin_account = create(:oauth_account, user: admin_user)
 
@@ -83,5 +110,21 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     refute User.exists?(secondary_user.id)
     assert User.exists?(primary_user.id)
     assert_equal primary_user, secondary_account.reload.user
+  end
+
+  test 'admin can change which user an account is tied to' do
+    oauth_account = create(:oauth_account)
+    user = create(:user)
+    admin_user = create(:user, admin: true)
+    admin_account = create(:oauth_account, user: admin_user)
+
+    sign_in_as(admin_account)
+    post '/admin/update-account', params: {
+      user_id: user.id, oauth_account_id: oauth_account.id
+    }
+
+    assert_equal "Successfully tied account #{oauth_account} to user #{user}.", flash[:notice]
+    assert_redirected_to admin_path
+    assert_equal user, oauth_account.reload.user
   end
 end

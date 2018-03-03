@@ -12,6 +12,26 @@ class AdminController < ApplicationController
     @userless_accounts = OauthAccount.without_user.order_by_battletag
   end
 
+  def update_account
+    unless params[:user_id] && params[:oauth_account_id]
+      flash[:error] = 'Please specify a user and an account.'
+      return redirect_to(admin_path)
+    end
+
+    user = User.find(params[:user_id])
+    oauth_account = OauthAccount.find(params[:oauth_account_id])
+    oauth_account.user = user
+
+    if oauth_account.save
+      flash[:notice] = "Successfully tied account #{oauth_account} to user #{user}."
+    else
+      flash[:error] = "Could not tie account #{oauth_account} to user #{user}: " +
+                      oauth_account.errors.full_messages.join(', ')
+    end
+
+    redirect_to admin_path
+  end
+
   def merge_users
     unless params[:primary_user_id] && params[:secondary_user_id]
       flash[:error] = 'Please choose a primary and a secondary user.'
