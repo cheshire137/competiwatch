@@ -6,9 +6,19 @@
 </h2>
 <ul class="list-style-none mb-4">
   <% @users.each_with_index do |user, i| %>
-    <% accounts_for_user = @oauth_accounts_by_user_id[user.id] || [] %>
+    <%
+      accounts_for_user = @oauth_accounts_by_user_id[user.id] || []
+      friend_count = (@friends_by_user_id[user.id] || []).size
+    %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-      <h3 class="h4"><%= user %></h3>
+      <h3 class="h4">
+        <%= user %>
+        <span class="text-gray h5 text-normal">
+          &mdash;
+          <%= number_with_delimiter friend_count %>
+          <%= 'friend'.pluralize(friend_count) %>
+        </span>
+      </h3>
       <ol class="oauth-accounts-list">
         <% if accounts_for_user.empty? %>
           <li>
