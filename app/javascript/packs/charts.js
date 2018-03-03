@@ -121,7 +121,7 @@ const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-char
   const options = {
     scales: {
       xAxes: [{ ticks: { autoSkip: false } }],
-      yAxes: [{ ticks: { callback: wholeTicks } }]
+      yAxes: [{ ticks: { callback: wholeTicks, beginAtZero: true } }]
     },
     responsive: true, maintainAspectRatio: false
   }
