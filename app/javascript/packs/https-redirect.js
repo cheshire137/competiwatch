@@ -5,5 +5,5 @@ if (preferredHost === window.location.host && window.location.protocol !== 'http
 
 const otherHost = 'competiwatch.herokuapp.com'
 if (otherHost === window.location.host) {
-  window.location.href = `https://${preferredHost}`
+  window.location.href = `https://${preferredHost}${window.location.pathname}`
 }
