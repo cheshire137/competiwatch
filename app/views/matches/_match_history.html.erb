@@ -1,6 +1,7 @@
 <%
   can_edit = signed_in? && oauth_account.user == current_user
   show_group_column = matches.any? { |match| match.friends.any? }
+  show_heroes_column = matches.any? { |match| match.heroes.any? }
 %>
 
 <% if matches.any? %>
@@ -15,7 +16,9 @@
         <th class="match-header">Map</th>
         <th class="match-header hide-sm">Comment</th>
         <th class="match-header hide-sm">Day/Time</th>
-        <th class="match-header hide-sm">Heroes</th>
+        <% if show_heroes_column %>
+          <th class="match-header hide-sm">Heroes</th>
+        <% end %>
         <% if show_group_column %>
           <th class="match-header hide-sm">Group</th>
         <% end %>
@@ -64,13 +67,15 @@
               <%= time_of_day_emoji(match.time_of_day) %>
             </div>
           </td>
-          <td class="match-cell hide-sm heroes-cell">
-            <% match.heroes.sort_by(&:name).each do |hero| %>
-              <span class="tooltipped tooltipped-n d-inline-block hero-portrait-container" aria-label="<%= hero.name %>">
-                <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
-              </span>
-            <% end %>
-          </td>
+          <% if show_heroes_column %>
+            <td class="match-cell hide-sm heroes-cell">
+              <% match.heroes.sort_by(&:name).each do |hero| %>
+                <span class="tooltipped tooltipped-n d-inline-block hero-portrait-container" aria-label="<%= hero.name %>">
+                  <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'rounded-1 hero-portrait d-inline-block', width: 20, height: 20) %>
+                </span>
+              <% end %>
+            </td>
+          <% end %>
           <% if show_group_column %>
             <td class="match-cell hide-sm friends-cell">
               <%= match.friend_names.join(', ') %>
