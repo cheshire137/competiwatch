@@ -53,13 +53,11 @@
               </span>
             <% end %>
           </td>
-          <td class="match-cell hide-sm time-cell no-wrap">
-            <div>
+          <td class="match-cell text-center hide-sm time-cell no-wrap">
+            <div class="tooltipped tooltipped-n" aria-label="<%= match.day_of_week.to_s.humanize %> <%= match.time_of_day.to_s.humanize %>">
               <%= day_of_week_emoji(match.day_of_week) %>
-              <%= match.day_of_week.to_s.humanize %>
+              <%= time_of_day_emoji(match.time_of_day) %>
             </div>
-            <%= time_of_day_emoji(match.time_of_day) %>
-            <%= match.time_of_day.to_s.humanize %>
           </td>
           <td class="match-cell hide-sm heroes-cell">
             <% match.heroes.sort_by(&:name).each do |hero| %>
