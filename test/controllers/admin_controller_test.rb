@@ -44,7 +44,21 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test 'admin can link accounts' do
+  test 'admin gets warning if user ID is not specified when merging users' do
+    admin_user = create(:user, admin: true)
+    admin_account = create(:oauth_account, user: admin_user)
+
+    assert_no_difference 'User.count' do
+      sign_in_as(admin_account)
+      post '/admin/link-accounts', params: { primary_user_id: admin_user.id }
+    end
+
+    assert_nil flash[:notice]
+    assert_equal 'Please choose a primary and a secondary user.', flash[:error]
+    assert_redirected_to admin_path
+  end
+
+  test 'admin can merge two users' do
     primary_user = create(:user)
     secondary_user = create(:user)
     primary_account = create(:oauth_account, user: primary_user)

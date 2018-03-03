@@ -4,7 +4,7 @@
   Users
   <span class="text-normal text-gray h3">(<%= @users.total_entries %>)</span>
 </h2>
-<ul class="list-style-none">
+<ul class="list-style-none mb-4">
   <% @users.each_with_index do |user, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4"><%= user %></h3>
@@ -43,8 +43,33 @@
 </ul>
 
 <% if @users.total_pages > 1 %>
-  <div class="mt-4">
+  <div class="my-4">
     <%= page_entries_info @users %>
     <%= will_paginate @users, page_links: false %>
   </div>
 <% end %>
+
+<hr class="py-4">
+
+<div class="border border-red p-3 mt-4 col-md-6 rounded-2">
+  <h2 class="h2">Merge users</h2>
+  <%= form_tag admin_link_accounts_path do %>
+    <div class="form-group">
+      <label for="primary_user_id">Primary user:</label>
+      <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+      <p class="note">
+        This user will be kept.
+      </p>
+    </div>
+    <div class="form-group">
+      <label for="secondary_user_id">Secondary user:</label>
+      <%= select_tag :secondary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+      <p class="note">
+        This user will be deleted.
+      </p>
+    </div>
+    <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to combine these users?">
+      Combine users
+    </button>
+  <% end %>
+</div>
