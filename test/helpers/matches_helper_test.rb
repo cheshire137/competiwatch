@@ -1,5 +1,5 @@
 class MatchesHelperTest < ActionView::TestCase
-  test "does not calculate rank change from penultimate to last placement match" do
+  test 'does not calculate rank change from penultimate to last placement match' do
     oauth_account = create(:oauth_account)
     penultimate_match = create(:match, oauth_account: oauth_account, result: :win,
                                placement: true, rank: nil)
@@ -11,7 +11,7 @@ class MatchesHelperTest < ActionView::TestCase
     assert_equal '--', actual
   end
 
-  test "does calculate rank change from last placement match to first non-placement match" do
+  test 'does calculate rank change from last placement match to first non-placement match' do
     oauth_account = create(:oauth_account)
     last_placement_match = create(:match, oauth_account: oauth_account, rank: 2540,
                                   placement: true)

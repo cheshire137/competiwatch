@@ -201,7 +201,7 @@ module MatchesHelper
   end
 
   def match_rank_change_style(match, matches)
-    return '' if match.placement_log? || match.placement? || match.result.blank?
+    return '' if match.placement_log? || match.placement? || match.result.blank? || match.rank.nil?
 
     color = if match.draw?
       NEUTRAL_COLOR
