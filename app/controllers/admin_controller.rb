@@ -19,6 +19,19 @@ class AdminController < ApplicationController
       @userless_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
   end
 
+  def update_season
+    season = Season.find(params[:season_id])
+    season.assign_attributes(season_params)
+
+    if season.save
+      flash[:notice] = "Successfully updated season #{season}."
+    else
+      flash[:error] = "Could not update season #{season}: " + season.errors.full_messages.join(', ')
+    end
+
+    redirect_to admin_path
+  end
+
   def update_account
     unless params[:user_id] && params[:oauth_account_id]
       flash[:error] = 'Please specify a user and an account.'
@@ -55,5 +68,11 @@ class AdminController < ApplicationController
     end
 
     redirect_to admin_path
+  end
+
+  private
+
+  def season_params
+    params.require(:season).permit([:started_on, :ended_on, :max_rank])
   end
 end

@@ -104,22 +104,44 @@
     <h2 class="h2">Seasons</h2>
     <ul class="list-style-none">
       <% @seasons.each_with_index do |season, i| %>
-        <li class="d-flex flex-justify-between <%= 'border-top mt-2 pt-2' if i > 0 %>">
-          <strong>Season <%= season %></strong>
-          <span class="text-gray">
-            <% if season.started_on %>
-              <%= pretty_date season.started_on %>
-            <% end %>
-            <% if season.started_on && season.ended_on %>
-              &mdash;
-            <% end %>
-            <% if season.ended_on %>
-              <% unless season.started_on %>
-                Ends
+        <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+          <button type="button" class="btn-link d-flex flex-justify-between width-full js-toggle-details" data-target=".season-<%= season %>">
+            <strong>Season <%= season %></strong>
+            <span class="text-gray">
+              <% if season.started_on %>
+                <%= pretty_date season.started_on %>
               <% end %>
-              <%= pretty_date season.ended_on %>
+              <% if season.started_on && season.ended_on %>
+                &mdash;
+              <% end %>
+              <% if season.ended_on %>
+                <% unless season.started_on %>
+                  Ends
+                <% end %>
+                <%= pretty_date season.ended_on %>
+              <% end %>
+            </span>
+          </button>
+          <div class="d-none border rounded-2 px-2 pb-2 mt-2 season-<%= season %>">
+            <%= form_for(season, url: admin_update_season_path, method: :put) do |form| %>
+              <input type="hidden" name="season_id" value="<%= season.id %>">
+              <div class="form-group">
+                <%= form.label :started_on, 'Start date:', class: 'mr-2' %>
+                <%= form.date_field :started_on %>
+              </div>
+              <div class="form-group">
+                <%= form.label :ended_on, 'End date:', class: 'mr-2' %>
+                <%= form.date_field :ended_on %>
+              </div>
+              <div class="form-group">
+                <%= form.label :max_rank, 'Max rank:', class: 'mr-2' %>
+                <%= form.number_field :max_rank, min: 0, step: 1 %>
+              </div>
+              <button type="submit" class="btn">
+                Save season
+              </button>
             <% end %>
-          </span>
+          </div>
         </li>
       <% end %>
     </ul>
