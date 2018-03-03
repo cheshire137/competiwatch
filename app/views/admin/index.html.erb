@@ -35,67 +35,96 @@
   </div>
 </div>
 
-<h2 class="h2">Users</h2>
-<ul class="list-style-none mb-4">
-  <% @users.each_with_index do |user, i| %>
-    <%
-      accounts_for_user = @oauth_accounts_by_user_id[user.id] || []
-      friend_count = (@friends_by_user_id[user.id] || []).size
-    %>
-    <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-      <h3 class="h4">
-        <%= user %>
-        <span class="text-gray h5 text-normal">
-          &mdash;
-          <%= number_with_delimiter friend_count %>
-          <%= 'friend'.pluralize(friend_count) %>
-        </span>
-      </h3>
-      <ol class="oauth-accounts-list">
-        <% if accounts_for_user.empty? %>
-          <li>
-            <em>No accounts</em>
-          </li>
-        <% end %>
-        <% accounts_for_user.each do |oauth_account| %>
-          <%
-            account_matches = @matches_by_oauth_account_id[oauth_account.id] || []
-            match_count = account_matches.size
-            details_class = if match_count > 0
-              "account-#{oauth_account.id}"
-            end
-          %>
-          <li>
-            <button type="button" class="text-gray-dark btn-link <% if details_class %>js-toggle-details<% end %>" <% if details_class %>data-target=".<%= details_class %>"<% else %>disabled<% end %>>
-              <%= oauth_account %>
+<div class="clearfix mb-4">
+  <div class="col-md-6 float-left">
+    <h2 class="h2">Users</h2>
+    <ul class="list-style-none mb-4">
+      <% @users.each_with_index do |user, i| %>
+        <%
+          accounts_for_user = @oauth_accounts_by_user_id[user.id] || []
+          friend_count = (@friends_by_user_id[user.id] || []).size
+        %>
+        <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+          <h3 class="h4">
+            <%= user %>
+            <span class="text-gray h5 text-normal">
               &mdash;
-              <%= number_with_delimiter match_count %>
-              <%= 'match'.pluralize(match_count) %>
-            </button>
+              <%= number_with_delimiter friend_count %>
+              <%= 'friend'.pluralize(friend_count) %>
+            </span>
+          </h3>
+          <ol class="oauth-accounts-list">
+            <% if accounts_for_user.empty? %>
+              <li>
+                <em>No accounts</em>
+              </li>
+            <% end %>
+            <% accounts_for_user.each do |oauth_account| %>
+              <%
+                account_matches = @matches_by_oauth_account_id[oauth_account.id] || []
+                match_count = account_matches.size
+                details_class = if match_count > 0
+                  "account-#{oauth_account.id}"
+                end
+              %>
+              <li>
+                <button type="button" class="text-gray-dark btn-link <% if details_class %>js-toggle-details<% end %>" <% if details_class %>data-target=".<%= details_class %>"<% else %>disabled<% end %>>
+                  <%= oauth_account %>
+                  &mdash;
+                  <%= number_with_delimiter match_count %>
+                  <%= 'match'.pluralize(match_count) %>
+                </button>
 
-            <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
-              <% @seasons.each do |season| %>
-                <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
-                <div class="mb-1 account-season">
-                  <span class="text-bold">Season <%= season %></span> &mdash;
-                  <%= number_with_delimiter season_match_count %>
-                  <%= 'match'.pluralize(season_match_count) %>
+                <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
+                  <% @seasons.each do |season| %>
+                    <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
+                    <div class="mb-1 account-season">
+                      <span class="text-bold">Season <%= season %></span> &mdash;
+                      <%= number_with_delimiter season_match_count %>
+                      <%= 'match'.pluralize(season_match_count) %>
+                    </div>
+                  <% end %>
                 </div>
-              <% end %>
-            </div>
-          </li>
-        <% end %>
-      </ol>
-    </li>
-  <% end %>
-</ul>
+              </li>
+            <% end %>
+          </ol>
+        </li>
+      <% end %>
+    </ul>
 
-<% if @users.total_pages > 1 %>
-  <div class="my-4">
-    <%= page_entries_info @users %>
-    <%= will_paginate @users, page_links: false %>
+    <% if @users.total_pages > 1 %>
+      <div class="my-4">
+        <%= page_entries_info @users %>
+        <%= will_paginate @users, page_links: false %>
+      </div>
+    <% end %>
   </div>
-<% end %>
+
+  <div class="col-md-6 float-left">
+    <h2 class="h2">Seasons</h2>
+    <ul class="list-style-none">
+      <% @seasons.each_with_index do |season, i| %>
+        <li class="d-flex flex-justify-between <%= 'border-top mt-2 pt-2' if i > 0 %>">
+          <strong>Season <%= season %></strong>
+          <span class="text-gray">
+            <% if season.started_on %>
+              <%= pretty_date season.started_on %>
+            <% end %>
+            <% if season.started_on && season.ended_on %>
+              &mdash;
+            <% end %>
+            <% if season.ended_on %>
+              <% unless season.started_on %>
+                Ends
+              <% end %>
+              <%= pretty_date season.ended_on %>
+            <% end %>
+          </span>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
 
 <% if @userless_accounts.any? %>
   <hr>
@@ -108,7 +137,7 @@
   </ul>
 <% end %>
 
-<hr class="py-4">
+<hr>
 
 <div class="mt-4 clearfix">
   <% if @users.size > 1 %>

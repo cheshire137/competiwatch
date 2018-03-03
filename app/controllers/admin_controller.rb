@@ -10,7 +10,7 @@ class AdminController < ApplicationController
     @users = all_users.paginate(page: current_page, per_page: 10)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
     @oauth_accounts_by_user_id = OauthAccount.order_by_battletag.group_by(&:user_id)
-    @seasons = Season.latest_first.select(:number)
+    @seasons = Season.latest_first
     @matches_by_oauth_account_id = Match.select([:season, :oauth_account_id]).
       group_by(&:oauth_account_id)
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
