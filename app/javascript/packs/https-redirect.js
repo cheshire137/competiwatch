@@ -1,6 +1,4 @@
-const isLocalhost = window.location.host.indexOf('localhost') > -1
-const isHttps = window.location.protocol === 'https:'
-
-if (!isLocalhost && !isHttps) {
-  window.location.href = `https:${window.location.href.substring(window.location.protocol.length)}`
+const host = 'www.competiwatch.com'
+if (host === window.location.host && window.location.protocol !== 'https:') {
+  window.location.protocol = 'https'
 }
