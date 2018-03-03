@@ -1,4 +1,7 @@
-<% can_edit = signed_in? && oauth_account.user == current_user %>
+<%
+  can_edit = signed_in? && oauth_account.user == current_user
+  show_group_column = matches.any? { |match| match.friends.any? }
+%>
 
 <% if matches.any? %>
   <table class="matches-table width-full">
@@ -13,7 +16,9 @@
         <th class="match-header hide-sm">Comment</th>
         <th class="match-header hide-sm">Day/Time</th>
         <th class="match-header hide-sm">Heroes</th>
-        <th class="match-header hide-sm">Group</th>
+        <% if show_group_column %>
+          <th class="match-header hide-sm">Group</th>
+        <% end %>
         <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
         <% if can_edit %>
           <th class="match-header"><span class="ion-gear-b ion"></span></th>
@@ -66,9 +71,11 @@
               </span>
             <% end %>
           </td>
-          <td class="match-cell hide-sm friends-cell">
-            <%= match.friend_names.join(', ') %>
-          </td>
+          <% if show_group_column %>
+            <td class="match-cell hide-sm friends-cell">
+              <%= match.friend_names.join(', ') %>
+            </td>
+          <% end %>
           <td class="match-cell hide-sm throwers-leavers-cell">
             <% if match.thrower? %>
               <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= thrower_tooltip(match) %>">T</span>
