@@ -186,6 +186,10 @@ dt {
 @media (min-width: 768px) {
   .d-flex-md {
     display: flex !important;
+
+    &.d-none {
+      display: none !important;
+    }
   }
 
   .mr-3-md {

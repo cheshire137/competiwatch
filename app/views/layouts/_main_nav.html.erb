@@ -23,6 +23,9 @@
 
     <div class="UnderlineNav-body">
       <% if signed_in? %>
+        <% if current_user.admin? %>
+          <a href="<%= admin_path %>" class="UnderlineNav-item <%= 'selected' if is_page?('admin', 'index') %>" role="tab">Admin</a>
+        <% end %>
         <a class="UnderlineNav-item <%= 'selected' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
         <%= form_tag sign_out_path, method: :delete do %>
           <button type="submit" class="UnderlineNav-item btn-link">

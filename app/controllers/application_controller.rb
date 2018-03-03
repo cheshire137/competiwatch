@@ -3,6 +3,14 @@ class ApplicationController < ActionController::Base
 
   protected
 
+  def current_page
+    if params[:page].present? && params[:page] =~ /\d+/
+      params[:page].to_i
+    else
+      1
+    end
+  end
+
   def after_sign_in_path_for(resource)
     stored_location = stored_location_for(resource)
     return stored_location if stored_location
@@ -51,5 +59,11 @@ class ApplicationController < ActionController::Base
     return if signed_in? && current_user == @oauth_account.user
     return if @oauth_account.season_is_public?(@season)
     render file: Rails.root.join('public', '404.html'), status: :not_found
+  end
+
+  def require_admin
+    unless signed_in? && current_user.admin?
+      render file: Rails.root.join('public', '404.html'), status: :not_found
+    end
   end
 end

@@ -24,3 +24,7 @@
   min-height: 0;
   height: 3em;
 }
+
+.btn-link:disabled:hover {
+  text-decoration: none;
+}
