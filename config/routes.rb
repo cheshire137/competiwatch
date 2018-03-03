@@ -40,7 +40,7 @@ Rails.application.routes.draw do
   get '/stats' => 'stats#index', as: :stats
 
   get '/admin' => 'admin#index', as: :admin
-  post '/admin/link-accounts' => 'admin#link_accounts', as: :admin_link_accounts
+  post '/admin/merge-users' => 'admin#merge_users', as: :admin_merge_users
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
 

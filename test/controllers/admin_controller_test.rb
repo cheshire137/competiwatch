@@ -38,7 +38,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'User.count' do
       sign_in_as(oauth_account)
-      post '/admin/link-accounts', params: {
+      post '/admin/merge-users', params: {
         primary_user_id: primary_user.id,
         secondary_user_id: secondary_user.id
       }
@@ -53,7 +53,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
 
     assert_no_difference 'User.count' do
       sign_in_as(admin_account)
-      post '/admin/link-accounts', params: { primary_user_id: admin_user.id }
+      post '/admin/merge-users', params: { primary_user_id: admin_user.id }
     end
 
     assert_nil flash[:notice]
@@ -71,7 +71,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
 
     assert_difference 'User.count', -1 do
       sign_in_as(admin_account)
-      post '/admin/link-accounts', params: {
+      post '/admin/merge-users', params: {
         primary_user_id: primary_user.id,
         secondary_user_id: secondary_user.id
       }

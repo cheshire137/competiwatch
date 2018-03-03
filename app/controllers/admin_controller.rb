@@ -12,7 +12,7 @@ class AdminController < ApplicationController
     @userless_accounts = OauthAccount.without_user.order_by_battletag
   end
 
-  def link_accounts
+  def merge_users
     unless params[:primary_user_id] && params[:secondary_user_id]
       flash[:error] = 'Please choose a primary and a secondary user.'
       return redirect_to(admin_path)

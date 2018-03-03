@@ -64,7 +64,7 @@
 
 <div class="border border-red p-3 mt-4 col-md-6 rounded-2">
   <h2 class="h2">Merge users</h2>
-  <%= form_tag admin_link_accounts_path do %>
+  <%= form_tag admin_merge_users_path do %>
     <div class="form-group">
       <label for="primary_user_id">Primary user:</label>
       <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
