@@ -119,6 +119,10 @@ module MatchesHelper
     render partial: 'matches/season_switcher', locals: { selected_season: selected_season }
   end
 
+  def oauth_account_options
+    oauth_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
+  end
+
   def season_options
     Season.latest_number.downto(1).map { |season| ["Season #{season}", season] }.to_h
   end

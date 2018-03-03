@@ -100,10 +100,30 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
 
-    sign_in_as(oauth_account1)
-    post "/season/#{@season}/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
+    assert_no_difference 'Match.count' do
+      sign_in_as(oauth_account1)
+      post "/season/#{@season}/#{oauth_account2.to_param}", params: { match: { rank: 2500 } }
+    end
 
     assert_response :not_found
+  end
+
+  test "won't let you log a match for another user's account via specifying account ID" do
+    oauth_account1 = create(:oauth_account)
+    oauth_account2 = create(:oauth_account)
+
+    assert_difference 'oauth_account1.matches.count' do
+      assert_no_difference 'oauth_account2.matches.count' do
+        sign_in_as(oauth_account1)
+        post "/season/#{@season}/#{oauth_account1.to_param}", params: {
+          match: { rank: 2500, oauth_account_id: oauth_account2.id }
+        }
+      end
+    end
+
+    match = oauth_account1.matches.last
+    refute_nil match
+    assert_redirected_to matches_path(@season, oauth_account1, anchor: "match-row-#{match.id}")
   end
 
   test "won't let you view match history for another user's account" do
@@ -203,16 +223,36 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'can update your own match' do
-    oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account)
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account1)
     map = create(:map)
 
-    sign_in_as(oauth_account)
-    put "/matches/#{match.id}", params: { match: { rank: 1234, map_id: map.id } }
+    sign_in_as(oauth_account1)
+    put "/matches/#{match.id}", params: {
+      match: { rank: 1234, map_id: map.id, oauth_account_id: oauth_account2.id }
+    }
 
-    assert_redirected_to matches_path(match.season, oauth_account, anchor: "match-row-#{match.id}")
+    assert_redirected_to matches_path(match.season, oauth_account2, anchor: "match-row-#{match.id}")
     assert_equal map, match.reload.map
     assert_equal 1234, match.rank
+    assert_equal oauth_account2, match.oauth_account
+  end
+
+  test 'cannot update match account to an account that is not yours' do
+    oauth_account1 = create(:oauth_account)
+    oauth_account2 = create(:oauth_account)
+    match = create(:match, oauth_account: oauth_account1)
+
+    sign_in_as(oauth_account1)
+    put "/matches/#{match.id}", params: {
+      match: { rank: 1234, oauth_account_id: oauth_account2.id }
+    }
+
+    assert_response :ok
+    assert_equal oauth_account1, match.reload.oauth_account
+    assert_equal 'Invalid account.', flash[:error]
   end
 
   test 'renders edit page when update fails' do

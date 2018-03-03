@@ -1,8 +1,8 @@
-<% content_for(:title, "Edit Match / Season #{@match.season} / #{@match.oauth_account}") %>
+<% content_for(:title, "Season #{@match.season} / #{@match.oauth_account} / Edit #{'Placement' if @match.placement?} Match") %>
 
 <% content_for(:breadcrumb) do %>
   Season <%= @match.season %> / <%= @match.oauth_account %> /
-  Edit Match
+  Edit <%= 'Placement' if @match.placement? %> Match
 <% end %>
 
 <% if @match.prior_match && !@match.prior_match.placement? %>
@@ -18,34 +18,36 @@
   <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/placement_rank_form',
                locals: { form: f, match: @match, season: @season } %>
+    <%= render partial: 'matches/additional_fields',
+               locals: { match: @match, form: f } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Starting SR
     </button>
   <% end %>
-<% elsif @match.oauth_account.finished_placements?(@match.season) %>
-  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
-    <%= render partial: 'matches/form',
-               locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
-                         heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends, season: @season } %>
-    <div class="form-group">
-      <%= f.label :season, 'Competitive season:', class: 'mr-2' %>
-      <%= f.number_field :season, class: 'form-control season-field' %>
-    </div>
-    <button type="submit" class="mr-2 btn btn-large btn-primary">
-      Save Match
-    </button>
-    <span class="text-small text-gray">All fields optional except SR</span>
-  <% end %>
-<% else %>
+<% elsif @match.placement? %>
   <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
                          all_friends: @all_friends, season: @season } %>
+    <%= render partial: 'matches/additional_fields',
+               locals: { match: @match, form: f } %>
     <button type="submit" class="btn btn-large btn-primary">
       Save Match
     </button>
+  <% end %>
+<% else %>
+  <%= form_for(@match, method: :put, url: match_form_action(@match), html: { id: 'edit-match' }) do |f| %>
+    <%= render partial: 'matches/form',
+               locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
+                         heroes_by_role: @heroes_by_role, friends: @friends,
+                         all_friends: @all_friends, season: @season } %>
+    <%= render partial: 'matches/additional_fields',
+               locals: { match: @match, form: f } %>
+    <button type="submit" class="mr-2 btn btn-large btn-primary">
+      Save Match
+    </button>
+    <span class="text-small text-gray">All fields optional except SR</span>
   <% end %>
 <% end %>
 

@@ -1,4 +1,10 @@
 class MatchesController < ApplicationController
+  MATCH_PARAM_FIELDS = [
+    :map_id, :rank, :comment, :prior_match_id, :placement, :result, :time_of_day,
+    :day_of_week, :season, :enemy_thrower, :ally_thrower, :enemy_leaver, :ally_leaver,
+    :oauth_account_id
+  ].freeze
+
   before_action :authenticate_user!, except: :index
   before_action :set_oauth_account, only: [:index, :create]
   before_action :ensure_oauth_account_is_mine, only: :create
@@ -29,7 +35,7 @@ class MatchesController < ApplicationController
   end
 
   def create
-    @match = @oauth_account.matches.new(match_params)
+    @match = @oauth_account.matches.new(create_match_params)
     @match.season = @season_number
 
     friend_names = params[:friend_names] || []
@@ -70,8 +76,13 @@ class MatchesController < ApplicationController
   end
 
   def update
+    @match.assign_attributes(update_match_params)
     @oauth_account = @match.oauth_account
-    @match.assign_attributes(match_params)
+
+    unless @oauth_account && @oauth_account.user == current_user
+      flash[:error] = 'Invalid account.'
+      return render_edit_on_fail
+    end
 
     friend_names = params[:friend_names] || []
     if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
@@ -102,11 +113,12 @@ class MatchesController < ApplicationController
     render 'matches/edit'
   end
 
-  def match_params
-    params.require(:match).
-      permit(:map_id, :rank, :comment, :prior_match_id, :placement, :result, :time_of_day,
-             :day_of_week, :season, :enemy_thrower, :ally_thrower, :enemy_leaver,
-             :ally_leaver)
+  def update_match_params
+    params.require(:match).permit(MATCH_PARAM_FIELDS)
+  end
+
+  def create_match_params
+    params.require(:match).permit(MATCH_PARAM_FIELDS).except(:oauth_account_id)
   end
 
   def set_match

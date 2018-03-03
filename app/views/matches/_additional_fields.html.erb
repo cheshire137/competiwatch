@@ -1,0 +1,13 @@
+<div class="border rounded-2 px-3 mb-3">
+  <div class="form-group">
+    <%= form.label :season, 'Competitive season:', class: 'mr-2' %>
+    <%= form.number_field :season, class: 'form-control season-field' %>
+  </div>
+
+  <% if oauth_accounts.size > 1 %>
+    <div class="form-group">
+      <%= form.label :oauth_account_id, 'Account:', class: 'mr-2' %>
+      <%= form.select :oauth_account_id, options_for_select(oauth_account_options, match.oauth_account_id), {}, { class: 'form-select' } %>
+    </div>
+  <% end %>
+</div>
