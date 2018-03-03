@@ -6,6 +6,7 @@ class OauthAccount < ApplicationRecord
   validates :uid, presence: true, uniqueness: { scope: :provider }
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
+  scope :without_user, ->{ where(user_id: nil) }
 
   after_update :remove_default, if: :saved_change_to_user_id?
 
