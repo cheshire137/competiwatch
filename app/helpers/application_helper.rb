@@ -17,6 +17,7 @@ module ApplicationHelper
   end
 
   def is_matches_page?(season, battletag)
+    return true if is_page?('matches', 'edit')
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
