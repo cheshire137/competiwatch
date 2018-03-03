@@ -3,7 +3,11 @@ class AdminController < ApplicationController
 
   def index
     all_users = User.order_by_battletag
-    @users = all_users.paginate(page: current_page)
+    @friend_count = Friend.count
+    @match_count = Match.count
+    @oauth_account_count = OauthAccount.count
+    @season_share_count = SeasonShare.count
+    @users = all_users.paginate(page: current_page, per_page: 10)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
     @oauth_accounts_by_user_id = OauthAccount.order_by_battletag.group_by(&:user_id)
     @seasons = Season.latest_first.select(:number)
