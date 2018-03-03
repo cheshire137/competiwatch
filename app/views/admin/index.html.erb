@@ -123,7 +123,7 @@
             </span>
           </button>
           <div class="d-none border rounded-2 px-2 pb-2 mt-2 season-<%= season %>">
-            <%= form_for(season, url: admin_update_season_path, method: :put) do |form| %>
+            <%= form_for(season, url: admin_update_season_path, method: :put, as: :update_season) do |form| %>
               <input type="hidden" name="season_id" value="<%= season.id %>">
               <div class="form-group">
                 <%= form.label :started_on, 'Start date:', class: 'mr-2' %>

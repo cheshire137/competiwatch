@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class AdminControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test '404s for non-admin' do
     user = create(:user)
     oauth_account = create(:oauth_account, user: user)
@@ -28,6 +30,20 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'button', text: /#{oauth_account.battletag}/
     assert_select 'li', text: userless_oauth_account.battletag
+  end
+
+  test 'non-admin users cannot update season' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user)
+    season = seasons(:one)
+
+    sign_in_as(oauth_account)
+    put '/admin/update-season', params: {
+      season_id: season.id, update_season: { max_rank: 1234 }
+    }
+
+    assert_response :not_found
+    assert_equal seasons(:one).max_rank, season.reload.max_rank
   end
 
   test 'non-admin cannot merge users' do
@@ -86,6 +102,25 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     assert_nil flash[:notice]
     assert_equal 'Please choose a primary and a secondary user.', flash[:error]
     assert_redirected_to admin_path
+  end
+
+  test 'admin can update season' do
+    admin_user = create(:user, admin: true)
+    admin_account = create(:oauth_account, user: admin_user)
+    season = seasons(:two)
+
+    sign_in_as(admin_account)
+    put '/admin/update-season', params: {
+      season_id: season.id,
+      update_season: { max_rank: 6001, started_on: '2018-02-28', ended_on: '2018-05-15' }
+    }
+
+    assert_redirected_to admin_path
+    assert_equal "Successfully updated season #{season}.", flash[:notice]
+    assert_nil flash[:error]
+    assert_equal 6001, season.reload.max_rank
+    assert_equal Date.parse('2018-02-28'), season.started_on
+    assert_equal Date.parse('2018-05-15'), season.ended_on
   end
 
   test 'admin can merge two users' do

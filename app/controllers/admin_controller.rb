@@ -73,6 +73,6 @@ class AdminController < ApplicationController
   private
 
   def season_params
-    params.require(:season).permit([:started_on, :ended_on, :max_rank])
+    params.require(:update_season).permit([:started_on, :ended_on, :max_rank])
   end
 end
