@@ -70,6 +70,26 @@ heroku run rake db:migrate
 heroku open
 ```
 
+### SSL
+
+The app is set up for an SSL certificate from Let's Encrypt. When using certbot to generate
+a certificate, put the value it gives you in this app's `.env` file in `LETS_ENCRYPT_VALUE`.
+See [this article](https://medium.com/should-designers-code/how-to-set-up-ssl-with-lets-encrypt-on-heroku-for-free-266c185630db) for steps.
+
+To add a certificate initially:
+
+```bash
+heroku certs:add /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsencrypt/live/your-domain/privkey.pem
+```
+
+To update the certificate later once it's been renewed:
+
+```bash
+heroku certs:update /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsencrypt/live/your-domain/privkey.pem
+```
+
+See [Renewing certificates with Certbot](https://certbot.eff.org/docs/using.html#renewing-certificates).
+
 ## Thanks
 
 - [Chart.js library](http://www.chartjs.org/)
