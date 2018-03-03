@@ -10,6 +10,8 @@ class AdminController < ApplicationController
       group_by(&:oauth_account_id)
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
     @userless_accounts = OauthAccount.without_user.order_by_battletag
+    @userless_account_options = [['--', '']] +
+      @userless_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
   end
 
   def update_account
