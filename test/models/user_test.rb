@@ -1,6 +1,23 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  setup do
+    Rails.cache.clear
+  end
+
+  test 'career_high returns highest rank for all accounts' do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    create(:match, oauth_account: oauth_account1, season: 1, rank: 50)
+    create(:match, oauth_account: oauth_account1, season: 2, rank: 2501)
+    create(:match, oauth_account: oauth_account2, season: 2, rank: 2500)
+    create(:match, oauth_account: oauth_account1, season: 4, rank: 2420)
+    create(:match, oauth_account: oauth_account1, season: 4, rank: nil, placement: true)
+
+    assert_equal 2501, user.career_high
+  end
+
   test 'active scope includes user with a recent season share' do
     user = create(:user)
     oauth_account = create(:oauth_account, user: user, updated_at: 1.year.ago)
