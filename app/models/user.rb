@@ -24,6 +24,10 @@ class User < ApplicationRecord
     where(id: account_user_ids | share_user_ids | match_user_ids)
   end
 
+  def career_high
+    oauth_accounts.map(&:career_high).compact.max
+  end
+
   def active_seasons
     matches.select('DISTINCT season').order('season').map(&:season)
   end

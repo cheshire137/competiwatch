@@ -103,3 +103,13 @@
              locals: { win_counts: @map_win_counts, map_names: @map_names,
                        loss_counts: @map_loss_counts, draw_counts: @map_draw_counts } %>
 <% end %>
+
+<% if show_career_high_heroes_chart?(@matches, @career_high) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/career_high_heroes_chart',
+             locals: { heroes: @career_high_heroes,
+                       win_counts: @career_high_heroes_win_counts,
+                       loss_counts: @career_high_heroes_loss_counts,
+                       draw_counts: @career_high_heroes_draw_counts,
+                       career_high: @career_high } %>
+<% end %>

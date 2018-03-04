@@ -49,6 +49,7 @@ class TrendsController < ApplicationController
     thrower_leaver_chart
     group_member_chart
     map_chart
+    career_high_heroes_chart
   end
 
   def all_seasons
@@ -86,13 +87,12 @@ class TrendsController < ApplicationController
 
   private
 
+  def match_source
+    @match_source ||= @oauth_account ? @oauth_account : current_user
+  end
+
   def account_matches_in_season
     return @account_matches_in_season if @account_matches_in_season
-    match_source = if @oauth_account
-      @oauth_account
-    else
-      current_user
-    end
     matches = match_source.matches
     matches = matches.in_season(@season_number) if @season_number
     @account_matches_in_season = matches
@@ -287,7 +287,7 @@ class TrendsController < ApplicationController
   end
 
   def career_high_heroes_chart
-    @career_high = @oauth_account.career_high
+    @career_high = match_source.career_high
     return unless @career_high
 
     cutoff = @career_high - CAREER_HIGH_CUTOFF
