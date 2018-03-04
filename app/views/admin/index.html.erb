@@ -4,20 +4,20 @@
   <div class="col-md-4 float-left">
     <ul class="list-style-none">
       <li>
-        <strong><%= number_with_delimiter @users.total_entries %></strong>
-        <%= 'user'.pluralize(@users.total_entries) %>
+        <strong><%= number_with_delimiter @active_users.size %></strong>
+        <%= 'active user'.pluralize(@active_users.size) %>
       </li>
       <li>
-        <strong><%= number_with_delimiter @oauth_account_count %></strong>
-        <%= 'account'.pluralize(@oauth_account_count) %>
+        <strong><%= number_with_delimiter @users.total_entries %></strong>
+        <%= 'user'.pluralize(@users.total_entries) %>
       </li>
     </ul>
   </div>
   <div class="col-md-4 float-left">
     <ul class="list-style-none">
       <li>
-        <strong><%= number_with_delimiter @friend_count %></strong>
-        <%= 'friend'.pluralize(@friend_count) %>
+        <strong><%= number_with_delimiter @oauth_account_count %></strong>
+        <%= 'account'.pluralize(@oauth_account_count) %>
       </li>
       <li>
         <strong><%= number_with_delimiter @match_count %></strong>
@@ -27,6 +27,10 @@
   </div>
   <div class="col-md-4 float-left">
     <ul class="list-style-none">
+      <li>
+        <strong><%= number_with_delimiter @friend_count %></strong>
+        <%= 'friend'.pluralize(@friend_count) %>
+      </li>
       <li>
         <strong><%= number_with_delimiter @season_share_count %></strong>
         <%= 'shared season'.pluralize(@season_share_count) %>
@@ -39,7 +43,8 @@
   <div class="col-md-6 float-left">
     <div class="mr-4">
       <%= render partial: 'admin/users',
-                 locals: { users: @users, oauth_accounts_by_user_id: @oauth_accounts_by_user_id,
+                 locals: { users: @users, active_users: @active_users,
+                           oauth_accounts_by_user_id: @oauth_accounts_by_user_id,
                            friends_by_user_id: @friends_by_user_id, seasons: @seasons,
                            matches_by_oauth_account_id: @matches_by_oauth_account_id } %>
     </div>
