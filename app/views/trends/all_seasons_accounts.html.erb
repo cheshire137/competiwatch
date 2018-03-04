@@ -2,7 +2,7 @@
 
 <%= render partial: 'trends/tabs' %>
 
-<div class="clearfix">
+<div class="clearfix mb-4">
   <div class="col-md-6 pr-4-md float-md-left">
     <div class="mb-4">
       <strong><%= @total_accounts %></strong>
@@ -41,3 +41,21 @@
     </div>
   <% end %>
 </div>
+
+<% if show_win_loss_chart?(@matches) || show_role_chart?(@matches) %>
+  <div class="clearfix mb-4">
+    <% if show_win_loss_chart?(@matches) %>
+      <div class="col-md-6 float-md-left">
+        <%= render partial: 'trends/win_loss_chart',
+                   locals: { win_count: @win_count, loss_count: @loss_count,
+                             draw_count: @draw_count } %>
+      </div>
+    <% end %>
+    <% if show_role_chart?(@matches) %>
+      <div class="col-md-6 float-md-left">
+        <%= render partial: 'trends/role_chart',
+                   locals: { match_counts: @role_match_counts, roles: @roles } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>

@@ -27,21 +27,23 @@ class TrendsController < ApplicationController
 
   def all_seasons_accounts
     @active_seasons = current_user.active_seasons
-    matches = current_user.matches.includes(:friends, :heroes, :oauth_account).with_result.
-      ordered_by_time
-    @total_matches = matches.count
-    @total_accounts = matches.map(&:oauth_account_id).uniq.size
-    @account_battletags = matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
-    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(matches)
-    @lowest_sr, @highest_sr = get_lowest_and_highest_rank(matches)
-    @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(matches)
-    @friends, @match_counts_by_friend = get_friends_and_match_counts(matches)
+    @matches = account_matches_in_season.
+      includes(:prior_match, :map, :friends, :heroes, :oauth_account).with_result.ordered_by_time
+    @total_matches = @matches.count
+    @total_accounts = @matches.map(&:oauth_account_id).uniq.size
+    @account_battletags = @matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
+    @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
+    @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
+    @friends, @match_counts_by_friend = get_friends_and_match_counts(@matches)
     @most_frequent_match_count = @match_counts_by_friend.values.max
     @most_frequent_friends = @match_counts_by_friend.
       select { |name, count| count == @most_frequent_match_count }.keys
-    @win_rates_by_friend = get_win_rates_by_friend(matches, @match_counts_by_friend)
+    @win_rates_by_friend = get_win_rates_by_friend(@matches, @match_counts_by_friend)
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
+    win_loss_chart
+    role_chart
   end
 
   def all_seasons
