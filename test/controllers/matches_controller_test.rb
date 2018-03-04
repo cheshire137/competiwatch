@@ -269,6 +269,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select '.flash-error', text: /Rank must be less than or equal to #{@season.max_rank}/
+    assert_select "option[value='#{oauth_account1.id}']", text: oauth_account1.battletag
+    assert_select "option[value='#{oauth_account2.id}']", text: oauth_account2.battletag
   end
 
   test 'renders edit page when too many friends are chosen' do

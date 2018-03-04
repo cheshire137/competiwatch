@@ -47,6 +47,8 @@ class OauthAccountsControllerTest < ActionDispatch::IntegrationTest
     get '/accounts'
 
     assert_response :ok
+    assert_select "option[value='#{oauth_account1.to_param}']", text: oauth_account1.battletag
+    assert_select "option[value='#{oauth_account2.to_param}']", text: oauth_account2.battletag
   end
 
   test 'can unlink an account when you have multiple' do
