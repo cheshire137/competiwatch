@@ -19,4 +19,10 @@ module OauthAccountsHelper
   def oauth_accounts
     @oauth_accounts ||= current_user.oauth_accounts.order_by_battletag
   end
+
+  def oauth_account_options
+    oauth_accounts.map do |oauth_account|
+      [oauth_account.battletag, oauth_account.to_param]
+    end
+  end
 end

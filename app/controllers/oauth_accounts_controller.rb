@@ -1,10 +1,22 @@
 class OauthAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: :destroy
-  before_action :ensure_oauth_account_is_mine, only: :destroy
+  before_action :set_oauth_account, only: [:destroy, :set_default]
+  before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default]
 
   def index
     @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag
+  end
+
+  def set_default
+    current_user.default_oauth_account = @oauth_account
+
+    if current_user.save
+      flash[:notice] = "Your default account is now #{@oauth_account}."
+    else
+      flash[:error] = 'Could not update your default account at this time.'
+    end
+
+    redirect_to accounts_path
   end
 
   def destroy

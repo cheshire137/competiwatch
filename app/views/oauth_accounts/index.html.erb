@@ -11,7 +11,7 @@
       <% @oauth_accounts.each_with_index do |oauth_account, i| %>
         <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
           <div class="d-flex flex-justify-between flex-items-center">
-            <%= oauth_account %>
+            <span class="d-inline-block mr-4"><%= oauth_account %></span>
             <% if oauth_account.can_be_unlinked? %>
               <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
                 <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %> from this account? None of its matches will be deleted.">
@@ -22,7 +22,7 @@
           </div>
           <% if oauth_account.default? %>
             <p class="note">
-              You are currently signed in via this account
+              This is your default account
             </p>
           <% end %>
         </li>
@@ -31,14 +31,27 @@
   </div>
 
   <div class="col-md-6">
-    <h2 class="mb-2 mt-0 h3 text-normal">Connect Another Account</h2>
+    <h2 class="mb-2 mt-0 h3 text-normal">Connect another account</h2>
     <p>
       Be sure to <a target="_blank" rel="noopener noreferrer" href="https://us.battle.net/forums/en/?logout" class="text-bold">log out of Battle.net</a>
       if you are already signed in as one of the linked accounts on the left.
       Then:
     </p>
-    <a href="<%= user_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large">
+    <a href="<%= user_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large mb-2">
       Connect your Battle.net account
     </a>
+
+    <% if @oauth_accounts.size > 1 %>
+      <h2 class="mt-4 pt-4 border-top mb-2 text-normal h3">Change default account</h2>
+      <%= form_tag set_default_account_path, method: :put do %>
+        <div class="form-group">
+          <label for="battletag">Choose an account:</label>
+          <%= select_tag :battletag, options_for_select(oauth_account_options, current_user.default_oauth_account.try(:to_param)), class: 'form-select', required: true %>
+        </div>
+        <button type="submit" class="btn">
+          Set default account
+        </button>
+      <% end %>
+    <% end %>
   </div>
 </div>
