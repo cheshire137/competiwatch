@@ -7,7 +7,7 @@
   <% if oauth_accounts.size > 1 %>
     <div class="form-group">
       <%= form.label :oauth_account_id, 'Account:', class: 'mr-2' %>
-      <%= form.select :oauth_account_id, options_for_select(oauth_account_options, match.oauth_account_id), {}, { class: 'form-select' } %>
+      <%= form.select :oauth_account_id, options_for_select(match_oauth_account_options, match.oauth_account_id), {}, { class: 'form-select' } %>
     </div>
   <% end %>
 </div>

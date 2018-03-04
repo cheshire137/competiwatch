@@ -46,7 +46,7 @@
       <%= form_tag set_default_account_path, method: :put do %>
         <div class="form-group">
           <label for="battletag">Choose an account:</label>
-          <%= select_tag :battletag, options_for_select(oauth_account_options, current_user.default_oauth_account.try(:to_param)), class: 'form-select', required: true %>
+          <%= select_tag :battletag, options_for_select(default_account_oauth_account_options, current_user.default_oauth_account.try(:to_param)), class: 'form-select', required: true %>
         </div>
         <button type="submit" class="btn">
           Set default account
