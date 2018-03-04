@@ -80,7 +80,15 @@ class TrendsController < ApplicationController
   private
 
   def account_matches_in_season
-    @account_matches_in_season ||= @oauth_account.matches.in_season(@season_number)
+    return @account_matches_in_season if @account_matches_in_season
+    match_source = if @oauth_account
+      @oauth_account
+    else
+      current_user
+    end
+    matches = match_source.matches
+    matches = matches.in_season(@season_number) if @season_number
+    @account_matches_in_season = matches
   end
 
   def thrower_leaver_chart
