@@ -24,6 +24,11 @@ class User < ApplicationRecord
     where(id: account_user_ids | share_user_ids | match_user_ids)
   end
 
+  def season_high(season)
+    highest_sr_match = matches.in_season(season).with_rank.order('rank DESC').first
+    highest_sr_match.try(:rank)
+  end
+
   def career_high
     oauth_accounts.map(&:career_high).compact.max
   end

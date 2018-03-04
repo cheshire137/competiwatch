@@ -36,6 +36,15 @@ class OauthAccountTest < ActiveSupport::TestCase
     assert_equal [1, 2, 3], oauth_account.active_seasons
   end
 
+  test 'season_high returns highest rank from given season' do
+    oauth_account = create(:oauth_account)
+    create(:match, oauth_account: oauth_account, season: 2, rank: 1235)
+    create(:match, oauth_account: oauth_account, season: 3, rank: 2750)
+    create(:match, oauth_account: oauth_account, season: 2, rank: 2200)
+
+    assert_equal 2200, oauth_account.season_high(2)
+  end
+
   test 'season_is_public? returns true when a season share exists' do
     oauth_account = create(:oauth_account)
     season = seasons(:two)

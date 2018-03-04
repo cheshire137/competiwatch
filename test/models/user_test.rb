@@ -5,6 +5,18 @@ class UserTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'season_high returns highest rank from given season' do
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    create(:match, oauth_account: oauth_account1, season: 2, rank: 1235)
+    create(:match, oauth_account: oauth_account2, season: 2, rank: 2435)
+    create(:match, oauth_account: oauth_account1, season: 3, rank: 2750)
+    create(:match, oauth_account: oauth_account1, season: 2, rank: 2200)
+
+    assert_equal 2435, user.season_high(2)
+  end
+
   test 'career_high returns highest rank for all accounts' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)
