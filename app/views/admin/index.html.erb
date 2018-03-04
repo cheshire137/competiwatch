@@ -72,7 +72,7 @@
       <div class="border border-red mr-4 p-3 rounded-2">
         <h2 class="h2 mb-2">Merge users</h2>
         <%= form_tag admin_merge_users_path do %>
-          <div class="form-group">
+          <div class="form-group mt-0">
             <label for="primary_user_id">Primary user:</label>
             <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
             <p class="note">
@@ -99,7 +99,7 @@
       <div class="border border-red ml-4 p-3 rounded-2">
         <h2 class="h2 mb-2">Tie account to a user</h2>
         <%= form_tag admin_update_account_path do %>
-          <div class="form-group">
+          <div class="form-group mt-0">
             <label for="user_id">User:</label>
             <%= select_tag :user_id, options_for_select(@user_options), class: 'form-select', required: true %>
           </div>
