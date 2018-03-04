@@ -256,12 +256,16 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'renders edit page when update fails' do
-    oauth_account = create(:oauth_account)
-    match = create(:match, oauth_account: oauth_account, season: @season.number)
+    user = create(:user)
+    oauth_account1 = create(:oauth_account, user: user)
+    oauth_account2 = create(:oauth_account, user: user)
+    match = create(:match, oauth_account: oauth_account1, season: @season.number)
     map = create(:map)
 
-    sign_in_as(oauth_account)
-    put "/matches/#{match.id}", params: { match: { rank: Match::MAX_RANK + 1, map_id: map.id } }
+    sign_in_as(oauth_account1)
+    put "/matches/#{match.id}", params: {
+      match: { rank: Match::MAX_RANK + 1, map_id: map.id, oauth_account_id: oauth_account2.id }
+    }
 
     assert_response :ok
     assert_select '.flash-error', text: /Rank must be less than or equal to #{@season.max_rank}/
