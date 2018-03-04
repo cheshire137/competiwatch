@@ -120,3 +120,15 @@
              locals: { heroes: @heroes, win_counts: @heroes_win_counts,
                        loss_counts: @heroes_loss_counts, draw_counts: @heroes_draw_counts } %>
 <% end %>
+
+<% if show_group_stats?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <div class="clearfix">
+    <div class="col-md-6 float-md-left">
+      <%= render partial: 'trends/group_stats',
+           locals: { wins_by_group_members: @wins_by_group_members,
+                     match_counts_by_group_members: @match_counts_by_group_members,
+                     win_rates_by_group_members: @win_rates_by_group_members } %>
+    </div>
+  </div>
+<% end %>

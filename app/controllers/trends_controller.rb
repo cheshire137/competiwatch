@@ -51,6 +51,7 @@ class TrendsController < ApplicationController
     map_chart
     career_high_heroes_chart
     heroes_chart
+    group_stats
   end
 
   def all_seasons
