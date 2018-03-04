@@ -19,7 +19,12 @@ module SeasonsHelper
   end
 
   def rank_image(rank, classes: '')
-    tier = Match.rank_tier(rank)
-    image_tag("tiers/#{tier}.png", alt: tier.to_s.humanize, class: "rank-image rank-#{tier} #{classes}")
+    rank_tier_image(Match.rank_tier(rank), classes: classes)
+  end
+
+  def rank_tier_image(rank_tier, classes: '', id: nil)
+    image_tag("tiers/#{rank_tier.to_s.underscore}.png",
+              alt: rank_tier.to_s.humanize, id: id,
+              class: "rank-image rank-#{rank_tier} #{classes}")
   end
 end

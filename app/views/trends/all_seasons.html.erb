@@ -119,6 +119,13 @@
                        loss_counts: @heroes_loss_counts, draw_counts: @heroes_draw_counts } %>
 <% end %>
 
+<% if show_rank_tier_chart?(@matches, @season) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/rank_tier_chart',
+             locals: { rank_tiers: @rank_tiers, win_counts: @rank_tier_win_counts,
+                       loss_counts: @rank_tier_loss_counts, draw_counts: @rank_tier_draw_counts } %>
+<% end %>
+
 <% if show_group_stats?(@matches) %>
   <hr class="mb-4 pt-4">
   <div class="clearfix">

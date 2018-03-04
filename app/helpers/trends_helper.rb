@@ -15,6 +15,11 @@ module TrendsHelper
     end
   end
 
+  def show_rank_tier_chart?(matches, season)
+    return false if season && (season.number == 1 || season.max_rank != 5000)
+    matches.any?
+  end
+
   def show_streaks_chart?(matches)
     show_win_loss_chart?(matches)
   end

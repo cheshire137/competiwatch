@@ -4,6 +4,7 @@ class Match < ApplicationRecord
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
+  RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
 
