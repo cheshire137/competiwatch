@@ -41,6 +41,7 @@
 @import "primer-marketing/index.scss";
 @import "primer-dropdown/index.scss";
 @import "forms.scss";
+@import "carousel.scss";
 
 .UnderlineNav-item.selected {
   border-bottom-color: $pink;
@@ -97,6 +98,12 @@ dt {
       border-left: 1px solid #e1e4e8;
     }
   }
+}
+
+.img-responsive {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
 .dropdown-selectable .dropdown-item {

@@ -1,9 +1,64 @@
 <% content_for(:title, 'Log In') %>
 
-<div class="col-md-6 text-center mx-auto">
-  <div class="mb-4 f3">
-    Track your competitive match history per season in Overwatch. View charts of
-    your performance, import past seasons, and export your data.
+<div class="clearfix mb-4 pb-4">
+  <div class="col-md-7 f3 float-md-left text-center mb-4-sm">
+    <div class="mx-auto col-md-10">
+      Track your competitive match history per season in Overwatch. View charts of
+      your performance, import past seasons, and export your data.
+    </div>
   </div>
-  <a class="btn-green h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+  <div class="col-md-5 float-md-left text-center">
+    <a class="btn-green h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+  </div>
+</div>
+
+<div class="carousel border rounded-2 js-carousel">
+  <div class="carousel-image anim-fade-in text-center active screenshot-1">
+    <%= image_tag 'match-history.png', class: 'd-inline-block img-responsive', alt: 'Match history' %>
+    <div class="pt-2 text-gray">
+      Track your match history across multiple seasons and Battle.net accounts
+    </div>
+  </div>
+  <div class="carousel-image anim-fade-in text-center screenshot-3">
+    <%= image_tag 'career-high-chart.png', class: 'd-inline-block img-responsive', alt: 'Career high wins/losses chart' %>
+    <div class="pt-2 text-gray">
+      See which heroes you play best when you're at your career or season high
+    </div>
+  </div>
+  <div class="carousel-image anim-fade-in text-center screenshot-4">
+    <%= image_tag 'group-size-throw-leave.png', class: 'd-inline-block img-responsive', alt: 'Group size and thrower/leaver charts' %>
+    <div class="pt-2 text-gray">
+      Track who you group up with as well as throwers and leavers
+    </div>
+  </div>
+  <div class="carousel-image anim-fade-in text-center screenshot-5">
+    <%= image_tag 'streaks-chart.png', class: 'd-inline-block img-responsive', alt: 'Streaks chart' %>
+    <div class="pt-2 text-gray">
+      See when you're on a winning or losing streak
+    </div>
+  </div>
+  <div class="carousel-image anim-fade-in text-center screenshot-6">
+    <%= image_tag 'win-loss-role.png', class: 'd-inline-block img-responsive', alt: 'Win/loss and role chart chart' %>
+    <div class="pt-2 text-gray">
+      Track overall win percentage by season and what roles you fill on a team
+    </div>
+  </div>
+
+  <div class="carousel-nav border-top d-flex flex-items-stretch flex-justify-between">
+    <button type="button" class="border-right carousel-nav-item active js-carousel-nav-item" data-target="screenshot-1">
+      <%= image_tag 'match-history.png', class: 'img-responsive', alt: 'Match history thumbnail' %>
+    </button>
+    <button type="button" class="border-right carousel-nav-item js-carousel-nav-item" data-target="screenshot-3">
+      <%= image_tag 'career-high-chart.png', class: 'img-responsive', alt: 'Career high wins/losses chart thumbnail' %>
+    </button>
+    <button type="button" class="border-right carousel-nav-item js-carousel-nav-item" data-target="screenshot-4">
+      <%= image_tag 'group-size-throw-leave.png', class: 'img-responsive', alt: 'Group size and thrower/leaver charts thumbnail' %>
+    </button>
+    <button type="button" class="carousel-nav-item js-carousel-nav-item" data-target="screenshot-5">
+      <%= image_tag 'streaks-chart.png', class: 'img-responsive', alt: 'Streaks chart thumbnail' %>
+    </button>
+    <button type="button" class="carousel-nav-item js-carousel-nav-item" data-target="screenshot-6">
+      <%= image_tag 'win-loss-role.png', class: 'img-responsive', alt: 'Win/loss and role chart thumbnail' %>
+    </button>
+  </div>
 </div>

@@ -8,6 +8,7 @@
 // layout file, like app/views/layouts/application.html.erb
 
 import './https-redirect.js'
+import './carousel.js'
 import './tabs.js'
 import './remote-load.js'
 import './dropdowns.js'
