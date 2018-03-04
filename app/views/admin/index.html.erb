@@ -56,7 +56,7 @@
 <% if @userless_accounts.any? %>
   <hr>
 
-  <h2 class="h2">Accounts without users</h2>
+  <h2 class="h2 mb-2">Accounts without users</h2>
   <ul class="list-style-none">
     <% @userless_accounts.each do |oauth_account| %>
       <li><%= oauth_account %></li>
@@ -70,7 +70,7 @@
   <% if @users.size > 1 %>
     <div class="col-md-6 mb-4 float-left">
       <div class="border border-red mr-4 p-3 rounded-2">
-        <h2 class="h2">Merge users</h2>
+        <h2 class="h2 mb-2">Merge users</h2>
         <%= form_tag admin_merge_users_path do %>
           <div class="form-group">
             <label for="primary_user_id">Primary user:</label>
@@ -97,7 +97,7 @@
   <% if @userless_accounts.any? %>
     <div class="col-md-6 mb-4 float-left">
       <div class="border border-red ml-4 p-3 rounded-2">
-        <h2 class="h2">Tie account to a user</h2>
+        <h2 class="h2 mb-2">Tie account to a user</h2>
         <%= form_tag admin_update_account_path do %>
           <div class="form-group">
             <label for="user_id">User:</label>
