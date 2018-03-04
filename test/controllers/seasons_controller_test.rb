@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class SeasonsControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test 'can wipe your own season' do
     oauth_account = create(:oauth_account)
     season = 2
