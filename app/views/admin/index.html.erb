@@ -127,15 +127,15 @@
               <input type="hidden" name="season_id" value="<%= season.id %>">
               <div class="form-group">
                 <%= form.label :started_on, 'Start date:', class: 'mr-2' %>
-                <%= form.date_field :started_on %>
+                <%= form.date_field :started_on, class: 'form-control' %>
               </div>
               <div class="form-group">
                 <%= form.label :ended_on, 'End date:', class: 'mr-2' %>
-                <%= form.date_field :ended_on %>
+                <%= form.date_field :ended_on, class: 'form-control' %>
               </div>
               <div class="form-group">
                 <%= form.label :max_rank, 'Max rank:', class: 'mr-2' %>
-                <%= form.number_field :max_rank, min: 0, step: 1 %>
+                <%= form.number_field :max_rank, min: 0, step: 1, class: 'form-control' %>
               </div>
               <button type="submit" class="btn">
                 Save season <%= season %>
@@ -162,19 +162,19 @@
       <%= form_for(@new_season, url: admin_create_season_path, as: :create_season) do |form| %>
         <div class="form-group">
           <%= form.label :number, 'Number:', class: 'mr-2' %>
-          <%= form.number_field :number, min: 0, step: 1 %>
+          <%= form.number_field :number, min: 0, step: 1, class: 'form-control' %>
         </div>
         <div class="form-group">
           <%= form.label :started_on, 'Start date:', class: 'mr-2' %>
-          <%= form.date_field :started_on %>
+          <%= form.date_field :started_on, class: 'form-control' %>
         </div>
         <div class="form-group">
           <%= form.label :ended_on, 'End date:', class: 'mr-2' %>
-          <%= form.date_field :ended_on %>
+          <%= form.date_field :ended_on, class: 'form-control' %>
         </div>
         <div class="form-group">
           <%= form.label :max_rank, 'Max rank:', class: 'mr-2' %>
-          <%= form.number_field :max_rank, min: 0, step: 1 %>
+          <%= form.number_field :max_rank, min: 0, step: 1, class: 'form-control' %>
         </div>
         <button type="submit" class="btn">
           Save season
