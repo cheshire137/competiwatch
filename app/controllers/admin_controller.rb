@@ -5,6 +5,7 @@ class AdminController < ApplicationController
     all_users = User.order_by_battletag
     @friend_count = Friend.count
     @match_count = Match.count
+    @new_season = Season.new(number: Season.current_or_latest_number + 1)
     @oauth_account_count = OauthAccount.count
     @season_share_count = SeasonShare.count
     @users = all_users.paginate(page: current_page, per_page: 10)
@@ -17,6 +18,31 @@ class AdminController < ApplicationController
     @userless_accounts = OauthAccount.without_user.order_by_battletag
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
+  end
+
+  def destroy_season
+    season = Season.find(params[:season_id])
+
+    if season.destroy
+      flash[:notice] = "Successfully deleted season #{season}."
+    else
+      flash[:error] = "Could not delete season #{season}: " + season.errors.full_messages.join(', ')
+    end
+
+    redirect_to admin_path
+  end
+
+  def create_season
+    season = Season.new
+    season.assign_attributes(new_season_params)
+
+    if season.save
+      flash[:notice] = "Successfully created season #{season}."
+    else
+      flash[:error] = "Could not create season #{season}: " + season.errors.full_messages.join(', ')
+    end
+
+    redirect_to admin_path
   end
 
   def update_season
@@ -71,6 +97,10 @@ class AdminController < ApplicationController
   end
 
   private
+
+  def new_season_params
+    params.require(:create_season).permit([:started_on, :ended_on, :max_rank, :number])
+  end
 
   def season_params
     params.require(:update_season).permit([:started_on, :ended_on, :max_rank])

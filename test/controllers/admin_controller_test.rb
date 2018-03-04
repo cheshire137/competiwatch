@@ -38,7 +38,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     season = seasons(:one)
 
     sign_in_as(oauth_account)
-    put '/admin/update-season', params: {
+    put '/admin/season', params: {
       season_id: season.id, update_season: { max_rank: 1234 }
     }
 
@@ -110,7 +110,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     season = seasons(:two)
 
     sign_in_as(admin_account)
-    put '/admin/update-season', params: {
+    put '/admin/season', params: {
       season_id: season.id,
       update_season: { max_rank: 6001, started_on: '2018-02-28', ended_on: '2018-05-15' }
     }
