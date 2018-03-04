@@ -45,6 +45,8 @@ class TrendsController < ApplicationController
     win_loss_chart
     role_chart
     day_time_chart
+    group_size_chart
+    thrower_leaver_chart
   end
 
   def all_seasons
