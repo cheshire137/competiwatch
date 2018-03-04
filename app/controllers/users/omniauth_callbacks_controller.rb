@@ -47,7 +47,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
 
     user = account.user
-    user.default_oauth_account = account
+    user.default_oauth_account ||= account
     user.save
 
     if signed_in?
