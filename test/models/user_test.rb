@@ -1,6 +1,29 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'active scope includes user with a recent season share' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user, updated_at: 1.year.ago)
+    create(:season_share, oauth_account: oauth_account)
+
+    assert_includes User.active, user
+  end
+
+  test 'active scope includes user with a recent account' do
+    user = create(:user)
+    create(:oauth_account, user: user)
+
+    assert_includes User.active, user
+  end
+
+  test 'active scope includes user with a recent match' do
+    user = create(:user)
+    oauth_account = create(:oauth_account, user: user, updated_at: 1.year.ago)
+    create(:match, oauth_account: oauth_account)
+
+    assert_includes User.active, user
+  end
+
   test 'active_seasons returns list of seasons user had matches across accounts' do
     user = create(:user)
     oauth_account1 = create(:oauth_account, user: user)

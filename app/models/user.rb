@@ -14,6 +14,15 @@ class User < ApplicationRecord
   alias_attribute :to_s, :battletag
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
+  scope :active, -> do
+    cutoff_time = Time.zone.now - 1.month
+    account_user_ids = OauthAccount.where('updated_at >= ?', cutoff_time).pluck(:user_id)
+    share_user_ids = SeasonShare.joins(:oauth_account).
+      where('season_shares.created_at >= ?', cutoff_time).pluck('oauth_accounts.user_id')
+    match_user_ids = Match.joins(:oauth_account).where('matches.updated_at >= ?', cutoff_time).
+      pluck('oauth_accounts.user_id')
+    where(id: account_user_ids | share_user_ids | match_user_ids)
+  end
 
   def active_seasons
     matches.select('DISTINCT season').order('season').map(&:season)
