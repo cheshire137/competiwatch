@@ -87,3 +87,12 @@
     <% end %>
   </div>
 <% end %>
+
+<% if show_group_member_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/group_member_chart',
+             locals: { group_members: @group_members,
+                       win_counts: @group_member_win_counts,
+                       loss_counts: @group_member_loss_counts,
+                       draw_counts: @group_member_draw_counts } %>
+<% end %>

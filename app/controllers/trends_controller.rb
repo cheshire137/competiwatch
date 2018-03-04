@@ -47,6 +47,7 @@ class TrendsController < ApplicationController
     day_time_chart
     group_size_chart
     thrower_leaver_chart
+    group_member_chart
   end
 
   def all_seasons
