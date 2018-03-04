@@ -15,13 +15,13 @@
       <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
         <% if params[:season] %>
           <li>
-            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= all_accounts_stats_path(params[:season]) %>">
+            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= all_accounts_trends_path(params[:season]) %>">
               All accounts
             </a>
           </li>
         <% else %>
           <li>
-            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= stats_path %>">
+            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= all_seasons_accounts_path %>">
               All accounts
             </a>
           </li>

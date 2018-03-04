@@ -4,16 +4,16 @@
 %>
 
 <% content_for(:trend_tabs) do %>
-  <a href="<%= all_seasons_stats_path(oauth_account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_stats_page? %>" role="tab">
+  <a href="<%= all_seasons_trends_path(oauth_account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">
     All season trends
   </a>
 
   <% if oauth_accounts.size > 1 %>
-    <a href="<%= all_accounts_stats_path(season) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_accounts_stats_page? %>" role="tab">
+    <a href="<%= all_accounts_trends_path(season) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_accounts_trends_page? %>" role="tab">
       All account trends
     </a>
 
-    <a href="<%= stats_path %>" class="UnderlineNav-item js-tab <%= 'selected' if is_stats_page? %>" role="tab">
+    <a href="<%= all_seasons_accounts_path %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_accounts_page? %>" role="tab">
       All account + season trends
     </a>
   <% end %>

@@ -21,16 +21,16 @@ module ApplicationHelper
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
-  def is_all_seasons_stats_page?
-    is_page?('stats', 'all_seasons')
+  def is_all_seasons_trends_page?
+    is_page?('trends', 'all_seasons')
   end
 
-  def is_all_accounts_stats_page?
-    is_page?('stats', 'all_accounts')
+  def is_all_accounts_trends_page?
+    is_page?('trends', 'all_accounts')
   end
 
-  def is_stats_page?
-    is_page?('stats', 'index')
+  def is_all_seasons_accounts_page?
+    is_page?('trends', 'all_seasons_accounts')
   end
 
   def is_trends_page?(season, battletag)

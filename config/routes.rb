@@ -8,6 +8,9 @@ Rails.application.routes.draw do
     delete 'sign_out', to: 'users/sessions#destroy', as: :sign_out
   end
 
+  get '/trends/all-seasons-accounts' => 'trends#all_seasons_accounts', as: :all_seasons_accounts
+  get '/trends/all-seasons/:battletag' => 'trends#all_seasons', as: :all_seasons_trends
+  get '/trends/all-accounts/:season' => 'trends#all_accounts', as: :all_accounts_trends
   get '/trends/:season/:battletag' => 'trends#index', as: :trends
 
   get '/seasons/choose-season-to-wipe' => 'seasons#choose_season_to_wipe', as: :choose_season_to_wipe, season: /\d+/
@@ -35,10 +38,6 @@ Rails.application.routes.draw do
 
   get '/import/:season/:battletag' => 'import#index', as: :import, season: /\d+/
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
-
-  get '/stats/all-seasons/:battletag' => 'stats#all_seasons', as: :all_seasons_stats
-  get '/stats/all-accounts/:season' => 'stats#all_accounts', as: :all_accounts_stats
-  get '/stats' => 'stats#index', as: :stats
 
   get '/admin' => 'admin#index', as: :admin
   post '/admin/merge-users' => 'admin#merge_users', as: :admin_merge_users

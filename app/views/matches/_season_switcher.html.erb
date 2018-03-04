@@ -12,13 +12,13 @@
     <ul class="dropdown-menu dropdown-menu-se">
       <% if params[:battletag] %>
         <li>
-          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= all_seasons_stats_path(params[:battletag]) %>">
+          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= all_seasons_trends_path(params[:battletag]) %>">
             All seasons
           </a>
         </li>
       <% else %>
         <li>
-          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= stats_path %>">
+          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= all_seasons_accounts_path %>">
             All seasons
           </a>
         </li>

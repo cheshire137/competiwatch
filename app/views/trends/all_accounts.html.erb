@@ -1,10 +1,10 @@
-<% content_for(:title, "All Seasons and Accounts / Stats") %>
+<% content_for(:title, 'All Accounts / Trends') %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(:all) %> / <%= season_switcher(:all) %>
+  <%= account_switcher(:all) %> / <%= season_switcher(@season) %>
 <% end %>
 
-<%= render partial: 'trends/tabs' %>
+<%= render partial: 'trends/tabs', locals: { season: @season } %>
 
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">
@@ -12,11 +12,6 @@
       <strong><%= @total_accounts %></strong>
       <%= 'account'.pluralize(@total_accounts) %> with matches
       <div class="text-gray"><%= @account_battletags.join(', ') %></div>
-    </div>
-
-    <div class="mb-4">
-      <span class="text-bold">Active in seasons:</span>
-      <%= @active_seasons.map(&:to_s).join(', ') %>
     </div>
 
     <%= render partial: 'seasons/rank_range',
