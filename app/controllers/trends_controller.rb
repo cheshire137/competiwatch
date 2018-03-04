@@ -49,7 +49,6 @@ class TrendsController < ApplicationController
     thrower_leaver_chart
     group_member_chart
     map_chart
-    streaks_chart
   end
 
   def all_seasons

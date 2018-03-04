@@ -93,7 +93,6 @@
              locals: { season: @season, game_numbers: @game_numbers, win_streaks: @win_streaks,
                        loss_streaks: @loss_streaks } %>
 <% end %>
-
 <% if show_career_high_heroes_chart?(@matches, @career_high) %>
   <hr class="mb-4 pt-4">
   <%= render partial: 'trends/career_high_heroes_chart',
