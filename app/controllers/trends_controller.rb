@@ -44,6 +44,7 @@ class TrendsController < ApplicationController
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
     role_chart
+    day_time_chart
   end
 
   def all_seasons
