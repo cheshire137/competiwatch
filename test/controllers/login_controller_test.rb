@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class LoginControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   setup do
     Rails.cache.clear
   end
