@@ -1,28 +1,11 @@
 <div class="dropdown js-menu-container d-inline-block">
   <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-    <% if selected_season == :all %>
-      All seasons
-    <% else %>
-      Season <%= selected_season %>
-    <% end %>
+    Season <%= selected_season %>
     <div class="dropdown-caret"></div>
   </button>
 
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
-      <% if params[:battletag] %>
-        <li>
-          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= all_seasons_trends_path(params[:battletag]) %>">
-            All seasons
-          </a>
-        </li>
-      <% else %>
-        <li>
-          <a class="dropdown-item <%= 'text-bold' if selected_season == :all %>" href="<%= all_seasons_accounts_path %>">
-            All seasons
-          </a>
-        </li>
-      <% end %>
       <% season_options.each do |label, season_number| %>
         <% selected_season_number = selected_season.is_a?(Season) ? selected_season.number : selected_season %>
         <li>

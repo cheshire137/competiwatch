@@ -1,9 +1,5 @@
 <% content_for(:title, "All Seasons and Accounts / Trends") %>
 
-<% content_for(:breadcrumb) do %>
-  <%= account_switcher(:all) %> / <%= season_switcher(:all) %>
-<% end %>
-
 <%= render partial: 'trends/tabs' %>
 
 <div class="clearfix">

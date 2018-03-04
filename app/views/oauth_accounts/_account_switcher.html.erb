@@ -3,29 +3,12 @@
 <% else %>
   <div class="dropdown js-menu-container d-inline-block">
     <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-      <% if selected_account == :all %>
-        All accounts
-      <% else %>
-        <%= selected_account %>
-      <% end %>
+      <%= selected_account %>
       <div class="dropdown-caret"></div>
     </button>
 
     <div class="dropdown-menu-content js-menu-content">
       <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
-        <% if params[:season] %>
-          <li>
-            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= all_accounts_trends_path(params[:season]) %>">
-              All accounts
-            </a>
-          </li>
-        <% else %>
-          <li>
-            <a class="dropdown-item <%= 'text-bold' if selected_account == :all %>" href="<%= all_seasons_accounts_path %>">
-              All accounts
-            </a>
-          </li>
-        <% end %>
         <% oauth_accounts.each do |oauth_account| %>
           <li>
             <a class="dropdown-item <%= 'text-bold' if oauth_account == selected_account %>" href="<%= account_switcher_url(oauth_account) %>">

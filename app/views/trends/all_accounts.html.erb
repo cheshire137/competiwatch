@@ -1,7 +1,7 @@
-<% content_for(:title, 'All Accounts / Trends') %>
+<% content_for(:title, "All Accounts / Season #{@season} / Trends") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(:all) %> / <%= season_switcher(@season) %>
+  All accounts / <%= season_switcher(@season) %> / Trends
 <% end %>
 
 <%= render partial: 'trends/tabs', locals: { season: @season } %>
