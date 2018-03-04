@@ -88,9 +88,9 @@ class AdminController < ApplicationController
     primary_user = User.find(params[:primary_user_id])
 
     if secondary_user.merge_with(primary_user)
-      flash[:notice] = "Successfully linked #{secondary_user} with #{primary_user}."
+      flash[:notice] = "Successfully merged user #{secondary_user} with #{primary_user}."
     else
-      flash[:error] = "Failed to link #{secondary_user} with #{primary_user}."
+      flash[:error] = "Failed to merge user #{secondary_user} with #{primary_user}."
     end
 
     redirect_to admin_path

@@ -199,7 +199,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_nil flash[:error]
-    assert_equal "Successfully linked #{secondary_account} with #{primary_account}.", flash[:notice]
+    assert_equal "Successfully merged user #{secondary_user} with #{primary_user}.", flash[:notice]
     assert_redirected_to admin_path
     refute User.exists?(secondary_user.id)
     assert User.exists?(primary_user.id)
