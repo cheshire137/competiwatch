@@ -6,17 +6,17 @@ class AdminController < ApplicationController
     @friend_count = Friend.count
     @match_count = Match.count
     @new_season = Season.new(number: Season.current_or_latest_number + 1)
-    @oauth_account_count = OauthAccount.count
+    @oauth_account_count = OAuthAccount.count
     @season_share_count = SeasonShare.count
     @active_users = all_users.active
     @users = all_users.paginate(page: current_page, per_page: 10)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
-    @oauth_accounts_by_user_id = OauthAccount.order_by_battletag.group_by(&:user_id)
+    @oauth_accounts_by_user_id = OAuthAccount.order_by_battletag.group_by(&:user_id)
     @seasons = Season.latest_first
     @matches_by_oauth_account_id = Match.select([:season, :oauth_account_id]).
       group_by(&:oauth_account_id)
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
-    @userless_accounts = OauthAccount.without_user.order_by_battletag
+    @userless_accounts = OAuthAccount.without_user.order_by_battletag
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
   end
@@ -66,7 +66,7 @@ class AdminController < ApplicationController
     end
 
     user = User.find(params[:user_id])
-    oauth_account = OauthAccount.find(params[:oauth_account_id])
+    oauth_account = OAuthAccount.find(params[:oauth_account_id])
     oauth_account.user = user
 
     if oauth_account.save

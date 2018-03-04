@@ -1,4 +1,4 @@
-class CreateOauthAccounts < ActiveRecord::Migration[5.1]
+class CreateOAuthAccounts < ActiveRecord::Migration[5.1]
   def change
     create_table :oauth_accounts do |t|
       t.integer :user_id, null: false

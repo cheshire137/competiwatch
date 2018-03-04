@@ -6,7 +6,7 @@ class User < ApplicationRecord
   has_many :matches, through: :oauth_accounts
   has_many :season_shares, through: :oauth_accounts
 
-  belongs_to :default_oauth_account, class_name: 'OauthAccount', required: false
+  belongs_to :default_oauth_account, class_name: 'OAuthAccount', required: false
 
   validates :battletag, presence: true, uniqueness: true
   validate :default_oauth_account_is_owned
@@ -16,7 +16,7 @@ class User < ApplicationRecord
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
   scope :active, -> do
     cutoff_time = Time.zone.now - 1.month
-    account_user_ids = OauthAccount.where('updated_at >= ?', cutoff_time).pluck(:user_id)
+    account_user_ids = OAuthAccount.where('updated_at >= ?', cutoff_time).pluck(:user_id)
     share_user_ids = SeasonShare.joins(:oauth_account).
       where('season_shares.created_at >= ?', cutoff_time).pluck('oauth_accounts.user_id')
     match_user_ids = Match.joins(:oauth_account).where('matches.updated_at >= ?', cutoff_time).

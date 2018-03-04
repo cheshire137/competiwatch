@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OauthAccountsControllerTest < ActionDispatch::IntegrationTest
+class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
   test 'anonymous user cannot set default account' do
@@ -57,7 +57,7 @@ class OauthAccountsControllerTest < ActionDispatch::IntegrationTest
     create(:match, oauth_account: oauth_account1)
     oauth_account2 = create(:oauth_account, user: user)
 
-    assert_no_difference ['OauthAccount.count', 'Match.count'] do
+    assert_no_difference ['OAuthAccount.count', 'Match.count'] do
       sign_in_as(oauth_account1)
       delete "/accounts/#{oauth_account1.to_param}"
     end

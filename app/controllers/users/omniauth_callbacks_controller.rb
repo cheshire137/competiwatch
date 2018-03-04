@@ -2,7 +2,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
     battletag = auth.info.battletag
-    account = OauthAccount.where(provider: auth.provider, uid: auth.uid,
+    account = OAuthAccount.where(provider: auth.provider, uid: auth.uid,
                                  battletag: battletag).first_or_initialize
     if account.persisted?
       if signed_in? && account.user.nil?

@@ -1,4 +1,4 @@
-module OauthAccountsHelper
+module OAuthAccountsHelper
   def account_switcher(selected_account)
     render partial: 'oauth_accounts/account_switcher',
            locals: { selected_account: selected_account }

@@ -105,7 +105,7 @@ class UserTest < ActiveSupport::TestCase
     oauth_account1 = create(:oauth_account, user: secondary_user)
     oauth_account2 = create(:oauth_account, user: secondary_user)
 
-    assert_no_difference ['OauthAccount.count', 'Friend.count'] do
+    assert_no_difference ['OAuthAccount.count', 'Friend.count'] do
       assert_difference 'User.count', -1 do
         assert secondary_user.merge_with(primary_user), 'should return true on success'
         assert_empty secondary_user.oauth_accounts.reload
@@ -153,12 +153,12 @@ class UserTest < ActiveSupport::TestCase
     oauth_account1 = create(:oauth_account, user: user)
     oauth_account2 = create(:oauth_account, user: user)
 
-    assert_difference 'OauthAccount.count', -2 do
+    assert_difference 'OAuthAccount.count', -2 do
       user.destroy
     end
 
-    refute OauthAccount.exists?(oauth_account1.id)
-    refute OauthAccount.exists?(oauth_account2.id)
+    refute OAuthAccount.exists?(oauth_account1.id)
+    refute OAuthAccount.exists?(oauth_account2.id)
   end
 
   test "friend_names returns empty list when season has no matches" do

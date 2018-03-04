@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OauthAccountTest < ActiveSupport::TestCase
+class OAuthAccountTest < ActiveSupport::TestCase
   fixtures :seasons
 
   setup do
@@ -8,7 +8,7 @@ class OauthAccountTest < ActiveSupport::TestCase
   end
 
   test 'career_high is nil for new account' do
-    assert_nil OauthAccount.new.career_high
+    assert_nil OAuthAccount.new.career_high
   end
 
   test 'career_high is nil for account with no matches' do
@@ -110,7 +110,7 @@ class OauthAccountTest < ActiveSupport::TestCase
   end
 
   test 'requires battletag' do
-    oauth_account = OauthAccount.new
+    oauth_account = OAuthAccount.new
 
     refute_predicate oauth_account, :valid?
     assert_includes oauth_account.errors.messages[:battletag], "can't be blank"
@@ -130,7 +130,7 @@ class OauthAccountTest < ActiveSupport::TestCase
   end
 
   test 'requires provider' do
-    oauth_account = OauthAccount.new
+    oauth_account = OAuthAccount.new
 
     refute_predicate oauth_account, :valid?
     assert_includes oauth_account.errors.messages[:provider], "can't be blank"
@@ -138,7 +138,7 @@ class OauthAccountTest < ActiveSupport::TestCase
 
   test 'requires unique uid + provider' do
     oauth_account1 = create(:oauth_account)
-    oauth_account2 = OauthAccount.new(uid: oauth_account1.uid,
+    oauth_account2 = OAuthAccount.new(uid: oauth_account1.uid,
                                       provider: oauth_account1.provider)
 
     refute_predicate oauth_account2, :valid?
