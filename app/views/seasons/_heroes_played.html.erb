@@ -1,8 +1,9 @@
 <% if match_counts_by_hero.any? %>
   <%
     all_heroes = match_counts_by_hero.keys
-    visible_heroes = all_heroes.take(4)
-    hidden_heroes = all_heroes.drop(4)
+    visible_count = all_heroes.size > 5 ? 4 : 5
+    visible_heroes = all_heroes.take(visible_count)
+    hidden_heroes = all_heroes.drop(visible_count)
   %>
   <div class="mb-4">
     <div class="text-bold mb-1">Heroes played:</div>
