@@ -1,6 +1,8 @@
 <h3 class="h3 flex-justify-center d-flex flex-items-center mb-2">
   Streaks
-  <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= season %></span>
+  <% if local_assigns.key?(:season) %>
+    <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= season %></span>
+  <% end %>
 </h3>
 <div class="small-chart-container">
   <canvas class="js-streaks-chart" data-game-numbers="<%= game_numbers.to_json %>" data-win-streaks="<%= win_streaks.to_json %>" data-loss-streaks="<%= loss_streaks.to_json %>"></canvas>
