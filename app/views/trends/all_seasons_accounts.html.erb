@@ -113,3 +113,10 @@
                        draw_counts: @career_high_heroes_draw_counts,
                        career_high: @career_high } %>
 <% end %>
+
+<% if show_heroes_chart?(@matches) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/heroes_chart',
+             locals: { heroes: @heroes, win_counts: @heroes_win_counts,
+                       loss_counts: @heroes_loss_counts, draw_counts: @heroes_draw_counts } %>
+<% end %>
