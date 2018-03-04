@@ -86,6 +86,7 @@
              locals: { win_counts: @map_win_counts, season: @season, map_names: @map_names,
                        loss_counts: @map_loss_counts, draw_counts: @map_draw_counts } %>
 <% end %>
+
 <% if show_streaks_chart?(@matches) %>
   <hr class="mb-4 pt-4">
   <%= render partial: 'trends/streaks_chart',
