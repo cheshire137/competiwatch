@@ -56,18 +56,29 @@ class TrendsController < ApplicationController
 
   def all_seasons
     @active_seasons = @oauth_account.active_seasons
-    matches = @oauth_account.matches.includes([:friends, :heroes]).with_result.ordered_by_time
-    @total_matches = matches.count
-    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(matches)
-    @lowest_sr, @highest_sr = get_lowest_and_highest_rank(matches)
-    @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(matches)
-    @friends, @match_counts_by_friend = get_friends_and_match_counts(matches)
+    @matches = account_matches_in_season.includes([:friends, :heroes, :prior_match, :map]).
+      with_result.ordered_by_time
+    @total_matches = @matches.count
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
+    @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
+    @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
+    @friends, @match_counts_by_friend = get_friends_and_match_counts(@matches)
     @most_frequent_match_count = @match_counts_by_friend.values.max
     @most_frequent_friends = @match_counts_by_friend.
       select { |name, count| count == @most_frequent_match_count }.keys
-    @win_rates_by_friend = get_win_rates_by_friend(matches, @match_counts_by_friend)
+    @win_rates_by_friend = get_win_rates_by_friend(@matches, @match_counts_by_friend)
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
+    win_loss_chart
+    role_chart
+    day_time_chart
+    group_size_chart
+    thrower_leaver_chart
+    group_member_chart
+    map_chart
+    career_high_heroes_chart
+    heroes_chart
+    group_stats
   end
 
   def all_accounts
