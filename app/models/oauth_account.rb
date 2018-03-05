@@ -1,9 +1,25 @@
 class OAuthAccount < ApplicationRecord
+  VALID_PLATFORMS = {
+    'pc' => 'PC',
+    'psn' => 'PlayStation',
+    'xbl' => 'Xbox'
+  }.freeze
+
+  VALID_REGIONS = {
+    'us' => 'United States',
+    'eu' => 'Europe',
+    'kr' => 'South Korea',
+    'cn' => 'China',
+    'global' => 'Global'
+  }.freeze
+
   belongs_to :user, required: false
 
   validates :battletag, presence: true
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: :provider }
+  validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
+  validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }
