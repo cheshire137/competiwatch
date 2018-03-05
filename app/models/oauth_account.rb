@@ -33,15 +33,15 @@ class OAuthAccount < ApplicationRecord
   has_many :season_shares, dependent: :destroy
 
   def overbuff_url
-    "https://www.overbuff.com/players/pc/#{to_param}?mode=competitive"
+    "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
   end
 
   def master_overwatch_url
-    "https://masteroverwatch.com/profile/pc/us/#{to_param}"
+    "https://masteroverwatch.com/profile/#{platform}/#{region}/#{to_param}"
   end
 
   def play_overwatch_url
-    "https://playoverwatch.com/en-us/career/pc/#{to_param}"
+    "https://playoverwatch.com/en-us/career/#{platform}/#{to_param}"
   end
 
   def delete_career_high_cache
