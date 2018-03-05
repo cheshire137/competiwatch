@@ -1,4 +1,12 @@
 module OAuthAccountsHelper
+  def platform_options
+    OAuthAccount::VALID_PLATFORMS.map { |key, label| [label, key] }
+  end
+
+  def region_options
+    OAuthAccount::VALID_REGIONS.map { |key, label| [label, key] }
+  end
+
   def account_switcher(selected_account)
     render partial: 'oauth_accounts/account_switcher',
            locals: { selected_account: selected_account }

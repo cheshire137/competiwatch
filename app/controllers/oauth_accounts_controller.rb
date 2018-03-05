@@ -1,7 +1,7 @@
 class OAuthAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:destroy, :set_default, :show]
-  before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default, :show]
+  before_action :set_oauth_account, only: [:destroy, :set_default, :show, :update]
+  before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default, :show, :update]
 
   def index
     @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag
@@ -24,6 +24,19 @@ class OAuthAccountsController < ApplicationController
     redirect_to accounts_path
   end
 
+  def update
+    @oauth_account.assign_attributes oauth_account_params
+
+    if @oauth_account.save
+      flash[:notice] = "Successfully updated #{@oauth_account}."
+    else
+      flash[:error] = "Could not update #{@oauth_account}: " +
+                      @oauth_account.errors.full_messages.join(', ')
+    end
+
+    redirect_to profile_path(@oauth_account)
+  end
+
   def destroy
     unless @oauth_account.can_be_unlinked?
       flash[:error] = "#{@oauth_account} cannot be unlinked from your account."
@@ -37,5 +50,11 @@ class OAuthAccountsController < ApplicationController
       flash[:error] = "Could not disconnect #{@oauth_account}."
     end
     redirect_to accounts_path
+  end
+
+  private
+
+  def oauth_account_params
+    params.require(:oauth_account).permit(:platform, :region)
   end
 end
