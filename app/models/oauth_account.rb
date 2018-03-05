@@ -32,6 +32,24 @@ class OAuthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  def overwatch_api_profile
+    data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 1.week) do
+      overwatch_api.profile
+    end
+    return unless data
+
+    OverwatchAPIProfile.new(data)
+  end
+
+  def overwatch_api_stats
+    data = Rails.cache.fetch(overwatch_api_stats_cache_key, expires_in: 1.week) do
+      overwatch_api.stats
+    end
+    return unless data
+
+    OverwatchAPIStats.new(data)
+  end
+
   def overbuff_url
     "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
   end
@@ -138,6 +156,18 @@ class OAuthAccount < ApplicationRecord
   end
 
   private
+
+  def overwatch_api
+    OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
+  end
+
+  def overwatch_api_profile_cache_key
+    "ow-api/profile/#{battletag}/#{region}/#{platform}"
+  end
+
+  def overwatch_api_stats_cache_key
+    "ow-api/stats/#{battletag}/#{region}/#{platform}"
+  end
 
   def career_high_cache_key
     "career-high-#{battletag}"
