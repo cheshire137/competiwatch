@@ -24,6 +24,10 @@ class OAuthAccount < ApplicationRecord
     "https://masteroverwatch.com/profile/pc/us/#{to_param}"
   end
 
+  def play_overwatch_url
+    "https://playoverwatch.com/en-us/career/pc/#{to_param}"
+  end
+
   def delete_career_high_cache
     Rails.cache.delete(career_high_cache_key)
   end
