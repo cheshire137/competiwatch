@@ -43,6 +43,34 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'eu', oauth_account.region
   end
 
+  test 'can view your own profile' do
+    oauth_account = create(:oauth_account)
+
+    sign_in_as(oauth_account)
+    get "/profile/#{oauth_account.to_param}"
+
+    assert_response :ok
+  end
+
+  test 'anonymous user cannot view a profile' do
+    oauth_account = create(:oauth_account)
+
+    get "/profile/#{oauth_account.to_param}"
+
+    assert_response :redirect
+    assert_redirected_to 'http://www.example.com/'
+  end
+
+  test "cannot view another user's profile" do
+    oauth_account1 = create(:oauth_account)
+    oauth_account2 = create(:oauth_account)
+
+    sign_in_as(oauth_account2)
+    get "/profile/#{oauth_account1.to_param}"
+
+    assert_response :not_found
+  end
+
   test 'anonymous user cannot set default account' do
     put '/accounts/set-default'
 
