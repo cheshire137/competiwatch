@@ -7,12 +7,18 @@ module ApplicationHelper
     date.to_formatted_s(:long_ordinal)
   end
 
-  def current_battletag
+  def current_battletag_param
+    return params[:battletag] if params[:battletag]
+
     if signed_in?
-      params[:battletag] || current_user.default_oauth_account.try(:to_param) ||
-        current_user.to_param
-    else
-      params[:battletag]
+      current_user.default_oauth_account.try(:to_param) || current_user.to_param
+    end
+  end
+
+  def current_battletag
+    param_battletag = current_battletag_param
+    if param_battletag
+      User.battletag_from_param(param_battletag)
     end
   end
 

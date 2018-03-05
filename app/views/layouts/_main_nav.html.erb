@@ -3,7 +3,7 @@
     <div class="UnderlineNav-body">
       <%
         season = params[:season] || Season.current_or_latest_number
-        battletag = current_battletag
+        battletag = current_battletag_param
       %>
       <% if content_for?(:match_tabs) %>
         <%= yield :match_tabs %>
@@ -21,14 +21,28 @@
       <% end %>
     </div>
 
-    <div class="UnderlineNav-body">
+    <div class="d-flex flex-items-center">
       <% if signed_in? %>
-        <a class="UnderlineNav-item <%= 'selected' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
-        <%= form_tag sign_out_path, method: :delete do %>
-          <button type="submit" class="UnderlineNav-item btn-link">
-            Log out
+        <div class="dropdown js-menu-container">
+          <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+            <%= current_battletag %>
+            <div class="dropdown-caret"></div>
           </button>
-        <% end %>
+          <div class="dropdown-menu-content js-menu-content">
+            <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
+              <li>
+                <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
+              </li>
+              <li>
+                <%= form_tag sign_out_path, method: :delete do %>
+                  <button type="submit" class="dropdown-item btn-link">
+                    Log out
+                  </button>
+                <% end %>
+              </li>
+            </ul>
+          </div>
+        </div>
       <% elsif !is_page?('login', 'index') %>
         <a class="UnderlineNav-item mr-0" role="tab" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
       <% end %>
