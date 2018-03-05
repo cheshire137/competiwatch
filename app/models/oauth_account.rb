@@ -41,13 +41,13 @@ class OAuthAccount < ApplicationRecord
     OverwatchAPIProfile.new(data)
   end
 
-  def overwatch_api_stats
+  def overwatch_api_stats(heroes_by_name)
     data = Rails.cache.fetch(overwatch_api_stats_cache_key, expires_in: 1.week) do
       overwatch_api.stats
     end
     return unless data
 
-    OverwatchAPIStats.new(data)
+    OverwatchAPIStats.new(data, heroes_by_name: heroes_by_name)
   end
 
   def overbuff_url
