@@ -16,6 +16,10 @@ class OAuthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  def overbuff_url
+    "https://www.overbuff.com/players/pc/#{to_param}?mode=competitive"
+  end
+
   def delete_career_high_cache
     Rails.cache.delete(career_high_cache_key)
   end
