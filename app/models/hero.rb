@@ -4,7 +4,7 @@ class Hero < ApplicationRecord
   validates :name, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: ROLES }
 
-  scope :order_by_name, ->{ order('LOWER(name) ASC') }
+  scope :order_by_name, ->{ order(:name) }
 
   alias_attribute :to_s, :name
 
