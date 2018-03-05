@@ -3,7 +3,7 @@ class OverwatchAPI
   base_uri 'ow-api.herokuapp.com'
 
   def initialize(battletag:, region:, platform:)
-    @battletag = battletag
+    @battletag = User.parameterize(battletag)
     @region = region
     @platform = platform
   end
