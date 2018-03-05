@@ -21,4 +21,7 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
 
   # Oauth -> OAuth
   inflect.acronym 'OAuth'
+
+  # Api -> API
+  inflect.acronym 'API'
 end
