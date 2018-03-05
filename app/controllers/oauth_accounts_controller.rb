@@ -1,10 +1,13 @@
 class OAuthAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:destroy, :set_default]
-  before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default]
+  before_action :set_oauth_account, only: [:destroy, :set_default, :show]
+  before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default, :show]
 
   def index
     @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag
+  end
+
+  def show
   end
 
   def set_default

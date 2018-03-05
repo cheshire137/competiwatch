@@ -1,0 +1,11 @@
+<% content_for(:title, "#{@oauth_account} Profile") %>
+
+<p>
+  <a class="d-inline-block mr-4" href="<%= @oauth_account.overbuff_url %>" target="_blank" rel="noopener noreferrer">
+    View Overbuff profile
+  </a>
+
+  <a href="<%= @oauth_account.master_overwatch_url %>" target="_blank" rel="noopener noreferrer">
+    View Master Overwatch profile
+  </a>
+</p>

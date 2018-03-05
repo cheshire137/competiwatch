@@ -27,6 +27,10 @@ module ApplicationHelper
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
+  def is_profile_page?
+    is_page?('oauth_accounts', 'show')
+  end
+
   def is_all_seasons_trends_page?
     is_page?('trends', 'all_seasons')
   end

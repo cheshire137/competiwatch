@@ -31,6 +31,9 @@
           <div class="dropdown-menu-content js-menu-content">
             <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
               <li>
+                <a class="dropdown-item <%= 'text-bold' if is_profile_page? %>" role="tab" href="<%= profile_path(current_battletag_param) %>">Profile</a>
+              </li>
+              <li>
                 <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
               </li>
               <li>
