@@ -3,6 +3,46 @@ require 'test_helper'
 class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'anonymous user cannot update profile' do
+    oauth_account = create(:oauth_account, platform: 'xbl', region: 'cn')
+
+    put "/profile/#{oauth_account.to_param}", params: {
+      oauth_account: { platform: 'psn', region: 'eu' }
+    }
+
+    assert_response :redirect
+    assert_redirected_to 'http://www.example.com/'
+    assert_equal 'xbl', oauth_account.reload.platform
+    assert_equal 'cn', oauth_account.region
+  end
+
+  test "cannot update another user's profile" do
+    oauth_account1 = create(:oauth_account, platform: 'xbl', region: 'cn')
+    oauth_account2 = create(:oauth_account)
+
+    sign_in_as(oauth_account2)
+    put "/profile/#{oauth_account1.to_param}", params: {
+      oauth_account: { platform: 'psn', region: 'eu' }
+    }
+
+    assert_response :not_found
+    assert_equal 'xbl', oauth_account1.reload.platform
+    assert_equal 'cn', oauth_account1.region
+  end
+
+  test 'can update your own profile' do
+    oauth_account = create(:oauth_account, platform: 'xbl', region: 'cn')
+
+    sign_in_as(oauth_account)
+    put "/profile/#{oauth_account.to_param}", params: {
+      oauth_account: { platform: 'psn', region: 'eu' }
+    }
+
+    assert_redirected_to profile_path(oauth_account)
+    assert_equal 'psn', oauth_account.reload.platform
+    assert_equal 'eu', oauth_account.region
+  end
+
   test 'anonymous user cannot set default account' do
     put '/accounts/set-default'
 
