@@ -16,9 +16,6 @@
           <%= yield :trend_tabs %>
         <% end %>
       <% end %>
-      <% if signed_in? %>
-        <a href="<%= export_path %>" class="UnderlineNav-item <%= 'selected' if is_page?('export', 'index') %>" role="tab">Export</a>
-      <% end %>
     </div>
 
     <div class="d-flex flex-items-center">
@@ -33,6 +30,7 @@
               <li>
                 <a class="dropdown-item <%= 'text-bold' if is_profile_page? %>" role="tab" href="<%= profile_path(current_battletag_param) %>">Profile</a>
               </li>
+              <a href="<%= export_path %>" class="dropdown-item <%= 'text-bold' if is_page?('export', 'index') %>">Export</a>
               <li>
                 <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
               </li>
