@@ -8,6 +8,9 @@ class OAuthAccountsController < ApplicationController
   end
 
   def show
+    heroes_by_name = Hero.order_by_name.map { |hero| [hero.name, hero] }.to_h
+    @profile = @oauth_account.overwatch_api_profile
+    @stats = @oauth_account.overwatch_api_stats(heroes_by_name)
     @other_oauth_accounts = current_user.oauth_accounts.order_by_battletag.
       where('battletag <> ?', @oauth_account.battletag)
   end

@@ -1,0 +1,11 @@
+<% heroes.each do |hero| %>
+  <div aria-label="<%= hero.playtime %>" class="tooltipped tooltipped-e d-flex flex-items-center mb-1 hero-list-item">
+    <% if hero.url %>
+      <img class="flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait" width="30" height="30" src="<%= hero.url %>" alt="<%= hero %>">
+    <% end %>
+    <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
+    <span class="hero-bar-container d-inline-block">
+      <span class="hero-bar hero-bar-<%= hero.to_param %> d-inline-block rounded-2" style="width: <%= hero_bar_width(hero.seconds_played, max_seconds, total_seconds) %>%"></span>
+    </span>
+  </div>
+<% end %>

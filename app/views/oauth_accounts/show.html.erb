@@ -18,6 +18,9 @@
         View PlayOverwatch profile
       </a>
     </p>
+
+    <%= render partial: 'oauth_accounts/summary',
+               locals: { profile: @profile, stats: @stats } %>
   </div>
   <div class="col-md-3 float-left">
     <% if @other_oauth_accounts.size > 1 %>

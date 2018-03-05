@@ -1,0 +1,21 @@
+<div>
+  <div class="player-summary-header d-flex flex-items-center flex-justify-center mb-2">
+    <% if profile.portrait_url %>
+      <img src="<%= profile.portrait_url %>" class="avatar" width="75" alt="<%= profile.username %> portrait">
+    <% end %>
+    <% if profile.rank_url %>
+      <img class="d-inline-block flex-shrink-0 mr-2" width="50" height="50" src="<%= profile.rank_url %>" alt="Rank <%= profile.sr %> logo">
+    <% end %>
+    <span class="d-inline-block text-bold">
+      <% if profile.sr %>
+        <%= profile.sr %>
+      <% else %>
+        Unranked
+      <% end %>
+    </span>
+    <span class="d-inline-block ml-2"><%= stats.tldr %></span>
+  </div>
+
+  <%= render partial: 'oauth_accounts/stats',
+             locals: { stats: stats, hide_tldr: true } %>
+</div>
