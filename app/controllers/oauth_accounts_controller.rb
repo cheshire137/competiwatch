@@ -8,6 +8,8 @@ class OAuthAccountsController < ApplicationController
   end
 
   def show
+    @other_oauth_accounts = current_user.oauth_accounts.order_by_battletag.
+      where('battletag <> ?', @oauth_account.battletag)
   end
 
   def set_default
