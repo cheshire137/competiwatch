@@ -57,6 +57,7 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
 
   test 'can view your own profile' do
     oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
+    create(:match, season: 1, oauth_account: oauth_account)
 
     VCR.use_cassette('ow_api_profile') do
       sign_in_as(oauth_account)
@@ -64,25 +65,39 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :ok
+    assert_select 'a', text: /Season 1\s+1\s+match/
   end
 
-  test 'anonymous user cannot view a profile' do
-    oauth_account = create(:oauth_account)
+  test 'anonymous user can view a profile' do
+    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
+    create(:season_share, oauth_account: oauth_account, season: 1)
+    create(:match, season: 1, oauth_account: oauth_account)
+    create(:match, season: 2, oauth_account: oauth_account)
 
-    get "/profile/#{oauth_account.to_param}"
+    VCR.use_cassette('ow_api_profile') do
+      get "/profile/#{oauth_account.to_param}"
+    end
 
-    assert_response :redirect
-    assert_redirected_to 'http://www.example.com/'
+    assert_response :ok
+    assert_select 'a', text: /Season 1\s+1\s+match/
+    refute_includes response.body, 'Season 2'
   end
 
-  test "cannot view another user's profile" do
-    oauth_account1 = create(:oauth_account)
+  test "can view another user's profile" do
+    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348')
     oauth_account2 = create(:oauth_account)
+    create(:season_share, oauth_account: oauth_account1, season: 1)
+    create(:match, season: 1, oauth_account: oauth_account1)
+    create(:match, season: 2, oauth_account: oauth_account1)
 
-    sign_in_as(oauth_account2)
-    get "/profile/#{oauth_account1.to_param}"
+    VCR.use_cassette('ow_api_profile') do
+      sign_in_as(oauth_account2)
+      get "/profile/#{oauth_account1.to_param}"
+    end
 
-    assert_response :not_found
+    assert_response :ok
+    assert_select 'a', text: /Season 1\s+1\s+match/
+    refute_includes response.body, 'Season 2'
   end
 
   test 'anonymous user cannot set default account' do

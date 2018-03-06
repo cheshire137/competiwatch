@@ -49,7 +49,7 @@
         PlayOverwatch profile
       </a>
     </p>
-    <% if @other_oauth_accounts.size > 1 %>
+    <% if @is_owner && @other_oauth_accounts.size > 1 %>
       <div class="border rounded-2 p-3 mb-4">
         <h2 class="h4 mb-2 mt-0 text-normal">Your other accounts</h2>
         <ul class="list-style-none">
@@ -64,17 +64,19 @@
       </div>
     <% end %>
 
-    <%= form_for(@oauth_account, url: profile_path(@oauth_account), method: :put, html: { class: 'border rounded-2 p-3 mb-4' }) do |f| %>
-      <h2 class="h4 my-0 text-normal">Account settings</h2>
-      <div class="form-group">
-        <%= f.label :platform, 'Platform:', class: 'd-inline-block mr-2' %>
-        <%= f.select :platform, options_for_select(platform_options, @oauth_account.platform), {}, { class: 'form-select' } %>
-      </div>
-      <div class="form-group">
-        <%= f.label :region, 'Region:', class: 'd-inline-block mr-2' %>
-        <%= f.select :region, options_for_select(region_options, @oauth_account.region), {}, { class: 'form-select' } %>
-      </div>
-      <button type="submit" class="btn">Save</button>
+    <% if @is_owner %>
+      <%= form_for(@oauth_account, url: profile_path(@oauth_account), method: :put, html: { class: 'border rounded-2 p-3 mb-4' }) do |f| %>
+        <h2 class="h4 my-0 text-normal">Account settings</h2>
+        <div class="form-group">
+          <%= f.label :platform, 'Platform:', class: 'd-inline-block mr-2' %>
+          <%= f.select :platform, options_for_select(platform_options, @oauth_account.platform), {}, { class: 'form-select' } %>
+        </div>
+        <div class="form-group">
+          <%= f.label :region, 'Region:', class: 'd-inline-block mr-2' %>
+          <%= f.select :region, options_for_select(region_options, @oauth_account.region), {}, { class: 'form-select' } %>
+        </div>
+        <button type="submit" class="btn">Save</button>
+      <% end %>
     <% end %>
   </div>
 </div>
