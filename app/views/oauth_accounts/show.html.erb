@@ -14,12 +14,14 @@
         <% @match_count_by_season.each do |season, match_count| %>
           <li class="mb-2">
             <a href="<%= matches_path(season, @oauth_account) %>">
-              <% if @season_shares_by_season.key?(season) %>
-                <span class="mr-1 d-inline-block placeholder-icon"></span>
-              <% else %>
-                <span class="tooltipped tooltipped-w" aria-label="Only visible to you">
-                  <span class="text-gray text-small ion ion-locked mr-1 d-inline-block"></span>
-                </span>
+              <% if @is_owner %>
+                <% if @season_shares_by_season.key?(season) %>
+                  <span class="mr-1 d-inline-block placeholder-icon"></span>
+                <% else %>
+                  <span class="tooltipped tooltipped-w" aria-label="Only visible to you">
+                    <span class="text-gray text-small ion ion-locked mr-1 d-inline-block"></span>
+                  </span>
+                <% end %>
               <% end %>
               Season <%= season %>
               <span class="text-gray text-small d-inline-block ml-2">
