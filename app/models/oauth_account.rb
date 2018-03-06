@@ -122,10 +122,6 @@ class OAuthAccount < ApplicationRecord
     matches.in_season(season).placements.with_rank.ordered_by_time.last
   end
 
-  def self.find_by_battletag(battletag)
-    where("LOWER(battletag) = ?", battletag.downcase).first
-  end
-
   def finished_placements?(season)
     return @finished_placements if defined? @finished_placements
     season_placement_count = matches.placements.in_season(season).count
