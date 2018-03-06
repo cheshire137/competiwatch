@@ -18,6 +18,15 @@ class OAuthAccountsController < ApplicationController
     @stats = @oauth_account.overwatch_api_stats(heroes_by_name)
     @other_oauth_accounts = current_user.oauth_accounts.order_by_battletag.
       where('battletag <> ?', @oauth_account.battletag)
+
+    @match_count_by_season = Hash.new(0)
+    matches = @oauth_account.matches.select(:season).order(season: :desc)
+    matches = matches.publicly_shared unless @oauth_account.user == current_user
+    matches.each do |match|
+      @match_count_by_season[match.season] += 1
+    end
+
+    @season_shares_by_season = @oauth_account.season_shares.group_by(&:season)
   end
 
   def set_default

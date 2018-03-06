@@ -5,7 +5,31 @@
     <div class="mx-auto col-md-6">
       <%= render partial: 'oauth_accounts/summary',
                  locals: { profile: @profile, stats: @stats, oauth_account: @oauth_account } %>
-      <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
+      <div class="mb-4 pb-2">
+        <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
+      </div>
+
+      <h2 class="h2 text-normal mt-4 mb-2 pt-4 border-top">Competitive seasons</h2>
+      <ul class="list-style-none">
+        <% @match_count_by_season.each do |season, match_count| %>
+          <li class="mb-2">
+            <a href="<%= matches_path(season, @oauth_account) %>">
+              <% if @season_shares_by_season.key?(season) %>
+                <span class="mr-1 d-inline-block placeholder-icon"></span>
+              <% else %>
+                <span class="tooltipped tooltipped-w" aria-label="Only visible to you">
+                  <span class="text-gray text-small ion ion-locked mr-1 d-inline-block"></span>
+                </span>
+              <% end %>
+              Season <%= season %>
+              <span class="text-gray text-small d-inline-block ml-2">
+                <%= number_with_delimiter match_count %>
+                <%= 'match'.pluralize(match_count) %>
+              </span>
+            </a>
+          </li>
+        <% end %>
+      </ul>
     </div>
   </div>
   <div class="col-md-3 float-left">
