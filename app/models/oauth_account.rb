@@ -17,7 +17,7 @@ class OAuthAccount < ApplicationRecord
 
   validates :battletag, presence: true
   validates :provider, presence: true
-  validates :uid, presence: true, uniqueness: { scope: :provider }
+  validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
   validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
 

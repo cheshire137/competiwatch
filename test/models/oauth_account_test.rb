@@ -136,9 +136,9 @@ class OAuthAccountTest < ActiveSupport::TestCase
     assert_includes oauth_account.errors.messages[:provider], "can't be blank"
   end
 
-  test 'requires unique uid + provider' do
+  test 'requires unique battletag + uid + provider' do
     oauth_account1 = create(:oauth_account)
-    oauth_account2 = OAuthAccount.new(uid: oauth_account1.uid,
+    oauth_account2 = OAuthAccount.new(uid: oauth_account1.uid, battletag: oauth_account1.battletag,
                                       provider: oauth_account1.provider)
 
     refute_predicate oauth_account2, :valid?
