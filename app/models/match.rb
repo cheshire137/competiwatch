@@ -51,6 +51,10 @@ class Match < ApplicationRecord
   scope :with_rank, ->{ where('rank IS NOT NULL') }
   scope :with_result, ->{ where('result IS NOT NULL') }
   scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
+  scope :publicly_shared, ->{
+    joins("INNER JOIN season_shares ON season_shares.season = matches.season " \
+          "AND season_shares.oauth_account_id = matches.oauth_account_id")
+  }
 
   def self.rank_tier(rank)
     if rank < 1500

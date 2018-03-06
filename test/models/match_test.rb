@@ -5,6 +5,24 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'publicly_shared scope includes only matches from shared seasons' do
+    oauth_account = create(:oauth_account)
+    create(:season_share, oauth_account: oauth_account, season: 2)
+    unshared_match1 = create(:match, season: 1, oauth_account: oauth_account)
+    shared_match1 = create(:match, season: 2, oauth_account: oauth_account)
+    shared_match2 = create(:match, season: 2, oauth_account: oauth_account)
+    unshared_match2 = create(:match, season: 2) # different account
+    unshared_match3 = create(:match, season: 3, oauth_account: oauth_account)
+
+    result = Match.publicly_shared
+
+    assert_includes result, shared_match1
+    assert_includes result, shared_match2
+    refute_includes result, unshared_match1
+    refute_includes result, unshared_match2
+    refute_includes result, unshared_match3
+  end
+
   test 'clears account career high cache if rank is greater' do
     oauth_account = create(:oauth_account)
 
