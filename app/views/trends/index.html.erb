@@ -7,6 +7,13 @@
 
   <%= render partial: 'trends/tabs',
              locals: { oauth_account: @oauth_account, season: @season } %>
+<% else %>
+  <% content_for(:breadcrumb) do %>
+    <a href="<%= profile_path(@oauth_account) %>">
+      <%= @oauth_account %>
+    </a>
+    / Season <%= @season %> / Trends
+  <% end %>
 <% end %>
 
 <% if @matches.empty? %>
