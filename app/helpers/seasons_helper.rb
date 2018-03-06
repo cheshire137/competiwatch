@@ -15,6 +15,7 @@ module SeasonsHelper
     hero_percent = (hero_match_count.to_f / total_match_count) * 100
     max_percent = (max_hero_match_count.to_f / total_match_count) * 100
     percent = (hero_percent / max_percent) * 100
+    return 100 if percent >= 100
     percent + 2
   end
 
