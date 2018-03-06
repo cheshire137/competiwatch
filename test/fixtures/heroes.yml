@@ -1,0 +1,81 @@
+mercy:
+  name: Mercy
+  role: healer
+zenyatta:
+  name: Zenyatta
+  role: healer
+ana:
+  name: Ana
+  role: healer
+lucio:
+  name: Lúcio
+  role: healer
+moira:
+  name: Moira
+  role: healer
+brigitte:
+  name: Brigitte
+  role: healer
+symmetra:
+  name: Symmetra
+  role: defense
+torbjorn:
+  name: Torbjörn
+  role: defense
+mei:
+  name: Mei
+  role: defense
+hanzo:
+  name: Hanzo
+  role: defense
+bastion:
+  name: Bastion
+  role: defense
+dva:
+  name: D.Va
+  role: off-tank
+roadhog:
+  name: Roadhog
+  role: off-tank
+zarya:
+  name: Zarya
+  role: off-tank
+winston:
+  name: Winston
+  role: tank
+reinhardt:
+  name: Reinhardt
+  role: tank
+orisa:
+  name: Orisa
+  role: tank
+mccree:
+  name: McCree
+  role: hitscan
+soldier_76:
+  name: "Soldier: 76"
+  role: hitscan
+widowmaker:
+  name: Widowmaker
+  role: hitscan
+pharah:
+  name: Pharah
+  role: DPS
+reaper:
+  name: Reaper
+  role: DPS
+doomfist:
+  name: Doomfist
+  role: DPS
+junkrat:
+  name: Junkrat
+  role: DPS
+genji:
+  name: Genji
+  role: flanker
+sombra:
+  name: Sombra
+  role: flanker
+tracer:
+  name: Tracer
+  role: flanker
