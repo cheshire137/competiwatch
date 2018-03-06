@@ -35,6 +35,7 @@ Rails.application.routes.draw do
   get '/accounts' => 'oauth_accounts#index', as: :accounts
   delete '/accounts/:battletag' => 'oauth_accounts#destroy', as: :account
   put '/accounts/set-default' => 'oauth_accounts#set_default', as: :set_default_account
+  get '/profile/:battletag/avatar' => 'oauth_accounts#avatar', as: :avatar
   get '/profile/:battletag' => 'oauth_accounts#show', as: :profile
   put '/profile/:battletag' => 'oauth_accounts#update'
 

@@ -1,10 +1,15 @@
 class OAuthAccountsController < ApplicationController
   before_action :authenticate_user!
-  before_action :set_oauth_account, only: [:destroy, :set_default, :show, :update]
+  before_action :set_oauth_account, only: [:destroy, :set_default, :show, :update, :avatar]
   before_action :ensure_oauth_account_is_mine, only: [:destroy, :set_default, :show, :update]
 
   def index
     @oauth_accounts = current_user.oauth_accounts.includes(:user).order_by_battletag
+  end
+
+  def avatar
+    @profile = @oauth_account.overwatch_api_profile
+    render partial: 'oauth_accounts/avatar', layout: false
   end
 
   def show
