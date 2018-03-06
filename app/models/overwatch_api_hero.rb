@@ -9,7 +9,7 @@ class OverwatchAPIHero
   end
 
   def role
-    @hero.role
+    @hero.try(:role)
   end
 
   def any_playtime?
@@ -35,10 +35,10 @@ class OverwatchAPIHero
   end
 
   def to_s
-    @hero.name
+    @hero.try(:name)
   end
 
   def slug
-    @hero.slug
+    @hero.try(:slug)
   end
 end
