@@ -16,8 +16,8 @@
           <%= yield :trend_tabs %>
         <% end %>
       <% end %>
-      <% if signed_in? %>
-        <a class="UnderlineNav-item <%= 'selected' if is_profile_page? %>" role="tab" href="<%= profile_path(current_battletag_param) %>">Profile</a>
+      <% if battletag %>
+        <a class="UnderlineNav-item <%= 'selected' if is_profile_page? %>" role="tab" href="<%= profile_path(battletag) %>">Profile</a>
       <% end %>
     </div>
 
