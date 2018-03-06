@@ -2,6 +2,8 @@
 require 'test_helper'
 
 class HeroTest < ActiveSupport::TestCase
+  fixtures :heroes
+
   test 'requires name' do
     hero = Hero.new
 
@@ -10,7 +12,7 @@ class HeroTest < ActiveSupport::TestCase
   end
 
   test 'requires unique name' do
-    hero1 = create(:hero)
+    hero1 = heroes(:mercy)
     hero2 = Hero.new(name: hero1.name)
 
     refute_predicate hero2, :valid?

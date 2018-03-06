@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class MatchExporterTest < ActiveSupport::TestCase
+  fixtures :heroes
+
   setup do
     @map1 = create(:map)
     @map2 = create(:map)
@@ -11,9 +13,9 @@ class MatchExporterTest < ActiveSupport::TestCase
     @friend1 = create(:friend, user: user, name: 'Siege')
     @friend2 = create(:friend, user: user, name: 'Rob')
 
-    @hero1 = create(:hero, name: 'D.Va')
-    @hero2 = create(:hero, name: 'Soldier: 76')
-    @hero3 = create(:hero, name: 'Zarya')
+    @hero1 = heroes(:dva)
+    @hero2 = heroes(:soldier_76)
+    @hero3 = heroes(:zarya)
 
     @season = 6
 

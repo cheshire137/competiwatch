@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class TrendsControllerTest < ActionDispatch::IntegrationTest
-  fixtures :seasons
+  fixtures :seasons, :heroes
 
   setup do
     @past_season = seasons(:one)
@@ -9,8 +9,8 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @future_season = create(:season, started_on: 2.months.from_now)
     @user = create(:user)
     @oauth_account = create(:oauth_account, user: @user)
-    @hero1 = create(:hero, name: 'Brigitte')
-    @hero2 = create(:hero, name: 'Genji')
+    @hero1 = heroes(:brigitte)
+    @hero2 = heroes(:genji)
     @match1 = create(:match, oauth_account: @oauth_account, season: @season.number,
                      result: :win)
     @match1.heroes << @hero1
