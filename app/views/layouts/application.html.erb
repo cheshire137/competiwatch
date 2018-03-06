@@ -28,7 +28,9 @@
       </div>
     </header>
     <div class="container layout-children-container mb-4">
-      <%= render partial: 'layouts/main_nav' %>
+      <% if signed_in? || !is_profile_page? %>
+        <%= render partial: 'layouts/main_nav' %>
+      <% end %>
       <% if alert.present? %>
         <p class="p-3 mt-4 rounded-2 flash-error"><%= alert %></p>
       <% end %>
