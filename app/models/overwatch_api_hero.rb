@@ -35,6 +35,10 @@ class OverwatchAPIHero
   end
 
   def to_s
-    name
+    @hero.name
+  end
+
+  def slug
+    @hero.slug
   end
 end
