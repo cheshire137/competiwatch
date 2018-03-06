@@ -1,58 +1,44 @@
 <% content_for(:title, "#{@oauth_account} Profile") %>
 
 <div class="clearfix">
-  <div class="col-md-9 float-left">
-    <div class="mx-auto col-md-6">
-      <%= render partial: 'oauth_accounts/summary',
-                 locals: { profile: @profile, stats: @stats, oauth_account: @oauth_account } %>
-      <div class="mb-4 pb-2">
-        <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
-      </div>
-
-      <h2 class="h2 text-normal mt-4 mb-2 pt-4 border-top">Competitive seasons</h2>
-      <ul class="list-style-none">
-        <% @match_count_by_season.each do |season, match_count| %>
-          <li class="mb-2">
-            <a href="<%= matches_path(season, @oauth_account) %>">
-              <% if @is_owner %>
-                <% if @season_shares_by_season.key?(season) %>
-                  <span class="mr-1 d-inline-block placeholder-icon"></span>
-                <% else %>
-                  <span class="tooltipped tooltipped-w" aria-label="Only visible to you">
-                    <span class="text-gray text-small ion ion-locked mr-1 d-inline-block"></span>
-                  </span>
-                <% end %>
-              <% end %>
-              Season <%= season %>
-              <span class="text-gray text-small d-inline-block ml-2">
-                <%= number_with_delimiter match_count %>
-                <%= 'match'.pluralize(match_count) %>
-              </span>
-            </a>
-          </li>
-        <% end %>
-      </ul>
+  <div class="col-md-6 float-left">
+    <%= render partial: 'oauth_accounts/summary',
+               locals: { profile: @profile, stats: @stats, oauth_account: @oauth_account } %>
+    <div class="mb-4 pb-2">
+      <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
     </div>
   </div>
-  <div class="col-md-3 float-left">
-    <p class="mb-4">
-      <a class="d-inline-block mr-4" href="<%= @oauth_account.overbuff_url %>" target="_blank" rel="noopener noreferrer">
-        <span class="ion ion-link text-gray"></span>
-        Overbuff profile
-      </a>
-      <br>
-      <a class="d-inline-block mr-4" href="<%= @oauth_account.master_overwatch_url %>" target="_blank" rel="noopener noreferrer">
-        <span class="ion ion-link text-gray"></span>
-        Master Overwatch profile
-      </a>
-      <br>
-      <a href="<%= @oauth_account.play_overwatch_url %>" target="_blank" rel="noopener noreferrer">
-        <span class="ion ion-link text-gray"></span>
-        PlayOverwatch profile
-      </a>
-    </p>
-    <% if @is_owner && @other_oauth_accounts.size > 1 %>
-      <div class="border rounded-2 p-3 mb-4">
+  <div class="col-md-4 float-left">
+    <h2 class="h2 text-normal mt-0 mb-2">Competitive seasons</h2>
+    <ul class="list-style-none">
+      <% @match_count_by_season.each do |season, match_count| %>
+        <li class="mb-2">
+          <a href="<%= matches_path(season, @oauth_account) %>">
+            <% if @is_owner %>
+              <% if @season_shares_by_season.key?(season) %>
+                <span class="mr-1 d-inline-block placeholder-icon"></span>
+              <% else %>
+                <span class="tooltipped tooltipped-w" aria-label="Only visible to you">
+                  <span class="text-gray text-small ion ion-locked mr-1 d-inline-block"></span>
+                </span>
+              <% end %>
+            <% end %>
+            Season <%= season %>
+            <span class="text-gray text-small d-inline-block ml-2">
+              <%= number_with_delimiter match_count %>
+              <%= 'match'.pluralize(match_count) %>
+            </span>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<% if @is_owner %>
+  <div class="clearfix mb-4 border-top pt-4">
+    <% if @other_oauth_accounts.size > 1 %>
+      <div class="col-md-3 float-left">
         <h2 class="h4 mb-2 mt-0 text-normal">Your other accounts</h2>
         <ul class="list-style-none">
           <% @other_oauth_accounts.each do |oauth_account| %>
@@ -65,20 +51,36 @@
         </ul>
       </div>
     <% end %>
-
-    <% if @is_owner %>
-      <%= form_for(@oauth_account, url: profile_path(@oauth_account), method: :put, html: { class: 'border rounded-2 p-3 mb-4' }) do |f| %>
+    <div class="col-md-3 float-left">
+      <%= form_for(@oauth_account, url: profile_path(@oauth_account), method: :put) do |f| %>
         <h2 class="h4 my-0 text-normal">Account settings</h2>
-        <div class="form-group">
-          <%= f.label :platform, 'Platform:', class: 'd-inline-block mr-2' %>
-          <%= f.select :platform, options_for_select(platform_options, @oauth_account.platform), {}, { class: 'form-select' } %>
+        <div class="d-flex-md flex-items-end">
+          <div class="form-group mb-0 mr-4 d-flex flex-items-center">
+            <%= f.label :platform, 'Platform:', class: 'mr-2' %>
+            <%= f.select :platform, options_for_select(platform_options, @oauth_account.platform), {}, { class: 'form-select' } %>
+          </div>
+          <div class="form-group mb-0 mr-4 d-flex flex-items-center">
+            <%= f.label :region, 'Region:', class: 'mr-2' %>
+            <%= f.select :region, options_for_select(region_options, @oauth_account.region), {}, { class: 'form-select' } %>
+          </div>
+          <button type="submit" class="btn">Save</button>
         </div>
-        <div class="form-group">
-          <%= f.label :region, 'Region:', class: 'd-inline-block mr-2' %>
-          <%= f.select :region, options_for_select(region_options, @oauth_account.region), {}, { class: 'form-select' } %>
-        </div>
-        <button type="submit" class="btn">Save</button>
       <% end %>
-    <% end %>
+    </div>
   </div>
-</div>
+<% end %>
+
+<p class="mt-4 border-top pt-4">
+  <a class="d-inline-block mr-4" href="<%= @oauth_account.overbuff_url %>" target="_blank" rel="noopener noreferrer">
+    <span class="ion ion-link text-gray mr-1"></span>
+    Overbuff profile
+  </a>
+  <a class="d-inline-block mr-4" href="<%= @oauth_account.master_overwatch_url %>" target="_blank" rel="noopener noreferrer">
+    <span class="ion ion-link text-gray mr-1"></span>
+    Master Overwatch profile
+  </a>
+  <a href="<%= @oauth_account.play_overwatch_url %>" target="_blank" rel="noopener noreferrer">
+    <span class="ion ion-link text-gray mr-1"></span>
+    PlayOverwatch profile
+  </a>
+</p>
