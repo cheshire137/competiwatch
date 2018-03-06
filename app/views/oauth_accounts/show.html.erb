@@ -13,13 +13,17 @@
     <ul class="list-style-none">
       <% if @match_count_by_season.empty? %>
         <li class="text-gray text-italic">
-          <%= @oauth_account %> has not shared any seasons
+          <% if @is_owner %>
+            No matches logged for <%= @oauth_account %>
+          <% else %>
+            <%= @oauth_account %> has not shared any seasons
+          <% end %>
         </li>
       <% end %>
       <% @match_count_by_season.each do |season, match_count| %>
         <li class="mb-2">
           <a href="<%= matches_path(season, @oauth_account) %>">
-            <% if @is_owner %>
+            <% if @is_owner && @season_shares_by_season.size != @match_count_by_season.size %>
               <% if @season_shares_by_season.key?(season) %>
                 <span class="mr-1 d-inline-block placeholder-icon"></span>
               <% else %>
@@ -44,7 +48,7 @@
   <div class="clearfix mb-4 border-top pt-4">
     <% if @other_oauth_accounts.size > 1 %>
       <div class="col-md-3 float-left">
-        <h2 class="h4 mb-2 mt-0 text-normal">Your other accounts</h2>
+        <h2 class="h4 mb-2 mt-0">Your other accounts</h2>
         <ul class="list-style-none">
           <% @other_oauth_accounts.each do |oauth_account| %>
             <li>
@@ -58,7 +62,7 @@
     <% end %>
     <div class="col-md-3 float-left">
       <%= form_for(@oauth_account, url: profile_path(@oauth_account), method: :put) do |f| %>
-        <h2 class="h4 my-0 text-normal">Account settings</h2>
+        <h2 class="h4 my-0">Account settings</h2>
         <div class="d-flex-md flex-items-end">
           <div class="form-group mb-0 mr-4 d-flex flex-items-center">
             <%= f.label :platform, 'Platform:', class: 'mr-2' %>
