@@ -11,6 +11,11 @@
   <div class="col-md-4 float-left">
     <h2 class="h2 text-normal mt-0 mb-2">Competitive seasons</h2>
     <ul class="list-style-none">
+      <% if @match_count_by_season.empty? %>
+        <li class="text-gray text-italic">
+          <%= @oauth_account %> has not shared any seasons
+        </li>
+      <% end %>
       <% @match_count_by_season.each do |season, match_count| %>
         <li class="mb-2">
           <a href="<%= matches_path(season, @oauth_account) %>">
