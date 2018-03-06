@@ -6,7 +6,10 @@
       <% if @can_edit %>
         <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
       <% else %>
-        <%= @oauth_account %> / Season <%= @season %>
+        <a href="<%= profile_path(@oauth_account) %>">
+          <%= @oauth_account %>
+        </a>
+        / Season <%= @season %>
       <% end %>
       <% if @matches.any? %>
         <span class="hide-sm">
