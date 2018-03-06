@@ -3,6 +3,18 @@ require 'test_helper'
 class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'avatar loads for another user' do
+    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348')
+    oauth_account2 = create(:oauth_account)
+
+    VCR.use_cassette('ow_api_profile') do
+      sign_in_as(oauth_account2)
+      get "/profile/#{oauth_account1.to_param}/avatar"
+    end
+
+    assert_response :ok
+  end
+
   test 'anonymous user cannot update profile' do
     oauth_account = create(:oauth_account, platform: 'xbl', region: 'cn')
 
@@ -44,10 +56,12 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'can view your own profile' do
-    oauth_account = create(:oauth_account)
+    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
 
-    sign_in_as(oauth_account)
-    get "/profile/#{oauth_account.to_param}"
+    VCR.use_cassette('ow_api_profile') do
+      sign_in_as(oauth_account)
+      get "/profile/#{oauth_account.to_param}"
+    end
 
     assert_response :ok
   end
