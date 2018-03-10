@@ -2,7 +2,11 @@
 
 <% if @is_owner %>
   <% content_for(:breadcrumb) do %>
-    <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %> / Trends
+    <div class="d-flex flex-items-center flex-justify-between">
+      <div><%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %> / Trends</div>
+      <%= render partial: 'matches/season_share_menu',
+                 locals: { oauth_account: @oauth_account, season: @season } %>
+    </div>
   <% end %>
 
   <%= render partial: 'trends/tabs',
