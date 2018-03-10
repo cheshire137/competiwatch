@@ -8,11 +8,13 @@
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
         <%= user %>
-        <span class="text-gray h5 text-normal">
-          &mdash;
-          <%= number_with_delimiter friend_count %>
-          <%= 'friend'.pluralize(friend_count) %>
-        </span>
+        <% if friend_count > 0 %>
+          <span class="text-gray h5 text-normal">
+            &mdash;
+            <%= number_with_delimiter friend_count %>
+            <%= 'friend'.pluralize(friend_count) %>
+          </span>
+        <% end %>
       </h3>
       <ol class="oauth-accounts-list">
         <% if accounts_for_user.empty? %>
