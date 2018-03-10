@@ -47,6 +47,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         message = "Failed to sign in via Battle.net as #{battletag}."
         return redirect_to(root_path, alert: message)
       end
+
+      SetAvatarJob.perform_later(account)
     end
 
     user = account.user
