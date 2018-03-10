@@ -3,11 +3,8 @@
   <% users.each_with_index do |user, i| %>
     <%
       accounts_for_user = oauth_accounts_by_user_id[user.id] || []
-      account_ids_for_user = accounts_for_user.map(&:id)
       friend_count = (friends_by_user_id[user.id] || []).size
-      any_matches = matches_by_oauth_account_id.
-        select { |oauth_account_id, _matches| account_ids_for_user.include?(oauth_account_id) }.
-        any? { |oauth_account_id, matches| matches.any? }
+      any_matches = any_matches_for_user?(matches_by_oauth_account_id, accounts_for_user)
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
