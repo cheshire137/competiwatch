@@ -58,6 +58,10 @@ module ApplicationHelper
       is_page?('seasons', 'confirm_wipe')
   end
 
+  def is_import_page?(season, battletag)
+    is_page?('import', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
+  end
+
   def is_battletag_page?(battletag)
     params[:battletag] == battletag
   end
