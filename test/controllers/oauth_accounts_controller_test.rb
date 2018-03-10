@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
-  fixtures :seasons
+  fixtures :seasons, :heroes
 
   test 'avatar loads for another user' do
     oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348')
