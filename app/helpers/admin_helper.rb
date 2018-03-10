@@ -12,4 +12,8 @@ module AdminHelper
       account_matches.any? { |match| match.season == season.number }
     end
   end
+
+  def get_season_match_count(season, account_matches)
+    account_matches.select { |match| match.season == season.number }.size
+  end
 end

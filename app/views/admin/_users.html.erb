@@ -45,7 +45,7 @@
 
               <div class="<%= details_class %> d-none mb-2">
                 <% seasons_with_matches.each do |season| %>
-                  <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
+                  <% season_match_count = get_season_match_count(season, account_matches) %>
                   <div>
                     Season <%= season %>
                     &mdash;
