@@ -1,6 +1,6 @@
 <div class="player-summary-header d-flex flex-justify-center flex-items-center mb-4">
-  <% if profile.portrait_url %>
-    <img src="<%= profile.portrait_url %>" class="avatar mr-4 flex-shrink-0" width="75" alt="<%= profile.username %> portrait">
+  <% if oauth_account.avatar_url %>
+    <img src="<%= oauth_account.avatar_url %>" class="avatar mr-4 flex-shrink-0" width="75" alt="<%= oauth_account %> portrait">
   <% end %>
   <div>
     <h2 class="h4 my-0 text-center"><%= oauth_account %></h2>
