@@ -33,6 +33,10 @@ class OAuthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  def name
+    battletag.split('#').first
+  end
+
   def overwatch_api_profile
     data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 1.week) do
       overwatch_api.profile

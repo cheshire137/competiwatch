@@ -7,6 +7,11 @@ class OAuthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'name returns battletag without the number' do
+    oauth_account = OAuthAccount.new(battletag: 'SomeUser#1234')
+    assert_equal 'SomeUser', oauth_account.name
+  end
+
   test 'requires valid URL for avatar_url' do
     oauth_account = OAuthAccount.new(avatar_url: 'https:/some-site.com')
 
