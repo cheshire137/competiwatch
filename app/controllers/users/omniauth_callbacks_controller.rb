@@ -23,6 +23,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           account.save
         end
         message_opts = if success
+          current_user.reload
+          account.reload
+
           { notice: "Successfully linked #{battletags.join(', ')}." }
         else
           { alert: "Could not link account #{battletag}." }
