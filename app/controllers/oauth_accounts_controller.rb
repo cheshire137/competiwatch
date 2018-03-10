@@ -17,6 +17,7 @@ class OAuthAccountsController < ApplicationController
     heroes_by_name = Hero.order_by_name.map { |hero| [hero.name, hero] }.to_h
     @profile = @oauth_account.overwatch_api_profile
     @stats = @oauth_account.overwatch_api_stats(heroes_by_name)
+    @is_owner = signed_in? && @oauth_account.user == current_user
 
     @match_count_by_season = Hash.new(0)
     matches = @oauth_account.matches.select(:season).order(season: :desc)

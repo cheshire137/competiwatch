@@ -8,9 +8,9 @@
       <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
     </div>
   </div>
-  <div class="col-md-4 float-left">
+  <div class="col-md-6 float-left">
     <h2 class="h2 text-normal mt-0 mb-2">Competitive seasons</h2>
-    <ul class="list-style-none">
+    <ul class="list-style-none mb-4 border-bottom pb-4">
       <% if @match_count_by_season.empty? %>
         <li class="text-gray text-italic">
           <% if @is_owner %>
@@ -41,6 +41,15 @@
         </li>
       <% end %>
     </ul>
+    <p class="note">
+      <%= @oauth_account.platform_name %> / <%= @oauth_account.region_name %>
+      <% if @is_owner %>
+        <a href="<%= accounts_path %>" class="d-inline-block ml-2">
+          <span class="ion ion-edit"></span>
+          Edit
+        </a>
+      <% end %>
+    </p>
   </div>
 </div>
 
