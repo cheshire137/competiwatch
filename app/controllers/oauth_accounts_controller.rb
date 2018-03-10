@@ -18,8 +18,6 @@ class OAuthAccountsController < ApplicationController
 
   def show
     heroes_by_name = Hero.order_by_name.map { |hero| [hero.name, hero] }.to_h
-    @profile = @oauth_account.overwatch_api_profile
-    update_avatar_if_present
     @stats = @oauth_account.overwatch_api_stats(heroes_by_name)
     @is_owner = signed_in? && @oauth_account.user == current_user
 
@@ -77,12 +75,5 @@ class OAuthAccountsController < ApplicationController
 
   def oauth_account_params
     params.require(:oauth_account).permit(:platform, :region)
-  end
-
-  def update_avatar_if_present
-    if @profile.portrait_url
-      @oauth_account.avatar_url = @profile.portrait_url
-      @oauth_account.save
-    end
   end
 end

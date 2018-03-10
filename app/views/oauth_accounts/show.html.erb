@@ -10,7 +10,7 @@
 <div class="clearfix d-flex-md flex-justify-around">
   <div class="col-md-5">
     <%= render partial: 'oauth_accounts/summary',
-               locals: { profile: @profile, stats: @stats, oauth_account: @oauth_account } %>
+               locals: { stats: @stats, oauth_account: @oauth_account } %>
     <div class="mb-4 pb-2">
       <%= render partial: 'oauth_accounts/stats', locals: { stats: @stats } %>
     </div>
