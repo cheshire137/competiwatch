@@ -68,6 +68,7 @@ heroku config:set BNET_APP_HOST=your-heroku-app.herokuapp.com
 git push heroku master
 heroku run rake db:migrate
 heroku addons:create heroku-redis:hobby-dev
+heroku ps:scale web=1 worker=1
 heroku open
 ```
 
