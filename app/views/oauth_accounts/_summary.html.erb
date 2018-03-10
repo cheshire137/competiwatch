@@ -6,7 +6,7 @@
     <h2 class="h4 my-0 text-center"><%= oauth_account %></h2>
     <div class="d-flex flex-items-center flex-justify-center">
       <% if profile.rank_url %>
-        <img class="d-inline-block mr-1" width="40" height="40" src="<%= profile.rank_url %>" alt="Rank <%= profile.sr %> logo">
+        <img class="d-inline-block mr-1 flex-shrink-0" width="40" height="40" src="<%= profile.rank_url %>" alt="Rank <%= profile.sr %> logo">
       <% end %>
       <span class="d-inline-block text-bold">
         <% if profile.sr %>
