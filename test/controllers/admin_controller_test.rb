@@ -20,21 +20,19 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'loads successfully for admin' do
-    user = create(:user, admin: true)
-    oauth_account = create(:oauth_account, user: user)
+    admin_account = create(:oauth_account, admin: true)
     userless_oauth_account = create(:oauth_account, user: nil)
 
-    sign_in_as(oauth_account)
+    sign_in_as(admin_account)
     get '/admin'
 
     assert_response :ok
-    assert_select 'button', text: /#{oauth_account.battletag}/
+    assert_select 'button', text: /#{admin_account.battletag}/
     assert_select 'li', text: userless_oauth_account.battletag
   end
 
   test 'non-admin users cannot update season' do
-    user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
+    oauth_account = create(:oauth_account)
     season = seasons(:one)
 
     sign_in_as(oauth_account)
@@ -47,8 +45,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'non-admin users cannot create a season' do
-    user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
+    oauth_account = create(:oauth_account)
 
     assert_no_difference 'Season.count' do
       sign_in_as(oauth_account)
@@ -61,8 +58,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'non-admin users cannot delete a season' do
-    user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
+    oauth_account = create(:oauth_account)
     season = seasons(:two)
 
     assert_no_difference 'Season.count' do
@@ -76,8 +72,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test 'non-admin cannot merge users' do
     primary_user = create(:user)
     secondary_user = create(:user)
-    user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
+    oauth_account = create(:oauth_account)
 
     assert_no_difference 'User.count' do
       sign_in_as(oauth_account)
@@ -105,25 +100,25 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'admin gets warning if user ID is not specified when editing an account' do
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    user = create(:user)
+    admin_account = create(:oauth_account, admin: true, user: user)
 
     sign_in_as(admin_account)
     post '/admin/update-account', params: { oauth_account_id: admin_account.id }
 
     assert_nil flash[:notice]
     assert_equal 'Please specify a user and an account.', flash[:error]
-    assert_equal admin_user, admin_account.reload.user
+    assert_equal user, admin_account.reload.user
     assert_redirected_to admin_path
   end
 
   test 'admin gets warning if a user ID is not specified when merging users' do
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    user = create(:user)
+    admin_account = create(:oauth_account, admin: true)
 
     assert_no_difference 'User.count' do
       sign_in_as(admin_account)
-      post '/admin/merge-users', params: { primary_user_id: admin_user.id }
+      post '/admin/merge-users', params: { primary_user_id: user.id }
     end
 
     assert_nil flash[:notice]
@@ -132,8 +127,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'admin can update season' do
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    admin_account = create(:oauth_account, admin: true)
     season = seasons(:two)
 
     sign_in_as(admin_account)
@@ -151,8 +145,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'admin users can delete seasons' do
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    admin_account = create(:oauth_account, admin: true)
     season = seasons(:two)
 
     assert_difference 'Season.count', -1 do
@@ -165,9 +158,8 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     refute Season.exists?(season.id)
   end
 
-  test 'admin users can create seasons' do
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+  test 'admin accounts can create seasons' do
+    admin_account = create(:oauth_account, admin: true)
 
     assert_difference 'Season.count' do
       sign_in_as(admin_account)
@@ -187,8 +179,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     secondary_user = create(:user)
     primary_account = create(:oauth_account, user: primary_user)
     secondary_account = create(:oauth_account, user: secondary_user)
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    admin_account = create(:oauth_account, admin: true)
 
     assert_difference 'User.count', -1 do
       sign_in_as(admin_account)
@@ -209,8 +200,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test 'admin can change which user an account is tied to' do
     oauth_account = create(:oauth_account)
     user = create(:user)
-    admin_user = create(:user, admin: true)
-    admin_account = create(:oauth_account, user: admin_user)
+    admin_account = create(:oauth_account, admin: true)
 
     sign_in_as(admin_account)
     post '/admin/update-account', params: {
