@@ -3,8 +3,14 @@ require 'test_helper'
 class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons, :heroes
 
+  test 'avatar 404s for nonexistent account' do
+    get '/profile/SomeUser-1234/avatar'
+
+    assert_response :not_found
+  end
+
   test 'avatar loads for another user' do
-    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348')
+    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348', avatar_url: nil)
     oauth_account2 = create(:oauth_account)
 
     VCR.use_cassette('ow_api_profile') do
@@ -14,6 +20,8 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select "a[href='/profile/#{oauth_account1.to_param}']", false
+    assert_equal 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png',
+      oauth_account1.reload.avatar_url
   end
 
   test 'avatar links to profile when specified' do
