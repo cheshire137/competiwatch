@@ -16,10 +16,8 @@ class ApplicationController < ActionController::Base
     return stored_location if stored_location
 
     if resource.is_a?(User)
-      oauth_account = resource.default_oauth_account || current_account ||
-        resource.oauth_accounts.last
       season = Season.current_or_latest_number
-      matches_path(season, oauth_account)
+      matches_path(season, current_account)
     else
       super
     end
