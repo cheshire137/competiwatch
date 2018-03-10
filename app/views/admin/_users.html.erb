@@ -31,9 +31,10 @@
               details_class = if match_count > 0
                 "account-#{oauth_account.id}"
               end
+              seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
             %>
             <li>
-              <%= oauth_account %>
+              <span class="text-bold"><%= oauth_account %></span>
               <% if details_class %>
                 <span class="d-inline-block mx-2">&middot;</span>
                 <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
@@ -43,15 +44,13 @@
               <% end %>
 
               <div class="<%= details_class %> d-none mb-2">
-                <% seasons.each do |season| %>
+                <% seasons_with_matches.each do |season| %>
                   <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
                   <div>
-                    <span class="text-bold">Season <%= season %></span>
-                    <% if season_match_count > 0 %>
-                      &mdash;
-                      <%= number_with_delimiter season_match_count %>
-                      <%= 'match'.pluralize(season_match_count) %>
-                    <% end %>
+                    Season <%= season %>
+                    &mdash;
+                    <%= number_with_delimiter season_match_count %>
+                    <%= 'match'.pluralize(season_match_count) %>
                   </div>
                 <% end %>
               </div>

@@ -6,4 +6,10 @@ module AdminHelper
     end
     matches_for_user.any? { |_oauth_account_id, matches| matches.any? }
   end
+
+  def get_seasons_with_matches(seasons, account_matches)
+    seasons.select do |season|
+      account_matches.any? { |match| match.season == season.number }
+    end
+  end
 end
