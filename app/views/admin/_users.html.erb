@@ -38,13 +38,7 @@
               seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
             %>
             <li class="mt-1">
-              <% if oauth_account.avatar_url %>
-                <a href="<%= profile_path(oauth_account) %>" class="d-inline-block">
-                  <img src="<%= oauth_account.avatar_url %>" class="avatar mr-1" width="20">
-                </a>
-              <% else %>
-                <span class="js-remote-load" data-url="<%= avatar_path(oauth_account, include_link: 1) %>"></span>
-              <% end %>
+              <%= avatar_link_for(oauth_account) %>
               <span class="text-bold"><%= oauth_account %></span>
               <% if details_class %>
                 <span class="d-inline-block mx-2">&middot;</span>

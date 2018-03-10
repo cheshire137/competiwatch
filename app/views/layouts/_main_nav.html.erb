@@ -26,11 +26,7 @@
         <div class="dropdown js-menu-container">
           <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
             <span class="text-gray d-inline-block mr-2 text-normal">Signed in as</span>
-            <% if current_account.avatar_url %>
-              <img src="<%= current_account.avatar_url %>" class="avatar mr-1" width="20">
-            <% else %>
-              <span class="js-remote-load" data-url="<%= avatar_path(current_account) %>"></span>
-            <% end %>
+            <%= avatar_for(current_account) %>
             <%= current_account.name %>
             <div class="dropdown-caret"></div>
           </button>

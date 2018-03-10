@@ -12,11 +12,7 @@
         <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
           <div class="d-flex flex-justify-between flex-items-center">
             <div class="d-inline-block mr-4">
-              <% if oauth_account.avatar_url %>
-                <img src="<%= oauth_account.avatar_url %>" class="avatar mr-1" width="20">
-              <% else %>
-                <span class="js-remote-load" data-url="<%= avatar_path(oauth_account) %>"></span>
-              <% end %>
+              <%= avatar_for(oauth_account) %>
               <%= oauth_account %>
             </div>
             <% if oauth_account.can_be_unlinked? %>
