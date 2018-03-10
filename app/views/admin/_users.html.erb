@@ -10,7 +10,7 @@
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
         <% unless expanded %>
-          <span class="js-remote-load" data-url="<%= avatar_path(user.to_param, include_link: 1) %>"></span>
+          <span class="js-remote-load" data-url="<%= avatar_path(user, include_link: 1) %>"></span>
         <% end %>
         <%= user %>
         <% if friend_count > 0 %>
@@ -38,7 +38,13 @@
               seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
             %>
             <li>
-              <span class="js-remote-load" data-url="<%= avatar_path(oauth_account.to_param, include_link: 1) %>"></span>
+              <% if oauth_account.avatar_url %>
+                <a href="<%= profile_path(oauth_account) %>" class="d-inline-block">
+                  <img src="<%= oauth_account.avatar_url %>" class="avatar mr-1" width="20">
+                </a>
+              <% else %>
+                <span class="js-remote-load" data-url="<%= avatar_path(oauth_account, include_link: 1) %>"></span>
+              <% end %>
               <span class="text-bold"><%= oauth_account %></span>
               <% if details_class %>
                 <span class="d-inline-block mx-2">&middot;</span>
