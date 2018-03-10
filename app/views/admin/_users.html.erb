@@ -31,9 +31,11 @@
           <li>
             <button type="button" class="text-gray-dark btn-link <% if details_class %>js-toggle-details<% end %>" <% if details_class %>data-target=".<%= details_class %>"<% else %>disabled<% end %>>
               <%= oauth_account %>
-              &mdash;
-              <%= number_with_delimiter match_count %>
-              <%= 'match'.pluralize(match_count) %>
+              <% if match_count > 0 %>
+                &mdash;
+                <%= number_with_delimiter match_count %>
+                <%= 'match'.pluralize(match_count) %>
+              <% end %>
             </button>
 
             <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
