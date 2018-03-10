@@ -9,22 +9,22 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     @future_season = create(:season, started_on: 4.months.from_now)
   end
 
-  test 'index page 404s for anonymous user when season is not visible' do
+  test 'redirects to profile when season is not visible for anonymous user' do
     oauth_account = create(:oauth_account)
 
     get "/season/#{@season}/#{oauth_account.to_param}"
 
-    assert_response :not_found
+    assert_redirected_to profile_path(oauth_account)
   end
 
-  test 'index page 404s for authenticated user when season is not visible' do
+  test 'redirects to profile when season is not visible for authenticated user' do
     oauth_account = create(:oauth_account)
     other_account = create(:oauth_account)
 
     sign_in_as(other_account)
     get "/season/#{@season}/#{oauth_account.to_param}"
 
-    assert_response :not_found
+    assert_redirected_to profile_path(oauth_account)
   end
 
   test 'index page loads successfully for the user who owns the account' do
@@ -126,14 +126,14 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to matches_path(@season, oauth_account1, anchor: "match-row-#{match.id}")
   end
 
-  test "won't let you view match history for another user's account" do
+  test "redirects to profile when you try to view unshared match history for another user's account" do
     oauth_account1 = create(:oauth_account)
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(oauth_account1)
     get "/season/#{@season}/#{oauth_account2.to_param}"
 
-    assert_response :not_found
+    assert_redirected_to profile_path(oauth_account2)
   end
 
   test 'logs a match' do

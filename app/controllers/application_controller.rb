@@ -56,10 +56,16 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def redirect_unless_oauth_account_is_mine
+    unless @oauth_account.user == current_user
+      redirect_to profile_path(@oauth_account)
+    end
+  end
+
   def ensure_season_is_visible
     return if signed_in? && current_user == @oauth_account.user
     return if @oauth_account.season_is_public?(@season)
-    render file: Rails.root.join('public', '404.html'), status: :not_found
+    redirect_to profile_path(@oauth_account)
   end
 
   def current_account

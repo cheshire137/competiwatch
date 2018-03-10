@@ -113,13 +113,13 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div', text: /2\s+accounts with matches/
   end
 
-  test "won't let you view all season data for another user's account" do
+  test "redirects to profile for another user's account" do
     oauth_account2 = create(:oauth_account)
 
     sign_in_as(@oauth_account)
     get "/trends/all-seasons/#{oauth_account2.to_param}"
 
-    assert_response :not_found
+    assert_redirected_to profile_path(oauth_account2)
   end
 
   test 'says season has not started for future season' do
@@ -137,10 +137,10 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
       text: /#{@oauth_account}\s+did not log\s+any competitive matches in season #{@past_season}./
   end
 
-  test 'index page 404s for anonymous user when season not shared' do
+  test 'redirects to profile when season not shared for anonymous user' do
     get "/trends/#{@season}/#{@oauth_account.to_param}"
 
-    assert_response :not_found
+    assert_redirected_to profile_path(@oauth_account)
   end
 
   test 'index page loads for owner' do
