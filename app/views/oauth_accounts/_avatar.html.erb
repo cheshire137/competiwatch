@@ -1,1 +1,3 @@
+<% if @include_link %><a href="<%= profile_path(@oauth_account) %>" class="d-inline-block"><% end %>
 <img src="<%= @profile.portrait_url %>" class="avatar mr-1" width="20">
+<% if @include_link %></a><% end %>

@@ -13,6 +13,18 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :ok
+    assert_select "a[href='/profile/#{oauth_account1.to_param}']", false
+  end
+
+  test 'avatar links to profile when specified' do
+    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
+
+    VCR.use_cassette('ow_api_profile') do
+      get "/profile/#{oauth_account.to_param}/avatar", params: { include_link: 1 }
+    end
+
+    assert_response :ok
+    assert_select "a[href='/profile/#{oauth_account.to_param}']"
   end
 
   test 'anonymous user cannot update profile' do

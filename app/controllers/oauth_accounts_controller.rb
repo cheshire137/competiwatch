@@ -9,6 +9,7 @@ class OAuthAccountsController < ApplicationController
 
   def avatar
     @profile = @oauth_account.overwatch_api_profile
+    @include_link = params[:include_link] == '1'
     render partial: 'oauth_accounts/avatar', layout: false
   end
 
