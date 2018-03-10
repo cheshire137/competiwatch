@@ -61,6 +61,18 @@ class ApplicationController < ActionController::Base
     render file: Rails.root.join('public', '404.html'), status: :not_found
   end
 
+  def current_account
+    if defined?(@current_account) && session[:current_account_id] == @current_account.id
+      return @current_account
+    end
+    if session[:current_account_id]
+      @current_account = OAuthAccount.find(session[:current_account_id])
+    else
+      OAuthAccount.new
+    end
+  end
+  helper_method :current_account
+
   def require_admin
     unless signed_in? && current_user.admin?
       render file: Rails.root.join('public', '404.html'), status: :not_found
