@@ -7,6 +7,10 @@ class OAuthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'to_param returns nil when no battletag' do
+    assert_nil OAuthAccount.new.to_param
+  end
+
   test 'career_high is nil for new account' do
     assert_nil OAuthAccount.new.career_high
   end

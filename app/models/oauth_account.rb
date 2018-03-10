@@ -138,6 +138,7 @@ class OAuthAccount < ApplicationRecord
   end
 
   def to_param
+    return unless battletag
     User.parameterize(battletag)
   end
 
