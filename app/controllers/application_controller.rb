@@ -69,13 +69,13 @@ class ApplicationController < ActionController::Base
   end
 
   def current_account
-    if defined?(@current_account) && session[:current_account_id] == @current_account.id
-      return @current_account
-    end
-    if session[:current_account_id]
-      @current_account = OAuthAccount.find(session[:current_account_id])
+    return unless signed_in?
+    return @current_account if defined?(@current_account)
+
+    @current_account = if session[:current_account_id]
+      OAuthAccount.find(session[:current_account_id])
     else
-      OAuthAccount.new
+      current_user.default_oauth_account || current_user.oauth_accounts.last
     end
   end
   helper_method :current_account
