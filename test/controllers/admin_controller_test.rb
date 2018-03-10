@@ -27,7 +27,7 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     get '/admin'
 
     assert_response :ok
-    assert_select 'button', text: /#{admin_account.battletag}/
+    assert_select 'button', text: /#{admin_account.name}/
     assert_select 'li', text: userless_oauth_account.battletag
   end
 
