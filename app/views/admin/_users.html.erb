@@ -29,14 +29,14 @@
             end
           %>
           <li>
-            <button type="button" class="text-gray-dark btn-link <% if details_class %>js-toggle-details<% end %>" <% if details_class %>data-target=".<%= details_class %>"<% else %>disabled<% end %>>
-              <%= oauth_account %>
-              <% if match_count > 0 %>
-                &mdash;
+            <%= oauth_account %>
+            <% if details_class %>
+              <span class="d-inline-block mx-2">&middot;</span>
+              <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
                 <%= number_with_delimiter match_count %>
                 <%= 'match'.pluralize(match_count) %>
-              <% end %>
-            </button>
+              </button>
+            <% end %>
 
             <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
               <% seasons.each do |season| %>
