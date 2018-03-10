@@ -62,7 +62,7 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
       oauth_account: { platform: 'psn', region: 'eu' }
     }
 
-    assert_redirected_to profile_path(oauth_account)
+    assert_redirected_to accounts_path
     assert_equal 'psn', oauth_account.reload.platform
     assert_equal 'eu', oauth_account.region
   end
