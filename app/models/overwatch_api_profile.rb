@@ -1,5 +1,5 @@
 class OverwatchAPIProfile
-  attr_reader :star_url, :portrait_url, :quickplay_time, :competitive_time,
+  attr_reader :star_url, :avatar_url, :quickplay_time, :competitive_time,
               :level, :competitive_wins, :competitive_games, :username,
               :quickplay_wins, :rank, :rank_url, :level_url
 
@@ -7,8 +7,8 @@ class OverwatchAPIProfile
     @star_url = data['star'].presence
     @star_url += 'png' if @star_url && @star_url.ends_with?('.')
 
-    @portrait_url = data['portrait'].presence
-    @portrait_url += 'png' if @portrait_url && @portrait_url.ends_with?('.')
+    @avatar_url = data['portrait'].presence
+    @avatar_url += 'png' if @avatar_url && @avatar_url.ends_with?('.')
 
     if playtime = data['playtime']
       @quickplay_time = playtime['quickplay']

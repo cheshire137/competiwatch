@@ -11,7 +11,7 @@ class SetProfileDataJob < ApplicationJob
     profile = oauth_account.overwatch_api_profile
     return unless profile
 
-    oauth_account.avatar_url = profile.portrait_url
+    oauth_account.avatar_url = profile.avatar_url
     oauth_account.level = profile.level
     oauth_account.rank = profile.rank
     oauth_account.level_url = profile.level_url
