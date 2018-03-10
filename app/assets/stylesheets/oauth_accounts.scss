@@ -9,3 +9,17 @@
 .placeholder-icon {
   width: 9px;
 }
+
+.level-image + .star-image {
+  position: absolute;
+  left: 0;
+  bottom: 0;
+}
+
+.level-container {
+  width: 100px;
+}
+
+.level-star-container {
+  margin-top: -15px;
+}
