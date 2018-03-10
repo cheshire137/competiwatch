@@ -1,5 +1,12 @@
 <% content_for(:title, "#{@oauth_account} Profile") %>
 
+<% if @is_owner && oauth_accounts.size > 1 %>
+  <% content_for(:breadcrumb) do %>
+    Switch profile:
+    <%= account_switcher(@oauth_account) %>
+  <% end %>
+<% end %>
+
 <div class="clearfix d-flex-md flex-justify-around">
   <div class="col-md-5">
     <%= render partial: 'oauth_accounts/summary',
