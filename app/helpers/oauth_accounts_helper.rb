@@ -1,23 +1,26 @@
 module OAuthAccountsHelper
-  def avatar_link_for(oauth_account)
+  def avatar_link_for(oauth_account, classes: nil)
     if oauth_account.avatar_url
-      link_to(avatar_image_for(oauth_account), profile_path(oauth_account), class: 'd-inline-block')
+      link_to(avatar_image_for(oauth_account, classes: classes), profile_path(oauth_account),
+              class: 'd-inline-block')
     else
       content_tag(:span, '', class: 'js-remote-load',
                   data: { url: avatar_path(oauth_account, include_link: 1) })
     end
   end
 
-  def avatar_for(oauth_account)
+  def avatar_for(oauth_account, classes: nil)
     if oauth_account.avatar_url
-      avatar_image_for(oauth_account)
+      avatar_image_for(oauth_account, classes: classes)
     else
       content_tag(:span, '', class: 'js-remote-load', data: { url: avatar_path(oauth_account) })
     end
   end
 
-  def avatar_image_for(oauth_account)
-    image_tag(oauth_account.avatar_url, class: 'avatar mr-1', width: 20)
+  def avatar_image_for(oauth_account, classes: nil)
+    classes ||= 'mr-1'
+    classes += ' avatar'
+    image_tag(oauth_account.avatar_url, class: classes, width: 20)
   end
 
   def platform_options
