@@ -48,7 +48,7 @@ class Match < ApplicationRecord
     where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)
   }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
-  scope :with_rank, ->{ where('rank IS NOT NULL') }
+  scope :with_rank, ->{ where('matches.rank IS NOT NULL') }
   scope :with_result, ->{ where('result IS NOT NULL') }
   scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
   scope :publicly_shared, ->{

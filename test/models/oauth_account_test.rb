@@ -7,6 +7,28 @@ class OAuthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'requires rank <= max rank' do
+    oauth_account = OAuthAccount.new(rank: Match::MAX_RANK + 1)
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:rank],
+      "must be less than or equal to #{Match::MAX_RANK}"
+  end
+
+  test 'requires rank >= 0' do
+    oauth_account = OAuthAccount.new(rank: -1)
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:rank], 'must be greater than or equal to 0'
+  end
+
+  test 'requires level >= 1' do
+    oauth_account = OAuthAccount.new(level: 0)
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:level], 'must be greater than or equal to 1'
+  end
+
   test 'name returns battletag without the number' do
     oauth_account = OAuthAccount.new(battletag: 'SomeUser#1234')
     assert_equal 'SomeUser', oauth_account.name
@@ -17,6 +39,20 @@ class OAuthAccountTest < ActiveSupport::TestCase
 
     refute_predicate oauth_account, :valid?
     assert_includes oauth_account.errors.messages[:avatar_url], 'is invalid'
+  end
+
+  test 'requires valid URL for star_url' do
+    oauth_account = OAuthAccount.new(star_url: 'https:/some-site.com')
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:star_url], 'is invalid'
+  end
+
+  test 'requires valid URL for level_url' do
+    oauth_account = OAuthAccount.new(level_url: 'https:/some-site.com')
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:level_url], 'is invalid'
   end
 
   test 'to_param returns nil when no battletag' do

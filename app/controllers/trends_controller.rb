@@ -301,7 +301,7 @@ class TrendsController < ApplicationController
     return unless @season_high
 
     cutoff = @season_high - CAREER_HIGH_CUTOFF
-    matches = account_matches_in_season.with_rank.with_result.where('rank >= ?', cutoff).
+    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff).
       includes(:heroes)
     hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id =
       wins_losses_draws_by_hero_id(matches)
@@ -319,7 +319,7 @@ class TrendsController < ApplicationController
     return unless @career_high
 
     cutoff = @career_high - CAREER_HIGH_CUTOFF
-    matches = account_matches_in_season.with_rank.with_result.where('rank >= ?', cutoff).
+    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff).
       includes(:heroes)
     hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id =
       wins_losses_draws_by_hero_id(matches)

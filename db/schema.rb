@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180310193155) do
+ActiveRecord::Schema.define(version: 20180310225733) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -94,6 +94,10 @@ ActiveRecord::Schema.define(version: 20180310193155) do
     t.string "region", limit: 6, default: "us", null: false
     t.boolean "admin", default: false, null: false
     t.text "avatar_url"
+    t.text "star_url"
+    t.integer "rank"
+    t.integer "level"
+    t.text "level_url"
     t.index ["battletag", "provider", "uid"], name: "index_oauth_accounts_on_battletag_and_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_oauth_accounts_on_user_id"
   end
