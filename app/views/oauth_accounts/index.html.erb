@@ -5,7 +5,7 @@
 <% end %>
 
 <div class="d-flex-md flex-justify-between-md">
-  <div class="col-5-md mb-4-sm">
+  <div class="col-md-5 mb-4-sm">
     <h2 class="mb-2 mt-0 h3 text-normal">Your Accounts</h2>
     <ul class="list-style-none">
       <% @oauth_accounts.each_with_index do |oauth_account, i| %>
@@ -20,11 +20,16 @@
               <% end %>
             <% end %>
           </div>
-          <% if oauth_account.default? %>
-            <p class="note">
-              This is your default account
-            </p>
-          <% end %>
+          <p class="note d-flex-md flex-justify-between-md">
+            <span>
+              <%= oauth_account.region_name %> / <%= oauth_account.platform_name %>
+            </span>
+            <% if oauth_account.default? %>
+              <span>
+                This is your default account
+              </span>
+            <% end %>
+          </p>
         </li>
       <% end %>
     </ul>

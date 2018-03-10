@@ -152,6 +152,14 @@ class OAuthAccount < ApplicationRecord
     user.save
   end
 
+  def platform_name
+    VALID_PLATFORMS[platform]
+  end
+
+  def region_name
+    VALID_REGIONS[region]
+  end
+
   private
 
   def overwatch_api
