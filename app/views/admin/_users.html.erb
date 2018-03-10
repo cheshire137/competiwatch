@@ -42,9 +42,12 @@
               <% seasons.each do |season| %>
                 <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
                 <div>
-                  <span class="text-bold">Season <%= season %></span> &mdash;
-                  <%= number_with_delimiter season_match_count %>
-                  <%= 'match'.pluralize(season_match_count) %>
+                  <span class="text-bold">Season <%= season %></span>
+                  <% if season_match_count > 0 %>
+                    &mdash;
+                    <%= number_with_delimiter season_match_count %>
+                    <%= 'match'.pluralize(season_match_count) %>
+                  <% end %>
                 </div>
               <% end %>
             </div>
