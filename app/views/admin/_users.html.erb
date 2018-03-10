@@ -3,7 +3,11 @@
   <% users.each_with_index do |user, i| %>
     <%
       accounts_for_user = oauth_accounts_by_user_id[user.id] || []
+      account_ids_for_user = accounts_for_user.map(&:id)
       friend_count = (friends_by_user_id[user.id] || []).size
+      any_matches = matches_by_oauth_account_id.
+        select { |oauth_account_id, _matches| account_ids_for_user.include?(oauth_account_id) }.
+        any? { |oauth_account_id, matches| matches.any? }
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
@@ -16,46 +20,48 @@
           </span>
         <% end %>
       </h3>
-      <ol class="oauth-accounts-list">
-        <% if accounts_for_user.empty? %>
-          <li>
-            <em>No accounts</em>
-          </li>
-        <% end %>
-        <% accounts_for_user.each do |oauth_account| %>
-          <%
-            account_matches = matches_by_oauth_account_id[oauth_account.id] || []
-            match_count = account_matches.size
-            details_class = if match_count > 0
-              "account-#{oauth_account.id}"
-            end
-          %>
-          <li>
-            <%= oauth_account %>
-            <% if details_class %>
-              <span class="d-inline-block mx-2">&middot;</span>
-              <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
-                <%= number_with_delimiter match_count %>
-                <%= 'match'.pluralize(match_count) %>
-              </button>
-            <% end %>
-
-            <div class="<%= details_class %> d-none mb-2">
-              <% seasons.each do |season| %>
-                <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
-                <div>
-                  <span class="text-bold">Season <%= season %></span>
-                  <% if season_match_count > 0 %>
-                    &mdash;
-                    <%= number_with_delimiter season_match_count %>
-                    <%= 'match'.pluralize(season_match_count) %>
-                  <% end %>
-                </div>
+      <% if accounts_for_user.size != 1 || any_matches %>
+        <ol class="oauth-accounts-list">
+          <% if accounts_for_user.empty? %>
+            <li>
+              <em>No accounts</em>
+            </li>
+          <% end %>
+          <% accounts_for_user.each do |oauth_account| %>
+            <%
+              account_matches = matches_by_oauth_account_id[oauth_account.id] || []
+              match_count = account_matches.size
+              details_class = if match_count > 0
+                "account-#{oauth_account.id}"
+              end
+            %>
+            <li>
+              <%= oauth_account %>
+              <% if details_class %>
+                <span class="d-inline-block mx-2">&middot;</span>
+                <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
+                  <%= number_with_delimiter match_count %>
+                  <%= 'match'.pluralize(match_count) %>
+                </button>
               <% end %>
-            </div>
-          </li>
-        <% end %>
-      </ol>
+
+              <div class="<%= details_class %> d-none mb-2">
+                <% seasons.each do |season| %>
+                  <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
+                  <div>
+                    <span class="text-bold">Season <%= season %></span>
+                    <% if season_match_count > 0 %>
+                      &mdash;
+                      <%= number_with_delimiter season_match_count %>
+                      <%= 'match'.pluralize(season_match_count) %>
+                    <% end %>
+                  </div>
+                <% end %>
+              </div>
+            </li>
+          <% end %>
+        </ol>
+      <% end %>
     </li>
   <% end %>
 </ul>
