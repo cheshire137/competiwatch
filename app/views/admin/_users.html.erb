@@ -38,10 +38,10 @@
               </button>
             <% end %>
 
-            <div class="<%= details_class %> d-none d-flex-md flex-wrap flex-justify-between-md">
+            <div class="<%= details_class %> d-none mb-2">
               <% seasons.each do |season| %>
                 <% season_match_count = account_matches.select { |match| match.season == season.number }.size %>
-                <div class="mb-1 account-season">
+                <div>
                   <span class="text-bold">Season <%= season %></span> &mdash;
                   <%= number_with_delimiter season_match_count %>
                   <%= 'match'.pluralize(season_match_count) %>
