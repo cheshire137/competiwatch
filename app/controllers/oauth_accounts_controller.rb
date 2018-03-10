@@ -9,7 +9,7 @@ class OAuthAccountsController < ApplicationController
 
   def avatar
     unless @oauth_account.avatar_url.present?
-      SetAvatarJob.perform_now(@oauth_account)
+      SetAvatarJob.perform_now(@oauth_account.id)
       @oauth_account.reload
     end
     @include_link = params[:include_link] == '1'

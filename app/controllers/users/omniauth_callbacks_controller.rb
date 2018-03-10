@@ -26,7 +26,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           current_user.reload
           account.reload
 
-          SetAvatarJob.perform_later(account)
+          SetAvatarJob.perform_later(account.id)
 
           { notice: "Successfully linked #{battletags.join(', ')}." }
         else
@@ -55,7 +55,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     user.default_oauth_account ||= account
     user.save
 
-    SetAvatarJob.perform_later(account)
+    SetAvatarJob.perform_later(account.id)
 
     if signed_in?
       redirect_to accounts_path, notice: "Successfully linked #{battletag}."
