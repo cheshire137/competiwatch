@@ -90,20 +90,22 @@ heroku certs:update /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsenc
 
 See [Renewing certificates with Certbot](https://certbot.eff.org/docs/using.html#renewing-certificates).
 
-## Admin Users
+## Admin Accounts
 
-You can set some users as administrators that can see general data such as how many
+You can set some accounts as administrators that can see general data such as how many
 matches have been logged and which Battle.net accounts have signed in. Using a Rails
 console, set the `admin` flag to `true`. On Heroku, for example:
 
 ```bash
 heroku run rails c
-user = User.find_by_battletag('TheBigBoss#1234')
-user.admin = true
-user.save
+account = OAuthAccount.find_by_battletag('TheBigBoss#1234')
+account.admin = true
+account.save
 ```
 
-Once a user is marked as an admin, a new 'Admin' link will appear when they sign in.
+Once an account is marked as an admin, a new 'Admin' link will appear when they sign in using
+that account. You must sign in as the admin account, you can't sign in as one of the linked
+accounts tied to the same user.
 
 ## Thanks
 
