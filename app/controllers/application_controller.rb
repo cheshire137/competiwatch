@@ -75,7 +75,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_account
 
   def require_admin
-    unless signed_in? && current_user.admin?
+    unless signed_in? && current_account.admin?
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
   end
