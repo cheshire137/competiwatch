@@ -20,6 +20,7 @@ class OAuthAccount < ApplicationRecord
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
   validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
+  validates :avatar_url, format: %r{\Ahttps?://}, allow_nil: true, allow_blank: true
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }

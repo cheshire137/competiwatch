@@ -7,6 +7,13 @@ class OAuthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'requires valid URL for avatar_url' do
+    oauth_account = OAuthAccount.new(avatar_url: 'https:/some-site.com')
+
+    refute_predicate oauth_account, :valid?
+    assert_includes oauth_account.errors.messages[:avatar_url], 'is invalid'
+  end
+
   test 'to_param returns nil when no battletag' do
     assert_nil OAuthAccount.new.to_param
   end
