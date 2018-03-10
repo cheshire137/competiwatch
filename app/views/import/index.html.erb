@@ -7,7 +7,7 @@
 <% end %>
 
 <% if @match_count > 0 %>
-  <p class="mb-4 p-3 h3 text-normal rounded-2 flash-error">
+  <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
     You have <strong><%= pluralize(@match_count, 'match') %></strong> in season
     <%= @season %>. Importing a CSV file will <strong>wipe</strong> these matches and
     replace them with the contents of your file.
