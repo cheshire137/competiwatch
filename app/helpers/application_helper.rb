@@ -9,11 +9,7 @@ module ApplicationHelper
 
   def current_battletag_param
     return params[:battletag] if params[:battletag]
-
-    if signed_in?
-      current_user.default_oauth_account.try(:to_param) || current_account.to_param.presence ||
-        current_user.to_param
-    end
+    current_account.to_param if signed_in?
   end
 
   def current_battletag
