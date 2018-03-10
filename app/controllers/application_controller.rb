@@ -43,7 +43,9 @@ class ApplicationController < ActionController::Base
   def set_oauth_account
     battletag = User.battletag_from_param(params[:battletag])
     @oauth_account = OAuthAccount.find_by_battletag(battletag)
-    unless @oauth_account
+    if @oauth_account
+      SetProfileDataJob.perform_later(@oauth_account.id) if @oauth_account.out_of_date?
+    else
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
   end
