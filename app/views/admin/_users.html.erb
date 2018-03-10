@@ -1,13 +1,17 @@
-<h2 class="h2 mb-2">All users</h2>
+<h2 class="h2 mb-2">Users</h2>
 <ul class="list-style-none mb-4">
   <% users.each_with_index do |user, i| %>
     <%
       accounts_for_user = oauth_accounts_by_user_id[user.id] || []
       friend_count = (friends_by_user_id[user.id] || []).size
       any_matches = any_matches_for_user?(matches_by_oauth_account_id, accounts_for_user)
+      expanded = accounts_for_user.size != 1 || any_matches
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
+        <% unless expanded %>
+          <span class="js-remote-load" data-url="<%= avatar_path(user.to_param) %>"></span>
+        <% end %>
         <%= user %>
         <% if friend_count > 0 %>
           <span class="text-gray h5 text-normal">
@@ -17,7 +21,7 @@
           </span>
         <% end %>
       </h3>
-      <% if accounts_for_user.size != 1 || any_matches %>
+      <% if expanded %>
         <ol class="oauth-accounts-list">
           <% if accounts_for_user.empty? %>
             <li>
@@ -34,6 +38,7 @@
               seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
             %>
             <li>
+              <span class="js-remote-load" data-url="<%= avatar_path(oauth_account.to_param) %>"></span>
               <span class="text-bold"><%= oauth_account %></span>
               <% if details_class %>
                 <span class="d-inline-block mx-2">&middot;</span>
