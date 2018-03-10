@@ -11,7 +11,14 @@
       <% @oauth_accounts.each_with_index do |oauth_account, i| %>
         <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
           <div class="d-flex flex-justify-between flex-items-center">
-            <span class="d-inline-block mr-4"><%= oauth_account %></span>
+            <div class="d-inline-block mr-4">
+              <% if oauth_account.avatar_url %>
+                <img src="<%= oauth_account.avatar_url %>" class="avatar mr-1" width="20">
+              <% else %>
+                <span class="js-remote-load" data-url="<%= avatar_path(oauth_account) %>"></span>
+              <% end %>
+              <%= oauth_account %>
+            </div>
             <% if oauth_account.can_be_unlinked? %>
               <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
                 <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %> from this account? None of its matches will be deleted.">
