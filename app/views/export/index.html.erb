@@ -3,20 +3,20 @@
 <p>Download your match history for each season as a <abbr title="Comma Separated Value">CSV</abbr> file.</p>
 
 <div class="d-flex-md flex-wrap">
-  <% @oauth_accounts.each do |oauth_account| %>
+  <% @accounts.each do |account| %>
     <% any_matches = false %>
     <div class="Box p-3 mb-4 mr-4-md account-box">
       <h3 class="h3 mb-2 text-normal d-flex flex-items-center">
-        <%= avatar_for(oauth_account, classes: 'mr-1') %>
-        <%= oauth_account %>
+        <%= avatar_for(account, classes: 'mr-1') %>
+        <%= account %>
       </h3>
       <ul class="list-style-none">
         <% @seasons.each do |season| %>
-          <% match_count = @match_counts[[oauth_account.id, season]] || 0 %>
+          <% match_count = @match_counts[[account.id, season]] || 0 %>
           <% if match_count > 0 %>
             <% any_matches = true %>
             <li>
-              <%= form_tag export_matches_path(season, oauth_account, format: :csv) do %>
+              <%= form_tag export_matches_path(season, account, format: :csv) do %>
                 <button type="submit" class="btn-link d-flex flex-items-center width-full flex-justify-between">
                   Download season <%= season %>
                   <span class="text-small text-gray"><%= pluralize(match_count, 'match') %></span>

@@ -15,20 +15,20 @@ class ExportControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "cannot export another user's season" do
-    oauth_account1 = create(:oauth_account)
-    oauth_account2 = create(:oauth_account)
+    account1 = create(:account)
+    account2 = create(:account)
 
-    sign_in_as(oauth_account1)
-    post "/season/#{@season}/#{oauth_account2.to_param}/export.csv"
+    sign_in_as(account1)
+    post "/season/#{@season}/#{account2.to_param}/export.csv"
 
     assert_response :not_found
   end
 
   test 'can export your own season' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    sign_in_as(oauth_account)
-    post "/season/#{@season}/#{oauth_account.to_param}/export.csv"
+    sign_in_as(account)
+    post "/season/#{@season}/#{account.to_param}/export.csv"
 
     assert_response :ok
   end

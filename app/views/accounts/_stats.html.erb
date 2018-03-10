@@ -1,13 +1,13 @@
 <% limit = local_assigns.key?(:limit) ? local_assigns[:limit] : 5 %>
 
 <% if stats.competitive_heroes.any? %>
-  <%= render partial: 'oauth_accounts/heroes_list',
+  <%= render partial: 'accounts/heroes_list',
              locals: { overwatch_api_heroes: stats.competitive_heroes[0...limit],
                        total_seconds: stats.total_competitive_seconds,
                        max_seconds: stats.max_competitive_seconds } %>
 
 <% elsif stats.quickplay_heroes.any? %>
-  <%= render partial: 'oauth_accounts/heroes_list',
+  <%= render partial: 'accounts/heroes_list',
              locals: { overwatch_api_heroes: stats.quickplay_heroes[0...limit],
                        total_seconds: stats.total_quickplay_seconds,
                        max_seconds: stats.max_quickplay_seconds } %>

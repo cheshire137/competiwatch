@@ -1,20 +1,20 @@
-<% content_for(:title, "#{@oauth_account} / Season #{@season} / Trends") %>
+<% content_for(:title, "#{@account} / Season #{@season} / Trends") %>
 
 <% if @is_owner %>
   <% content_for(:breadcrumb) do %>
     <div class="d-flex flex-items-center flex-justify-between">
-      <div><%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %> / Trends</div>
+      <div><%= account_switcher(@account) %> / <%= season_switcher(@season) %> / Trends</div>
       <%= render partial: 'matches/season_share_menu',
-                 locals: { oauth_account: @oauth_account, season: @season } %>
+                 locals: { account: @account, season: @season } %>
     </div>
   <% end %>
 
   <%= render partial: 'trends/tabs',
-             locals: { oauth_account: @oauth_account, season: @season } %>
+             locals: { account: @account, season: @season } %>
 <% else %>
   <% content_for(:breadcrumb) do %>
-    <a href="<%= profile_path(@oauth_account) %>">
-      <%= @oauth_account %>
+    <a href="<%= profile_path(@account) %>">
+      <%= @account %>
     </a>
     / Season <%= @season %> / Trends
   <% end %>
@@ -25,7 +25,7 @@
     <% if @season.future? %>
       Season <%= @season %> has not started yet.
     <% else %>
-      <%= @oauth_account %>
+      <%= @account %>
       <% if @season.past? %>
         did not log
       <% else %>

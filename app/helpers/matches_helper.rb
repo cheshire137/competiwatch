@@ -79,7 +79,7 @@ module MatchesHelper
     if match.persisted?
       update_match_path(match.id)
     else
-      matches_path(match.season, match.oauth_account)
+      matches_path(match.season, match.account)
     end
   end
 
@@ -119,8 +119,8 @@ module MatchesHelper
     render partial: 'matches/season_switcher', locals: { selected_season: selected_season }
   end
 
-  def match_oauth_account_options
-    oauth_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
+  def match_account_options
+    accounts.map { |account| [account.battletag, account.id] }
   end
 
   def season_options

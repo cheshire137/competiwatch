@@ -6,13 +6,13 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'publicly_shared scope includes only matches from shared seasons' do
-    oauth_account = create(:oauth_account)
-    create(:season_share, oauth_account: oauth_account, season: 2)
-    unshared_match1 = create(:match, season: 1, oauth_account: oauth_account)
-    shared_match1 = create(:match, season: 2, oauth_account: oauth_account)
-    shared_match2 = create(:match, season: 2, oauth_account: oauth_account)
+    account = create(:account)
+    create(:season_share, account: account, season: 2)
+    unshared_match1 = create(:match, season: 1, account: account)
+    shared_match1 = create(:match, season: 2, account: account)
+    shared_match2 = create(:match, season: 2, account: account)
     unshared_match2 = create(:match, season: 2) # different account
-    unshared_match3 = create(:match, season: 3, oauth_account: oauth_account)
+    unshared_match3 = create(:match, season: 3, account: account)
 
     result = Match.publicly_shared
 
@@ -24,15 +24,15 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'clears account career high cache if rank is greater' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    create(:match, rank: 1234, oauth_account: oauth_account) # prime the cache
-    assert_equal 1234, Rails.cache.fetch("career-high-#{oauth_account}")
+    create(:match, rank: 1234, account: account) # prime the cache
+    assert_equal 1234, Rails.cache.fetch("career-high-#{account}")
 
-    create(:match, rank: 1235, oauth_account: oauth_account) # new career high
-    assert_nil Rails.cache.fetch("career-high-#{oauth_account}")
-    assert_equal 1235, oauth_account.career_high
-    assert_equal 1235, Rails.cache.fetch("career-high-#{oauth_account}")
+    create(:match, rank: 1235, account: account) # new career high
+    assert_nil Rails.cache.fetch("career-high-#{account}")
+    assert_equal 1235, account.career_high
+    assert_equal 1235, Rails.cache.fetch("career-high-#{account}")
   end
 
   test 'requires season' do
@@ -43,9 +43,9 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'updates result when rank changes' do
-    oauth_account = create(:oauth_account)
-    match1 = create(:match, oauth_account: oauth_account, rank: 2500)
-    match2 = create(:match, oauth_account: oauth_account, rank: 2525, prior_match: match1)
+    account = create(:account)
+    match1 = create(:match, account: account, rank: 2500)
+    match2 = create(:match, account: account, rank: 2525, prior_match: match1)
 
     assert_equal :win, match2.result
 
@@ -68,9 +68,9 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'removes match friends not in given name list' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
-    match = create(:match, oauth_account: oauth_account)
-    other_match = create(:match, oauth_account: oauth_account)
+    account = create(:account, user: user)
+    match = create(:match, account: account)
+    other_match = create(:match, account: account)
     friend = create(:friend, user: user, name: 'Rob')
     match_friend = create(:match_friend, match: match, friend: friend)
     create(:match_friend, friend: friend, match: other_match)
@@ -90,8 +90,8 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'adds existing friend to match based on name' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
-    match = create(:match, oauth_account: oauth_account)
+    account = create(:account, user: user)
+    match = create(:match, account: account)
     friend = create(:friend, user: user, name: 'Rob')
     match_friend = create(:match_friend, match: match, friend: friend)
     names = %w[Rob Seed]
@@ -107,8 +107,8 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'leaves existing friend in match when adding another existing friend' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
-    match = create(:match, oauth_account: oauth_account)
+    account = create(:account, user: user)
+    match = create(:match, account: account)
     friend1 = create(:friend, user: user, name: 'Rob')
     friend2 = create(:friend, user: user, name: 'Seed')
     match_friend = create(:match_friend, match: match, friend: friend1)

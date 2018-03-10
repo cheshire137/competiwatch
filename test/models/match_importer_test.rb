@@ -2,16 +2,16 @@ require 'test_helper'
 
 class MatchImporterTest < ActiveSupport::TestCase
   test 'imports placement matches' do
-    oauth_account = create(:oauth_account)
-    importer = MatchImporter.new(oauth_account: oauth_account, season: 1)
+    account = create(:account)
+    importer = MatchImporter.new(account: account, season: 1)
     path = file_fixture('valid-placement-import.csv')
 
-    assert_difference 'oauth_account.matches.placements.count', 6 do
+    assert_difference 'account.matches.placements.count', 6 do
       importer.import(path)
       assert_empty importer.errors
     end
 
-    matches = oauth_account.matches.placements.ordered_by_time
+    matches = account.matches.placements.ordered_by_time
     assert_equal :win, matches[0].result
     assert_equal :win, matches[1].result
     assert_equal :loss, matches[2].result
@@ -21,18 +21,18 @@ class MatchImporterTest < ActiveSupport::TestCase
   end
 
   test 'imports placement and regular matches from same file' do
-    oauth_account = create(:oauth_account)
-    importer = MatchImporter.new(oauth_account: oauth_account, season: 1)
+    account = create(:account)
+    importer = MatchImporter.new(account: account, season: 1)
     path = file_fixture('valid-placement-and-regular-import.csv')
 
-    assert_difference 'oauth_account.matches.placements.count', 10 do
-      assert_difference 'oauth_account.matches.non_placements.count' do
+    assert_difference 'account.matches.placements.count', 10 do
+      assert_difference 'account.matches.non_placements.count' do
         importer.import(path)
         assert_empty importer.errors
       end
     end
 
-    matches = oauth_account.matches.ordered_by_time
+    matches = account.matches.ordered_by_time
     assert matches[0..9].all? { |match| match.placement? }, 'first 10 matches should be placements'
     assert_equal :win, matches[0].result
     assert_equal matches[0], matches[1].prior_match

@@ -1,14 +1,14 @@
 class TrendsController < ApplicationController
   before_action :authenticate_user!, only: [:all_seasons, :all_accounts, :all_seasons_accounts]
-  before_action :set_oauth_account, only: [:index, :all_seasons]
-  before_action :redirect_unless_oauth_account_is_mine, only: :all_seasons
+  before_action :set_account, only: [:index, :all_seasons]
+  before_action :redirect_unless_account_is_mine, only: :all_seasons
   before_action :set_season, only: [:index, :all_accounts]
   before_action :ensure_season_is_visible, only: :index
 
   CAREER_HIGH_CUTOFF = 200
 
   def index
-    @is_owner = signed_in? && @oauth_account.user == current_user
+    @is_owner = signed_in? && @account.user == current_user
     win_loss_chart
     group_stats
     day_time_chart
@@ -29,10 +29,10 @@ class TrendsController < ApplicationController
   def all_seasons_accounts
     @active_seasons = current_user.active_seasons
     @matches = account_matches_in_season.
-      includes(:prior_match, :map, :friends, :heroes, :oauth_account).with_result.ordered_by_time
+      includes(:prior_match, :map, :friends, :heroes, :account).with_result.ordered_by_time
     @total_matches = @matches.count
-    @total_accounts = @matches.map(&:oauth_account_id).uniq.size
-    @account_battletags = @matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
+    @total_accounts = @matches.map(&:account_id).uniq.size
+    @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
@@ -57,7 +57,7 @@ class TrendsController < ApplicationController
   end
 
   def all_seasons
-    @active_seasons = @oauth_account.active_seasons
+    @active_seasons = @account.active_seasons
     @matches = account_matches_in_season.includes(:friends, :heroes, :prior_match, :map).
       with_result.ordered_by_time
     @total_matches = @matches.count
@@ -86,10 +86,10 @@ class TrendsController < ApplicationController
 
   def all_accounts
     @matches = account_matches_in_season.
-      includes(:friends, :heroes, :oauth_account, :map, :prior_match).with_result.ordered_by_time
+      includes(:friends, :heroes, :account, :map, :prior_match).with_result.ordered_by_time
     @total_matches = @matches.count
-    @total_accounts = @matches.map(&:oauth_account_id).uniq.size
-    @account_battletags = @matches.map(&:oauth_account).uniq.map(&:battletag).sort_by(&:downcase)
+    @total_accounts = @matches.map(&:account_id).uniq.size
+    @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
@@ -116,7 +116,7 @@ class TrendsController < ApplicationController
   private
 
   def match_source
-    @match_source ||= @oauth_account ? @oauth_account : current_user
+    @match_source ||= @account ? @account : current_user
   end
 
   def account_matches_in_season

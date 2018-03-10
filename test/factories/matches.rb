@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :match do
-    oauth_account
+    account
     map
     rank 2500
     season 2

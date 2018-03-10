@@ -1,26 +1,26 @@
 class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:bnet]
 
-  has_many :oauth_accounts, dependent: :destroy
+  has_many :accounts, dependent: :destroy
   has_many :friends, dependent: :destroy
-  has_many :matches, through: :oauth_accounts
-  has_many :season_shares, through: :oauth_accounts
+  has_many :matches, through: :accounts
+  has_many :season_shares, through: :accounts
 
-  belongs_to :default_oauth_account, class_name: 'OAuthAccount', required: false
+  belongs_to :default_account, class_name: 'Account', required: false
 
   validates :battletag, presence: true, uniqueness: true
-  validate :default_oauth_account_is_owned
+  validate :default_account_is_owned
 
   alias_attribute :to_s, :battletag
 
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
   scope :active, -> do
     cutoff_time = Time.zone.now - 1.month
-    account_user_ids = OAuthAccount.where('updated_at >= ?', cutoff_time).pluck(:user_id)
-    share_user_ids = SeasonShare.joins(:oauth_account).
-      where('season_shares.created_at >= ?', cutoff_time).pluck('oauth_accounts.user_id')
-    match_user_ids = Match.joins(:oauth_account).where('matches.updated_at >= ?', cutoff_time).
-      pluck('oauth_accounts.user_id')
+    account_user_ids = Account.where('updated_at >= ?', cutoff_time).pluck(:user_id)
+    share_user_ids = SeasonShare.joins(:account).
+      where('season_shares.created_at >= ?', cutoff_time).pluck('accounts.user_id')
+    match_user_ids = Match.joins(:account).where('matches.updated_at >= ?', cutoff_time).
+      pluck('accounts.user_id')
     where(id: account_user_ids | share_user_ids | match_user_ids)
   end
 
@@ -30,7 +30,7 @@ class User < ApplicationRecord
   end
 
   def career_high
-    oauth_accounts.map(&:career_high).compact.max
+    accounts.map(&:career_high).compact.max
   end
 
   def active_seasons
@@ -40,9 +40,9 @@ class User < ApplicationRecord
   def merge_with(primary_user)
     success = true
 
-    oauth_accounts.each do |oauth_account|
-      oauth_account.user = primary_user
-      success = success && oauth_account.save
+    accounts.each do |account|
+      account.user = primary_user
+      success = success && account.save
     end
 
     friends.each do |secondary_friend|
@@ -57,7 +57,7 @@ class User < ApplicationRecord
     end
 
     # Need to refresh the lists so #destroy doesn't delete them
-    oauth_accounts.reload
+    accounts.reload
     friends.reload
 
     success && destroy
@@ -87,11 +87,11 @@ class User < ApplicationRecord
     self.class.parameterize(battletag)
   end
 
-  def default_oauth_account_is_owned
-    return unless default_oauth_account
+  def default_account_is_owned
+    return unless default_account
 
-    unless oauth_accounts.include?(default_oauth_account)
-      errors.add(:default_oauth_account, 'must be one of your accounts')
+    unless accounts.include?(default_account)
+      errors.add(:default_account, 'must be one of your accounts')
     end
   end
 end

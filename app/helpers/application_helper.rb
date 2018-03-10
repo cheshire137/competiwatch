@@ -25,7 +25,7 @@ module ApplicationHelper
   end
 
   def is_profile_page?
-    is_page?('oauth_accounts', 'show')
+    is_page?('accounts', 'show')
   end
 
   def is_all_seasons_trends_page?
@@ -49,7 +49,7 @@ module ApplicationHelper
   end
 
   def is_settings_page?
-    is_page?('users', 'settings') || is_page?('oauth_accounts', 'index') ||
+    is_page?('users', 'settings') || is_page?('accounts', 'index') ||
       is_page?('season_shares', 'index') || is_page?('seasons', 'choose_season_to_wipe') ||
       is_page?('seasons', 'confirm_wipe')
   end

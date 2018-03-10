@@ -6,19 +6,19 @@ class AdminController < ApplicationController
     @friend_count = Friend.count
     @match_count = Match.count
     @new_season = Season.new(number: Season.current_or_latest_number + 1)
-    @oauth_account_count = OAuthAccount.count
+    @account_count = Account.count
     @season_share_count = SeasonShare.count
     @active_user_count = all_users.active.count
     @users = all_users.paginate(page: current_page, per_page: 7)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
-    @oauth_accounts_by_user_id = OAuthAccount.order_by_battletag.group_by(&:user_id)
+    @accounts_by_user_id = Account.order_by_battletag.group_by(&:user_id)
     @seasons = Season.latest_first
-    @matches_by_oauth_account_id = Match.select([:season, :oauth_account_id]).
-      group_by(&:oauth_account_id)
+    @matches_by_account_id = Match.select([:season, :account_id]).
+      group_by(&:account_id)
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
-    @userless_accounts = OAuthAccount.without_user.order_by_battletag
+    @userless_accounts = Account.without_user.order_by_battletag
     @userless_account_options = [['--', '']] +
-      @userless_accounts.map { |oauth_account| [oauth_account.battletag, oauth_account.id] }
+      @userless_accounts.map { |account| [account.battletag, account.id] }
   end
 
   def destroy_season
@@ -60,20 +60,20 @@ class AdminController < ApplicationController
   end
 
   def update_account
-    unless params[:user_id] && params[:oauth_account_id]
+    unless params[:user_id] && params[:account_id]
       flash[:error] = 'Please specify a user and an account.'
       return redirect_to(admin_path)
     end
 
     user = User.find(params[:user_id])
-    oauth_account = OAuthAccount.find(params[:oauth_account_id])
-    oauth_account.user = user
+    account = Account.find(params[:account_id])
+    account.user = user
 
-    if oauth_account.save
-      flash[:notice] = "Successfully tied account #{oauth_account} to user #{user}."
+    if account.save
+      flash[:notice] = "Successfully tied account #{account} to user #{user}."
     else
-      flash[:error] = "Could not tie account #{oauth_account} to user #{user}: " +
-                      oauth_account.errors.full_messages.join(', ')
+      flash[:error] = "Could not tie account #{account} to user #{user}: " +
+                      account.errors.full_messages.join(', ')
     end
 
     redirect_to admin_path

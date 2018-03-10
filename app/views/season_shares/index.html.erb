@@ -5,19 +5,19 @@
 <% end %>
 
 <div class="d-flex-md flex-wrap">
-  <% @oauth_accounts.each do |oauth_account| %>
+  <% @accounts.each do |account| %>
     <div class="Box p-3 mb-4-sm mr-4-md account-box">
       <h3 class="h3 mb-2 text-normal d-flex flex-items-center">
-        <%= avatar_for(oauth_account, classes: 'mr-1') %>
-        <%= oauth_account %>
+        <%= avatar_for(account, classes: 'mr-1') %>
+        <%= account %>
       </h3>
       <ul class="list-style-none">
-        <% shared_seasons = @shared_seasons_by_oauth_account_id[oauth_account.id] || [] %>
+        <% shared_seasons = @shared_seasons_by_account_id[account.id] || [] %>
         <% @all_seasons.each_with_index do |season, i| %>
           <% is_shared = shared_seasons.include?(season) %>
 
           <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'background-oasis' if is_shared %> <% if i > 0 %>border-top<% end %>">
-            <a href="<%= matches_path(season, oauth_account) %>" class="no-wrap">Season <%= season %></a>
+            <a href="<%= matches_path(season, account) %>" class="no-wrap">Season <%= season %></a>
             <span class="text-gray">
               <% if is_shared %>
                 <span class="ion ion-eye mr-1 d-inline-block"></span>

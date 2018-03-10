@@ -1,14 +1,14 @@
-<% content_for(:title, "#{@oauth_account} / Season #{@season} / Confirm wipe") %>
+<% content_for(:title, "#{@account} / Season #{@season} / Confirm wipe") %>
 
 <% content_for(:breadcrumb) do %>
-  <a href="<%= settings_path %>">Settings</a> / <%= @oauth_account %> / Season <%= @season %> / Confirm wipe
+  <a href="<%= settings_path %>">Settings</a> / <%= @account %> / Season <%= @season %> / Confirm wipe
 <% end %>
 
 <% if @match_count > 0 %>
   <p><a href="<%= choose_season_to_wipe_path %>">&larr; Choose another season or account</a></p>
 
   <p class="mb-4 p-3 h3 text-normal rounded-2 flash-warn">
-    <strong><%= @oauth_account %></strong> has
+    <strong><%= @account %></strong> has
     <strong><%= @match_count %></strong> <%= 'match'.pluralize(@match_count) %> in season
     <%= @season %>. Are you sure you want to delete them?
   </p>
@@ -22,7 +22,7 @@
     <% end %>
   </ul>
 
-  <%= form_tag matches_path(@season, @oauth_account), method: :delete, class: 'mt-4' do %>
+  <%= form_tag matches_path(@season, @account), method: :delete, class: 'mt-4' do %>
     <button type="submit" class="btn btn-danger" data-confirm="Are you sure?">
       Yes, delete season <%= @season %>
     </button>

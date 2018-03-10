@@ -1,4 +1,4 @@
-<% if oauth_accounts.size == 1 %>
+<% if accounts.size == 1 %>
   <%= selected_account %>
 <% else %>
   <div class="dropdown js-menu-container d-inline-block">
@@ -10,11 +10,11 @@
 
     <div class="dropdown-menu-content js-menu-content">
       <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
-        <% oauth_accounts.each do |oauth_account| %>
+        <% accounts.each do |account| %>
           <li>
-            <a class="dropdown-item <%= 'text-bold' if oauth_account == selected_account %>" href="<%= account_switcher_url(oauth_account) %>">
-              <%= avatar_for(oauth_account) %>
-              <%= oauth_account %>
+            <a class="dropdown-item <%= 'text-bold' if account == selected_account %>" href="<%= account_switcher_url(account) %>">
+              <%= avatar_for(account) %>
+              <%= account %>
             </a>
           </li>
         <% end %>

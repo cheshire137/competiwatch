@@ -1,5 +1,5 @@
 class SeasonShare < ApplicationRecord
-  belongs_to :oauth_account
+  belongs_to :account
 
-  validates :season, presence: true, uniqueness: { scope: :oauth_account_id }
+  validates :season, presence: true, uniqueness: { scope: :account_id }
 end

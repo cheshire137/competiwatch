@@ -1,13 +1,13 @@
-<% content_for(:title, "#{@oauth_account} / Season #{@season} / Matches") %>
+<% content_for(:title, "#{@account} / Season #{@season} / Matches") %>
 
 <% content_for(:breadcrumb) do %>
   <div class="d-flex flex-items-center flex-justify-between">
     <div>
       <% if @can_edit %>
-        <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+        <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
       <% else %>
-        <a href="<%= profile_path(@oauth_account) %>">
-          <%= @oauth_account %>
+        <a href="<%= profile_path(@account) %>">
+          <%= @account %>
         </a>
         / Season <%= @season %>
       <% end %>
@@ -20,10 +20,10 @@
     <% if @matches.any? %>
       <div>
         <%= render partial: 'matches/filter_menu',
-                   locals: { oauth_account: @oauth_account, season: @season } %>
+                   locals: { account: @account, season: @season } %>
         <% if @can_edit %>
           <%= render partial: 'matches/season_share_menu',
-                     locals: { oauth_account: @oauth_account, season: @season } %>
+                     locals: { account: @account, season: @season } %>
         <% end %>
       </div>
     <% end %>
@@ -35,7 +35,7 @@
     <a href="#match-history" class="UnderlineNav-item selected js-tab" role="tab">
       Matches
     </a>
-    <% if @oauth_account.finished_placements?(@season) %>
+    <% if @account.finished_placements?(@season) %>
       <a href="#log-match" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
         Log a match
       </a>
@@ -43,7 +43,7 @@
       <a href="#log-placement-matches" class="UnderlineNav-item js-tab" role="tab">
         Log placement match
       </a>
-      <% unless @oauth_account.any_placements?(@season) %>
+      <% unless @account.any_placements?(@season) %>
         <a href="#log-placement-rank" class="UnderlineNav-item js-tab" role="tab">
           Log placement SR
         </a>
@@ -66,20 +66,20 @@
              locals: { matches: @matches, placement_rank: @placement_rank,
                        longest_win_streak: @longest_win_streak,
                        longest_loss_streak: @longest_loss_streak,
-                       season: @season, oauth_account: @oauth_account } %>
+                       season: @season, account: @account } %>
 
   <% if @can_edit && !@season.future? && @matches.any? %>
     <p class="mt-4 text-small">
       You can also
-      <a href="<%= import_path(@season, @oauth_account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
-      for season <%= @season %> on <span class="text-bold"><%= @oauth_account %></span>
+      <a href="<%= import_path(@season, @account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
+      for season <%= @season %> on <span class="text-bold"><%= @account %></span>
       if you already have it in a spreadsheet.
     </p>
   <% end %>
 </div>
 
 <% if @can_edit %>
-  <% if @oauth_account.finished_placements?(@season) %>
+  <% if @account.finished_placements?(@season) %>
     <div id="log-match" class="js-tab-contents tab-contents d-none">
       <%= form_for(@match) do |f| %>
         <%= render partial: 'matches/form',
@@ -105,7 +105,7 @@
       <% end %>
     </div>
 
-    <% unless @oauth_account.any_placements?(@season) %>
+    <% unless @account.any_placements?(@season) %>
       <div id="log-placement-rank" class="js-tab-contents tab-contents d-none">
         <%= form_for(@match) do |f| %>
           <%= render partial: 'matches/placement_rank_form',

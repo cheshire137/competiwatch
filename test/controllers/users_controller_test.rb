@@ -4,9 +4,9 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
   test 'can view your settings' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    sign_in_as(oauth_account)
+    sign_in_as(account)
     get '/settings'
 
     assert_response :ok

@@ -9,20 +9,20 @@
 </p>
 
 <div class="d-flex-md flex-wrap">
-  <% @oauth_accounts.each do |oauth_account| %>
+  <% @accounts.each do |account| %>
     <div class="Box p-3 mb-4-sm mr-4 account-box">
       <h3 class="h3 mb-2 text-normal d-flex flex-items-center">
-        <%= avatar_for(oauth_account, classes: 'mr-1') %>
-        <%= oauth_account %>
+        <%= avatar_for(account, classes: 'mr-1') %>
+        <%= account %>
       </h3>
       <ul class="list-style-none">
-        <% seasons = @seasons_for_account[oauth_account.id] %>
+        <% seasons = @seasons_for_account[account.id] %>
         <% if seasons.present? %>
           <% seasons.sort.each_with_index do |season, i| %>
-            <% match_count = @match_counts[[oauth_account.id, season]] %>
+            <% match_count = @match_counts[[account.id, season]] %>
 
             <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
-              <a class="d-flex flex-justify-between flex-items-center" href="<%= confirm_season_wipe_path(season, oauth_account) %>">
+              <a class="d-flex flex-justify-between flex-items-center" href="<%= confirm_season_wipe_path(season, account) %>">
                 Season <%= season %>
                 <span class="text-gray text-small">
                   <%= pluralize match_count, 'match' %>

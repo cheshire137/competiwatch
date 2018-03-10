@@ -5,14 +5,14 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
 
   test 'can view your own shares' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
     create(:season, number: 3)
-    create(:season_share, oauth_account: oauth_account1, season: 1)
-    create(:season_share, oauth_account: oauth_account1, season: 2)
-    create(:season_share, oauth_account: oauth_account2, season: 3)
+    create(:season_share, account: account1, season: 1)
+    create(:season_share, account: account1, season: 2)
+    create(:season_share, account: account2, season: 3)
 
-    sign_in_as(oauth_account1)
+    sign_in_as(account1)
     get '/shared-seasons'
 
     assert_response :ok
@@ -29,10 +29,10 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'create redirects for anonymous user' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
     assert_no_difference 'SeasonShare.count' do
-      post "/season/1/#{oauth_account.to_param}/share"
+      post "/season/1/#{account.to_param}/share"
     end
 
     assert_response :redirect
@@ -40,34 +40,34 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test '404s trying to create a season share for someone else' do
-    oauth_account1 = create(:oauth_account)
-    oauth_account2 = create(:oauth_account)
+    account1 = create(:account)
+    account2 = create(:account)
 
     assert_no_difference 'SeasonShare.count' do
-      sign_in_as(oauth_account1)
-      post "/season/2/#{oauth_account2.to_param}/share"
+      sign_in_as(account1)
+      post "/season/2/#{account2.to_param}/share"
     end
 
     assert_response :not_found
   end
 
   test 'can create a season share for your account' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    assert_difference 'oauth_account.season_shares.count' do
-      sign_in_as(oauth_account)
-      post "/season/2/#{oauth_account.to_param}/share"
+    assert_difference 'account.season_shares.count' do
+      sign_in_as(account)
+      post "/season/2/#{account.to_param}/share"
     end
 
-    assert_redirected_to matches_path(2, oauth_account)
+    assert_redirected_to matches_path(2, account)
   end
 
   test 'destroy redirects for anonymous user' do
-    oauth_account = create(:oauth_account)
-    create(:season_share, season: 2, oauth_account: oauth_account)
+    account = create(:account)
+    create(:season_share, season: 2, account: account)
 
     assert_no_difference 'SeasonShare.count' do
-      delete "/season/2/#{oauth_account.to_param}/share"
+      delete "/season/2/#{account.to_param}/share"
     end
 
     assert_response :redirect
@@ -75,26 +75,26 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'can delete a season share for your account' do
-    oauth_account = create(:oauth_account)
-    season_share = create(:season_share, season: 2, oauth_account: oauth_account)
+    account = create(:account)
+    season_share = create(:season_share, season: 2, account: account)
 
-    assert_difference 'oauth_account.season_shares.count', -1 do
-      sign_in_as(oauth_account)
-      delete "/season/2/#{oauth_account.to_param}/share"
+    assert_difference 'account.season_shares.count', -1 do
+      sign_in_as(account)
+      delete "/season/2/#{account.to_param}/share"
     end
 
-    assert_redirected_to matches_path(2, oauth_account)
+    assert_redirected_to matches_path(2, account)
     refute SeasonShare.exists?(season_share.id)
   end
 
   test '404s trying to delete a season share for someone else' do
-    oauth_account1 = create(:oauth_account)
-    oauth_account2 = create(:oauth_account)
-    season_share = create(:season_share, season: 1, oauth_account: oauth_account2)
+    account1 = create(:account)
+    account2 = create(:account)
+    season_share = create(:season_share, season: 1, account: account2)
 
     assert_no_difference 'SeasonShare.count' do
-      sign_in_as(oauth_account1)
-      post "/season/1/#{oauth_account2.to_param}/share"
+      sign_in_as(account1)
+      post "/season/1/#{account2.to_param}/share"
     end
 
     assert_response :not_found

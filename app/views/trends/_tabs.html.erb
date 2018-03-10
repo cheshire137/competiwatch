@@ -1,14 +1,14 @@
 <%
-  oauth_account = local_assigns[:oauth_account] || current_user
+  account = local_assigns[:account] || current_user
   season = local_assigns[:season] || Season.current_or_latest_number
 %>
 
 <% content_for(:trend_tabs) do %>
-  <a href="<%= all_seasons_trends_path(oauth_account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">
+  <a href="<%= all_seasons_trends_path(account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">
     All season trends
   </a>
 
-  <% if oauth_accounts.size > 1 %>
+  <% if accounts.size > 1 %>
     <a href="<%= all_accounts_trends_path(season) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_accounts_trends_page? %>" role="tab">
       All account trends
     </a>

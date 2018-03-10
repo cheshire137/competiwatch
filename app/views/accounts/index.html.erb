@@ -8,16 +8,16 @@
   <div class="col-md-5 mb-4-sm">
     <h2 class="mb-2 mt-0 h3 text-normal">Your Accounts</h2>
     <ul class="list-style-none">
-      <% @oauth_accounts.each_with_index do |oauth_account, i| %>
+      <% @accounts.each_with_index do |account, i| %>
         <li<% if i > 0 %> class="border-top pt-2 mt-2"<% end %>>
           <div class="d-flex flex-justify-between flex-items-center">
             <div class="d-inline-block mr-4">
-              <%= avatar_for(oauth_account) %>
-              <%= oauth_account %>
+              <%= avatar_for(account) %>
+              <%= account %>
             </div>
-            <% if oauth_account.can_be_unlinked? %>
-              <%= form_tag account_path(oauth_account), method: :delete, class: 'd-inline-block' do %>
-                <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= oauth_account %> from this account? None of its matches will be deleted.">
+            <% if account.can_be_unlinked? %>
+              <%= form_tag account_path(account), method: :delete, class: 'd-inline-block' do %>
+                <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= account %> from this account? None of its matches will be deleted.">
                   Unlink
                 </button>
               <% end %>
@@ -25,27 +25,27 @@
           </div>
           <p class="note d-flex-md flex-justify-between-md">
             <span>
-              <%= oauth_account.platform_name %> / <%= oauth_account.region_name %>
-              <button class="btn-link text-small text-normal js-toggle-details" data-target=".edit-account-<%= oauth_account.id %>" type="button">
+              <%= account.platform_name %> / <%= account.region_name %>
+              <button class="btn-link text-small text-normal js-toggle-details" data-target=".edit-account-<%= account.id %>" type="button">
                 <span class="ion ion-edit"></span>
                 Edit
               </button>
             </span>
-            <% if oauth_account.default? %>
+            <% if account.default? %>
               <span>
                 This is your default account
               </span>
             <% end %>
           </p>
-          <div class="d-none my-2 edit-account-<%= oauth_account.id %>">
-            <%= form_for(oauth_account, url: profile_path(oauth_account), method: :put, html: { class: 'border rounded-2 px-3 pb-3' }) do |f| %>
+          <div class="d-none my-2 edit-account-<%= account.id %>">
+            <%= form_for(account, url: profile_path(account), method: :put, html: { class: 'border rounded-2 px-3 pb-3' }) do |f| %>
               <div class="form-group mb-0 mr-4 d-flex flex-items-center">
                 <%= f.label :platform, 'Platform:', class: 'mr-2' %>
-                <%= f.select :platform, options_for_select(platform_options, oauth_account.platform), {}, { class: 'form-select' } %>
+                <%= f.select :platform, options_for_select(platform_options, account.platform), {}, { class: 'form-select' } %>
               </div>
               <div class="form-group mb-0 mr-4 d-flex flex-items-center">
                 <%= f.label :region, 'Region:', class: 'mr-2' %>
-                <%= f.select :region, options_for_select(region_options, oauth_account.region), {}, { class: 'form-select' } %>
+                <%= f.select :region, options_for_select(region_options, account.region), {}, { class: 'form-select' } %>
               </div>
               <button type="submit" class="btn mt-2">Save</button>
             <% end %>
@@ -66,12 +66,12 @@
       Connect your Battle.net account
     </a>
 
-    <% if @oauth_accounts.size > 1 %>
+    <% if @accounts.size > 1 %>
       <h2 class="mt-4 pt-4 border-top mb-2 text-normal h3">Change default account</h2>
       <%= form_tag set_default_account_path, method: :put do %>
         <div class="form-group">
           <label for="battletag">Choose an account:</label>
-          <%= select_tag :battletag, options_for_select(default_account_oauth_account_options, current_user.default_oauth_account.try(:to_param)), class: 'form-select', required: true %>
+          <%= select_tag :battletag, options_for_select(default_account_account_options, current_user.default_account.try(:to_param)), class: 'form-select', required: true %>
         </div>
         <button type="submit" class="btn">
           Set default account

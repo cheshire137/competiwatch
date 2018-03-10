@@ -1,8 +1,8 @@
 class MatchImporter
   attr_reader :matches, :errors
 
-  def initialize(oauth_account:, season:)
-    @oauth_account = oauth_account
+  def initialize(account:, season:)
+    @account = account
     @season = season
     @matches = []
     @errors = []
@@ -10,7 +10,7 @@ class MatchImporter
 
   def import(path)
     table = CSV.read(path, headers: true, header_converters: [:downcase])
-    @oauth_account.wipe_season(@season)
+    @account.wipe_season(@season)
     prior_match = nil
     table.each do |row|
       match = import_match(row, prior_match: prior_match)
@@ -24,7 +24,7 @@ class MatchImporter
   private
 
   def import_match(row, prior_match:)
-    match = @oauth_account.matches.new(season: @season, comment: row['comment'],
+    match = @account.matches.new(season: @season, comment: row['comment'],
                                        prior_match: prior_match)
 
     if (rank = row['rank']).present?

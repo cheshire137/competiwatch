@@ -2,8 +2,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
     battletag = auth.info.battletag
-    account = OAuthAccount.where(provider: auth.provider, uid: auth.uid,
-                                 battletag: battletag).first_or_initialize
+    account = Account.where(provider: auth.provider, uid: auth.uid,
+                            battletag: battletag).first_or_initialize
     if account.persisted?
       if signed_in? && account.user.nil?
         account.user = current_user
@@ -16,8 +16,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
       if signed_in? && account.user != current_user
         other_user = account.user
-        battletags = other_user.oauth_accounts.pluck(:battletag) -
-          current_user.oauth_accounts.pluck(:battletag)
+        battletags = other_user.accounts.pluck(:battletag) -
+          current_user.accounts.pluck(:battletag)
         success = if other_user.merge_with(current_user)
           account.user = current_user
           account.save
@@ -52,7 +52,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     end
 
     user = account.user
-    user.default_oauth_account ||= account
+    user.default_account ||= account
     user.save
 
     SetProfileDataJob.perform_later(account.id)

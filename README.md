@@ -100,7 +100,7 @@ console, set the `admin` flag to `true`. On Heroku, for example:
 
 ```bash
 heroku run rails c
-account = OAuthAccount.find_by_battletag('TheBigBoss#1234')
+account = Account.find_by_battletag('TheBigBoss#1234')
 account.admin = true
 account.save
 ```

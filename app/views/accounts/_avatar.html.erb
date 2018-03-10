@@ -1,0 +1,3 @@
+<% if @include_link %><a href="<%= profile_path(@account) %>" class="d-inline-block"><% end %>
+<img src="<%= @account.avatar_url %>" class="avatar mr-1" width="20">
+<% if @include_link %></a><% end %>

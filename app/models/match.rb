@@ -8,7 +8,7 @@ class Match < ApplicationRecord
 
   attr_accessor :win_streak, :loss_streak
 
-  belongs_to :oauth_account
+  belongs_to :account
   belongs_to :map, required: false
   belongs_to :prior_match, required: false, class_name: 'Match'
 
@@ -29,7 +29,7 @@ class Match < ApplicationRecord
   validate :season_same_as_prior_match
   validate :rank_or_placement
 
-  has_one :user, through: :oauth_account
+  has_one :user, through: :account
   has_and_belongs_to_many :heroes
 
   scope :wins, ->{ where(result: RESULT_MAPPINGS[:win]) }
@@ -53,7 +53,7 @@ class Match < ApplicationRecord
   scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
   scope :publicly_shared, ->{
     joins("INNER JOIN season_shares ON season_shares.season = matches.season " \
-          "AND season_shares.oauth_account_id = matches.oauth_account_id")
+          "AND season_shares.account_id = matches.account_id")
   }
 
   def self.rank_tier(rank)
@@ -165,7 +165,7 @@ class Match < ApplicationRecord
     # to check after the fact.
     return false if persisted?
 
-    other_placements = oauth_account.matches.placements.in_season(season)
+    other_placements = account.matches.placements.in_season(season)
     other_placements.count == TOTAL_PLACEMENT_MATCHES - 1
   end
 
@@ -298,11 +298,11 @@ class Match < ApplicationRecord
   private
 
   def reset_career_high
-    return unless rank && oauth_account
+    return unless rank && account
 
-    career_high = oauth_account.career_high
+    career_high = account.career_high
     if career_high && rank > career_high
-      oauth_account.delete_career_high_cache
+      account.delete_career_high_cache
     end
   end
 

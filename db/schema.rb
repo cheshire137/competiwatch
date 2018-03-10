@@ -10,10 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180310225733) do
+ActiveRecord::Schema.define(version: 20180310233105) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.integer "user_id"
+    t.string "provider", limit: 30, null: false
+    t.string "uid", limit: 100, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "battletag"
+    t.string "platform", limit: 3, default: "pc", null: false
+    t.string "region", limit: 6, default: "us", null: false
+    t.boolean "admin", default: false, null: false
+    t.text "avatar_url"
+    t.text "star_url"
+    t.integer "rank"
+    t.integer "level"
+    t.text "level_url"
+    t.index ["battletag", "provider", "uid"], name: "index_accounts_on_battletag_and_provider_and_uid", unique: true
+    t.index ["user_id"], name: "index_accounts_on_user_id"
+  end
 
   create_table "friends", force: :cascade do |t|
     t.string "name", limit: 30, null: false
@@ -53,7 +72,7 @@ ActiveRecord::Schema.define(version: 20180310225733) do
   end
 
   create_table "matches", force: :cascade do |t|
-    t.integer "oauth_account_id", null: false
+    t.integer "account_id", null: false
     t.integer "map_id"
     t.integer "rank"
     t.text "comment"
@@ -69,6 +88,7 @@ ActiveRecord::Schema.define(version: 20180310225733) do
     t.boolean "ally_thrower"
     t.boolean "enemy_leaver"
     t.boolean "ally_leaver"
+    t.index ["account_id"], name: "index_matches_on_account_id"
     t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
     t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"
     t.index ["created_at"], name: "index_matches_on_created_at"
@@ -76,37 +96,17 @@ ActiveRecord::Schema.define(version: 20180310225733) do
     t.index ["enemy_leaver"], name: "index_matches_on_enemy_leaver"
     t.index ["enemy_thrower"], name: "index_matches_on_enemy_thrower"
     t.index ["map_id"], name: "index_matches_on_map_id"
-    t.index ["oauth_account_id"], name: "index_matches_on_oauth_account_id"
     t.index ["placement"], name: "index_matches_on_placement"
     t.index ["result"], name: "index_matches_on_result"
     t.index ["season"], name: "index_matches_on_season"
     t.index ["time_of_day"], name: "index_matches_on_time_of_day"
   end
 
-  create_table "oauth_accounts", force: :cascade do |t|
-    t.integer "user_id"
-    t.string "provider", limit: 30, null: false
-    t.string "uid", limit: 100, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "battletag"
-    t.string "platform", limit: 3, default: "pc", null: false
-    t.string "region", limit: 6, default: "us", null: false
-    t.boolean "admin", default: false, null: false
-    t.text "avatar_url"
-    t.text "star_url"
-    t.integer "rank"
-    t.integer "level"
-    t.text "level_url"
-    t.index ["battletag", "provider", "uid"], name: "index_oauth_accounts_on_battletag_and_provider_and_uid", unique: true
-    t.index ["user_id"], name: "index_oauth_accounts_on_user_id"
-  end
-
   create_table "season_shares", force: :cascade do |t|
     t.integer "season", null: false
-    t.integer "oauth_account_id", null: false
+    t.integer "account_id", null: false
     t.datetime "created_at", null: false
-    t.index ["oauth_account_id", "season"], name: "index_season_shares_on_oauth_account_id_and_season", unique: true
+    t.index ["account_id", "season"], name: "index_season_shares_on_account_id_and_season", unique: true
   end
 
   create_table "seasons", force: :cascade do |t|
@@ -122,9 +122,9 @@ ActiveRecord::Schema.define(version: 20180310225733) do
     t.string "battletag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "default_oauth_account_id"
+    t.integer "default_account_id"
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
-    t.index ["default_oauth_account_id"], name: "index_users_on_default_oauth_account_id"
+    t.index ["default_account_id"], name: "index_users_on_default_account_id"
   end
 
 end

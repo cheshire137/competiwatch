@@ -7,59 +7,59 @@ class UserTest < ActiveSupport::TestCase
 
   test 'season_high returns highest rank from given season' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
-    create(:match, oauth_account: oauth_account1, season: 2, rank: 1235)
-    create(:match, oauth_account: oauth_account2, season: 2, rank: 2435)
-    create(:match, oauth_account: oauth_account1, season: 3, rank: 2750)
-    create(:match, oauth_account: oauth_account1, season: 2, rank: 2200)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
+    create(:match, account: account1, season: 2, rank: 1235)
+    create(:match, account: account2, season: 2, rank: 2435)
+    create(:match, account: account1, season: 3, rank: 2750)
+    create(:match, account: account1, season: 2, rank: 2200)
 
     assert_equal 2435, user.season_high(2)
   end
 
   test 'career_high returns highest rank for all accounts' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
-    create(:match, oauth_account: oauth_account1, season: 1, rank: 50)
-    create(:match, oauth_account: oauth_account1, season: 2, rank: 2501)
-    create(:match, oauth_account: oauth_account2, season: 2, rank: 2500)
-    create(:match, oauth_account: oauth_account1, season: 4, rank: 2420)
-    create(:match, oauth_account: oauth_account1, season: 4, rank: nil, placement: true)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
+    create(:match, account: account1, season: 1, rank: 50)
+    create(:match, account: account1, season: 2, rank: 2501)
+    create(:match, account: account2, season: 2, rank: 2500)
+    create(:match, account: account1, season: 4, rank: 2420)
+    create(:match, account: account1, season: 4, rank: nil, placement: true)
 
     assert_equal 2501, user.career_high
   end
 
   test 'active scope includes user with a recent season share' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user, updated_at: 1.year.ago)
-    create(:season_share, oauth_account: oauth_account)
+    account = create(:account, user: user, updated_at: 1.year.ago)
+    create(:season_share, account: account)
 
     assert_includes User.active, user
   end
 
   test 'active scope includes user with a recent account' do
     user = create(:user)
-    create(:oauth_account, user: user)
+    create(:account, user: user)
 
     assert_includes User.active, user
   end
 
   test 'active scope includes user with a recent match' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user, updated_at: 1.year.ago)
-    create(:match, oauth_account: oauth_account)
+    account = create(:account, user: user, updated_at: 1.year.ago)
+    create(:match, account: account)
 
     assert_includes User.active, user
   end
 
   test 'active_seasons returns list of seasons user had matches across accounts' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
-    create(:match, oauth_account: oauth_account1, season: 1)
-    create(:match, oauth_account: oauth_account1, season: 2)
-    create(:match, oauth_account: oauth_account2, season: 4)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
+    create(:match, account: account1, season: 1)
+    create(:match, account: account1, season: 2)
+    create(:match, account: account2, season: 4)
 
     assert_equal [1, 2, 4], user.active_seasons
   end
@@ -71,22 +71,22 @@ class UserTest < ActiveSupport::TestCase
 
   test 'requires user to own their default OAuth account' do
     user = create(:user)
-    user.default_oauth_account = create(:oauth_account)
+    user.default_account = create(:account)
 
     refute_predicate user, :valid?
-    assert_includes user.errors.messages[:default_oauth_account], 'must be one of your accounts'
+    assert_includes user.errors.messages[:default_account], 'must be one of your accounts'
   end
 
   test 'merge_with handles duplicate friends' do
     primary_user = create(:user)
-    primary_account = create(:oauth_account, user: primary_user)
+    primary_account = create(:account, user: primary_user)
     friend1 = create(:friend, user: primary_user, name: 'Luis')
-    match1 = create(:match, oauth_account: primary_account)
+    match1 = create(:match, account: primary_account)
     match_friend1 = create(:match_friend, friend: friend1, match: match1)
     secondary_user = create(:user)
-    secondary_account = create(:oauth_account, user: secondary_user)
+    secondary_account = create(:account, user: secondary_user)
     friend2 = create(:friend, user: secondary_user, name: 'Luis')
-    match2 = create(:match, oauth_account: secondary_account)
+    match2 = create(:match, account: secondary_account)
     match_friend2 = create(:match_friend, friend: friend2, match: match2)
 
     assert_no_difference 'MatchFriend.count' do
@@ -107,21 +107,21 @@ class UserTest < ActiveSupport::TestCase
     secondary_user = create(:user, battletag: 'SecondaryUser#456')
     friend1 = create(:friend, user: secondary_user)
     friend2 = create(:friend, user: secondary_user)
-    oauth_account1 = create(:oauth_account, user: secondary_user)
-    oauth_account2 = create(:oauth_account, user: secondary_user)
+    account1 = create(:account, user: secondary_user)
+    account2 = create(:account, user: secondary_user)
 
-    assert_no_difference ['OAuthAccount.count', 'Friend.count'] do
+    assert_no_difference ['Account.count', 'Friend.count'] do
       assert_difference 'User.count', -1 do
         assert secondary_user.merge_with(primary_user), 'should return true on success'
-        assert_empty secondary_user.oauth_accounts.reload
+        assert_empty secondary_user.accounts.reload
         assert_empty secondary_user.friends.reload
       end
     end
 
     assert_equal primary_user, friend1.reload.user
     assert_equal primary_user, friend2.reload.user
-    assert_equal primary_user, oauth_account1.reload.user
-    assert_equal primary_user, oauth_account2.reload.user
+    assert_equal primary_user, account1.reload.user
+    assert_equal primary_user, account2.reload.user
     refute User.exists?(secondary_user.id), 'secondary user should have been deleted'
   end
 
@@ -155,15 +155,15 @@ class UserTest < ActiveSupport::TestCase
 
   test 'deletes OAuth accounts when deleted' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
 
-    assert_difference 'OAuthAccount.count', -2 do
+    assert_difference 'Account.count', -2 do
       user.destroy
     end
 
-    refute OAuthAccount.exists?(oauth_account1.id)
-    refute OAuthAccount.exists?(oauth_account2.id)
+    refute Account.exists?(account1.id)
+    refute Account.exists?(account2.id)
   end
 
   test "friend_names returns empty list when season has no matches" do
@@ -180,16 +180,16 @@ class UserTest < ActiveSupport::TestCase
     friend1 = create(:friend, user: user, name: 'Gilly')
     friend2 = create(:friend, user: user, name: 'Alice')
     friend3 = create(:friend, user: user, name: 'Zed')
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
     season = 4
-    match1 = create(:match, oauth_account: oauth_account1, season: season)
+    match1 = create(:match, account: account1, season: season)
     create(:match_friend, match: match1, friend: friend1)
-    match2 = create(:match, oauth_account: oauth_account2, season: season)
+    match2 = create(:match, account: account2, season: season)
     create(:match_friend, match: match2, friend: friend2)
-    match3 = create(:match, oauth_account: oauth_account2, season: season + 1)
+    match3 = create(:match, account: account2, season: season + 1)
     create(:match_friend, match: match3, friend: friend3)
-    match4 = create(:match, oauth_account: oauth_account2, season: season)
+    match4 = create(:match, account: account2, season: season)
     create(:match_friend, match: match4, friend: friend2)
 
     result = user.friend_names(season)

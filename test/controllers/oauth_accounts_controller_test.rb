@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
+class AccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons, :heroes
 
   test 'avatar 404s for nonexistent account' do
@@ -10,78 +10,78 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'avatar loads for another user' do
-    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348', avatar_url: nil)
-    oauth_account2 = create(:oauth_account)
+    account1 = create(:account, battletag: 'MarchHare#11348', avatar_url: nil)
+    account2 = create(:account)
 
     VCR.use_cassette('ow_api_profile') do
-      sign_in_as(oauth_account2)
-      get "/profile/#{oauth_account1.to_param}/avatar"
+      sign_in_as(account2)
+      get "/profile/#{account1.to_param}/avatar"
     end
 
     assert_response :ok
-    assert_select "a[href='/profile/#{oauth_account1.to_param}']", false
+    assert_select "a[href='/profile/#{account1.to_param}']", false
     assert_equal 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png',
-      oauth_account1.reload.avatar_url
+      account1.reload.avatar_url
   end
 
   test 'avatar links to profile when specified' do
-    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
+    account = create(:account, battletag: 'MarchHare#11348')
 
     VCR.use_cassette('ow_api_profile') do
-      get "/profile/#{oauth_account.to_param}/avatar", params: { include_link: 1 }
+      get "/profile/#{account.to_param}/avatar", params: { include_link: 1 }
     end
 
     assert_response :ok
-    assert_select "a[href='/profile/#{oauth_account.to_param}']"
+    assert_select "a[href='/profile/#{account.to_param}']"
   end
 
   test 'anonymous user cannot update profile' do
-    oauth_account = create(:oauth_account, platform: 'xbl', region: 'cn')
+    account = create(:account, platform: 'xbl', region: 'cn')
 
-    put "/profile/#{oauth_account.to_param}", params: {
-      oauth_account: { platform: 'psn', region: 'eu' }
+    put "/profile/#{account.to_param}", params: {
+      account: { platform: 'psn', region: 'eu' }
     }
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
-    assert_equal 'xbl', oauth_account.reload.platform
-    assert_equal 'cn', oauth_account.region
+    assert_equal 'xbl', account.reload.platform
+    assert_equal 'cn', account.region
   end
 
   test "cannot update another user's profile" do
-    oauth_account1 = create(:oauth_account, platform: 'xbl', region: 'cn')
-    oauth_account2 = create(:oauth_account)
+    account1 = create(:account, platform: 'xbl', region: 'cn')
+    account2 = create(:account)
 
-    sign_in_as(oauth_account2)
-    put "/profile/#{oauth_account1.to_param}", params: {
-      oauth_account: { platform: 'psn', region: 'eu' }
+    sign_in_as(account2)
+    put "/profile/#{account1.to_param}", params: {
+      account: { platform: 'psn', region: 'eu' }
     }
 
     assert_response :not_found
-    assert_equal 'xbl', oauth_account1.reload.platform
-    assert_equal 'cn', oauth_account1.region
+    assert_equal 'xbl', account1.reload.platform
+    assert_equal 'cn', account1.region
   end
 
   test 'can update your own profile' do
-    oauth_account = create(:oauth_account, platform: 'xbl', region: 'cn')
+    account = create(:account, platform: 'xbl', region: 'cn')
 
-    sign_in_as(oauth_account)
-    put "/profile/#{oauth_account.to_param}", params: {
-      oauth_account: { platform: 'psn', region: 'eu' }
+    sign_in_as(account)
+    put "/profile/#{account.to_param}", params: {
+      account: { platform: 'psn', region: 'eu' }
     }
 
     assert_redirected_to accounts_path
-    assert_equal 'psn', oauth_account.reload.platform
-    assert_equal 'eu', oauth_account.region
+    assert_equal 'psn', account.reload.platform
+    assert_equal 'eu', account.region
   end
 
   test 'can view your own profile' do
-    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
-    create(:match, season: 1, oauth_account: oauth_account)
+    account = create(:account, battletag: 'MarchHare#11348')
+    create(:match, season: 1, account: account)
 
     VCR.use_cassette('ow_api_profile') do
-      sign_in_as(oauth_account)
-      get "/profile/#{oauth_account.to_param}"
+      sign_in_as(account)
+      get "/profile/#{account.to_param}"
     end
 
     assert_response :ok
@@ -89,13 +89,13 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'anonymous user can view a profile' do
-    oauth_account = create(:oauth_account, battletag: 'MarchHare#11348')
-    create(:season_share, oauth_account: oauth_account, season: 1)
-    create(:match, season: 1, oauth_account: oauth_account)
-    create(:match, season: 2, oauth_account: oauth_account)
+    account = create(:account, battletag: 'MarchHare#11348')
+    create(:season_share, account: account, season: 1)
+    create(:match, season: 1, account: account)
+    create(:match, season: 2, account: account)
 
     VCR.use_cassette('ow_api_profile') do
-      get "/profile/#{oauth_account.to_param}"
+      get "/profile/#{account.to_param}"
     end
 
     assert_response :ok
@@ -104,15 +104,15 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "can view another user's profile" do
-    oauth_account1 = create(:oauth_account, battletag: 'MarchHare#11348')
-    oauth_account2 = create(:oauth_account)
-    create(:season_share, oauth_account: oauth_account1, season: 1)
-    create(:match, season: 1, oauth_account: oauth_account1)
-    create(:match, season: 2, oauth_account: oauth_account1)
+    account1 = create(:account, battletag: 'MarchHare#11348')
+    account2 = create(:account)
+    create(:season_share, account: account1, season: 1)
+    create(:match, season: 1, account: account1)
+    create(:match, season: 2, account: account1)
 
     VCR.use_cassette('ow_api_profile') do
-      sign_in_as(oauth_account2)
-      get "/profile/#{oauth_account1.to_param}"
+      sign_in_as(account2)
+      get "/profile/#{account1.to_param}"
     end
 
     assert_response :ok
@@ -129,57 +129,57 @@ class OAuthAccountsControllerTest < ActionDispatch::IntegrationTest
 
   test 'authenticated user with multiple accounts can change their default account' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
 
-    sign_in_as(oauth_account1)
-    put '/accounts/set-default', params: { battletag: oauth_account2.to_param }
+    sign_in_as(account1)
+    put '/accounts/set-default', params: { battletag: account2.to_param }
 
-    assert_equal oauth_account2, user.reload.default_oauth_account
+    assert_equal account2, user.reload.default_account
     assert_redirected_to accounts_path
     assert_nil flash[:error]
-    assert_equal "Your default account is now #{oauth_account2}.", flash[:notice]
+    assert_equal "Your default account is now #{account2}.", flash[:notice]
   end
 
   test 'cannot set your default account to an account not your own' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account)
-    user.default_oauth_account = oauth_account1
+    account1 = create(:account, user: user)
+    account2 = create(:account)
+    user.default_account = account1
     user.save!
 
-    sign_in_as(oauth_account1)
-    put '/accounts/set-default', params: { battletag: oauth_account2.to_param }
+    sign_in_as(account1)
+    put '/accounts/set-default', params: { battletag: account2.to_param }
 
     assert_response :not_found
-    assert_equal oauth_account1, user.reload.default_oauth_account
+    assert_equal account1, user.reload.default_account
   end
 
   test 'index loads for authenticated user' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
 
-    sign_in_as(oauth_account1)
+    sign_in_as(account1)
     get '/accounts'
 
     assert_response :ok
-    assert_select "option[value='#{oauth_account1.to_param}']", text: oauth_account1.battletag
-    assert_select "option[value='#{oauth_account2.to_param}']", text: oauth_account2.battletag
+    assert_select "option[value='#{account1.to_param}']", text: account1.battletag
+    assert_select "option[value='#{account2.to_param}']", text: account2.battletag
   end
 
   test 'can unlink an account when you have multiple' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user)
-    create(:match, oauth_account: oauth_account1)
-    oauth_account2 = create(:oauth_account, user: user)
+    account1 = create(:account, user: user)
+    create(:match, account: account1)
+    account2 = create(:account, user: user)
 
-    assert_no_difference ['OAuthAccount.count', 'Match.count'] do
-      sign_in_as(oauth_account1)
-      delete "/accounts/#{oauth_account1.to_param}"
+    assert_no_difference ['Account.count', 'Match.count'] do
+      sign_in_as(account1)
+      delete "/accounts/#{account1.to_param}"
     end
 
     assert_redirected_to accounts_path
-    assert_equal oauth_account2, user.reload.default_oauth_account
+    assert_equal account2, user.reload.default_account
   end
 end

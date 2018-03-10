@@ -1,11 +1,11 @@
-<% content_for(:title, "Season #{@season} / #{@oauth_account}") %>
+<% content_for(:title, "Season #{@season} / #{@account}") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= @oauth_account %> / <%= @season %>
+  <%= @account %> / <%= @season %>
 <% end %>
 
 <%= render partial: 'matches/match_history',
            locals: { matches: @matches, placement_rank: @placement_rank,
                      longest_win_streak: @longest_win_streak,
                      longest_loss_streak: @longest_loss_streak,
-                     season: @season, oauth_account: @oauth_account } %>
+                     season: @season, account: @account } %>

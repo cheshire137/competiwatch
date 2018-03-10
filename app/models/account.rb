@@ -1,4 +1,4 @@
-class OAuthAccount < ApplicationRecord
+class Account < ApplicationRecord
   VALID_PLATFORMS = {
     'pc' => 'PC',
     'psn' => 'PlayStation',
@@ -111,11 +111,11 @@ class OAuthAccount < ApplicationRecord
   end
 
   def can_be_unlinked?
-    user && user.oauth_accounts.count > 1
+    user && user.accounts.count > 1
   end
 
   def default?
-    user && user.default_oauth_account == self
+    user && user.default_account == self
   end
 
   def active_seasons
@@ -127,13 +127,13 @@ class OAuthAccount < ApplicationRecord
   end
 
   def import(season, path:)
-    importer = MatchImporter.new(oauth_account: self, season: season)
+    importer = MatchImporter.new(account: self, season: season)
     importer.import(path)
     importer.matches
   end
 
   def export(season)
-    exporter = MatchExporter.new(oauth_account: self, season: season)
+    exporter = MatchExporter.new(account: self, season: season)
     exporter.export
   end
 
@@ -165,9 +165,9 @@ class OAuthAccount < ApplicationRecord
     return unless user_id_before_last_save
 
     user = User.where(id: user_id_before_last_save).first
-    return unless user && user.default_oauth_account == self
+    return unless user && user.default_account == self
 
-    user.default_oauth_account = user.oauth_accounts.first
+    user.default_account = user.accounts.first
     user.save
   end
 

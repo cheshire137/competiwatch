@@ -1,5 +1,5 @@
 <%
-  can_edit = signed_in? && oauth_account.user == current_user
+  can_edit = signed_in? && account.user == current_user
   show_group_column = matches.any? { |match| match.friends.any? }
   show_heroes_column = matches.any? { |match| match.heroes.any? }
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
@@ -106,7 +106,7 @@
           <% end %>
           <% if can_edit %>
             <td class="match-cell options-cell">
-              <a href="<%= match_path(season, oauth_account, match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
+              <a href="<%= match_path(season, account, match) %>" class="tooltipped tooltipped-w" aria-label="Edit">
                 <span class="ion-edit ion"></span>
               </a>
             </td>
@@ -122,7 +122,7 @@
 <% else %>
   <div class="blankslate mb-4">
     <p>
-      <%= oauth_account %>
+      <%= account %>
       <% if @season.past? %>
         did not log
       <% else %>
@@ -132,7 +132,7 @@
     </p>
 
     <% if can_edit %>
-      You can <a href="<%= import_path(season, oauth_account) %>">import them from a file</a>.
+      You can <a href="<%= import_path(season, account) %>">import them from a file</a>.
     <% end %>
   </div>
 <% end %>

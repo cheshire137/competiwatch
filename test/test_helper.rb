@@ -21,9 +21,9 @@ class ActiveSupport::TestCase
     )
   end
 
-  def sign_in_as(oauth_account)
-    mock_bnet_omniauth(uid: oauth_account.uid, battletag: oauth_account.battletag)
-    post '/users/auth/bnet/callback', params: { battletag: oauth_account.battletag }
+  def sign_in_as(account)
+    mock_bnet_omniauth(uid: account.uid, battletag: account.battletag)
+    post '/users/auth/bnet/callback', params: { battletag: account.battletag }
   end
 
   def sign_out

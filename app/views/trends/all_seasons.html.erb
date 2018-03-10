@@ -1,10 +1,10 @@
-<% content_for(:title, "#{@oauth_account} / All Seasons / Trends") %>
+<% content_for(:title, "#{@account} / All Seasons / Trends") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(@oauth_account) %> / All Seasons / Trends
+  <%= account_switcher(@account) %> / All Seasons / Trends
 <% end %>
 
-<%= render partial: 'trends/tabs', locals: { oauth_account: @oauth_account } %>
+<%= render partial: 'trends/tabs', locals: { account: @account } %>
 
 <div class="clearfix">
   <div class="col-md-6 pr-4-md float-md-left">

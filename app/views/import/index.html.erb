@@ -1,7 +1,7 @@
-<% content_for(:title, "#{@oauth_account} / Season #{@season} / Import matches") %>
+<% content_for(:title, "#{@account} / Season #{@season} / Import matches") %>
 
 <% content_for(:breadcrumb) do %>
-  <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
+  <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
   / Import matches
 <% end %>
 
@@ -12,7 +12,7 @@
     replace them with the contents of your file.
   </p>
 <% else %>
-  <p class="mb-4">You have no matches in season <%= @season %> on <span class="text-bold"><%= @oauth_account %></span>. You can import a CSV file of your competitive matches.</p>
+  <p class="mb-4">You have no matches in season <%= @season %> on <span class="text-bold"><%= @account %></span>. You can import a CSV file of your competitive matches.</p>
 <% end %>
 
 <% if @matches %>
@@ -27,8 +27,8 @@
       <dt><label for="csv">Choose a CSV file:</label></dt>
       <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
     </dl>
-    <button type="submit" class="btn"<% if @match_count > 0 %> data-confirm="Are you sure you want to wipe season <%= @season %> for <%= @oauth_account %> and replace it with matches from the chosen file?"<% end %>>
-      Import <%= @oauth_account %>'s season <%= @season %> matches
+    <button type="submit" class="btn"<% if @match_count > 0 %> data-confirm="Are you sure you want to wipe season <%= @season %> for <%= @account %> and replace it with matches from the chosen file?"<% end %>>
+      Import <%= @account %>'s season <%= @season %> matches
     </button>
   <% end %>
 

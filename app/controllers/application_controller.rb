@@ -40,32 +40,32 @@ class ApplicationController < ActionController::Base
     end
   end
 
-  def set_oauth_account
+  def set_account
     battletag = User.battletag_from_param(params[:battletag])
-    @oauth_account = OAuthAccount.find_by_battletag(battletag)
-    if @oauth_account
-      SetProfileDataJob.perform_later(@oauth_account.id) if @oauth_account.out_of_date?
+    @account = Account.find_by_battletag(battletag)
+    if @account
+      SetProfileDataJob.perform_later(@account.id) if @account.out_of_date?
     else
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
   end
 
-  def ensure_oauth_account_is_mine
-    unless @oauth_account.user == current_user
+  def ensure_account_is_mine
+    unless @account.user == current_user
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
   end
 
-  def redirect_unless_oauth_account_is_mine
-    unless @oauth_account.user == current_user
-      redirect_to profile_path(@oauth_account)
+  def redirect_unless_account_is_mine
+    unless @account.user == current_user
+      redirect_to profile_path(@account)
     end
   end
 
   def ensure_season_is_visible
-    return if signed_in? && current_user == @oauth_account.user
-    return if @oauth_account.season_is_public?(@season)
-    redirect_to profile_path(@oauth_account)
+    return if signed_in? && current_user == @account.user
+    return if @account.season_is_public?(@season)
+    redirect_to profile_path(@account)
   end
 
   def current_account
@@ -73,9 +73,9 @@ class ApplicationController < ActionController::Base
     return @current_account if defined?(@current_account)
 
     @current_account = if session[:current_account_id]
-      OAuthAccount.find(session[:current_account_id])
+      Account.find(session[:current_account_id])
     else
-      current_user.default_oauth_account || current_user.oauth_accounts.last
+      current_user.default_account || current_user.accounts.last
     end
   end
   helper_method :current_account

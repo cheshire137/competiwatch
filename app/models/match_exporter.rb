@@ -1,6 +1,6 @@
 class MatchExporter
-  def initialize(oauth_account:, season:)
-    @oauth_account = oauth_account
+  def initialize(account:, season:)
+    @account = account
     @season = season
   end
 
@@ -25,7 +25,7 @@ class MatchExporter
   private
 
   def matches_to_export
-    @oauth_account.matches.in_season(@season).
+    @account.matches.in_season(@season).
       includes(:prior_match, :friends, :heroes, :map).ordered_by_time
   end
 end

@@ -4,19 +4,19 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
   test 'can wipe your own season' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
     season = 2
-    match1 = create(:match, oauth_account: oauth_account, season: season)
-    match2 = create(:match, oauth_account: oauth_account, season: season)
-    match3 = create(:match, oauth_account: oauth_account, season: season + 1)
+    match1 = create(:match, account: account, season: season)
+    match2 = create(:match, account: account, season: season)
+    match3 = create(:match, account: account, season: season + 1)
     match4 = create(:match, season: season)
 
     assert_difference 'Match.count', -2 do
-      sign_in_as(oauth_account)
-      delete "/season/#{season}/#{oauth_account.to_param}"
+      sign_in_as(account)
+      delete "/season/#{season}/#{account.to_param}"
     end
 
-    assert_redirected_to matches_path(season, oauth_account)
+    assert_redirected_to matches_path(season, account)
     refute Match.exists?(match1.id)
     refute Match.exists?(match2.id)
     assert Match.exists?(match3.id), 'should not delete my match from another season'
@@ -24,14 +24,14 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "cannot wipe another user's season" do
-    oauth_account1 = create(:oauth_account)
-    oauth_account2 = create(:oauth_account)
-    match1 = create(:match, oauth_account: oauth_account1, season: 2)
-    match2 = create(:match, oauth_account: oauth_account1, season: 2)
+    account1 = create(:account)
+    account2 = create(:account)
+    match1 = create(:match, account: account1, season: 2)
+    match2 = create(:match, account: account1, season: 2)
 
     assert_no_difference 'Match.count' do
-      sign_in_as(oauth_account2)
-      delete "/season/2/#{oauth_account1.to_param}"
+      sign_in_as(account2)
+      delete "/season/2/#{account1.to_param}"
     end
 
     assert_response :not_found
@@ -39,34 +39,34 @@ class SeasonsControllerTest < ActionDispatch::IntegrationTest
 
   test 'can list seasons to wipe in your accounts' do
     user = create(:user)
-    oauth_account1 = create(:oauth_account, user: user, battletag: 'ANeatAccount#123')
-    oauth_account2 = create(:oauth_account, user: user, battletag: 'HowFunAndNice#456')
+    account1 = create(:account, user: user, battletag: 'ANeatAccount#123')
+    account2 = create(:account, user: user, battletag: 'HowFunAndNice#456')
 
-    sign_in_as(oauth_account1)
+    sign_in_as(account1)
     get '/seasons/choose-season-to-wipe'
 
     assert_response :ok
-    assert_includes response.body, oauth_account1.battletag
-    assert_includes response.body, oauth_account2.battletag
+    assert_includes response.body, account1.battletag
+    assert_includes response.body, account2.battletag
   end
 
   test "cannot confirm wiping another user's season" do
-    oauth_account1 = create(:oauth_account)
-    oauth_account2 = create(:oauth_account)
+    account1 = create(:account)
+    account2 = create(:account)
 
-    sign_in_as(oauth_account2)
-    get "/season/2/#{oauth_account1.to_param}/confirm-wipe"
+    sign_in_as(account2)
+    get "/season/2/#{account1.to_param}/confirm-wipe"
 
     assert_response :not_found
   end
 
   test 'can confirm wiping my season' do
-    oauth_account = create(:oauth_account)
-    match1 = create(:match, oauth_account: oauth_account, rank: 1234, season: 2)
-    match2 = create(:match, oauth_account: oauth_account, rank: 4567, season: 2)
+    account = create(:account)
+    match1 = create(:match, account: account, rank: 1234, season: 2)
+    match2 = create(:match, account: account, rank: 4567, season: 2)
 
-    sign_in_as(oauth_account)
-    get "/season/#{2}/#{oauth_account.to_param}/confirm-wipe"
+    sign_in_as(account)
+    get "/season/#{2}/#{account.to_param}/confirm-wipe"
 
     assert_response :ok
     assert_select 'span', text: match1.rank.to_s

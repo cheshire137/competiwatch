@@ -3,7 +3,7 @@ class MatchFriend < ApplicationRecord
 
   belongs_to :match
   belongs_to :friend
-  has_one :oauth_account, through: :match
+  has_one :account, through: :match
 
   validates :friend_id, uniqueness: { scope: :match_id }
   validate :friend_user_matches_account
@@ -25,10 +25,10 @@ class MatchFriend < ApplicationRecord
   end
 
   def friend_user_matches_account
-    return unless friend && oauth_account
+    return unless friend && account
 
-    unless friend.user == oauth_account.user
-      errors.add(:friend, "must be a friend of the owner of account #{oauth_account}")
+    unless friend.user == account.user
+      errors.add(:friend, "must be a friend of the owner of account #{account}")
     end
   end
 

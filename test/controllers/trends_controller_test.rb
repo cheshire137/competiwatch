@@ -8,13 +8,13 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @season = seasons(:two)
     @future_season = create(:season, started_on: 2.months.from_now)
     @user = create(:user)
-    @oauth_account = create(:oauth_account, user: @user)
+    @account = create(:account, user: @user)
     @hero1 = heroes(:brigitte)
     @hero2 = heroes(:genji)
-    @match1 = create(:match, oauth_account: @oauth_account, season: @season.number,
+    @match1 = create(:match, account: @account, season: @season.number,
                      result: :win)
     @match1.heroes << @hero1
-    @match2 = create(:match, oauth_account: @oauth_account, season: @season.number,
+    @match2 = create(:match, account: @account, season: @season.number,
                      prior_match: @match1)
     @friend = create(:friend, user: @user)
     @match1_friend = create(:match_friend, match: @match1, friend: @friend)
@@ -30,7 +30,7 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all seasons page redirects anonymous user' do
-    get "/trends/all-seasons/#{@oauth_account.to_param}"
+    get "/trends/all-seasons/#{@account.to_param}"
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
@@ -44,9 +44,9 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all seasons/accounts page loads successfully for authenticated user with no matches' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    sign_in_as(oauth_account)
+    sign_in_as(account)
     get '/trends/all-seasons-accounts'
 
     assert_response :ok
@@ -54,20 +54,20 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all seasons page loads successfully for authenticated user with no matches' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
 
-    sign_in_as(oauth_account)
-    get "/trends/all-seasons/#{oauth_account.to_param}"
+    sign_in_as(account)
+    get "/trends/all-seasons/#{account.to_param}"
 
     assert_response :ok
     assert_select 'div', text: /Matches logged:\s+0/
   end
 
   test 'all accounts page loads successfully for authenticated user with no matches' do
-    oauth_account = create(:oauth_account)
+    account = create(:account)
     season = seasons(:two)
 
-    sign_in_as(oauth_account)
+    sign_in_as(account)
     get "/trends/all-accounts/#{season}"
 
     assert_response :ok
@@ -75,11 +75,11 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all seasons/accounts page loads successfully for authenticated user with matches' do
-    oauth_account2 = create(:oauth_account, user: @user)
-    create(:match, oauth_account: @oauth_account, season: @past_season.number, result: :win)
-    create(:match, oauth_account: oauth_account2, season: @past_season.number, result: :loss)
+    account2 = create(:account, user: @user)
+    create(:match, account: @account, season: @past_season.number, result: :win)
+    create(:match, account: account2, season: @past_season.number, result: :loss)
 
-    sign_in_as(oauth_account2)
+    sign_in_as(account2)
     get '/trends/all-seasons-accounts'
 
     assert_response :ok
@@ -89,10 +89,10 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all seasons page loads successfully for authenticated user with matches' do
-    create(:match, oauth_account: @oauth_account, season: @past_season.number, result: :win)
+    create(:match, account: @account, season: @past_season.number, result: :win)
 
-    sign_in_as(@oauth_account)
-    get "/trends/all-seasons/#{@oauth_account.to_param}"
+    sign_in_as(@account)
+    get "/trends/all-seasons/#{@account.to_param}"
 
     assert_response :ok
     assert_select 'div.mb-4', text: /Matches logged:\s+3/
@@ -100,12 +100,12 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'all accounts page loads successfully for authenticated user with matches' do
-    oauth_account2 = create(:oauth_account, user: @user)
-    create(:match, oauth_account: @oauth_account, season: @past_season.number, result: :win)
-    create(:match, oauth_account: oauth_account2, season: @past_season.number, result: :loss)
-    create(:match, oauth_account: @oauth_account, season: @past_season.number, result: :draw)
+    account2 = create(:account, user: @user)
+    create(:match, account: @account, season: @past_season.number, result: :win)
+    create(:match, account: account2, season: @past_season.number, result: :loss)
+    create(:match, account: @account, season: @past_season.number, result: :draw)
 
-    sign_in_as(@oauth_account)
+    sign_in_as(@account)
     get "/trends/all-accounts/#{@past_season}"
 
     assert_response :ok
@@ -114,56 +114,56 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "redirects to profile for another user's account" do
-    oauth_account2 = create(:oauth_account)
+    account2 = create(:account)
 
-    sign_in_as(@oauth_account)
-    get "/trends/all-seasons/#{oauth_account2.to_param}"
+    sign_in_as(@account)
+    get "/trends/all-seasons/#{account2.to_param}"
 
-    assert_redirected_to profile_path(oauth_account2)
+    assert_redirected_to profile_path(account2)
   end
 
   test 'says season has not started for future season' do
-    sign_in_as(@oauth_account)
-    get "/trends/#{@future_season}/#{@oauth_account.to_param}"
+    sign_in_as(@account)
+    get "/trends/#{@future_season}/#{@account.to_param}"
 
     assert_select '.blankslate', text: /Season #{@future_season} has not started yet./
   end
 
   test 'says when user has not logged matches in past season' do
-    sign_in_as(@oauth_account)
-    get "/trends/#{@past_season}/#{@oauth_account.to_param}"
+    sign_in_as(@account)
+    get "/trends/#{@past_season}/#{@account.to_param}"
 
     assert_select '.blankslate',
-      text: /#{@oauth_account}\s+did not log\s+any competitive matches in season #{@past_season}./
+      text: /#{@account}\s+did not log\s+any competitive matches in season #{@past_season}./
   end
 
   test 'redirects to profile when season not shared for anonymous user' do
-    get "/trends/#{@season}/#{@oauth_account.to_param}"
+    get "/trends/#{@season}/#{@account.to_param}"
 
-    assert_redirected_to profile_path(@oauth_account)
+    assert_redirected_to profile_path(@account)
   end
 
   test 'index page loads for owner' do
-    sign_in_as(@oauth_account)
-    get "/trends/#{@season}/#{@oauth_account.to_param}"
+    sign_in_as(@account)
+    get "/trends/#{@season}/#{@account.to_param}"
 
     assert_response :ok
   end
 
   test 'index page loads for anonymous user when season is shared' do
-    create(:season_share, oauth_account: @oauth_account, season: @season.number)
+    create(:season_share, account: @account, season: @season.number)
 
-    get "/trends/#{@season}/#{@oauth_account.to_param}"
+    get "/trends/#{@season}/#{@account.to_param}"
 
     assert_response :ok
   end
 
   test 'index page loads for a user who is not the owner when season is shared' do
-    create(:season_share, oauth_account: @oauth_account, season: @season.number)
-    other_account = create(:oauth_account)
+    create(:season_share, account: @account, season: @season.number)
+    other_account = create(:account)
 
     sign_in_as(other_account)
-    get "/trends/#{@season}/#{@oauth_account.to_param}"
+    get "/trends/#{@season}/#{@account.to_param}"
 
     assert_response :ok
   end

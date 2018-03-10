@@ -3,10 +3,10 @@ require 'test_helper'
 class MatchFriendTest < ActiveSupport::TestCase
   test 'deletes friend after last match association is removed' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
+    account = create(:account, user: user)
     friend = create(:friend, user: user)
-    match_friend1 = create(:match_friend, friend: friend, oauth_account: oauth_account)
-    match_friend2 = create(:match_friend, friend: friend, oauth_account: oauth_account)
+    match_friend1 = create(:match_friend, friend: friend, account: account)
+    match_friend2 = create(:match_friend, friend: friend, account: account)
 
     assert_no_difference('Friend.count') { match_friend2.destroy }
     assert_difference('Friend.count', -1) { match_friend1.destroy }
@@ -16,8 +16,8 @@ class MatchFriendTest < ActiveSupport::TestCase
 
   test 'disallows more than 5 others in your match group' do
     user = create(:user)
-    oauth_account = create(:oauth_account, user: user)
-    match = create(:match, oauth_account: oauth_account)
+    account = create(:account, user: user)
+    match = create(:match, account: account)
     friends = []
     5.times { |i| friends << create(:friend, name: "Friend#{i}", user: user) }
     match_friend1 = create(:match_friend, match: match, friend: friends[0])
@@ -55,6 +55,6 @@ class MatchFriendTest < ActiveSupport::TestCase
 
     refute_predicate match_friend, :valid?
     assert_includes match_friend.errors.messages[:friend],
-      "must be a friend of the owner of account #{match.oauth_account}"
+      "must be a friend of the owner of account #{match.account}"
   end
 end
