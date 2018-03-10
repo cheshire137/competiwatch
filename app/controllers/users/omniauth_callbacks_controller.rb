@@ -26,6 +26,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           current_user.reload
           account.reload
 
+          SetAvatarJob.perform_later(account)
+
           { notice: "Successfully linked #{battletags.join(', ')}." }
         else
           { alert: "Could not link account #{battletag}." }
@@ -47,13 +49,13 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         message = "Failed to sign in via Battle.net as #{battletag}."
         return redirect_to(root_path, alert: message)
       end
-
-      SetAvatarJob.perform_later(account)
     end
 
     user = account.user
     user.default_oauth_account ||= account
     user.save
+
+    SetAvatarJob.perform_later(account)
 
     if signed_in?
       redirect_to accounts_path, notice: "Successfully linked #{battletag}."
