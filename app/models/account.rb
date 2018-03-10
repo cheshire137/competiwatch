@@ -38,8 +38,9 @@ class Account < ApplicationRecord
   alias_attribute :to_s, :battletag
 
   has_many :matches, dependent: :destroy
-  has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
+  has_many :account_heroes, dependent: :destroy
+  has_many :heroes, through: :account_heroes
 
   # Public: Check if this account hasn't been updated in a while.
   def out_of_date?

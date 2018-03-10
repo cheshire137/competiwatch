@@ -9,6 +9,7 @@ class Hero < ApplicationRecord
   alias_attribute :to_s, :name
 
   has_and_belongs_to_many :matches
+  has_many :account_heroes, dependent: :destroy
 
   ROLE_SORT = {
     'DPS' => 0,
