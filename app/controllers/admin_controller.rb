@@ -8,7 +8,7 @@ class AdminController < ApplicationController
     @new_season = Season.new(number: Season.current_or_latest_number + 1)
     @oauth_account_count = OAuthAccount.count
     @season_share_count = SeasonShare.count
-    @active_users = all_users.active
+    @active_user_count = all_users.active.count
     @users = all_users.paginate(page: current_page, per_page: 10)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
     @oauth_accounts_by_user_id = OAuthAccount.order_by_battletag.group_by(&:user_id)
