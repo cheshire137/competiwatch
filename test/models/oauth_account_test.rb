@@ -11,6 +11,11 @@ class OAuthAccountTest < ActiveSupport::TestCase
     assert_nil OAuthAccount.new.to_param
   end
 
+  test 'to_param returns parameterized version of battletag' do
+    oauth_account = OAuthAccount.new(battletag: 'SomeUser#1234')
+    assert_equal 'SomeUser-1234', oauth_account.to_param
+  end
+
   test 'career_high is nil for new account' do
     assert_nil OAuthAccount.new.career_high
   end

@@ -64,6 +64,11 @@ class UserTest < ActiveSupport::TestCase
     assert_equal [1, 2, 4], user.active_seasons
   end
 
+  test 'to_param returns parameterized version of battletag' do
+    user = User.new(battletag: 'SomeUser#1234')
+    assert_equal 'SomeUser-1234', user.to_param
+  end
+
   test 'requires user to own their default OAuth account' do
     user = create(:user)
     user.default_oauth_account = create(:oauth_account)
