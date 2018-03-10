@@ -11,8 +11,8 @@
 <div class="d-flex-md flex-wrap">
   <% @oauth_accounts.each do |oauth_account| %>
     <div class="Box p-3 mb-4-sm mr-4 account-box">
-      <h3 class="h3 mb-2 text-normal">
-        <%= avatar_for(oauth_account) %>
+      <h3 class="h3 mb-2 text-normal d-flex flex-items-center">
+        <%= avatar_for(oauth_account, classes: 'mr-1') %>
         <%= oauth_account %>
       </h3>
       <ul class="list-style-none">

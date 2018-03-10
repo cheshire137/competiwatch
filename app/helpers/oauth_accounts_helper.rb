@@ -1,5 +1,5 @@
 module OAuthAccountsHelper
-  def avatar_link_for(oauth_account, classes: nil)
+  def avatar_link_for(oauth_account, classes: '')
     if oauth_account.avatar_url
       link_to(avatar_image_for(oauth_account, classes: classes), profile_path(oauth_account),
               class: 'd-inline-block')
@@ -9,7 +9,7 @@ module OAuthAccountsHelper
     end
   end
 
-  def avatar_for(oauth_account, classes: nil)
+  def avatar_for(oauth_account, classes: '')
     if oauth_account.avatar_url
       avatar_image_for(oauth_account, classes: classes)
     else
@@ -17,8 +17,7 @@ module OAuthAccountsHelper
     end
   end
 
-  def avatar_image_for(oauth_account, classes: nil)
-    classes ||= 'mr-1'
+  def avatar_image_for(oauth_account, classes: '')
     classes += ' avatar'
     image_tag(oauth_account.avatar_url, class: classes, width: 20)
   end
