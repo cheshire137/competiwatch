@@ -2,23 +2,28 @@
 <ul class="list-style-none">
   <% seasons.each_with_index do |season, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-      <button type="button" class="btn-link d-flex flex-justify-between width-full js-toggle-details" data-target=".season-<%= season %>">
+      <div class="d-flex flex-justify-between width-full">
         <strong>Season <%= season %></strong>
-        <span class="text-gray">
-          <% if season.started_on %>
-            <%= pretty_date season.started_on %>
-          <% end %>
-          <% if season.started_on && season.ended_on %>
-            &mdash;
-          <% end %>
-          <% if season.ended_on %>
-            <% unless season.started_on %>
-              Ends
+        <div>
+          <span class="text-gray">
+            <% if season.started_on %>
+              <%= pretty_date season.started_on %>
             <% end %>
-            <%= pretty_date season.ended_on %>
-          <% end %>
-        </span>
-      </button>
+            <% if season.started_on && season.ended_on %>
+              &mdash;
+            <% end %>
+            <% if season.ended_on %>
+              <% unless season.started_on %>
+                Ends
+              <% end %>
+              <%= pretty_date season.ended_on %>
+            <% end %>
+          </span>
+          <button type="button" class="ml-2 btn-link js-toggle-details" data-target=".season-<%= season %>">
+            <span class="ion-edit ion"></span>
+          </button>
+        </div>
+      </div>
       <div class="d-none border rounded-2 px-2 pb-2 mt-2 season-<%= season %>">
         <%= form_for(season, url: admin_update_season_path, method: :put, as: :update_season) do |form| %>
           <input type="hidden" name="season_id" value="<%= season.id %>">
