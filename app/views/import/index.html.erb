@@ -1,7 +1,6 @@
 <% content_for(:title, "#{@oauth_account} / Season #{@season} / Import matches") %>
 
 <% content_for(:breadcrumb) do %>
-  <a href="<%= settings_path %>">Settings</a> /
   <%= account_switcher(@oauth_account) %> / <%= season_switcher(@season) %>
   / Import matches
 <% end %>
