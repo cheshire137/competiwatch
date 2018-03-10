@@ -41,6 +41,12 @@ class OAuthAccount < ApplicationRecord
   has_many :heroes, through: :matches
   has_many :season_shares, dependent: :destroy
 
+  # Public: Check if this account hasn't been updated in a while.
+  def out_of_date?
+    time_diff = Time.zone.now - updated_at
+    time_diff >= 1.week
+  end
+
   def name
     battletag.split('#').first
   end

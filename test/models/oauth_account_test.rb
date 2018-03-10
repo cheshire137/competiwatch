@@ -7,6 +7,16 @@ class OAuthAccountTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'out_of_date? returns true for account not updated recently' do
+    oauth_account = create(:oauth_account, updated_at: 1.month.ago)
+    assert_predicate oauth_account, :out_of_date?
+  end
+
+  test 'out_of_date? returns false for account that has been updated recently' do
+    oauth_account = create(:oauth_account, updated_at: 2.days.ago)
+    refute_predicate oauth_account, :out_of_date?
+  end
+
   test 'requires rank <= max rank' do
     oauth_account = OAuthAccount.new(rank: Match::MAX_RANK + 1)
 
