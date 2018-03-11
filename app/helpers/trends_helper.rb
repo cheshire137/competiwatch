@@ -1,4 +1,10 @@
 module TrendsHelper
+  def group_member_chart_style(group_members)
+    height = group_members.size * 80
+    height = 600 if height > 600
+    "height: #{height}px"
+  end
+
   def win_rate_color(win_rate)
     if win_rate >= 90
       'rgb(139, 236, 34)'
