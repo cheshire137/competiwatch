@@ -12,7 +12,7 @@
     <%= render partial: 'accounts/summary',
                locals: { account_heroes: @account_heroes, account: @account } %>
     <% if @account_heroes.any? %>
-      <div class="mb-4 pb-2">
+      <div class="mb-4 pb-2 overflow-hidden">
         <%= render partial: 'accounts/heroes_list',
                    locals: { account_heroes: @account_heroes } %>
       </div>
@@ -64,15 +64,15 @@
 </div>
 
 <p class="mt-4 border-top pt-4 text-center">
-  <a class="d-inline-block mr-4" href="<%= @account.overbuff_url %>" target="_blank" rel="noopener noreferrer">
+  <a class="d-inline-block mr-4 no-wrap" href="<%= @account.overbuff_url %>" target="_blank" rel="noopener noreferrer">
     <span class="ion ion-link text-gray mr-1"></span>
     Overbuff profile
   </a>
-  <a class="d-inline-block mr-4" href="<%= @account.master_overwatch_url %>" target="_blank" rel="noopener noreferrer">
+  <a class="d-inline-block mr-4 no-wrap" href="<%= @account.master_overwatch_url %>" target="_blank" rel="noopener noreferrer">
     <span class="ion ion-link text-gray mr-1"></span>
     Master Overwatch profile
   </a>
-  <a href="<%= @account.play_overwatch_url %>" target="_blank" rel="noopener noreferrer">
+  <a class="no-wrap" href="<%= @account.play_overwatch_url %>" target="_blank" rel="noopener noreferrer">
     <span class="ion ion-link text-gray mr-1"></span>
     PlayOverwatch profile
   </a>

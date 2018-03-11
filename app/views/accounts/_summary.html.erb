@@ -1,27 +1,29 @@
-<div class="player-summary-header d-flex flex-justify-center flex-items-center mb-4">
-  <% if account.avatar_url %>
-    <img src="<%= account.avatar_url %>" class="avatar mr-4 flex-shrink-0" width="75" alt="<%= account %> portrait">
-  <% end %>
-  <div>
-    <h2 class="h4 my-0 text-center"><%= account %></h2>
-    <div class="d-flex flex-items-center flex-justify-center">
-      <% if account.rank %>
-        <%= rank_image(account.rank, classes: 'd-inline-block mr-1 flex-shrink-0') %>
-      <% end %>
-      <span class="d-inline-block text-bold">
+<div class="player-summary-header d-flex-md flex-justify-center-md flex-items-center-md mb-4">
+  <div class="d-flex flex-items-center flex-justify-center mb-4">
+    <% if account.avatar_url %>
+      <img src="<%= account.avatar_url %>" class="avatar mr-4 flex-shrink-0" width="75" alt="<%= account %> portrait">
+    <% end %>
+    <div>
+      <h2 class="h4 my-0 text-center"><%= account %></h2>
+      <div class="d-flex flex-items-center flex-justify-center">
         <% if account.rank %>
-          <%= account.rank %>
-        <% else %>
-          Unranked
+          <%= rank_image(account.rank, classes: 'd-inline-block mr-1 flex-shrink-0') %>
         <% end %>
-      </span>
-      <span class="d-inline-block ml-3 text-gray">
-        <%= account_heroes_tldr(account_heroes) %>
-      </span>
+        <span class="d-inline-block text-bold">
+          <% if account.rank %>
+            <%= account.rank %>
+          <% else %>
+            Unranked
+          <% end %>
+        </span>
+        <span class="d-inline-block ml-3 text-gray">
+          <%= account_heroes_tldr(account_heroes) %>
+        </span>
+      </div>
     </div>
   </div>
   <% if account.level %>
-    <div class="text-center level-container ml-4">
+    <div class="text-center level-container ml-4-md mx-auto">
       <span class="text-bold">Level <%= number_with_delimiter account.level %></span>
       <div class="d-flex flex-items-center">
         <div class="position-relative level-star-container">
