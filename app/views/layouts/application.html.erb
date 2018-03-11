@@ -13,13 +13,13 @@
     <header class="bg-blue box-shadow js-top-nav text-gray-light main-nav">
       <div class="container">
         <div class="d-flex-md py-2 flex-justify-between-md flex-items-center-md">
-          <h1 class="h1 lh-condensed">
-            <span class="d-flex flex-items-center flex-justify-between">
-              <a class="text-white no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
-              <button class="d-inline-block-sm btn-link no-underline text-bold dropdown-toggle js-menu-target text-white" data-target=".main-nav-menu-container" type="button" aria-expanded="false" aria-haspopup="true">
-                <span class="ion-navicon-round ion"></span>
-              </button>
-            </span>
+          <h1 class="h1 lh-condensed clearfix">
+            <% if signed_in? %>
+              <div class="d-block-sm float-right">
+                <%= render partial: 'layouts/main_menu' %>
+              </div>
+            <% end %>
+            <a class="text-white no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
             <% if content_for(:title) && !is_page?('login', 'index') %>
               <span class="h3 lh-condensed text-normal d-inline-block text-white">
                 <%= yield :title %>

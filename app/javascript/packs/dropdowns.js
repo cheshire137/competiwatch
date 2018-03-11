@@ -6,11 +6,6 @@ function menuContainerFor(clickedEl) {
     return
   }
 
-  if (menuToggle.hasAttribute('data-target')) {
-    const selector = menuToggle.getAttribute('data-target')
-    return document.querySelector(selector)
-  }
-
   return menuToggle.closest('.js-menu-container')
 }
 

@@ -1,59 +1,28 @@
 <div class="sticky-nav bg-white">
   <nav class="UnderlineNav flex-justify-between-md">
     <div class="UnderlineNav-body">
-      <%
-        season = params[:season] || Season.current_or_latest_number
-        battletag = current_battletag_param
-      %>
       <% if content_for?(:match_tabs) %>
         <%= yield :match_tabs %>
-      <% elsif season && battletag %>
-        <a href="<%= matches_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_matches_page?(season, battletag) %>" role="tab">Matches</a>
+
+      <% elsif current_season_number && current_battletag_param %>
+        <a href="<%= matches_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if is_matches_page?(current_season_number, current_battletag_param) %>" role="tab">Matches</a>
       <% end %>
-      <% if season && battletag %>
-        <a href="<%= trends_path(season, battletag) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, battletag) %>" role="tab">Trends</a>
+
+      <% if current_season_number && current_battletag_param %>
+        <a href="<%= trends_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(current_season_number, current_battletag_param) %>" role="tab">Trends</a>
         <% if content_for?(:trend_tabs) %>
           <%= yield :trend_tabs %>
         <% end %>
       <% end %>
-      <% if battletag %>
-        <a class="UnderlineNav-item <%= 'selected' if is_profile_page? %>" role="tab" href="<%= profile_path(battletag) %>">Profile</a>
+
+      <% if current_battletag_param %>
+        <a class="UnderlineNav-item <%= 'selected' if is_profile_page? %>" role="tab" href="<%= profile_path(current_battletag_param) %>">Profile</a>
       <% end %>
     </div>
 
     <% if signed_in? %>
-      <div class="d-flex-md flex-items-center-md">
-        <div class="dropdown js-menu-container main-nav-menu-container">
-          <button class="main-menu-toggle hide-sm btn-link no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-            <span class="text-gray d-inline-block mr-1 text-normal">Signed in as</span>
-            <%= avatar_for(current_account) %>
-            <%= current_account.name %>
-            <div class="dropdown-caret"></div>
-          </button>
-          <div class="dropdown-menu-content js-menu-content">
-            <ul class="dropdown-menu account-dropdown-menu dropdown-menu-sw">
-              <li>
-                <a class="dropdown-item <%= 'text-bold' if is_profile_page? %>" href="<%= profile_path(current_account) %>">Profile</a>
-              </li>
-              <li>
-                <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" href="<%= settings_path %>">Settings</a>
-              </li>
-              <li>
-                <a href="<%= import_path(season, battletag) %>" class="dropdown-item <%= 'text-bold' if is_import_page?(season, battletag) %>">Import matches</a>
-              </li>
-              <li>
-                <a href="<%= export_path %>" class="dropdown-item <%= 'text-bold' if is_page?('export', 'index') %>">Export matches</a>
-              </li>
-              <li>
-                <%= form_tag sign_out_path, method: :delete do %>
-                  <button type="submit" class="dropdown-item btn-link">
-                    Log out
-                  </button>
-                <% end %>
-              </li>
-            </ul>
-          </div>
-        </div>
+      <div class="d-flex-md hide-sm flex-items-center-md">
+        <%= render partial: 'layouts/main_menu' %>
       </div>
     <% end %>
   </nav>
