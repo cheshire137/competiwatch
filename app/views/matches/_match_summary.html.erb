@@ -1,12 +1,6 @@
 <div class="d-flex match-summary Box p-2 f4 flex-items-center">
   <span class="text-bold text-gray"><%= match_number(index, match, matches) %></span>
-  <% if match.win? %>
-    <span class="text-green">Win</span>
-  <% elsif match.loss? %>
-    <span class="text-red">Loss</span>
-  <% elsif match.draw? %>
-    <span class="text-orange">Draw</span>
-  <% end %>
+  <%= match_result(match) %>
   <% if match.rank %>
     <span class="text-bold d-flex flex-items-center">
       <span class="d-inline-block mr-2"><%= match.rank %></span>

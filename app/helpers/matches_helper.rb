@@ -190,6 +190,17 @@ module MatchesHelper
     end
   end
 
+  def match_result(match)
+    classes = if match.win?
+      'text-green'
+    elsif match.loss?
+      'text-red'
+    elsif match.draw?
+      'text-orange'
+    end
+    content_tag(:span, match.result.to_s.capitalize, class: classes)
+  end
+
   def match_rank_change(match, matches)
     @rank_changes ||= {}
     return @rank_changes[match] if @rank_changes.key?(match)
