@@ -19,7 +19,6 @@ class OverwatchAPIStats
             name = hero_data['hero']
             OverwatchAPIHero.new(hero_data, hero: heroes_by_name[name])
           end
-          @competitive_heroes = @competitive_heroes.select(&:any_playtime?)
 
           @competitive_heroes.each do |hero|
             @total_competitive_seconds += hero.seconds_played
@@ -27,6 +26,8 @@ class OverwatchAPIStats
               @max_competitive_seconds = hero.seconds_played
             end
           end
+          @competitive_heroes = @competitive_heroes.select(&:any_playtime?).
+            sort_by(&:seconds_played).reverse
         end
 
         if top_hero_stats['quickplay']
@@ -34,7 +35,6 @@ class OverwatchAPIStats
             name = hero_data['hero']
             OverwatchAPIHero.new(hero_data, hero: heroes_by_name[name])
           end
-          @quickplay_heroes = @quickplay_heroes.select(&:any_playtime?)
 
           @quickplay_heroes.each do |hero|
             @total_quickplay_seconds += hero.seconds_played
@@ -42,6 +42,8 @@ class OverwatchAPIStats
               @max_quickplay_seconds = hero.seconds_played
             end
           end
+          @quickplay_heroes = @quickplay_heroes.select(&:any_playtime?).
+            sort_by(&:seconds_played).reverse
         end
       end
     end
