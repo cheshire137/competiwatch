@@ -76,8 +76,12 @@ module ApplicationHelper
     is_page?('import', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
-  def is_battletag_page?(battletag)
-    params[:battletag] == battletag
+  def is_battletag_page?(account_or_battletag)
+    if account_or_battletag.is_a?(String)
+      params[:battletag] == account_or_battletag
+    else
+      params[:battletag] == account_or_battletag.to_param
+    end
   end
 
   def is_page?(controller, action)
