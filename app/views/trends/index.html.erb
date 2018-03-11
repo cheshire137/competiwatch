@@ -107,12 +107,15 @@
       <div id="group-charts" class="js-tab-contents tab-contents d-none">
         <% if show_group_stats?(@matches) || show_group_size_chart?(@matches) %>
           <div class="clearfix">
-            <% if show_group_size_chart?(@matches) %>
+            <% if show_group_member_chart?(@matches) %>
               <div class="col-md-6 float-md-left">
-                <%= render partial: 'trends/group_size_chart',
-                           locals: { season: @season, win_counts: @group_size_win_counts,
-                                     loss_counts: @group_size_loss_counts,
-                                     draw_counts: @group_size_draw_counts, group_sizes: @group_sizes } %>
+                <div class="pr-4">
+                  <%= render partial: 'trends/group_member_chart',
+                             locals: { season: @season, group_members: @group_members,
+                                       win_counts: @group_member_win_counts,
+                                       loss_counts: @group_member_loss_counts,
+                                       draw_counts: @group_member_draw_counts } %>
+                </div>
               </div>
             <% end %>
             <% if show_group_stats?(@matches) %>
@@ -125,14 +128,12 @@
             <% end %>
           </div>
         <% end %>
-
-        <% if show_group_member_chart?(@matches) %>
+        <% if show_group_size_chart?(@matches) %>
           <hr class="mb-4 pt-4">
-          <%= render partial: 'trends/group_member_chart',
-                     locals: { season: @season, group_members: @group_members,
-                               win_counts: @group_member_win_counts,
-                               loss_counts: @group_member_loss_counts,
-                               draw_counts: @group_member_draw_counts } %>
+          <%= render partial: 'trends/group_size_chart',
+                     locals: { season: @season, win_counts: @group_size_win_counts,
+                               loss_counts: @group_size_loss_counts,
+                               draw_counts: @group_size_draw_counts, group_sizes: @group_sizes } %>
         <% end %>
       </div>
 
