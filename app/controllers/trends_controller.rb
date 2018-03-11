@@ -16,7 +16,7 @@ class TrendsController < ApplicationController
     heroes_chart
     group_size_chart
     map_chart
-    @roles = Hero::ROLES
+    @roles = get_player_roles
     role_chart(@roles)
     role_win_chart(@roles)
     streaks_chart
@@ -46,7 +46,7 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    @roles = Hero::ROLES
+    @roles = get_player_roles
     role_chart(@roles)
     role_win_chart(@roles)
     day_time_chart
@@ -76,7 +76,7 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    @roles = Hero::ROLES
+    @roles = get_player_roles
     role_chart(@roles)
     role_win_chart(@roles)
     day_time_chart
@@ -107,7 +107,7 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    @roles = Hero::ROLES
+    @roles = get_player_roles
     role_chart(@roles)
     role_win_chart(@roles)
     day_time_chart
@@ -500,5 +500,16 @@ class TrendsController < ApplicationController
     result = result.sort_by { |_hero, count| -count }.to_h
     max_hero_match_count = result.values.first
     [result, max_hero_match_count]
+  end
+
+  def get_player_roles
+    all_roles = Hero::ROLES
+    most_played_roles = account_matches_in_season.includes(:heroes).
+      select { |match| match.heroes.any? }.flat_map(&:heroes).
+      group_by(&:role).sort_by { |role, matches| -matches.size }.
+      map { |role, matches| [role, matches.size] }.to_h.keys
+    all_roles.sort_by do |role|
+      [most_played_roles.index(role) || 100, role.downcase]
+    end
   end
 end
