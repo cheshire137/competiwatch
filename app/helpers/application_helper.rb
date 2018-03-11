@@ -7,6 +7,10 @@ module ApplicationHelper
     date.to_formatted_s(:long_ordinal)
   end
 
+  def pretty_datetime(datetime)
+    datetime.in_time_zone.strftime('%B %-d, %Y %l:%M %P %Z')
+  end
+
   def current_season_number
     @current_season_number ||= params[:season] || Season.current_or_latest_number
   end
