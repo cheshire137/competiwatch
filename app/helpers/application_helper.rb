@@ -7,9 +7,18 @@ module ApplicationHelper
     date.to_formatted_s(:long_ordinal)
   end
 
+  def current_season_number
+    @current_season_number ||= params[:season] || Season.current_or_latest_number
+  end
+
   def current_battletag_param
-    return params[:battletag] if params[:battletag]
-    current_account.to_param if signed_in?
+    return @current_battletag_param if defined?(@current_battletag_param)
+
+    @current_battletag_param = if params[:battletag]
+      params[:battletag]
+    elsif signed_in?
+      current_account.to_param
+    end
   end
 
   def current_battletag
