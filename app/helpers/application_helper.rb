@@ -59,7 +59,11 @@ module ApplicationHelper
   end
 
   def is_season_page?(season)
-    params[:season] == season
+    if season.is_a?(Season)
+      params[:season] == season.number.to_s
+    else
+      params[:season] == season
+    end
   end
 
   def is_settings_page?
