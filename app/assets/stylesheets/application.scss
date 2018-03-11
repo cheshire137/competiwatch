@@ -146,9 +146,18 @@ dt {
   }
 }
 
+.d-inline-block-sm,
+.d-block-sm {
+  display: none;
+}
+
 @media (max-width: 544px) {
   .tab-contents {
     overflow: auto;
+  }
+
+  .d-inline-block-sm {
+    display: inline-block !important;
   }
 
   .d-block-sm {
@@ -185,7 +194,6 @@ dt {
   }
 
   .UnderlineNav-item {
-    padding: 3px 6px;
     display: inline-block;
   }
 }

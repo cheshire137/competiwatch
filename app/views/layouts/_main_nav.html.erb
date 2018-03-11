@@ -21,10 +21,10 @@
       <% end %>
     </div>
 
-    <div class="d-flex flex-items-center">
-      <% if signed_in? %>
-        <div class="dropdown js-menu-container">
-          <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+    <% if signed_in? %>
+      <div class="d-flex-md flex-items-center-md">
+        <div class="dropdown js-menu-container main-nav-menu-container">
+          <button class="main-menu-toggle hide-sm btn-link no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
             <span class="text-gray d-inline-block mr-1 text-normal">Signed in as</span>
             <%= avatar_for(current_account) %>
             <%= current_account.name %>
@@ -54,8 +54,8 @@
             </ul>
           </div>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
   </nav>
   <% if content_for?(:breadcrumb) %>
     <div class="mt-2 pb-2 border-bottom px-2 text-gray">
