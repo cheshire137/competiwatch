@@ -1,8 +1,8 @@
 <% content_for(:title, "#{@account} / Season #{@season} / Matches") %>
 
 <% content_for(:breadcrumb) do %>
-  <div class="d-flex flex-items-center flex-justify-between">
-    <div>
+  <div class="d-flex-md flex-items-center-md flex-justify-between-md">
+    <div class="mb-2-sm">
       <% if @can_edit %>
         <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
       <% else %>
