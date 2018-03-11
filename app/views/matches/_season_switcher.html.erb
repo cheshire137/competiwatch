@@ -9,7 +9,7 @@
       <% season_options.each do |label, season_number| %>
         <% selected_season_number = selected_season.is_a?(Season) ? selected_season.number : selected_season %>
         <li>
-          <a class="dropdown-item <%= 'text-bold' if season_number == selected_season_number %>" href="<%= season_switcher_season_path(season_number) %>">
+          <a class="dropdown-item <%= 'selected' if season_number == selected_season_number %>" href="<%= season_switcher_season_path(season_number) %>">
             <%= label %>
           </a>
         </li>

@@ -12,7 +12,7 @@
       <ul class="dropdown-menu account-dropdown-menu dropdown-menu-se">
         <% accounts.each do |account| %>
           <li>
-            <a class="dropdown-item <%= 'text-bold' if account == selected_account %>" href="<%= account_switcher_url(account) %>">
+            <a class="dropdown-item <%= 'selected' if account == selected_account %>" href="<%= account_switcher_url(account) %>">
               <%= avatar_for(account) %>
               <%= account %>
             </a>
