@@ -35,7 +35,6 @@ Rails.application.routes.draw do
   get '/accounts' => 'accounts#index', as: :accounts
   delete '/accounts/:battletag' => 'accounts#destroy', as: :account
   put '/accounts/set-default' => 'accounts#set_default', as: :set_default_account
-  get '/profile/:battletag/avatar' => 'accounts#avatar', as: :avatar
   get '/profile/:battletag' => 'accounts#show', as: :profile
   put '/profile/:battletag' => 'accounts#update'
 

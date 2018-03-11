@@ -9,9 +9,6 @@
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
-        <% unless expanded %>
-          <span class="js-remote-load" data-url="<%= avatar_path(user, include_link: 1) %>"></span>
-        <% end %>
         <%= user %>
         <% if friend_count > 0 %>
           <span class="text-gray h5 text-normal">

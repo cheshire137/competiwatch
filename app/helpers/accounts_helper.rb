@@ -1,20 +1,11 @@
 module AccountsHelper
   def avatar_link_for(account, classes: '')
-    if account.avatar_url
-      link_to(avatar_image_for(account, classes: classes), profile_path(account),
-              class: 'd-inline-block')
-    else
-      content_tag(:span, '', class: 'js-remote-load',
-                  data: { url: avatar_path(account, include_link: 1) })
-    end
+    link_to(avatar_image_for(account, classes: classes), profile_path(account),
+            class: 'd-inline-block')
   end
 
   def avatar_for(account, classes: '')
-    if account.avatar_url
-      avatar_image_for(account, classes: classes)
-    else
-      content_tag(:span, '', class: 'js-remote-load', data: { url: avatar_path(account) })
-    end
+    avatar_image_for(account, classes: classes)
   end
 
   def avatar_image_for(account, classes: '')

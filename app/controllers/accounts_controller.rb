@@ -7,15 +7,6 @@ class AccountsController < ApplicationController
     @accounts = current_user.accounts.includes(:user).order_by_battletag
   end
 
-  def avatar
-    unless @account.avatar_url.present?
-      SetProfileDataJob.perform_now(@account.id)
-      @account.reload
-    end
-    @include_link = params[:include_link] == '1'
-    render partial: 'accounts/avatar', layout: false
-  end
-
   def show
     heroes_by_name = Hero.order_by_name.map { |hero| [hero.name, hero] }.to_h
     @stats = @account.overwatch_api_stats(heroes_by_name)

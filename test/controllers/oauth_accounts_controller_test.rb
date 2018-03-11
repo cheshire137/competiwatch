@@ -3,38 +3,6 @@ require 'test_helper'
 class AccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons, :heroes
 
-  test 'avatar 404s for nonexistent account' do
-    get '/profile/SomeUser-1234/avatar'
-
-    assert_response :not_found
-  end
-
-  test 'avatar loads for another user' do
-    account1 = create(:account, battletag: 'MarchHare#11348', avatar_url: nil)
-    account2 = create(:account)
-
-    VCR.use_cassette('ow_api_profile') do
-      sign_in_as(account2)
-      get "/profile/#{account1.to_param}/avatar"
-    end
-
-    assert_response :ok
-    assert_select "a[href='/profile/#{account1.to_param}']", false
-    assert_equal 'https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png',
-      account1.reload.avatar_url
-  end
-
-  test 'avatar links to profile when specified' do
-    account = create(:account, battletag: 'MarchHare#11348')
-
-    VCR.use_cassette('ow_api_profile') do
-      get "/profile/#{account.to_param}/avatar", params: { include_link: 1 }
-    end
-
-    assert_response :ok
-    assert_select "a[href='/profile/#{account.to_param}']"
-  end
-
   test 'anonymous user cannot update profile' do
     account = create(:account, platform: 'xbl', region: 'cn')
 
