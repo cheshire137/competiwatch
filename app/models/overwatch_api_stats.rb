@@ -47,13 +47,13 @@ class OverwatchAPIStats
     end
   end
 
-  def top_heroes
+  def top_heroes(limit: 5)
     heroes = if competitive_heroes.any?
       competitive_heroes
     else
       quickplay_heroes
     end
-    heroes[0...3]
+    heroes[0...limit]
   end
 
   def tldr_roles
