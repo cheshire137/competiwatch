@@ -1,5 +1,5 @@
 <div class="dropdown js-menu-container">
-  <button class="main-menu-toggle btn-link no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+  <button class="btn-link no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
     <span class="hide-sm">
       <span class="text-gray d-inline-block mr-1 text-normal">Signed in as</span>
       <%= avatar_for(current_account) %>
@@ -11,18 +11,18 @@
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu account-dropdown-menu dropdown-menu-sw">
       <li>
-        <a class="dropdown-item <%= 'text-bold' if is_profile_page?(current_account) %>" href="<%= profile_path(current_account) %>"><%= current_account.name %>&rsquo;s profile</a>
+        <a class="dropdown-item <%= 'selected' if is_profile_page?(current_account) %>" href="<%= profile_path(current_account) %>"><%= current_account.name %>&rsquo;s profile</a>
       </li>
       <li>
-        <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" href="<%= settings_path %>">Settings</a>
+        <a class="dropdown-item <%= 'selected' if is_settings_page? %>" href="<%= settings_path %>">Settings</a>
       </li>
       <% if current_season_number && current_battletag_param %>
         <li>
-          <a href="<%= import_path(current_season_number, current_battletag_param) %>" class="dropdown-item <%= 'text-bold' if is_import_page?(current_season_number, current_battletag_param) %>">Import matches</a>
+          <a href="<%= import_path(current_season_number, current_battletag_param) %>" class="dropdown-item <%= 'selected' if is_import_page?(current_season_number, current_battletag_param) %>">Import matches</a>
         </li>
       <% end %>
       <li>
-        <a href="<%= export_path %>" class="dropdown-item <%= 'text-bold' if is_page?('export', 'index') %>">Export matches</a>
+        <a href="<%= export_path %>" class="dropdown-item <%= 'selected' if is_page?('export', 'index') %>">Export matches</a>
       </li>
       <li>
         <%= form_tag sign_out_path, method: :delete do %>
