@@ -118,13 +118,18 @@ winLossObserver.observe()
 
 const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-chart', function() {
   const context = this.getContext('2d')
-  const options = {
-    scales: {
-      xAxes: [{ ticks: { autoSkip: false } }],
-      yAxes: [{ ticks: { callback: wholeTicks, beginAtZero: true } }]
-    },
-    responsive: true, maintainAspectRatio: false
+  const numberAxisOptions = [{ ticks: { callback: wholeTicks, beginAtZero: true } }]
+  const labelAxisOptions = [{ ticks: { autoSkip: false } }]
+  const chartType = this.getAttribute('data-chart-type') || 'bar'
+  const scales = {}
+  if (chartType === 'bar') {
+    scales.xAxes = labelAxisOptions
+    scales.yAxes = numberAxisOptions
+  } else {
+    scales.xAxes = numberAxisOptions
+    scales.yAxes = labelAxisOptions
   }
+  const options = { scales, responsive: true, maintainAspectRatio: false }
   const labels = this.getAttribute('data-labels')
   const wins = this.getAttribute('data-wins')
   const losses = this.getAttribute('data-losses')
@@ -155,7 +160,7 @@ const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-char
       }
     ]
   }
-  new Chart(context, { type: 'bar', data, options })
+  new Chart(context, { type: chartType, data, options })
 })
 winLossBarObserver.observe()
 
