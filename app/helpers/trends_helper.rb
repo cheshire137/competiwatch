@@ -21,6 +21,25 @@ module TrendsHelper
     end
   end
 
+  def show_any_chart_tabs?(matches)
+    return @show_any_chart_tabs if defined? @show_any_chart_tabs
+    @show_any_chart_tabs = show_group_charts_tab?(matches) ||
+      show_hero_charts_tab?(matches) ||
+      show_time_charts_tab?(matches)
+  end
+
+  def show_group_charts_tab?(matches)
+    show_group_member_chart?(matches)
+  end
+
+  def show_hero_charts_tab?(matches)
+    show_heroes_chart?(matches)
+  end
+
+  def show_time_charts_tab?(matches)
+    show_day_time_chart?(matches)
+  end
+
   def show_rank_tier_chart?(matches, season)
     return false if season && (season.number == 1 || season.max_rank != 5000)
     matches.any?
@@ -84,6 +103,9 @@ module TrendsHelper
   end
 
   def show_day_time_chart?(matches)
-    matches.any? { |match| match.day_of_week.present? || match.time_of_day.present? }
+    return @show_day_time_chart if defined? @show_day_time_chart
+    @show_day_time_chart = matches.any? do |match|
+      match.day_of_week.present? || match.time_of_day.present?
+    end
   end
 end

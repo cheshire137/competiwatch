@@ -39,32 +39,40 @@
   </div>
 <% else %>
   <div class="clearfix">
-    <div class="col-md-2 float-left">
-      <ul class="filter-list mr-4">
-        <li>
-          <a href="#general-charts" class="filter-item selected js-tab" role="tab" aria-current="page">
-            General trends
-          </a>
-        </li>
-        <li>
-          <a href="#group-charts" class="filter-item js-tab" role="tab">
-            Who I play with
-          </a>
-        </li>
-        <li>
-          <a href="#hero-charts" class="filter-item js-tab" role="tab">
-            What I play
-          </a>
-        </li>
-        <li>
-          <a href="#time-charts" class="filter-item js-tab" role="tab">
-            When I play
-          </a>
-        </li>
-      </ul>
-    </div>
+    <% if show_any_chart_tabs?(@matches) %>
+      <div class="col-md-2 float-left">
+        <ul class="filter-list mr-4">
+          <li>
+            <a href="#general-charts" class="filter-item selected js-tab" role="tab" aria-current="page">
+              General trends
+            </a>
+          </li>
+          <% if show_group_charts_tab?(@matches) %>
+            <li>
+              <a href="#group-charts" class="filter-item js-tab" role="tab">
+                Who I play with
+              </a>
+            </li>
+          <% end %>
+          <% if show_hero_charts_tab?(@matches) %>
+            <li>
+              <a href="#hero-charts" class="filter-item js-tab" role="tab">
+                What I play
+              </a>
+            </li>
+          <% end %>
+          <% if show_time_charts_tab?(@matches) %>
+            <li>
+              <a href="#time-charts" class="filter-item js-tab" role="tab">
+                When I play
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
 
-    <div class="col-md-10 float-left">
+    <div<% if show_any_chart_tabs?(@matches) %> class="col-md-10 float-left"<% end %>>
       <div id="general-charts" class="js-tab-contents tab-contents">
         <% if show_win_loss_chart?(@matches) || show_thrower_leaver_chart?(@matches) %>
           <div class="clearfix mb-4">
