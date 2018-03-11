@@ -1,5 +1,5 @@
 class OverwatchAPIHero
-  attr_reader :name, :playtime, :url
+  attr_reader :name, :playtime, :url, :hero
 
   def initialize(data, hero: nil)
     @name = data['hero']
