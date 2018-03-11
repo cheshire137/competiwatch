@@ -24,8 +24,13 @@ module ApplicationHelper
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
-  def is_profile_page?
-    is_page?('accounts', 'show')
+  def is_profile_page?(account = nil)
+    return false unless is_page?('accounts', 'show')
+    if account
+      params[:battletag] == account.to_param
+    else
+      true
+    end
   end
 
   def is_all_seasons_trends_page?
