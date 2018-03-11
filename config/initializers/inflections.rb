@@ -22,6 +22,9 @@ ActiveSupport::Inflector.inflections(:en) do |inflect|
   # account_hero -> account_heroes
   inflect.plural /^(account_hero)$/i, '\1es'
 
+  # Oauth -> OAuth
+  inflect.acronym 'OAuth'
+
   # Api -> API
   inflect.acronym 'API'
 end
