@@ -8,6 +8,8 @@ class AccountHero < ApplicationRecord
     allow_nil: true
   validate :within_limit_per_account
 
+  scope :ordered_by_playtime, ->{ order(seconds_played: :desc) }
+
   private
 
   def within_limit_per_account
