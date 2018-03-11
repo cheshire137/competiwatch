@@ -42,6 +42,7 @@
 @import "primer-dropdown/index.scss";
 @import "forms.scss";
 @import "carousel.scss";
+@import "dropdowns.scss";
 
 .UnderlineNav-item.selected {
   border-bottom-color: $pink;
@@ -56,10 +57,6 @@ a.ui-button:active,
   border-color: darken($green, 10%);
   background-color: $green;
   color: $white;
-}
-
-.dropdown-menu.account-dropdown-menu {
-  width: 13em;
 }
 
 .layout-container {
@@ -84,54 +81,10 @@ dt {
   width: 1014px;
 }
 
-.dropdown-wide .dropdown-menu {
-  width: 360px;
-  padding-top: 0;
-  padding-bottom: 0;
-
-  .dropdown-column {
-    width: 180px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-
-    + .dropdown-column {
-      border-left: 1px solid #e1e4e8;
-    }
-  }
-}
-
 .img-responsive {
   display: block;
   max-width: 100%;
   height: auto;
-}
-
-.dropdown-menu {
-  font-size: 14px;
-  font-weight: normal;
-}
-
-.dropdown-selectable .dropdown-item {
-  padding-left: 28px;
-
-  .dropdown-selected-indicator {
-    display: none;
-  }
-
-  &.selected {
-    color: $blue;
-    padding-left: 10px;
-
-    .dropdown-selected-indicator {
-      display: inline-block;
-      margin-right: 3px;
-    }
-
-    &:hover,
-    &:focus {
-      color: #fff;
-    }
-  }
 }
 
 @supports(position:sticky) {
