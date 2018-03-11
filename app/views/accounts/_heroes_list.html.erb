@@ -1,9 +1,17 @@
-<% overwatch_api_heroes.each do |overwatch_api_hero| %>
-  <div aria-label="<%= overwatch_api_hero.playtime %>" class="tooltipped tooltipped-e d-flex flex-items-center mb-1 hero-list-item">
-    <%= image_tag("heroes/#{overwatch_api_hero.slug}.png", alt: overwatch_api_hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
-    <span class="d-inline-block hero-name text-bold mr-2"><%= overwatch_api_hero %></span>
-    <span class="hero-bar-container d-inline-block">
-      <span class="hero-bar hero-bar-<%= overwatch_api_hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(overwatch_api_hero.seconds_played, max_seconds, total_seconds) %>%"></span>
-    </span>
-  </div>
+<%
+  total_seconds = total_seconds_played(account_heroes)
+  max_seconds = max_seconds_played(account_heroes)
+%>
+
+<% if max_seconds %>
+  <% account_heroes.each do |account_hero| %>
+    <% hero = account_hero.hero %>
+    <div aria-label="<%= account_hero.playtime %>" class="tooltipped tooltipped-e d-flex flex-items-center mb-1 hero-list-item">
+      <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
+      <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
+      <span class="hero-bar-container d-inline-block">
+        <span class="hero-bar hero-bar-<%= hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(account_hero.seconds_played, max_seconds, total_seconds) %>%"></span>
+      </span>
+    </div>
+  <% end %>
 <% end %>

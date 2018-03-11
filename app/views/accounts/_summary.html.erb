@@ -15,7 +15,9 @@
           Unranked
         <% end %>
       </span>
-      <span class="d-inline-block ml-3 text-gray"><%= stats.tldr %></span>
+      <span class="d-inline-block ml-3 text-gray">
+        <%= account_heroes_tldr(account_heroes) %>
+      </span>
     </div>
   </div>
   <% if account.level %>

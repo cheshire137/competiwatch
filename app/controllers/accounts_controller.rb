@@ -8,9 +8,8 @@ class AccountsController < ApplicationController
   end
 
   def show
-    heroes_by_name = Hero.order_by_name.map { |hero| [hero.name, hero] }.to_h
-    @stats = @account.overwatch_api_stats(heroes_by_name)
     @is_owner = signed_in? && @account.user == current_user
+    @account_heroes = @account.account_heroes.ordered_by_playtime.includes(:hero)
 
     @match_count_by_season = Hash.new(0)
     matches = @account.matches.select(:season).order(season: :desc)

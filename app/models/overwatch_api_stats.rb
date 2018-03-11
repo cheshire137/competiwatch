@@ -36,22 +36,4 @@ class OverwatchAPIStats
     end
     heroes[0...limit]
   end
-
-  def tldr_roles
-    return @tldr_roles if @tldr_roles
-    roles = top_heroes.map(&:role)
-    role_counts = {}
-
-    roles.each do |role|
-      role_counts[role] ||= 0
-      role_counts[role] += 1
-    end
-
-    role_counts = role_counts.sort_by { |role, count| -count }.to_h
-    @tldr_roles = role_counts.keys.map(&:to_s)
-  end
-
-  def tldr
-    tldr_roles.map { |role| Hero.pretty_role(role) }.join(' / ')
-  end
 end

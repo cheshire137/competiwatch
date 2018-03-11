@@ -10,10 +10,13 @@
 <div class="clearfix d-flex-md flex-justify-around">
   <div class="col-md-5">
     <%= render partial: 'accounts/summary',
-               locals: { stats: @stats, account: @account } %>
-    <div class="mb-4 pb-2">
-      <%= render partial: 'accounts/stats', locals: { stats: @stats } %>
-    </div>
+               locals: { account_heroes: @account_heroes, account: @account } %>
+    <% if @account_heroes.any? %>
+      <div class="mb-4 pb-2">
+        <%= render partial: 'accounts/heroes_list',
+                   locals: { account_heroes: @account_heroes } %>
+      </div>
+    <% end %>
   </div>
   <div class="col-md-3 text-center">
     <h2 class="h2 text-normal mt-0 mb-2">Competitive seasons</h2>

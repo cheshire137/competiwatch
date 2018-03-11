@@ -10,6 +10,16 @@ class AccountHero < ApplicationRecord
 
   scope :ordered_by_playtime, ->{ order(seconds_played: :desc) }
 
+  def playtime
+    return unless seconds_played && seconds_played > 0
+
+    secs = seconds_played
+    [[60, 'second'], [60, 'minute'], [24, 'hour'], [1000, 'day']].map do |count, name|
+      secs, n = secs.divmod(count)
+      "#{n.to_i} #{name.pluralize(n.to_i)}" if n > 0
+    end.compact.reverse.join(' ')
+  end
+
   private
 
   def within_limit_per_account
