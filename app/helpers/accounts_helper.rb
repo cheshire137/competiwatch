@@ -37,8 +37,10 @@ module AccountsHelper
   end
 
   def avatar_link_for(account, classes: '')
-    link_to(avatar_image_for(account, classes: classes), profile_path(account),
-            class: 'd-inline-block')
+    image = avatar_image_for(account, classes: classes)
+    return unless image
+
+    link_to(image, profile_path(account), class: 'd-inline-block')
   end
 
   def avatar_for(account, classes: '')
@@ -46,6 +48,8 @@ module AccountsHelper
   end
 
   def avatar_image_for(account, classes: '')
+    return unless account.avatar_url
+
     classes += ' avatar'
     image_tag(account.avatar_url, class: classes, width: 20)
   end
