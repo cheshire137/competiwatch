@@ -146,7 +146,6 @@
                                draw_counts: @career_high_heroes_draw_counts,
                                career_high: @career_high } %>
         <% elsif show_season_high_heroes_chart?(@matches, @season_high) %>
-          <hr class="mb-4 pt-4">
           <%= render partial: 'trends/season_high_heroes_chart',
                      locals: { season: @season, heroes: @season_high_heroes,
                                win_counts: @season_high_heroes_win_counts,
