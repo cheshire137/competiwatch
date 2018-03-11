@@ -75,7 +75,6 @@ const roleChartObserver = new SelectorObserver(document, '.js-role-chart', funct
   const roles = this.getAttribute('data-roles')
   const winCounts = this.getAttribute('data-wins')
   const lossCounts = this.getAttribute('data-losses')
-  const drawCounts = this.getAttribute('data-draws')
   const borderWidth = 2
   const pointRadius = 3
   const pointHoverRadius = 4
@@ -103,17 +102,6 @@ const roleChartObserver = new SelectorObserver(document, '.js-role-chart', funct
         pointRadius,
         pointHoverRadius,
         data: JSON.parse(lossCounts)
-      },
-      {
-        label: '# Draws',
-        backgroundColor: transparentDrawColor,
-        pointBackgroundColor: transparentDrawColor,
-        pointBorderColor: drawBorderColor,
-        borderColor: drawColor,
-        borderWidth,
-        pointRadius,
-        pointHoverRadius,
-        data: JSON.parse(drawCounts)
       }
     ]
   }

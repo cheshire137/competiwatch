@@ -35,6 +35,7 @@ class Match < ApplicationRecord
   scope :wins, ->{ where(result: RESULT_MAPPINGS[:win]) }
   scope :losses, ->{ where(result: RESULT_MAPPINGS[:loss]) }
   scope :draws, ->{ where(result: RESULT_MAPPINGS[:draw]) }
+  scope :not_draws, ->{ where(result: [RESULT_MAPPINGS[:win], RESULT_MAPPINGS[:loss]]) }
   scope :placements, ->{ where(placement: true) }
   scope :non_placements, ->{ where('placement IS NULL OR placement = ?', false) }
   scope :in_season, ->(season) {

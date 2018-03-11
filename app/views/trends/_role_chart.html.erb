@@ -1,9 +1,9 @@
 <h3 class="h3 flex-justify-center d-flex flex-items-center mb-2">
-  Matches by Role
+  Wins/Losses by Role
   <% if local_assigns.key?(:season) %>
     <span class="text-gray text-normal h4 d-inline-block ml-2">Season <%= season %></span>
   <% end %>
 </h3>
 <div class="tall-chart-container">
-  <canvas class="js-role-chart" data-roles="<%= roles.to_json %>" data-wins="<%= win_counts.to_json %>" data-losses="<%= loss_counts.to_json %>" data-draws="<%= draw_counts.to_json %>"></canvas>
+  <canvas class="js-role-chart" data-roles="<%= roles.to_json %>" data-wins="<%= win_counts.to_json %>" data-losses="<%= loss_counts.to_json %>"></canvas>
 </div>

@@ -158,10 +158,9 @@ class TrendsController < ApplicationController
   end
 
   def role_chart
-    matches = account_matches_in_season.includes(:heroes).with_result
+    matches = account_matches_in_season.includes(:heroes).not_draws
     wins_by_role = Hash.new(0)
     losses_by_role = Hash.new(0)
-    draws_by_role = Hash.new(0)
 
     matches.each do |match|
       match.heroes.each do |hero|
@@ -169,8 +168,6 @@ class TrendsController < ApplicationController
           wins_by_role[hero.role] += 1
         elsif match.loss?
           losses_by_role[hero.role] += 1
-        elsif match.draw?
-          draws_by_role[hero.role] += 1
         end
       end
     end
@@ -178,7 +175,6 @@ class TrendsController < ApplicationController
     @roles = get_player_roles
     @role_win_counts = @roles.map { |role| wins_by_role[role] || 0 }
     @role_loss_counts = @roles.map { |role| losses_by_role[role] || 0 }
-    @role_draw_counts = @roles.map { |role| draws_by_role[role] || 0 }
   end
 
   def map_chart
