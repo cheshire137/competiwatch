@@ -54,6 +54,10 @@
       <% if @latest_match %>
         <%= render partial: 'admin/latest_match', locals: { match: @latest_match } %>
       <% end %>
+      <% if @latest_shared_season %>
+        <%= render partial: 'admin/latest_shared_season',
+                   locals: { season_share: @latest_shared_season } %>
+      <% end %>
     </div>
   </div>
 </div>
