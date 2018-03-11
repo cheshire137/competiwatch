@@ -36,18 +36,7 @@ module AccountsHelper
     max
   end
 
-  def avatar_link_for(account, classes: '')
-    image = avatar_image_for(account, classes: classes)
-    return unless image
-
-    link_to(image, profile_path(account), class: 'd-inline-block')
-  end
-
   def avatar_for(account, classes: '')
-    avatar_image_for(account, classes: classes)
-  end
-
-  def avatar_image_for(account, classes: '')
     return unless account.avatar_url
 
     classes += ' avatar'

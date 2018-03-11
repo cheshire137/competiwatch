@@ -4,8 +4,6 @@
     <%
       accounts_for_user = accounts_by_user_id[user.id] || []
       friend_count = (friends_by_user_id[user.id] || []).size
-      any_matches = any_matches_for_user?(matches_by_account_id, accounts_for_user)
-      expanded = accounts_for_user.size != 1 || any_matches
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
@@ -18,48 +16,48 @@
           </span>
         <% end %>
       </h3>
-      <% if expanded %>
-        <ol class="oauth-accounts-list">
-          <% if accounts_for_user.empty? %>
-            <li>
-              <em>No accounts</em>
-            </li>
-          <% end %>
-          <% accounts_for_user.each do |account| %>
-            <%
-              account_matches = matches_by_account_id[account.id] || []
-              match_count = account_matches.size
-              details_class = if match_count > 0
-                "account-#{account.id}"
-              end
-              seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
-            %>
-            <li class="mt-1">
-              <%= avatar_link_for(account) %>
+      <ol class="oauth-accounts-list">
+        <% if accounts_for_user.empty? %>
+          <li>
+            <em>No accounts</em>
+          </li>
+        <% end %>
+        <% accounts_for_user.each do |account| %>
+          <%
+            account_matches = matches_by_account_id[account.id] || []
+            match_count = account_matches.size
+            details_class = if match_count > 0
+              "account-#{account.id}"
+            end
+            seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
+          %>
+          <li class="mt-1">
+            <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
+              <%= avatar_for(account) %>
               <span class="text-bold"><%= account %></span>
-              <% if details_class %>
-                <span class="d-inline-block mx-2">&middot;</span>
-                <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
-                  <%= number_with_delimiter match_count %>
-                  <%= 'match'.pluralize(match_count) %>
-                </button>
-              <% end %>
+            </a>
+            <% if details_class %>
+              <span class="d-inline-block mx-2">&middot;</span>
+              <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
+                <%= number_with_delimiter match_count %>
+                <%= 'match'.pluralize(match_count) %>
+              </button>
+            <% end %>
 
-              <div class="<%= details_class %> d-none mb-2">
-                <% seasons_with_matches.each do |season| %>
-                  <% season_match_count = get_season_match_count(season, account_matches) %>
-                  <div>
-                    Season <%= season %>
-                    &mdash;
-                    <%= number_with_delimiter season_match_count %>
-                    <%= 'match'.pluralize(season_match_count) %>
-                  </div>
-                <% end %>
-              </div>
-            </li>
-          <% end %>
-        </ol>
-      <% end %>
+            <div class="<%= details_class %> d-none mb-2">
+              <% seasons_with_matches.each do |season| %>
+                <% season_match_count = get_season_match_count(season, account_matches) %>
+                <div>
+                  Season <%= season %>
+                  &mdash;
+                  <%= number_with_delimiter season_match_count %>
+                  <%= 'match'.pluralize(season_match_count) %>
+                </div>
+              <% end %>
+            </div>
+          </li>
+        <% end %>
+      </ol>
     </li>
   <% end %>
 </ul>
