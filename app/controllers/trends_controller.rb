@@ -16,7 +16,9 @@ class TrendsController < ApplicationController
     heroes_chart
     group_size_chart
     map_chart
-    role_chart
+    @roles = Hero::ROLES
+    role_chart(@roles)
+    role_win_chart(@roles)
     streaks_chart
     thrower_leaver_chart
     career_high_heroes_chart
@@ -44,7 +46,9 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    role_chart
+    @roles = Hero::ROLES
+    role_chart(@roles)
+    role_win_chart(@roles)
     day_time_chart
     group_size_chart
     thrower_leaver_chart
@@ -72,7 +76,9 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    role_chart
+    @roles = Hero::ROLES
+    role_chart(@roles)
+    role_win_chart(@roles)
     day_time_chart
     group_size_chart
     thrower_leaver_chart
@@ -101,7 +107,9 @@ class TrendsController < ApplicationController
     @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
     @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
     win_loss_chart
-    role_chart
+    @roles = Hero::ROLES
+    role_chart(@roles)
+    role_win_chart(@roles)
     day_time_chart
     group_size_chart
     thrower_leaver_chart
@@ -157,7 +165,7 @@ class TrendsController < ApplicationController
     @loss_streaks = matches.map { |match| match.loss_streak || 0 }
   end
 
-  def role_chart
+  def role_chart(roles)
     matches = account_matches_in_season.includes(:heroes).with_result
     match_counts_by_role = Hash.new(0)
 
@@ -167,8 +175,20 @@ class TrendsController < ApplicationController
       end
     end
 
-    @roles = Hero::ROLES
-    @role_match_counts = @roles.map { |role| match_counts_by_role[role] || 0 }
+    @role_match_counts = roles.map { |role| match_counts_by_role[role] || 0 }
+  end
+
+  def role_win_chart(roles)
+    matches = account_matches_in_season.includes(:heroes).wins
+    win_counts_by_role = Hash.new(0)
+
+    matches.each do |match|
+      match.heroes.each do |hero|
+        win_counts_by_role[hero.role] += 1
+      end
+    end
+
+    @role_win_counts = roles.map { |role| win_counts_by_role[role] || 0 }
   end
 
   def map_chart

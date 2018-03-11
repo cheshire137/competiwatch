@@ -71,21 +71,38 @@ const roleChartObserver = new SelectorObserver(document, '.js-role-chart', funct
   }
   const roles = this.getAttribute('data-roles')
   const matchCounts = this.getAttribute('data-matches')
+  const winCounts = this.getAttribute('data-wins')
+  let datasetData = []
+  let backgroundColor = 'rgba(151, 67, 173, 0.7)'
+  let pointBorderColor = '#9743ad'
+  let pointHoverBackgroundColor = 'rgba(255, 196, 0, 0.7)'
+  let pointHoverBorderColor = '#ffc400'
+  let borderColor = '#9743ad'
+  if (matchCounts) {
+    datasetData = JSON.parse(matchCounts)
+  } else if (winCounts) {
+    backgroundColor = transparentWinColor
+    pointBorderColor = '#12E518'
+    pointHoverBackgroundColor = pointBorderColor
+    pointHoverBorderColor = '#1BCF20'
+    borderColor = winColor
+    datasetData = JSON.parse(winCounts)
+  }
   const data = {
     labels: JSON.parse(roles),
     datasets: [
       {
         label: '# Matches',
-        backgroundColor: 'rgba(151, 67, 173, 0.7)',
-        pointBackgroundColor: 'rgba(151, 67, 173, 0.7)',
-        pointBorderColor: '#9743ad',
-        pointHoverBackgroundColor: 'rgba(255, 196, 0, 0.7)',
-        pointHoverBorderColor: '#ffc400',
-        borderColor: '#9743ad',
+        backgroundColor,
+        pointBackgroundColor: backgroundColor,
+        pointBorderColor,
+        pointHoverBackgroundColor,
+        pointHoverBorderColor,
+        borderColor,
         borderWidth: 2,
         pointRadius: 3,
         pointHoverRadius: 4,
-        data: JSON.parse(matchCounts)
+        data: datasetData
       }
     ]
   }

@@ -156,8 +156,16 @@
         <% end %>
         <% if show_role_chart?(@matches) %>
           <hr class="mb-4 pt-4">
-          <%= render partial: 'trends/role_chart',
-                     locals: { season: @season, match_counts: @role_match_counts, roles: @roles } %>
+          <div class="clearfix">
+            <div class="col-md-6 float-md-left">
+              <%= render partial: 'trends/role_chart',
+                         locals: { season: @season, match_counts: @role_match_counts, roles: @roles } %>
+            </div>
+            <div class="col-md-6 float-md-left">
+              <%= render partial: 'trends/role_win_chart',
+                         locals: { season: @season, win_counts: @role_win_counts, roles: @roles } %>
+            </div>
+          </div>
         <% end %>
         <% if show_heroes_chart?(@matches) %>
           <hr class="mb-4 pt-4">
