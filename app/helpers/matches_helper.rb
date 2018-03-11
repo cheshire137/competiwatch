@@ -182,7 +182,7 @@ module MatchesHelper
     end
   end
 
-  def match_result(match)
+  def match_result_short(match)
     if match.placement_log?
       ''
     else

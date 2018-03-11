@@ -43,7 +43,7 @@
           <td class="match-cell hide-sm match-number-cell <%= 'match-placement-number-cell' if match.placement? %>">
             <%= match_number(i, match, matches) %>
           </td>
-          <td class="match-cell hide-sm result-cell result-<%= match.result %>"><%= match_result(match) %></td>
+          <td class="match-cell hide-sm result-cell result-<%= match.result %>"><%= match_result_short(match) %></td>
           <td class="match-cell sr-change-cell" style="<%= match_rank_change_style(match, matches) %>">
             <%= match_rank_change(match, matches) %>
           </td>
