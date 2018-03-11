@@ -4,17 +4,21 @@
 %>
 
 <% content_for(:trend_tabs) do %>
-  <a href="<%= all_seasons_trends_path(account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">
-    All season trends
-  </a>
+  <div class="d-flex hide-sm">
+    <a href="<%= trends_path(season, account) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, account) %>" role="tab">Trends</a>
 
-  <% if accounts.size > 1 %>
-    <a href="<%= all_accounts_trends_path(season) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_accounts_trends_page? %>" role="tab">
-      All account trends
+    <a href="<%= all_seasons_trends_path(account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">
+      All season trends
     </a>
 
-    <a href="<%= all_seasons_accounts_path %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_accounts_page? %>" role="tab">
-      All account + season trends
-    </a>
-  <% end %>
+    <% if accounts.size > 1 %>
+      <a href="<%= all_accounts_trends_path(season) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_accounts_trends_page? %>" role="tab">
+        All account trends
+      </a>
+
+      <a href="<%= all_seasons_accounts_path %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_accounts_page? %>" role="tab">
+        All account + season trends
+      </a>
+    <% end %>
+  </div>
 <% end %>
