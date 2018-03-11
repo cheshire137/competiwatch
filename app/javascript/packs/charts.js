@@ -5,10 +5,13 @@ import remoteLoadContent from './remote-load-content.js'
 
 const winColor = '#29fd2f'
 const transparentWinColor = 'rgba(41,253,47,0.7)'
+const winBorderColor = '#12E518'
 const lossColor = '#ca0813'
 const transparentLossColor = 'rgba(202,8,19,0.7)'
+const lossBorderColor = '#9B0E16'
 const drawColor = '#fed86f'
 const transparentDrawColor = 'rgba(254,216,111,0.7)'
+const drawBorderColor = '#C6A037'
 
 const allyColor = '#299FFD'
 const transparentAllyColor = 'rgba(41,159,253,0.7)'
@@ -67,42 +70,50 @@ streaksObserver.observe()
 const roleChartObserver = new SelectorObserver(document, '.js-role-chart', function() {
   const context = this.getContext('2d')
   const options = {
-    responsive: true, maintainAspectRatio: false, legend: false
+    responsive: true, maintainAspectRatio: false, legend: { position: 'left' }
   }
   const roles = this.getAttribute('data-roles')
-  const matchCounts = this.getAttribute('data-matches')
   const winCounts = this.getAttribute('data-wins')
-  let datasetData = []
-  let backgroundColor = 'rgba(151, 67, 173, 0.7)'
-  let pointBorderColor = '#9743ad'
-  let pointHoverBackgroundColor = 'rgba(255, 196, 0, 0.7)'
-  let pointHoverBorderColor = '#ffc400'
-  let borderColor = '#9743ad'
-  if (matchCounts) {
-    datasetData = JSON.parse(matchCounts)
-  } else if (winCounts) {
-    backgroundColor = transparentWinColor
-    pointBorderColor = '#12E518'
-    pointHoverBackgroundColor = pointBorderColor
-    pointHoverBorderColor = '#1BCF20'
-    borderColor = winColor
-    datasetData = JSON.parse(winCounts)
-  }
+  const lossCounts = this.getAttribute('data-losses')
+  const drawCounts = this.getAttribute('data-draws')
+  const borderWidth = 2
+  const pointRadius = 3
+  const pointHoverRadius = 4
   const data = {
     labels: JSON.parse(roles),
     datasets: [
       {
-        label: '# Matches',
-        backgroundColor,
-        pointBackgroundColor: backgroundColor,
-        pointBorderColor,
-        pointHoverBackgroundColor,
-        pointHoverBorderColor,
-        borderColor,
-        borderWidth: 2,
-        pointRadius: 3,
-        pointHoverRadius: 4,
-        data: datasetData
+        label: '# Wins',
+        backgroundColor: transparentWinColor,
+        pointBackgroundColor: transparentWinColor,
+        pointBorderColor: winBorderColor,
+        borderColor: winColor,
+        borderWidth,
+        pointRadius,
+        pointHoverRadius,
+        data: JSON.parse(winCounts)
+      },
+      {
+        label: '# Losses',
+        backgroundColor: transparentLossColor,
+        pointBackgroundColor: transparentLossColor,
+        pointBorderColor: lossBorderColor,
+        borderColor: lossColor,
+        borderWidth,
+        pointRadius,
+        pointHoverRadius,
+        data: JSON.parse(lossCounts)
+      },
+      {
+        label: '# Draws',
+        backgroundColor: transparentDrawColor,
+        pointBackgroundColor: transparentDrawColor,
+        pointBorderColor: drawBorderColor,
+        borderColor: drawColor,
+        borderWidth,
+        pointRadius,
+        pointHoverRadius,
+        data: JSON.parse(drawCounts)
       }
     ]
   }

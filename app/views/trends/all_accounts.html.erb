@@ -53,16 +53,9 @@
 
 <% if show_role_chart?(@matches) %>
   <hr class="mb-4 pt-4">
-  <div class="clearfix">
-    <div class="col-md-6 float-md-left">
-      <%= render partial: 'trends/role_chart',
-                 locals: { season: @season, match_counts: @role_match_counts, roles: @roles } %>
-    </div>
-    <div class="col-md-6 float-md-left">
-      <%= render partial: 'trends/role_win_chart',
-                 locals: { season: @season, win_counts: @role_win_counts, roles: @roles } %>
-    </div>
-  </div>
+  <%= render partial: 'trends/role_chart',
+             locals: { season: @season, win_counts: @role_win_counts, roles: @roles,
+                       loss_counts: @role_loss_counts, draw_counts: @role_draw_counts } %>
 <% end %>
 
 <% if show_day_time_chart?(@matches) %>
