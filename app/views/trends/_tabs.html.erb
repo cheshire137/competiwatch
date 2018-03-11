@@ -4,7 +4,7 @@
 %>
 
 <% content_for(:trend_tabs) do %>
-  <div class="d-inline-block-sm">
+  <div class="d-inline-block-below-lg">
     <div class="dropdown js-menu-container">
       <button class="btn-link UnderlineNav-item selected no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
         Trends
@@ -36,7 +36,7 @@
       </div>
     </div>
   </div>
-  <div class="d-flex hide-sm">
+  <div class="d-flex hide-below-lg">
     <a href="<%= trends_path(season, account) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(season, account) %>" role="tab">Trends</a>
 
     <a href="<%= all_seasons_trends_path(account) %>" class="UnderlineNav-item js-tab <%= 'selected' if is_all_seasons_trends_page? %>" role="tab">

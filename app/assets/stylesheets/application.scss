@@ -105,7 +105,8 @@ dt {
 }
 
 .d-inline-block-sm,
-.d-block-sm {
+.d-block-sm,
+.d-inline-block-below-lg {
   display: none;
 }
 
@@ -153,6 +154,16 @@ dt {
 
   .UnderlineNav-item {
     display: inline-block;
+  }
+}
+
+@media (max-width: 1010px) {
+  .d-inline-block-below-lg {
+    display: inline-block !important;
+  }
+
+  .hide-below-lg {
+    display: none !important;
   }
 }
 
