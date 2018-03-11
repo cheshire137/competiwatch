@@ -3,7 +3,7 @@ require 'test_helper'
 class SetProfileDataJobTest < ActiveJob::TestCase
   test 'sets avatar_url, level_url, level, rank on the account' do
     account = create(:account, avatar_url: nil, battletag: 'cheshire137#1695',
-                           rank: nil, level: nil, level_url: nil, star_url: nil)
+                     rank: nil, level: nil, level_url: nil, star_url: nil)
 
     VCR.use_cassette('ow_api_profile_with_stars') do
       SetProfileDataJob.perform_now(account.id)
