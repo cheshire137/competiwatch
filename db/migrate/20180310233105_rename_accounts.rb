@@ -1,4 +1,4 @@
-class RenameOAuthAccounts < ActiveRecord::Migration[5.1]
+class RenameAccounts < ActiveRecord::Migration[5.1]
   def up
     rename_table :oauth_accounts, :accounts
     rename_column :matches, :oauth_account_id, :account_id
