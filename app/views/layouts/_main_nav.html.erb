@@ -33,7 +33,10 @@
           <div class="dropdown-menu-content js-menu-content">
             <ul class="dropdown-menu account-dropdown-menu dropdown-menu-sw">
               <li>
-                <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" role="tab" href="<%= settings_path %>">Settings</a>
+                <a class="dropdown-item <%= 'text-bold' if is_profile_page? %>" href="<%= profile_path(current_account) %>">Profile</a>
+              </li>
+              <li>
+                <a class="dropdown-item <%= 'text-bold' if is_settings_page? %>" href="<%= settings_path %>">Settings</a>
               </li>
               <li>
                 <a href="<%= import_path(season, battletag) %>" class="dropdown-item <%= 'text-bold' if is_import_page?(season, battletag) %>">Import matches</a>
