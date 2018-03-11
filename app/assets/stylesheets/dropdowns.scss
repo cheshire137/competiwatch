@@ -1,7 +1,12 @@
 @import "colors.scss";
 
-.dropdown-menu.account-dropdown-menu {
+.dropdown-menu.account-dropdown-menu,
+.dropdown-menu.matches-dropdown-menu {
   width: 13em;
+}
+
+.dropdown-menu.trends-dropdown-menu {
+  width: 16em;
 }
 
 .dropdown-menu {
