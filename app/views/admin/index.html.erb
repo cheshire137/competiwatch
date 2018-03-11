@@ -49,9 +49,18 @@
                            matches_by_account_id: @matches_by_account_id } %>
     </div>
   </div>
-
   <div class="col-md-6 float-left">
     <div class="ml-4">
+      <% if @latest_match %>
+        <%= render partial: 'admin/latest_match', locals: { match: @latest_match } %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="clearfix mb-4">
+  <div class="col-md-6 float-left">
+    <div class="mr-4">
       <%= render partial: 'admin/seasons',
                  locals: { new_season: @new_season, seasons: @seasons } %>
     </div>

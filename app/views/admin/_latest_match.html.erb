@@ -1,0 +1,20 @@
+<h2 class="h2 mb-2">Latest match</h2>
+<a href="<%= profile_path(match.account) %>" target="_blank" rel="noopener noreferrer">
+  <%= avatar_for(match.account) %>
+  <%= match.account %>
+</a>
+&middot;
+<%= match_result(match) %>
+<% if (hero_count = match.heroes.count) > 0 %>
+  &middot;
+  <%= pluralize(hero_count, 'hero') %>
+<% end %>
+<% if (friend_count = match.match_friends.count) > 0 %>
+  &middot;
+  <%= pluralize(friend_count, 'friend') %>
+<% end %>
+&middot;
+<span class="text-gray">Season <%= match.season %></span>
+<div class="note">
+  <%= pretty_datetime match.created_at %>
+</div>

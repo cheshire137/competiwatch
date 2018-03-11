@@ -5,6 +5,8 @@ class AdminController < ApplicationController
     all_users = User.order_by_battletag
     @friend_count = Friend.count
     @match_count = Match.count
+    @latest_match = Match.joins(:account).where('accounts.user_id <> ?', current_user.id).
+      order(id: :desc).first
     @new_season = Season.new(number: Season.current_or_latest_number + 1)
     @account_count = Account.count
     @season_share_count = SeasonShare.count
