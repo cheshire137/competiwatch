@@ -1,0 +1,5 @@
+<% if show_day_time_chart?(matches) %>
+  <%= render partial: 'trends/day_time_chart',
+             locals: { day_times: @day_times, win_counts: @day_time_win_counts, season: season,
+                       loss_counts: @day_time_loss_counts, draw_counts: @day_time_draw_counts } %>
+<% end %>

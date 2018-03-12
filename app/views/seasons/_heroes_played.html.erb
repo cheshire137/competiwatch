@@ -6,7 +6,7 @@
     hidden_heroes = all_heroes.drop(visible_count)
   %>
   <div class="mb-4">
-    <div class="text-bold mb-1">Heroes played:</div>
+    <h3 class="h3 text-center mb-2">Heroes played</h3>
     <div>
       <% visible_heroes.each do |hero| %>
         <%= render partial: 'seasons/hero_bar',

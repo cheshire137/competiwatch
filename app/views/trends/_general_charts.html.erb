@@ -1,0 +1,36 @@
+<% if show_win_loss_chart?(matches) || show_thrower_leaver_chart?(matches) %>
+  <div class="clearfix mb-4">
+    <% if show_win_loss_chart?(matches) %>
+      <div class="col-md-6 float-md-left">
+        <%= render partial: 'trends/win_loss_chart',
+                   locals: { win_count: @win_count, loss_count: @loss_count,
+                             draw_count: @draw_count, season: season } %>
+      </div>
+    <% end %>
+    <% if show_thrower_leaver_chart?(matches) %>
+      <div class="col-md-6 float-md-left">
+        <%= render partial: 'trends/thrower_leaver_chart',
+                   locals: { season: season, types: @thrower_leaver_types,
+                             allies: @thrower_leaver_allies, enemies: @thrower_leaver_enemies } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% if show_streaks_chart?(matches) && defined?(@game_numbers) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/streaks_chart',
+             locals: { season: season, game_numbers: @game_numbers, win_streaks: @win_streaks,
+                       loss_streaks: @loss_streaks } %>
+<% end %>
+<% if show_map_chart?(matches) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/map_chart',
+             locals: { win_counts: @map_win_counts, season: season, map_names: @map_names,
+                       loss_counts: @map_loss_counts, draw_counts: @map_draw_counts } %>
+<% end %>
+<% if show_rank_tier_chart?(matches, season) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/rank_tier_chart',
+             locals: { season: season, rank_tiers: @rank_tiers, win_counts: @rank_tier_win_counts,
+                       loss_counts: @rank_tier_loss_counts, draw_counts: @rank_tier_draw_counts } %>
+<% end %>

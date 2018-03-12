@@ -21,13 +21,6 @@ module TrendsHelper
     end
   end
 
-  def show_any_chart_tabs?(matches)
-    return @show_any_chart_tabs if defined? @show_any_chart_tabs
-    @show_any_chart_tabs = show_group_charts_tab?(matches) ||
-      show_hero_charts_tab?(matches) ||
-      show_time_charts_tab?(matches)
-  end
-
   def show_group_charts_tab?(matches)
     show_group_member_chart?(matches)
   end

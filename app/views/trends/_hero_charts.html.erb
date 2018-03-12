@@ -1,0 +1,29 @@
+<% if show_career_high_heroes_chart?(matches, @career_high) %>
+  <%= render partial: 'trends/career_high_heroes_chart',
+             locals: { season: season, heroes: @career_high_heroes,
+                       win_counts: @career_high_heroes_win_counts,
+                       loss_counts: @career_high_heroes_loss_counts,
+                       draw_counts: @career_high_heroes_draw_counts,
+                       career_high: @career_high } %>
+<% elsif show_season_high_heroes_chart?(matches, @season_high) %>
+  <%= render partial: 'trends/season_high_heroes_chart',
+             locals: { season: season, heroes: @season_high_heroes,
+                       win_counts: @season_high_heroes_win_counts,
+                       loss_counts: @season_high_heroes_loss_counts,
+                       draw_counts: @season_high_heroes_draw_counts,
+                       season_high: @season_high } %>
+<% end %>
+<% if show_role_chart?(matches) %>
+  <hr class="mb-4 pt-4">
+  <div class="col-md-7 mx-auto">
+    <%= render partial: 'trends/role_chart',
+               locals: { season: season, win_counts: @role_win_counts, roles: @roles,
+                         loss_counts: @role_loss_counts } %>
+  </div>
+<% end %>
+<% if show_heroes_chart?(matches) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/heroes_chart',
+             locals: { season: season, heroes: @heroes, win_counts: @heroes_win_counts,
+                       loss_counts: @heroes_loss_counts, draw_counts: @heroes_draw_counts } %>
+<% end %>

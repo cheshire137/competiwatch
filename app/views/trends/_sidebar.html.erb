@@ -1,0 +1,59 @@
+<%
+  account = local_assigns[:account] || current_account
+  season = local_assigns[:season] || Season.current_or_latest_number
+%>
+
+<ul class="filter-list mr-4">
+  <li class="menu-heading">Scope</li>
+  <li>
+    <a href="<%= trends_path(season, account) %>" class="filter-item <%= 'selected' if is_trends_page?(season, account) %>" role="tab" aria-current="page">
+      Current account<br>and season
+    </a>
+  </li>
+  <li>
+    <a href="<%= all_seasons_trends_path(account) %>" class="filter-item <%= 'selected' if is_all_seasons_trends_page? %>">
+      Current account,<br>all seasons
+    </a>
+  </li>
+  <% if accounts.size > 1 %>
+    <li>
+      <a href="<%= all_accounts_trends_path(season) %>" class="filter-item <%= 'selected' if is_all_accounts_trends_page? %>">
+        All accounts,<br>current season
+      </a>
+    </li>
+    <li>
+      <a href="<%= all_seasons_accounts_path %>" class="filter-item <%= 'selected' if is_all_seasons_accounts_page? %>">
+        All accounts<br>and seasons
+      </a>
+    </li>
+  <% end %>
+</ul>
+<ul class="filter-list mt-4 mr-4">
+  <li class="menu-heading">Metrics</li>
+  <li>
+    <a href="#general-charts" class="filter-item selected js-tab" role="tab" aria-current="page">
+      General
+    </a>
+  </li>
+  <% if show_group_charts_tab?(matches) %>
+    <li>
+      <a href="#group-charts" class="filter-item js-tab" role="tab">
+        Groups
+      </a>
+    </li>
+  <% end %>
+  <% if show_hero_charts_tab?(matches) %>
+    <li>
+      <a href="#hero-charts" class="filter-item js-tab" role="tab">
+        Heroes
+      </a>
+    </li>
+  <% end %>
+  <% if show_time_charts_tab?(matches) %>
+    <li>
+      <a href="#time-charts" class="filter-item js-tab" role="tab">
+        Time
+      </a>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,30 @@
+<% if show_group_stats?(matches) || show_group_size_chart?(matches) %>
+  <div class="clearfix">
+    <% if show_group_member_chart?(matches) %>
+      <div class="col-md-6 float-md-left">
+        <div class="pr-4">
+          <%= render partial: 'trends/group_member_chart',
+                     locals: { season: season, group_members: @group_members,
+                               win_counts: @group_member_win_counts,
+                               loss_counts: @group_member_loss_counts,
+                               draw_counts: @group_member_draw_counts } %>
+        </div>
+      </div>
+    <% end %>
+    <% if show_group_stats?(matches) %>
+      <div class="col-md-6 float-md-left">
+        <%= render partial: 'trends/group_stats',
+             locals: { wins_by_group_members: @wins_by_group_members, season: season,
+                       match_counts_by_group_members: @match_counts_by_group_members,
+                       win_rates_by_group_members: @win_rates_by_group_members } %>
+      </div>
+    <% end %>
+  </div>
+<% end %>
+<% if show_group_size_chart?(matches) %>
+  <hr class="mb-4 pt-4">
+  <%= render partial: 'trends/group_size_chart',
+             locals: { season: season, win_counts: @group_size_win_counts,
+                       loss_counts: @group_size_loss_counts,
+                       draw_counts: @group_size_draw_counts, group_sizes: @group_sizes } %>
+<% end %>
