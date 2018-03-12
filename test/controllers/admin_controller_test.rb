@@ -1,7 +1,7 @@
 require 'test_helper'
 
 class AdminControllerTest < ActionDispatch::IntegrationTest
-  fixtures :seasons
+  fixtures :seasons, :heroes
 
   test '404s for non-admin' do
     user = create(:user)
@@ -22,6 +22,13 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
   test 'loads successfully for admin' do
     admin_account = create(:account, admin: true)
     userless_account = create(:account, user: nil)
+    match1 = create(:match, season: 1)
+    match1.heroes << heroes(:mercy)
+    match2 = create(:match, result: :win, season: 2)
+    create(:match_friend, match: match2)
+    match2.heroes << heroes(:ana)
+    create(:account_hero)
+    create(:account_hero)
 
     sign_in_as(admin_account)
     get '/admin'
