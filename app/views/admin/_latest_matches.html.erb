@@ -1,0 +1,37 @@
+<h2 class="h2 mb-2 d-flex-md flex-items-center-md flex-justify-between-md">
+  Latest matches
+  <span class="text-small text-gray text-normal">
+    *From other users
+  </span>
+</h2>
+<ul class="mb-4 list-style-none">
+  <% matches.each_with_index do |match, i| %>
+    <li<% if i > 0 %> class="mt-1"<% end %>>
+      <a href="<%= profile_path(match.account) %>" target="_blank" rel="noopener noreferrer">
+        <%= avatar_for(match.account) %>
+        <%= match.account %>
+      </a>
+      &middot;
+      <%= match_result(match) %>
+      <% if map = match.map %>
+        &middot;
+        <span class="background-<%= map.slug %> px-1 rounded-1"><%= map %></span>
+      <% end %>
+      <% if (hero_count = match.heroes.count) > 0 %>
+        &middot;
+        <%= pluralize(hero_count, 'hero') %>
+      <% end %>
+      <% if (friend_count = match.match_friends.count) > 0 %>
+        &middot;
+        <%= pluralize(friend_count, 'friend') %>
+      <% end %>
+      <div class="note">
+        <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime match.created_at %>">
+          <%= time_ago_in_words match.created_at %> ago
+        </span>
+        &middot;
+        Season <%= match.season %>
+      </div>
+    </li>
+  <% end %>
+</ul>

@@ -1,0 +1,24 @@
+<h2 class="h2 mb-2 d-flex-md flex-items-center-md flex-justify-between-md">
+  Latest shared seasons
+  <span class="text-small text-gray text-normal">
+    *From other users
+  </span>
+</h2>
+<ul class="list-style-none mb-4">
+  <% season_shares.each_with_index do |season_share, i| %>
+    <li<% if i > 0 %> class="mt-1"<% end %>>
+      <a href="<%= matches_path(season_share.season, season_share.account) %>" target="_blank" rel="noopener noreferrer">
+        <%= avatar_for(season_share.account) %>
+        <%= season_share.account %>
+        <span class="text-gray text-small">
+          &middot;
+          <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime season_share.created_at %>">
+            <%= time_ago_in_words season_share.created_at %> ago
+          </span>
+          &middot;
+          Season <%= season_share.season %>
+        </span>
+      </a>
+    </li>
+  <% end %>
+</ul>

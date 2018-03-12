@@ -51,12 +51,12 @@
   </div>
   <div class="col-md-6 float-left">
     <div class="ml-4-md">
-      <% if @latest_match %>
-        <%= render partial: 'admin/latest_match', locals: { match: @latest_match } %>
+      <% if @latest_matches.any? %>
+        <%= render partial: 'admin/latest_matches', locals: { matches: @latest_matches } %>
       <% end %>
-      <% if @latest_shared_season %>
-        <%= render partial: 'admin/latest_shared_season',
-                   locals: { season_share: @latest_shared_season } %>
+      <% if @latest_shared_seasons.any? %>
+        <%= render partial: 'admin/latest_shared_seasons',
+                   locals: { season_shares: @latest_shared_seasons } %>
       <% end %>
       <% if @top_account_heroes.any? %>
         <h2 class="h2 mb-2">Most played heroes</h2>
