@@ -50,7 +50,7 @@ Start the Rails server via `bundle exec rails s`. Now you should be able to go t
 
 Models in Competiwatch:
 
-![Entity relationship diagram](https://raw.githubusercontent.com/cheshire137/competiwatch/master/erd.jpg)
+![Entity relationship diagram](https://raw.githubusercontent.com/cheshire137/competiwatch/master/entity-relationship.jpg)
 
 ## How to Deploy to Heroku
 
