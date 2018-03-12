@@ -39,6 +39,7 @@ group :development, :test do
   gem 'factory_bot_rails', '~> 4.8.2'
   gem 'vcr', '~> 4.0.0'
   gem 'webmock', '~> 3.3.0'
+  gem 'rails-controller-testing', '~> 1.0.2'
 end
 
 group :development do
