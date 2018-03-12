@@ -41,7 +41,7 @@
 
 <div class="clearfix mb-4">
   <div class="col-md-6 float-left">
-    <div class="mr-4">
+    <div class="mr-4-md">
       <%= render partial: 'admin/users',
                  locals: { users: @users,
                            accounts_by_user_id: @accounts_by_user_id,
@@ -50,7 +50,7 @@
     </div>
   </div>
   <div class="col-md-6 float-left">
-    <div class="ml-4">
+    <div class="ml-4-md">
       <% if @latest_match %>
         <%= render partial: 'admin/latest_match', locals: { match: @latest_match } %>
       <% end %>
@@ -60,8 +60,10 @@
       <% end %>
       <% if @top_account_heroes.any? %>
         <h2 class="h2 mb-2">Most played heroes</h2>
-        <%= render partial: 'accounts/heroes_list',
-                   locals: { account_heroes: @top_account_heroes } %>
+        <div class="mb-4 pb-2 overflow-hidden">
+          <%= render partial: 'accounts/heroes_list',
+                     locals: { account_heroes: @top_account_heroes } %>
+        </div>
       <% end %>
     </div>
   </div>
@@ -71,14 +73,14 @@
 
 <div class="mt-4 clearfix">
   <div class="col-md-6 mb-4 float-left">
-    <div class="mr-4">
+    <div class="mr-4-md">
       <%= render partial: 'admin/seasons',
                  locals: { new_season: @new_season, seasons: @seasons } %>
     </div>
   </div>
   <% if @users.size > 1 %>
     <div class="col-md-6 mb-4 float-left">
-      <div class="border border-red ml-4 p-3 rounded-2">
+      <div class="border border-red ml-4-md p-3 rounded-2">
         <h2 class="h2 mb-2">Merge users</h2>
         <%= form_tag admin_merge_users_path do %>
           <div class="form-group mt-0">
@@ -115,7 +117,7 @@
       </ul>
     </div>
     <div class="col-md-6 mb-4 float-left">
-      <div class="border border-red ml-4 p-3 rounded-2">
+      <div class="border border-red ml-4-md p-3 rounded-2">
         <h2 class="h2 mb-2">Tie account to a user</h2>
         <%= form_tag admin_update_account_path do %>
           <div class="form-group mt-0">
