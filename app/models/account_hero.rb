@@ -10,6 +10,18 @@ class AccountHero < ApplicationRecord
 
   scope :ordered_by_playtime, ->{ order(seconds_played: :desc) }
 
+  def self.most_played(limit: 5)
+    seconds_played_by_hero_id = group(:hero_id).sum(:seconds_played).
+      sort_by { |_hero_id, seconds_played| -seconds_played }.to_h
+    hero_ids = seconds_played_by_hero_id.keys.take(limit)
+    heroes = Hero.where(id: hero_ids).map { |hero| [hero.id, hero] }.to_h
+    hero_ids.map do |hero_id|
+      hero = heroes[hero_id]
+      seconds_played = seconds_played_by_hero_id[hero_id]
+      AccountHero.new(seconds_played: seconds_played, hero: hero)
+    end
+  end
+
   def playtime
     return unless seconds_played && seconds_played > 0
 
