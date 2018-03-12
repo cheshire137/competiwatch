@@ -1,12 +1,12 @@
 <%
-  account = local_assigns[:account] || current_account
-  season = local_assigns[:season] || Season.current_or_latest_number
+  account = nil unless local_assigns.key?(:account)
+  season = nil unless local_assigns.key?(:season)
 %>
 
 <% if accounts.size > 1 %>
   <nav class="subnav d-inline-block mr-4" aria-label="Respository">
-    <%= account_switcher(local_assigns[:account], classes: "subnav-item #{'selected' if local_assigns[:account]}") %>
-    <% if is_all_seasons_accounts_page? || !local_assigns[:season] %>
+    <%= account_switcher(account, classes: "subnav-item #{'selected' if account}") %>
+    <% if is_all_seasons_accounts_page? || !season %>
       <a href="<%= all_seasons_accounts_path %>" class="subnav-item <%= 'selected' if is_all_seasons_accounts_page? %>">
         All accounts
       </a>
@@ -19,8 +19,8 @@
 <% end %>
 
 <nav class="subnav d-inline-block" aria-label="Respository">
-  <%= season_switcher(local_assigns[:season], classes: "subnav-item #{'selected' if local_assigns[:season]}") %>
-  <% if is_all_seasons_accounts_page? || !local_assigns[:account] %>
+  <%= season_switcher(season, classes: "subnav-item #{'selected' if season}") %>
+  <% if is_all_seasons_accounts_page? || !account %>
     <a href="<%= all_seasons_accounts_path %>" class="subnav-item <%= 'selected' if is_all_seasons_accounts_page? %>">
       All seasons
     </a>
