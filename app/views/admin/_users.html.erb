@@ -65,6 +65,6 @@
 <% if users.total_pages > 1 %>
   <div class="my-4">
     <%= page_entries_info users %>
-    <%= will_paginate users, page_links: false %>
+    <%= will_paginate users %>
   </div>
 <% end %>
