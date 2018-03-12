@@ -69,7 +69,11 @@ module AccountsHelper
   end
 
   def accounts
-    @accounts ||= current_user.accounts.order_by_battletag
+    @accounts ||= if signed_in?
+      current_user.accounts.order_by_battletag
+    else
+      []
+    end
   end
 
   def default_account_account_options
