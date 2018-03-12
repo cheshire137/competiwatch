@@ -24,6 +24,8 @@ class TrendsController < ApplicationController
     rank_tier_chart
     @matches = account_matches_in_season.includes(:prior_match, :heroes, :map, :friends).
       ordered_by_time
+    @total_matches = @matches.count
+    @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
   end
 
   def all_seasons_accounts

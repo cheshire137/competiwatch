@@ -45,14 +45,6 @@
                  locals: { matches: @matches } %>
     </div>
     <div id="hero-charts" class="js-tab-contents tab-contents d-none">
-      <div class="clearfix">
-        <div class="col-md-6 mx-auto">
-          <%= render partial: 'seasons/heroes_played',
-                     locals: { match_counts_by_hero: @match_counts_by_hero,
-                               max_hero_match_count: @max_hero_match_count,
-                               total_matches: @total_matches } %>
-        </div>
-      </div>
       <%= render partial: 'trends/hero_charts',
                  locals: { matches: @matches } %>
     </div>
