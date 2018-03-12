@@ -2,21 +2,11 @@
 
 <% content_for(:breadcrumb) do %>
   <div class="d-flex-md flex-items-center-md flex-justify-between-md">
-    <div class="mb-2-sm">
-      <% if @can_edit %>
+    <% if @can_edit %>
+      <div class="mb-2-sm">
         <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
-      <% else %>
-        <a href="<%= profile_path(@account) %>">
-          <%= @account %>
-        </a>
-        / Season <%= @season %>
-      <% end %>
-      <% if @matches.any? %>
-        <span class="hide-sm">
-          / <span class="js-filtered-match-count text-bold"><%= @matches.size %></span> shown
-        </span>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
     <% if @matches.any? %>
       <div>
         <%= render partial: 'matches/filter_menu',
