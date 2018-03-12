@@ -115,8 +115,9 @@ module MatchesHelper
     tooltip.join(" + ")
   end
 
-  def season_switcher(selected_season)
-    render partial: 'matches/season_switcher', locals: { selected_season: selected_season }
+  def season_switcher(selected_season, classes: '')
+    render partial: 'matches/season_switcher',
+           locals: { selected_season: selected_season, classes: classes }
   end
 
   def match_account_options

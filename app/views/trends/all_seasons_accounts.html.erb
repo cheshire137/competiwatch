@@ -1,11 +1,13 @@
 <% content_for(:title, "All Seasons and Accounts / Trends") %>
 
 <div class="clearfix">
-  <div class="col-md-2 float-left">
-    <%= render partial: 'trends/sidebar',
-               locals: { matches: @matches } %>
-  </div>
-  <div class="col-md-10 float-left">
+  <% if show_sidebar?(@matches) %>
+    <div class="col-md-2 float-left">
+      <%= render partial: 'trends/sidebar',
+                 locals: { matches: @matches } %>
+    </div>
+  <% end %>
+  <div<% if show_sidebar?(@matches) %> class="col-md-10 float-left"<% end %>>
     <div id="general-charts" class="js-tab-contents tab-contents">
       <div class="clearfix mb-4">
         <div class="col-md-6 pr-4-md float-md-left">

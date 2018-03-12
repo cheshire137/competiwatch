@@ -51,9 +51,9 @@ module AccountsHelper
     Account::VALID_REGIONS.map { |key, label| [label, key] }
   end
 
-  def account_switcher(selected_account)
+  def account_switcher(selected_account, classes: '')
     render partial: 'accounts/account_switcher',
-           locals: { selected_account: selected_account }
+           locals: { selected_account: selected_account, classes: classes }
   end
 
   def account_switcher_url(account)

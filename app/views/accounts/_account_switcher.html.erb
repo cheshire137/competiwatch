@@ -1,7 +1,7 @@
 <% if accounts.size == 1 %>
   <%= selected_account %>
 <% else %>
-  <div class="dropdown js-menu-container d-inline-block">
+  <div class="dropdown js-menu-container d-inline-block <%= classes %>">
     <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
       <%= avatar_for(selected_account) %>
       <%= selected_account.name %>
