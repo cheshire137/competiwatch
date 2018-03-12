@@ -9,4 +9,19 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_equal 'something something', response.body
   end
+
+  test 'about page loads for anonymous user' do
+    get '/about'
+
+    assert_response :ok
+  end
+
+  test 'about page loads for authenticated user' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/about'
+
+    assert_response :ok
+  end
 end
