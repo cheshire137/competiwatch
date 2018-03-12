@@ -1,33 +1,72 @@
 <% content_for(:title, 'About') %>
 
-<div class="clearfix">
-  <div class="col-md-5 mb-4 float-left">
-    <div class="mr-4-md">
-      <p>
-        I built Competiwatch because I got tired of managing Google Sheets each
-        competitive season. I wanted to add a new chart to my usual Google Sheet
-        template and it was a pain because that's the nature of spreadsheets.
-        Seriously, add a column, add a list of valid values here, set a
-        specified column range there, put a graph over there... who's got time for that??
-        So of course I built an app that took way more hours but was also way
-        more fun to build. :3
-      </p>
-      <p>
-        I also was tired of worrying every time I looked at a past season's
-        spreadsheet that I'd click in the wrong place and drag-n-drop data and
-        screw it all up.
-      </p>
+<div class="col-md-10 mx-auto mb-4">
+  <h2 class="h2 mb-2">About Competiwatch</h2>
+  <div class="clearfix">
+    <div class="col-md-6 float-left">
+      <div class="mr-4-md">
+        <p>
+          I built Competiwatch because I got tired of tracking my games in Google
+          Sheets each competitive season. I wanted to add a new chart to my usual spreadsheet
+          template and it was a pain because that's the nature of spreadsheets.
+        </p>
+        <p>
+          I was also tired of worrying every time I looked at a past season
+          that I'd click in the wrong place and drag-n-drop data and screw it up.
+        </p>
+        <p>
+          Seriously, add a column here, a list of values there, set a
+          specified column range, insert a graph... who's got time for that??
+          So of course I built an app that took way more hours but was also way
+          more fun to build. :3
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6 float-left">
+      <div class="ml-4-md">
+        <p>
+          This app was built using
+          <a href="http://rubyonrails.org/">Ruby on Rails</a>,
+          <a href="https://primer.github.io/">Primer</a>,
+          <a href="https://github.com/plataformatec/devise">Devise</a>,
+          <a href="http://www.chartjs.org/">Chart.js</a>,
+          <a href="https://github.com/jnunemaker/httparty">HTTParty</a>,
+          <a href="https://github.com/mperham/sidekiq">Sidekiq</a>, and
+          <a href="https://github.com/cheshire137/competiwatch/blob/master/Gemfile">many other</a>
+          <a href="https://github.com/cheshire137/competiwatch/blob/master/package.json">nice libraries</a>.
+          You can view its
+          <a href="https://github.com/cheshire137/competiwatch">source code on GitHub</a>
+          and contribute if you like; it's released under the MIT license.
+        </p>
+        <p>
+          If something isn't working or you have a suggestion, you can contact me
+          by <a href="https://github.com/cheshire137/competiwatch/issues">opening an issue</a>.
+        </p>
+      </div>
     </div>
   </div>
-  <div class="col-md-5 float-left">
-    <div class="ml-4-md">
-      This app was built using
-      <a href="http://rubyonrails.org/">Ruby on Rails</a>,
-      <a href="https://primer.github.io/">Primer</a>,
-      <a href="https://github.com/plataformatec/devise">Devise</a>,
-      <a href="http://www.chartjs.org/">Chart.js</a>,
-      <a href="https://github.com/jnunemaker/httparty">HTTParty</a>, and
-      <a href="https://github.com/mperham/sidekiq">Sidekiq</a>.
+</div>
+
+<hr>
+
+<div class="col-md-10 mt-4 pt-3 mx-auto">
+  <h2 class="h2 mb-2">Privacy</h2>
+  <div class="clearfix">
+    <div class="col-md-6 mb-4 float-left">
+      <div class="mr-4-md">
+        <p>
+          Any data you log in Competiwatch, I have access to. I generally don't care about
+          it, but I thought you should know that I can look at it if I want to. So uh,
+          don't put your passwords in the 'comment' field when logging a match.
+        </p>
+        <p>
+          Signing into the site via Battle.net just lets me know you for-real have a Battle.net
+          account. It also lets me use tools like the
+          <a href="https://ow-api.herokuapp.com/docs/">overwatch-api</a> to get your
+          game stats like which heroes you play, what your current profile icon is,
+          and what your competitive rank is.
+        </p>
+      </div>
     </div>
   </div>
 </div>
