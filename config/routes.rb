@@ -49,6 +49,7 @@ Rails.application.routes.draw do
   delete '/admin/season' => 'admin#destroy_season', as: :admin_destroy_season
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
+  get '/about' => 'pages#about', as: :about
 
   root to: 'login#index'
 end
