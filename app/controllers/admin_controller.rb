@@ -23,6 +23,7 @@ class AdminController < ApplicationController
     @userless_accounts = Account.without_user.order_by_battletag
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |account| [account.battletag, account.id] }
+    @top_account_heroes = AccountHero.ordered_by_playtime.includes(:hero).limit(5)
   end
 
   def destroy_season

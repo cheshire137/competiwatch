@@ -1,7 +1,9 @@
 <h2 class="h2 mb-2">Latest shared season</h2>
-<a href="<%= matches_path(season_share.season, season_share.account) %>" target="_blank" rel="noopener noreferrer">
-  <%= avatar_for(season_share.account) %>
-  <%= season_share.account %>
-  &middot;
-  Season <%= season_share.season %>
-</a>
+<div class="mb-4">
+  <a href="<%= matches_path(season_share.season, season_share.account) %>" target="_blank" rel="noopener noreferrer">
+    <%= avatar_for(season_share.account) %>
+    <%= season_share.account %>
+    &middot;
+    Season <%= season_share.season %>
+  </a>
+</div>
