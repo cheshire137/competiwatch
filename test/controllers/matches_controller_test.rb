@@ -38,6 +38,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select '.matches-table'
     assert_select '.blankslate', false
+    assert_equal true, assigns(:can_edit)
     assert_select "form[action='/season/#{@season}/#{account.to_param}']"
   end
 
@@ -82,6 +83,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/season/#{@season}/#{account.to_param}"
 
     assert_response :ok
+    assert_equal false, assigns(:can_edit)
     assert_select '.js-match-filter'
   end
 
@@ -93,6 +95,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/season/#{@season}/#{account.to_param}"
 
     assert_response :ok
+    assert_equal false, assigns(:can_edit)
     assert_select '.js-match-filter'
   end
 
