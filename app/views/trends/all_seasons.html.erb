@@ -1,5 +1,7 @@
 <% content_for(:title, "#{@account} / All Seasons / Trends") %>
 
+<%= render partial: 'trends/top_nav', locals: { account: @account } %>
+
 <div class="clearfix">
   <% if show_sidebar?(@matches) %>
     <div class="col-md-2 float-left">

@@ -57,11 +57,11 @@ module AccountsHelper
   end
 
   def account_switcher_url(account)
-    if params[:controller] == 'stats'
+    if params[:controller] == 'trends'
       if params[:season]
-        matches_path(params[:season], account)
+        trends_path(params[:season], account)
       else
-        all_seasons_stats_path(account)
+        all_seasons_trends_path(account)
       end
     else
       url_with(battletag: account.to_param)

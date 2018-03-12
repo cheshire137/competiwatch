@@ -1,13 +1,23 @@
 <div class="dropdown js-menu-container d-inline-block <%= classes %>">
   <button class="btn-link no-underline text-bold p-0 dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
-    Season <%= selected_season %>
+    <% if selected_season %>
+      Season <%= selected_season %>
+    <% else %>
+      Choose a season
+    <% end %>
     <div class="dropdown-caret"></div>
   </button>
 
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
       <% season_options.each do |label, season_number| %>
-        <% selected_season_number = selected_season.is_a?(Season) ? selected_season.number : selected_season %>
+        <%
+          selected_season_number = if selected_season.is_a?(Season)
+            selected_season.number
+          else
+            selected_season
+          end
+        %>
         <li>
           <a class="dropdown-item <%= 'selected' if season_number == selected_season_number %>" href="<%= season_switcher_season_path(season_number) %>">
             <%= label %>
