@@ -1,9 +1,5 @@
 <% content_for(:title, "All Accounts / Season #{@season} / Trends") %>
 
-<% content_for(:breadcrumb) do %>
-  <%= season_switcher(@season) %>
-<% end %>
-
 <div class="clearfix">
   <div class="col-md-2 float-left">
     <%= render partial: 'trends/sidebar',

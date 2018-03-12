@@ -9,7 +9,7 @@
       <% end %>
 
       <% if current_season_number && current_battletag_param %>
-        <a href="<%= trends_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if is_trends_page?(current_season_number, current_battletag_param) %>" role="tab">Trends</a>
+        <a href="<%= trends_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if highlight_trends_tab? %>" role="tab">Trends</a>
       <% end %>
 
       <% if current_battletag_param %>

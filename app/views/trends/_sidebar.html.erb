@@ -4,32 +4,6 @@
 %>
 
 <ul class="filter-list mr-4">
-  <li class="menu-heading">Scope</li>
-  <li>
-    <a href="<%= trends_path(season, account) %>" class="filter-item <%= 'selected' if is_trends_page?(season, account) %>" role="tab" aria-current="page">
-      Current account<br>and season
-    </a>
-  </li>
-  <li>
-    <a href="<%= all_seasons_trends_path(account) %>" class="filter-item <%= 'selected' if is_all_seasons_trends_page? %>">
-      Current account,<br>all seasons
-    </a>
-  </li>
-  <% if accounts.size > 1 %>
-    <li>
-      <a href="<%= all_accounts_trends_path(season) %>" class="filter-item <%= 'selected' if is_all_accounts_trends_page? %>">
-        All accounts,<br>current season
-      </a>
-    </li>
-    <li>
-      <a href="<%= all_seasons_accounts_path %>" class="filter-item <%= 'selected' if is_all_seasons_accounts_page? %>">
-        All accounts<br>and seasons
-      </a>
-    </li>
-  <% end %>
-</ul>
-<ul class="filter-list mt-4 mr-4">
-  <li class="menu-heading">Metrics</li>
   <li>
     <a href="#general-charts" class="filter-item selected js-tab" role="tab" aria-current="page">
       General
@@ -57,3 +31,33 @@
     </li>
   <% end %>
 </ul>
+<% if local_assigns[:account] %>
+  <hr class="mb-3">
+  <span class="text-gray text-small">Change account:</span>
+  <%= account_switcher(account) %>
+<% end %>
+<% if local_assigns[:season] %>
+  <hr class="mb-3">
+  <span class="text-gray text-small">Change season:</span>
+  <%= season_switcher(season) %>
+<% end %>
+<hr class="mb-4">
+<nav class="menu mr-4">
+  <span class="menu-heading">Scope</span>
+  <a href="<%= trends_path(season, account) %>" class="menu-item <%= 'selected' if is_trends_page?(season, account) %>" role="tab" aria-current="page">
+    Current account<br>Current season
+  </a>
+  <% if accounts.size > 1 %>
+    <a href="<%= all_accounts_trends_path(season) %>" class="menu-item <%= 'selected' if is_all_accounts_trends_page? %>">
+      All accounts<br>Current season
+    </a>
+  <% end %>
+  <a href="<%= all_seasons_trends_path(account) %>" class="menu-item <%= 'selected' if is_all_seasons_trends_page?(account) %>">
+    Current account<br>All seasons
+  </a>
+  <% if accounts.size > 1 %>
+    <a href="<%= all_seasons_accounts_path %>" class="menu-item <%= 'selected' if is_all_seasons_accounts_page? %>">
+      All accounts<br>All seasons
+    </a>
+  <% end %>
+</nav>

@@ -39,6 +39,10 @@ module ApplicationHelper
 
   def is_profile_page?(account = nil)
     return false unless is_page?('accounts', 'show')
+    page_for_account?(account)
+  end
+
+  def page_for_account?(account = nil)
     if account
       params[:battletag] == account.to_param
     else
@@ -46,8 +50,9 @@ module ApplicationHelper
     end
   end
 
-  def is_all_seasons_trends_page?
-    is_page?('trends', 'all_seasons')
+  def is_all_seasons_trends_page?(account = nil)
+    return false unless is_page?('trends', 'all_seasons')
+    page_for_account?(account)
   end
 
   def is_all_accounts_trends_page?
@@ -56,6 +61,11 @@ module ApplicationHelper
 
   def is_all_seasons_accounts_page?
     is_page?('trends', 'all_seasons_accounts')
+  end
+
+  def highlight_trends_tab?
+    is_all_accounts_trends_page? || is_all_seasons_accounts_page? ||
+      is_all_seasons_trends_page? || is_page?('trends', 'index')
   end
 
   def is_trends_page?(season, battletag)

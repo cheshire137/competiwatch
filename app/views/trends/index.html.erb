@@ -1,18 +1,5 @@
 <% content_for(:title, "#{@account} / Season #{@season} / Trends") %>
 
-<% if @is_owner %>
-  <% content_for(:breadcrumb) do %>
-    <div class="d-flex-md flex-items-center-md flex-justify-between-md">
-      <div class="mb-2-sm">
-        <%= account_switcher(@account) %> /
-        <%= season_switcher(@season) %>
-      </div>
-      <%= render partial: 'matches/season_share_menu',
-                 locals: { account: @account, season: @season } %>
-    </div>
-  <% end %>
-<% end %>
-
 <div class="clearfix">
   <div class="col-md-2 float-left">
     <%= render partial: 'trends/sidebar',
