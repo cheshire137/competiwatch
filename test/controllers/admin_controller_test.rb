@@ -27,8 +27,8 @@ class AdminControllerTest < ActionDispatch::IntegrationTest
     match2 = create(:match, result: :win, season: 2)
     create(:match_friend, match: match2)
     match2.heroes << heroes(:ana)
-    create(:account_hero)
-    create(:account_hero)
+    create(:account_hero, hero: heroes(:zenyatta))
+    create(:account_hero, hero: heroes(:mccree))
 
     sign_in_as(admin_account)
     get '/admin'

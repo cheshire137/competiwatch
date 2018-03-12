@@ -1,4 +1,9 @@
-<h2 class="h2 mb-2">Latest match</h2>
+<h2 class="h2 mb-2 d-flex flex-items-center flex-justify-between">
+  Latest match
+  <span class="text-small text-gray text-normal">
+    *From someone besides you
+  </span>
+</h2>
 <a href="<%= profile_path(match.account) %>" target="_blank" rel="noopener noreferrer">
   <%= avatar_for(match.account) %>
   <%= match.account %>
