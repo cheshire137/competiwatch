@@ -23,7 +23,9 @@
   <%= pluralize(friend_count, 'friend') %>
 <% end %>
 <div class="note mb-4">
-  <%= pretty_datetime match.created_at %>
+  <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime match.created_at %>">
+    <%= time_ago_in_words match.created_at %> ago
+  </span>
   &middot;
   Season <%= match.season %>
 </div>
