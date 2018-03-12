@@ -1,3 +1,5 @@
+<% season = nil unless local_assigns.key?(:season) %>
+
 <% if show_group_stats?(matches) || show_group_size_chart?(matches) %>
   <div class="clearfix">
     <% if show_group_member_chart?(matches) %>

@@ -1,3 +1,5 @@
+<% season = nil unless local_assigns.key?(:season) %>
+
 <% if show_career_high_heroes_chart?(matches, @career_high) %>
   <%= render partial: 'trends/career_high_heroes_chart',
              locals: { season: season, heroes: @career_high_heroes,

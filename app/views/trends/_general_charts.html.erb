@@ -1,3 +1,5 @@
+<% season = nil unless local_assigns.key?(:season) %>
+
 <% if show_win_loss_chart?(matches) || show_thrower_leaver_chart?(matches) %>
   <div class="clearfix mb-4">
     <% if show_win_loss_chart?(matches) %>
