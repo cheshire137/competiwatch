@@ -93,3 +93,11 @@ body.theme-dark {
     }
   }
 }
+
+@supports(position:sticky) {
+  @media (min-width: 768px) {
+    body.theme-dark .sticky-nav {
+      background-color: $bg-gray-dark;
+    }
+  }
+}
