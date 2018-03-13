@@ -10,8 +10,6 @@
  * files in this directory. Styles in this file should be added after the last require_* statement.
  * It is generally better to create a new file per style scope.
  *
- *= require_tree .
- *= require_self
  *= require jquery-ui.css
  *= require jquery-ui.structure.css
  *= require jquery-ui.theme.css
@@ -44,6 +42,16 @@
 @import "carousel.scss";
 @import "dropdowns.scss";
 @import "page-theme.scss";
+@import "seasons.scss";
+@import "trends.scss";
+@import "admin.scss";
+@import "export.scss";
+@import "import.scss";
+@import "login.scss";
+@import "matches.scss";
+@import "oauth_accounts.scss";
+@import "season_shares.scss";
+@import "users.scss";
 
 .ui-state-active,
 .ui-widget-content .ui-state-active,
