@@ -3,30 +3,32 @@
   season = nil unless local_assigns.key?(:season)
 %>
 
-<% if accounts.size > 1 %>
-  <nav class="subnav d-inline-block mr-4" aria-label="Respository">
-    <%= account_switcher(account, classes: "subnav-item #{'selected' if account}") %>
-    <% if is_all_seasons_accounts_page? || !season %>
+<div class="d-flex mb-2 flex-justify-center">
+  <% if accounts.size > 1 %>
+    <nav class="subnav d-inline-block mr-4" aria-label="Respository">
+      <%= account_switcher(account, classes: "subnav-item #{'selected' if account}") %>
+      <% if is_all_seasons_accounts_page? || !season %>
+        <a href="<%= all_seasons_accounts_path %>" class="subnav-item <%= 'selected' if is_all_seasons_accounts_page? %>">
+          All accounts
+        </a>
+      <% else %>
+        <a href="<%= all_accounts_trends_path(season) %>" class="subnav-item <%= 'selected' if is_all_accounts_trends_page? %>">
+          All accounts
+        </a>
+      <% end %>
+    </nav>
+  <% end %>
+
+  <nav class="subnav d-inline-block" aria-label="Respository">
+    <%= season_switcher(season, classes: "subnav-item #{'selected' if season}") %>
+    <% if is_all_seasons_accounts_page? || !account %>
       <a href="<%= all_seasons_accounts_path %>" class="subnav-item <%= 'selected' if is_all_seasons_accounts_page? %>">
-        All accounts
+        All seasons
       </a>
     <% else %>
-      <a href="<%= all_accounts_trends_path(season) %>" class="subnav-item <%= 'selected' if is_all_accounts_trends_page? %>">
-        All accounts
+      <a href="<%= all_seasons_trends_path(account) %>" class="subnav-item <%= 'selected' if is_all_seasons_trends_page?(account) %>">
+        All seasons
       </a>
     <% end %>
   </nav>
-<% end %>
-
-<nav class="subnav d-inline-block" aria-label="Respository">
-  <%= season_switcher(season, classes: "subnav-item #{'selected' if season}") %>
-  <% if is_all_seasons_accounts_page? || !account %>
-    <a href="<%= all_seasons_accounts_path %>" class="subnav-item <%= 'selected' if is_all_seasons_accounts_page? %>">
-      All seasons
-    </a>
-  <% else %>
-    <a href="<%= all_seasons_trends_path(account) %>" class="subnav-item <%= 'selected' if is_all_seasons_trends_page?(account) %>">
-      All seasons
-    </a>
-  <% end %>
-</nav>
+</div>
