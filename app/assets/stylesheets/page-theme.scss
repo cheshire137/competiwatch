@@ -1,0 +1,95 @@
+@import "colors.scss";
+
+.main-nav {
+  background-color: $bg-blue;
+}
+
+.main-nav-link {
+  color: #fff;
+}
+
+.UnderlineNav-item.selected {
+  border-bottom-color: $green;
+}
+
+body.theme-dark {
+  background-color: $bg-gray-dark;
+  color: $bg-gray;
+
+  a,
+  .btn-link {
+    color: $orange;
+  }
+
+  .border-top,
+  .border-bottom,
+  .border,
+  .border-left,
+  .border-right,
+  .UnderlineNav,
+  .subnav-item {
+    border-color: lighten($bg-gray-dark, 15%) !important;
+  }
+
+  .subnav-item:hover,
+  .subnav-item:focus {
+    background-color: lighten($bg-gray-dark, 10%);
+  }
+
+  .subnav-item.selected {
+    background-color: darken($bg-blue, 15%);
+    border-color: darken($bg-blue, 15%);
+  }
+
+  .text-gray {
+    color: $text-gray-light !important;
+  }
+
+  .note {
+    color: darken($text-gray-light, 5%);
+  }
+
+  .main-nav {
+    background-color: darken($bg-blue, 15%);
+  }
+
+  .main-nav-link {
+    color: $text-gray-light;
+  }
+
+  .blankslate,
+  .Box,
+  .dropdown-menu {
+    background-color: lighten($bg-gray-dark, 10%);
+    border-color: lighten($bg-gray-dark, 5%);
+  }
+
+  .UnderlineNav-item.selected {
+    color: $text-gray-light;
+    border-bottom-color: darken($green, 20%);
+  }
+
+  .UnderlineNav-item:hover,
+  .UnderlineNav-item:focus {
+    color: #fff;
+  }
+
+  .btn-outline {
+    background-color: $bg-gray-dark;
+  }
+
+  .btn {
+    border-color: darken($bg-gray, 10%);
+  }
+
+  .btn-primary {
+    background-image: none;
+    background-color: darken($green, 20%);
+
+    &:hover,
+    &:focus {
+      background-color: darken($green, 25%);
+      background-image: none;
+    }
+  }
+}

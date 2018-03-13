@@ -43,10 +43,7 @@
 @import "forms.scss";
 @import "carousel.scss";
 @import "dropdowns.scss";
-
-.UnderlineNav-item.selected {
-  border-bottom-color: $pink;
-}
+@import "page-theme.scss";
 
 .ui-state-active,
 .ui-widget-content .ui-state-active,

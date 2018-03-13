@@ -10,7 +10,7 @@
     <%= stylesheet_link_tag 'application', media: 'all' %>
   </head>
   <body class="layout-container">
-    <header class="bg-blue box-shadow js-top-nav text-gray-light main-nav">
+    <header class="box-shadow js-top-nav text-gray-light main-nav">
       <div class="container">
         <div class="d-flex-md py-2 flex-justify-between-md flex-items-center-md">
           <h1 class="h1 lh-condensed clearfix">
@@ -19,15 +19,15 @@
                 <%= render partial: 'layouts/main_menu' %>
               </div>
             <% end %>
-            <a class="text-white no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
+            <a class="main-nav-link no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
             <% if content_for(:title) && !is_page?('login', 'index') %>
-              <span class="h3 lh-condensed text-normal d-inline-block text-white">
+              <span class="h3 lh-condensed text-normal d-inline-block main-nav-link">
                 <%= yield :title %>
               </span>
             <% end %>
           </h1>
           <% if !signed_in? && !is_page?('login', 'index') %>
-            <a class="text-white" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
+            <a class="main-nav-link" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
           <% end %>
         </div>
       </div>
