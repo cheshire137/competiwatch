@@ -38,13 +38,6 @@ class UserTest < ActiveSupport::TestCase
     assert_includes User.active, user
   end
 
-  test 'active scope includes user with a recent account' do
-    user = create(:user)
-    create(:account, user: user)
-
-    assert_includes User.active, user
-  end
-
   test 'active scope includes user with a recent match' do
     user = create(:user)
     account = create(:account, user: user, updated_at: 1.year.ago)

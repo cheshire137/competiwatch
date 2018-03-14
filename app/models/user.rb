@@ -16,12 +16,11 @@ class User < ApplicationRecord
   scope :order_by_battletag, ->{ order("LOWER(battletag)") }
   scope :active, -> do
     cutoff_time = Time.zone.now - 1.month
-    account_user_ids = Account.where('updated_at >= ?', cutoff_time).pluck(:user_id)
     share_user_ids = SeasonShare.joins(:account).
       where('season_shares.created_at >= ?', cutoff_time).pluck('accounts.user_id')
     match_user_ids = Match.joins(:account).where('matches.updated_at >= ?', cutoff_time).
       pluck('accounts.user_id')
-    where(id: account_user_ids | share_user_ids | match_user_ids)
+    where(id: share_user_ids | match_user_ids)
   end
 
   def name
