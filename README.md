@@ -67,7 +67,7 @@ heroku config:set BNET_APP_SECRET=your_app_secret_here
 heroku config:set BNET_APP_HOST=your-heroku-app.herokuapp.com
 git push heroku master
 heroku run rake db:migrate
-heroku ps:scale web=1 worker=1
+heroku ps:scale web=1
 heroku open
 ```
 
