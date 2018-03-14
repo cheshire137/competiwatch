@@ -20,11 +20,7 @@ before_script:
   - nvm use 6
   - cp config/database.yml.travis config/database.yml
   - psql -c 'CREATE DATABASE travis_ci_test' -U postgres
-  - bundle exec sidekiq -d -L /tmp/sidekiq.log
-  - sleep 1
 script:
   - RAILS_ENV=test bundle exec rake db:migrate --trace
   - RAILS_ENV=test bundle exec rake
   - RAILS_ENV=test bundle exec rake db:seed
-services:
-  - redis-server
