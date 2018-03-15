@@ -71,6 +71,15 @@ heroku ps:scale web=1
 heroku open
 ```
 
+When deploying a migration to Heroku:
+
+```bash
+heroku maintenance:on
+git push heroku master
+heroku run rake db:migrate
+heroku maintenance:off
+```
+
 ### SSL
 
 The app is set up for an SSL certificate from Let's Encrypt. When using certbot to generate
