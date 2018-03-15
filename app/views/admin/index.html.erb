@@ -55,6 +55,11 @@
 <div class="clearfix mb-4">
   <div class="col-md-6 float-left">
     <div class="mr-4-md">
+      <% if @top_accounts.any? %>
+        <%= render partial: 'admin/top_accounts',
+                   locals: { top_accounts: @top_accounts } %>
+      <% end %>
+
       <%= render partial: 'admin/users',
                  locals: { users: @users,
                            accounts_by_user_id: @accounts_by_user_id,
