@@ -3,8 +3,7 @@ class AdminController < ApplicationController
 
   def index
     all_users = User.order_by_battletag
-    @latest_user = User.order(id: :desc).first
-    @latest_account = Account.order(id: :desc).first
+    @latest_account = Account.order(id: :desc).where('user_id <> ?', current_user).first
     @friend_count = Friend.count
     @match_count = Match.count
     @latest_matches = Match.joins(:account).where('accounts.user_id <> ?', current_user.id).

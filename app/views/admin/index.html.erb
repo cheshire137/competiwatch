@@ -37,32 +37,19 @@
       </li>
     </ul>
   </div>
-  <div class="col-md-3 float-left">
-    <ul class="list-style-none">
-      <% if @latest_user %>
+  <% if @latest_account %>
+    <div class="col-md-3 float-left">
+      <ul class="list-style-none">
+        <li class="text-bold">Latest account</li>
         <li>
-          <strong>Latest user</strong>
-          <% if default_account = @latest_user.default_account %>
-            <a href="<%= profile_path(default_account) %>" target="_blank" rel="noopener noreferrer">
-              <%= avatar_for(default_account) %>
-              <%= default_account %>
-            </a>
-          <% else %>
-            <%= @latest_user %>
-          <% end %>
-        </li>
-      <% end %>
-      <% if @latest_account %>
-        <li>
-          <strong>Latest account</strong>
           <a href="<%= profile_path(@latest_account) %>" target="_blank" rel="noopener noreferrer">
             <%= avatar_for(@latest_account) %>
             <%= @latest_account %>
           </a>
         </li>
-      <% end %>
-    </ul>
-  </div>
+      </ul>
+    </div>
+  <% end %>
 </div>
 
 <div class="clearfix mb-4">
