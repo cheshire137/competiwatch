@@ -5,6 +5,18 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'top_accounts returns a hash of accounts with the most matches' do
+    account1 = create(:account)
+    account2 = create(:account)
+    account3 = create(:account)
+    2.times { create(:match, account: account1) }
+    create(:match, account: account2)
+    3.times { create(:match, account: account3) }
+
+    expected = { account3 => 3, account1 => 2 }
+    assert_equal expected, Match.top_accounts(limit: 2)
+  end
+
   test 'limits number of matches per season per account' do
     Match.stub_const(:MAX_PER_SEASON, 2) do
       account1 = create(:account)

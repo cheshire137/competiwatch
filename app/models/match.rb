@@ -59,6 +59,14 @@ class Match < ApplicationRecord
           "AND season_shares.account_id = matches.account_id")
   }
 
+  # Public: Returns a hash of Account => Integer for the accounts with the most matches.
+  def self.top_accounts(limit: 5)
+    counts_by_id = group(:account_id).order('COUNT(*) DESC').limit(limit).count
+    accounts_by_id = Account.where(id: counts_by_id.keys).
+      map { |account| [account.id, account] }.to_h
+    counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
+  end
+
   def self.rank_tier(rank)
     if rank < 1500
       :bronze
