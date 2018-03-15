@@ -153,7 +153,7 @@ class MatchesController < ApplicationController
     return unless latest_match
 
     time_diff = Time.zone.now - latest_match.created_at
-    return if time_diff >= 5.minutes
+    return if time_diff >= 2.minutes
 
     flash[:error] = 'You are logging matches too frequently.'
     redirect_to matches_path(@season_number, @account)
