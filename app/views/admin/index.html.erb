@@ -42,7 +42,14 @@
       <% if @latest_user %>
         <li>
           <strong>Latest user</strong>
-          <%= @latest_user %>
+          <% if default_account = @latest_user.default_account %>
+            <a href="<%= profile_path(default_account) %>" target="_blank" rel="noopener noreferrer">
+              <%= avatar_for(default_account) %>
+              <%= default_account %>
+            </a>
+          <% else %>
+            <%= @latest_user %>
+          <% end %>
         </li>
       <% end %>
       <% if @latest_account %>
