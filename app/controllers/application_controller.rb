@@ -44,10 +44,7 @@ class ApplicationController < ActionController::Base
     battletag = User.battletag_from_param(params[:battletag])
     @account = Account.find_by_battletag(battletag)
     if @account
-      if @account.out_of_date?
-        SetProfileDataJob.perform_later(@account.id)
-        SetAccountHeroesJob.perform_later(@account.id)
-      end
+      SetProfileDataJob.perform_later(@account.id) if @account.out_of_date?
     else
       render file: Rails.root.join('public', '404.html'), status: :not_found
     end
