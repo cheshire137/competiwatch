@@ -139,6 +139,21 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to profile_path(account2)
   end
 
+  test 'will not log a new match when last match by user was too recent' do
+    user = create(:user)
+    account1 = create(:account, user: user)
+    account2 = create(:account, user: user)
+    recent_match = create(:match, account: account1, created_at: 1.minute.ago)
+
+    assert_no_difference 'Match.count' do
+      sign_in_as(account2)
+      post "/season/#{@season}/#{account2.to_param}", params: { match: { rank: 2500 } }
+    end
+
+    assert_equal 'You are logging matches too frequently.', flash[:error]
+    assert_redirected_to matches_path(@season, account2)
+  end
+
   test 'logs a match' do
     account = create(:account)
 
