@@ -1,7 +1,7 @@
 <% content_for(:title, 'Admin') %>
 
 <div class="blankslate clearfix mb-4 p-3">
-  <div class="col-md-4 float-left">
+  <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
         <strong><%= number_with_delimiter @active_user_count %></strong>
@@ -13,7 +13,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-md-4 float-left">
+  <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
         <strong><%= number_with_delimiter @account_count %></strong>
@@ -25,7 +25,7 @@
       </li>
     </ul>
   </div>
-  <div class="col-md-4 float-left">
+  <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
         <strong><%= number_with_delimiter @friend_count %></strong>
@@ -35,6 +35,25 @@
         <strong><%= number_with_delimiter @season_share_count %></strong>
         <%= 'shared season'.pluralize(@season_share_count) %>
       </li>
+    </ul>
+  </div>
+  <div class="col-md-3 float-left">
+    <ul class="list-style-none">
+      <% if @latest_user %>
+        <li>
+          <strong>Latest user</strong>
+          <%= @latest_user %>
+        </li>
+      <% end %>
+      <% if @latest_account %>
+        <li>
+          <strong>Latest account</strong>
+          <a href="<%= profile_path(@latest_account) %>" target="_blank" rel="noopener noreferrer">
+            <%= avatar_for(@latest_account) %>
+            <%= @latest_account %>
+          </a>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
