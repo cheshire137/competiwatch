@@ -40,6 +40,7 @@ group :development, :test do
   gem 'vcr', '~> 4.0.0'
   gem 'webmock', '~> 3.3.0'
   gem 'rails-controller-testing', '~> 1.0.2'
+  gem 'minitest-stub-const', '~> 0.6'
 end
 
 group :development do

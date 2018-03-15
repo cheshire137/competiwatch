@@ -4,6 +4,7 @@ class Match < ApplicationRecord
   DAY_OF_WEEK_MAPPINGS = { weekday: 0, weekend: 1 }.freeze
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
+  MAX_PER_SEASON = 500
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
@@ -28,6 +29,7 @@ class Match < ApplicationRecord
   validates :day_of_week, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }, allow_nil: true
   validate :season_same_as_prior_match
   validate :rank_or_placement
+  validate :account_has_not_met_season_limit
 
   has_one :user, through: :account
   has_and_belongs_to_many :heroes
@@ -336,6 +338,18 @@ class Match < ApplicationRecord
 
     unless prior_match.season == season
       errors.add(:season, 'must be the same as season from prior match')
+    end
+  end
+
+  def account_has_not_met_season_limit
+    return unless account && season
+
+    other_matches = account.matches.in_season(season)
+    other_matches = other_matches.where('id <> ?', id) if persisted?
+
+    if other_matches.count >= MAX_PER_SEASON
+      errors.add(:base, "#{account} has reached the maximum allowed number of matches in " \
+                        "season #{season}.")
     end
   end
 end

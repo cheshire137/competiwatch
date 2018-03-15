@@ -9,7 +9,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         account.user = current_user
 
         unless account.save
-          message = "Could not link account #{battletag}."
+          errors = account.errors.full_messages.join(', ')
+          message = "Could not link account #{battletag}: #{errors}"
           return redirect_to(accounts_path, alert: message)
         end
       end
@@ -30,7 +31,12 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
           { notice: "Successfully linked #{battletags.join(', ')}." }
         else
-          { alert: "Could not link account #{battletag}." }
+          if account.changed?
+            errors = account.errors.full_messages.join(', ')
+            { alert: "Could not link account #{battletag}: #{errors}" }
+          else
+            { alert: "Could not link account #{battletag}." }
+          end
         end
         return redirect_to(accounts_path, message_opts)
       end

@@ -5,6 +5,25 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'limits number of matches per season per account' do
+    Match.stub_const(:MAX_PER_SEASON, 2) do
+      account1 = create(:account)
+      season = 1
+      match1 = create(:match, account: account1, season: season)
+      match2 = create(:match, account: account1, season: season)
+      match3 = build(:match, account: account1, season: season)
+
+      refute_predicate match3, :valid?
+      assert_includes match3.errors.messages[:base],
+        "#{account1} has reached the maximum allowed number of matches in season #{season}."
+
+      account2 = create(:account)
+      match4 = build(:match, account: account2, season: season)
+
+      assert_predicate match4, :valid?
+    end
+  end
+
   test 'publicly_shared scope includes only matches from shared seasons' do
     account = create(:account)
     create(:season_share, account: account, season: 2)
