@@ -11,6 +11,7 @@ class MatchesController < ApplicationController
   before_action :set_season, only: [:index, :create]
   before_action :set_match, only: [:edit, :update, :destroy]
   before_action :ensure_season_is_visible, only: :index
+  before_action :ensure_latest_match_is_old_enough, only: :create
 
   def index
     @can_edit = signed_in? && @account.user == current_user
@@ -145,5 +146,16 @@ class MatchesController < ApplicationController
       last_placement = account.last_placement_match_in(season)
       last_placement.rank if last_placement
     end
+  end
+
+  def ensure_latest_match_is_old_enough
+    latest_match = @account.user.matches.order(created_at: :desc).first
+    return unless latest_match
+
+    time_diff = Time.zone.now - latest_match.created_at
+    return if time_diff >= 5.minutes
+
+    flash[:error] = 'You are logging matches too frequently.'
+    redirect_to matches_path(@season_number, @account)
   end
 end
