@@ -11,6 +11,14 @@
         <strong><%= number_with_delimiter @users.total_entries %></strong>
         <%= 'total user'.pluralize(@users.total_entries) %>
       </li>
+      <% if @top_rank %>
+        <li class="d-flex flex-items-start flex-justify-center mt-1">
+          <strong class="d-inline-block mr-1">Top rank:</strong>
+          <%= rank_image(@top_rank, classes: 'flex-shrink-0',
+                         outer_classes: 'flex-shrink-0 mr-1') %>
+          <%= @top_rank %>
+        </li>
+      <% end %>
     </ul>
   </div>
   <div class="col-md-3 float-left">
