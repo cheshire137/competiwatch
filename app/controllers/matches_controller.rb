@@ -38,7 +38,7 @@ class MatchesController < ApplicationController
   def create
     @match = @account.matches.new(create_match_params)
     @match.season = @season_number
-    @selected_heroes = params[:heroes].map(&:to_i)
+    @selected_heroes = (params[:heroes] || []).map(&:to_i)
     @selected_friend_names = params[:friend_names] || []
 
     if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
@@ -83,7 +83,7 @@ class MatchesController < ApplicationController
     @match.assign_attributes(update_match_params)
     @account = @match.account
     @selected_friend_names = params[:friend_names] || []
-    @selected_heroes = params[:heroes].map(&:to_i)
+    @selected_heroes = (params[:heroes] || []).map(&:to_i)
 
     unless @account && @account.user == current_user
       flash[:error] = 'Invalid account.'
