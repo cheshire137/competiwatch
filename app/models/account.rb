@@ -32,6 +32,7 @@ class Account < ApplicationRecord
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }
+  scope :with_rank, ->{ where('rank IS NOT NULL') }
 
   after_update :remove_default, if: :saved_change_to_user_id?
 
@@ -41,6 +42,10 @@ class Account < ApplicationRecord
   has_many :season_shares, dependent: :destroy
   has_many :account_heroes, dependent: :destroy
   has_many :heroes, through: :account_heroes
+
+  def self.top_rank
+    with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
+  end
 
   # Public: Check if this account hasn't been updated in a while.
   def out_of_date?
