@@ -3,13 +3,20 @@
   <% i = 0 %>
   <% top_accounts.each do |account, match_count| %>
     <li<% if i > 0 %> class="border-top mt-2 pt-2"<% end %>>
-      <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-        <%= avatar_for(account) %>
-        <span class="text-bold"><%= account %></span>
-      </a>
-      <span class="d-inline-block mx-2">&middot;</span>
-      <%= number_with_delimiter match_count %>
-      <%= 'match'.pluralize(match_count) %>
+      <div class="d-flex flex-items-start">
+        <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
+          <%= avatar_for(account) %>
+          <span class="text-bold"><%= account %></span>
+        </a>
+        <span class="d-inline-block mx-2">&middot;</span>
+        <%= number_with_delimiter match_count %>
+        <%= 'match'.pluralize(match_count) %>
+        <% if account.rank %>
+          <span class="d-inline-block mx-2">&middot;</span>
+          <%= rank_image(account.rank, classes: 'flex-shrink-0',
+                         outer_classes: 'flex-shrink-0') %>
+        <% end %>
+      </div>
     </li>
     <% i += 1 %>
   <% end %>
