@@ -5,7 +5,7 @@
   Edit <%= 'Placement' if @match.placement? %> Match
 <% end %>
 
-<% if @match.prior_match && !@match.prior_match.placement? %>
+<% if @match.persisted? && @match.prior_match && !@match.prior_match.placement? %>
   <p>
     <span class="text-bold text-<%= @match.win? ? "green" : @match.loss? ? "red" : "orange" %>">
       <%= @match.result.to_s.humanize %>
