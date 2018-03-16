@@ -5,6 +5,9 @@
     <div class="mb-2-sm">
       <% if @can_edit %>
         <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
+      <% else %>
+        <%= avatar_for(@account) %>
+        <%= @account %> / Season <%= @season %>
       <% end %>
     </div>
     <% if @matches.any? %>
