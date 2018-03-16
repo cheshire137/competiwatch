@@ -1,5 +1,20 @@
 import {on} from 'delegated-events'
 
+function toggleMatchFiltersShare() {
+  const filterShareArea = document.querySelector('.js-hide-on-log-form')
+  if (!filterShareArea) {
+    return
+  }
+
+  const activeTab = document.querySelector('.js-tab.selected')
+  if (!activeTab) {
+    return
+  }
+
+  const hideFilters = activeTab.classList.contains('js-log-match-tab')
+  filterShareArea.classList.toggle('d-none', hideFilters)
+}
+
 function activateTab(link, tabContent) {
   const otherLinks = document.querySelectorAll('.js-tab')
   const otherTabContents = document.querySelectorAll('.js-tab-contents')
@@ -14,6 +29,7 @@ function activateTab(link, tabContent) {
 
   tabContent.classList.remove('d-none')
   link.classList.add('selected')
+  toggleMatchFiltersShare()
 
   setTimeout(function() {
     if (typeof document.scrollIntoView === 'function') {

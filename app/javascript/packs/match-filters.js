@@ -1,16 +1,5 @@
 import {on} from 'delegated-events'
 
-on('click', '.js-tab', function(event) {
-  const filterShareArea = document.querySelector('.js-hide-on-log-form')
-  if (!filterShareArea) {
-    return
-  }
-
-  const clickedTab = event.currentTarget
-  const hideFilters = clickedTab.classList.contains('js-log-match-tab')
-  filterShareArea.classList.toggle('d-none', hideFilters)
-})
-
 on('click', '.js-match-filter', function(event) {
   const button = event.currentTarget
   const classToShow = button.getAttribute('data-filter')
