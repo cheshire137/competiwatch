@@ -31,34 +31,36 @@
             end
             seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
           %>
-          <li class="mt-1 d-flex flex-items-start">
-            <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-              <%= avatar_for(account) %>
-              <span class="text-bold"><%= account %></span>
-            </a>
-            <% if details_class %>
-              <span class="d-inline-block mx-2">&middot;</span>
-              <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
-                <%= number_with_delimiter match_count %>
-                <%= 'match'.pluralize(match_count) %>
-              </button>
-            <% end %>
-            <% if account.rank %>
-              <span class="d-inline-block mx-2">&middot;</span>
-              <%= rank_image(account.rank, classes: 'flex-shrink-0',
-                             outer_classes: 'flex-shrink-0') %>
-            <% end %>
-
-            <div class="<%= details_class %> d-none mb-2">
-              <% seasons_with_matches.each do |season| %>
-                <% season_match_count = get_season_match_count(season, account_matches) %>
-                <div>
-                  Season <%= season %>
-                  &mdash;
-                  <%= number_with_delimiter season_match_count %>
-                  <%= 'match'.pluralize(season_match_count) %>
-                </div>
+          <li class="mt-1">
+            <div class="d-flex flex-items-start">
+              <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
+                <%= avatar_for(account) %>
+                <span class="text-bold"><%= account %></span>
+              </a>
+              <% if details_class %>
+                <span class="d-inline-block mx-2">&middot;</span>
+                <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">
+                  <%= number_with_delimiter match_count %>
+                  <%= 'match'.pluralize(match_count) %>
+                </button>
               <% end %>
+              <% if account.rank %>
+                <span class="d-inline-block mx-2">&middot;</span>
+                <%= rank_image(account.rank, classes: 'flex-shrink-0',
+                               outer_classes: 'flex-shrink-0') %>
+              <% end %>
+
+              <div class="<%= details_class %> d-none mb-2">
+                <% seasons_with_matches.each do |season| %>
+                  <% season_match_count = get_season_match_count(season, account_matches) %>
+                  <div>
+                    Season <%= season %>
+                    &mdash;
+                    <%= number_with_delimiter season_match_count %>
+                    <%= 'match'.pluralize(season_match_count) %>
+                  </div>
+                <% end %>
+              </div>
             </div>
           </li>
         <% end %>
