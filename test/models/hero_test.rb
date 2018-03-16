@@ -4,6 +4,24 @@ require 'test_helper'
 class HeroTest < ActiveSupport::TestCase
   fixtures :heroes
 
+  test 'most_played returns a hash of the heroes and match counts' do
+    account = create(:account)
+    other_account = create(:account)
+    match1 = create(:match, account: account)
+    match1.heroes << heroes(:ana)
+    match1.heroes << heroes(:mercy)
+    match2 = create(:match, account: account)
+    match2.heroes << heroes(:ana)
+    match2.heroes << heroes(:mercy)
+    match3 = create(:match, account: account)
+    match3.heroes << heroes(:mccree)
+    other_match = create(:match, account: other_account)
+    other_match.heroes << heroes(:mccree)
+
+    expected = { heroes(:ana) => 2, heroes(:mercy) => 2, heroes(:mccree) => 2 }
+    assert_equal expected, Hero.most_played
+  end
+
   test 'requires name' do
     hero = Hero.new
 

@@ -1,17 +1,15 @@
 <%
-  total_seconds = total_seconds_played(account_heroes)
-  max_seconds = max_seconds_played(account_heroes)
+  match_counts = heroes.values
+  max_match_count = match_counts.max
+  total_match_count = match_counts.sum
 %>
 
-<% if max_seconds %>
-  <% account_heroes.each do |account_hero| %>
-    <% hero = account_hero.hero %>
-    <div class="d-flex flex-items-center mb-1 hero-list-item">
-      <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
-      <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
-      <span aria-label="<%= account_hero.playtime %>" class="hero-bar-container tooltipped tooltipped-w d-inline-block">
-        <span class="hero-bar hero-bar-<%= hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(account_hero.seconds_played, max_seconds, total_seconds) %>%"></span>
-      </span>
-    </div>
-  <% end %>
+<% heroes.each do |hero, match_count| %>
+  <div class="d-flex flex-items-center mb-1 hero-list-item">
+    <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
+    <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
+    <span aria-label="<%= number_with_delimiter(match_count) %> <%= 'match'.pluralize(match_count) %>" class="hero-bar-container tooltipped tooltipped-w d-inline-block">
+      <span class="hero-bar hero-bar-<%= hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(match_count, max_match_count, total_match_count) %>%"></span>
+    </span>
+  </div>
 <% end %>

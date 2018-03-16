@@ -10,11 +10,11 @@
 <div class="clearfix d-flex-md flex-justify-around">
   <div class="col-md-5">
     <%= render partial: 'accounts/summary',
-               locals: { account_heroes: @account_heroes, account: @account } %>
-    <% if @account_heroes.any? %>
+               locals: { heroes: @heroes, account: @account } %>
+    <% if @heroes.any? %>
       <div class="mb-4 pb-2 overflow-hidden">
         <%= render partial: 'accounts/heroes_list',
-                   locals: { account_heroes: @account_heroes } %>
+                   locals: { heroes: @heroes } %>
       </div>
     <% end %>
   </div>

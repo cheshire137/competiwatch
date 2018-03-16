@@ -84,11 +84,11 @@
         <%= render partial: 'admin/latest_shared_seasons',
                    locals: { season_shares: @latest_shared_seasons } %>
       <% end %>
-      <% if @top_account_heroes.any? %>
+      <% if @top_heroes.any? %>
         <h2 class="h2 mb-2">Most played heroes</h2>
         <div class="mb-4 pb-2 overflow-hidden">
           <%= render partial: 'accounts/heroes_list',
-                     locals: { account_heroes: @top_account_heroes } %>
+                     locals: { heroes: @top_heroes } %>
         </div>
       <% end %>
     </div>

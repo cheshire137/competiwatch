@@ -9,7 +9,6 @@ class Hero < ApplicationRecord
   alias_attribute :to_s, :name
 
   has_and_belongs_to_many :matches
-  has_many :account_heroes, dependent: :destroy
 
   ROLE_SORT = {
     'DPS' => 0,
@@ -38,6 +37,17 @@ class Hero < ApplicationRecord
 
   def self.full_name_from_alias(hero_alias)
     ALIASES[hero_alias.downcase.to_sym] || hero_alias
+  end
+
+  def self.most_played(limit: 5)
+    matches_played_by_hero_id = MatchHero.group(:hero_id).count.
+      sort_by { |_hero_id, match_count| -match_count }.to_h
+    hero_ids = matches_played_by_hero_id.keys.take(limit)
+    heroes = Hero.where(id: hero_ids).map { |hero| [hero.id, hero] }.to_h
+    hero_ids.map do |hero_id|
+      hero = heroes[hero_id]
+      [hero, matches_played_by_hero_id[hero_id]]
+    end.to_h
   end
 
   def self.pretty_role(role)

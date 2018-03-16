@@ -1,10 +1,28 @@
 require 'test_helper'
 
 class AccountTest < ActiveSupport::TestCase
-  fixtures :seasons
+  fixtures :seasons, :heroes
 
   setup do
     Rails.cache.clear
+  end
+
+  test 'most_played_heroes returns a hash of the heroes and match counts' do
+    account = create(:account)
+    other_account = create(:account)
+    match1 = create(:match, account: account)
+    match1.heroes << heroes(:ana)
+    match1.heroes << heroes(:mercy)
+    match2 = create(:match, account: account)
+    match2.heroes << heroes(:ana)
+    match2.heroes << heroes(:mercy)
+    match3 = create(:match, account: account)
+    match3.heroes << heroes(:mccree)
+    other_match = create(:match, account: other_account)
+    other_match.heroes << heroes(:mccree)
+
+    expected = { heroes(:ana) => 2, heroes(:mercy) => 2, heroes(:mccree) => 1 }
+    assert_equal expected, account.most_played_heroes
   end
 
   test 'out_of_date? returns true for account not updated recently' do

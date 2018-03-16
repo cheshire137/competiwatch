@@ -9,7 +9,7 @@ class AccountsController < ApplicationController
 
   def show
     @is_owner = signed_in? && @account.user == current_user
-    @account_heroes = @account.account_heroes.ordered_by_playtime.includes(:hero)
+    @heroes = @account.most_played_heroes
 
     @match_count_by_season = Hash.new(0)
     matches = @account.matches.select(:season).order(season: :desc)

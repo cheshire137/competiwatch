@@ -1,6 +1,6 @@
 module AccountsHelper
-  def account_hero_tldr_roles(account_heroes)
-    roles = account_heroes.map { |account_hero| account_hero.hero.role }
+  def hero_tldr_roles(heroes)
+    roles = heroes.map(&:role)
     role_counts = {}
 
     roles.each do |role|
@@ -12,28 +12,8 @@ module AccountsHelper
     role_counts.keys.map(&:to_s)
   end
 
-  def account_heroes_tldr(account_heroes)
-    account_hero_tldr_roles(account_heroes).map do |role|
-      Hero.pretty_role(role)
-    end.join(' / ')
-  end
-
-  def total_seconds_played(account_heroes)
-    account_heroes.select { |account_hero| account_hero.seconds_played }.
-      sum { |account_hero| account_hero.seconds_played }
-  end
-
-  def max_seconds_played(account_heroes)
-    hero_with_seconds_played = account_heroes.detect { |account_hero| account_hero.seconds_played }
-    return unless hero_with_seconds_played
-
-    max = hero_with_seconds_played.seconds_played
-    account_heroes.each do |account_hero|
-      if account_hero.seconds_played && account_hero.seconds_played > max
-        max = account_hero.seconds_played
-      end
-    end
-    max
+  def heroes_tldr(heroes)
+    hero_tldr_roles(heroes).map { |role| Hero.pretty_role(role) }.join(' / ')
   end
 
   def avatar_for(account, classes: '')
