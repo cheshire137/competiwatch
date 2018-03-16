@@ -5,19 +5,22 @@
       <div class="hero-box mb-4">
         <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role(role) %></h5>
         <%= render partial: 'matches/hero_checkboxes',
-                   locals: { heroes: heroes_by_role[role], match: match } %>
+                   locals: { heroes: heroes_by_role[role], match: match,
+                             selected_heroes: selected_heroes } %>
       </div>
     <% end %>
     <div class="hero-box mb-4">
       <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role('tank') %></h5>
       <% if heroes_by_role['tank'].present? %>
         <%= render partial: 'matches/hero_checkboxes',
-                   locals: { heroes: heroes_by_role['tank'], match: match } %>
+                   locals: { heroes: heroes_by_role['tank'], match: match,
+                             selected_heroes: selected_heroes } %>
       <% end %>
       <% if heroes_by_role['off-tank'].present? %>
         <div class="mt-1">
           <%= render partial: 'matches/hero_checkboxes',
-                     locals: { heroes: heroes_by_role['off-tank'], match: match } %>
+                     locals: { heroes: heroes_by_role['off-tank'], match: match,
+                               selected_heroes: selected_heroes } %>
         </div>
       <% end %>
     </div>
@@ -25,7 +28,8 @@
       <div class="hero-box mb-4">
         <h5 class="h5 border-bottom pb-2 mb-2"><%= Hero.pretty_role(role) %></h5>
         <%= render partial: 'matches/hero_checkboxes',
-                   locals: { heroes: heroes_by_role[role], match: match } %>
+                   locals: { heroes: heroes_by_role[role], match: match,
+                             selected_heroes: selected_heroes } %>
       </div>
     <% end %>
   </dd>

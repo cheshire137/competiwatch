@@ -38,15 +38,15 @@ class MatchesController < ApplicationController
   def create
     @match = @account.matches.new(create_match_params)
     @match.season = @season_number
-
+    @selected_heroes = params[:heroes].map(&:to_i)
     @selected_friend_names = params[:friend_names] || []
+
     if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
       flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players " \
                       'in your group.'
       return render_edit_on_fail
     end
 
-    @selected_heroes = params[:heroes]
     return render_edit_on_fail unless @match.save
 
     @match.set_heroes_from_ids(@selected_heroes)
@@ -62,6 +62,8 @@ class MatchesController < ApplicationController
     @friends = current_user.friend_names(@match.season)
     @all_friends = current_user.all_friend_names
     @season = Season.find_by_number(@match.season)
+    @selected_friend_names = []
+    @selected_heroes = []
   end
 
   def destroy
@@ -80,22 +82,23 @@ class MatchesController < ApplicationController
   def update
     @match.assign_attributes(update_match_params)
     @account = @match.account
+    @selected_friend_names = params[:friend_names] || []
+    @selected_heroes = params[:heroes].map(&:to_i)
 
     unless @account && @account.user == current_user
       flash[:error] = 'Invalid account.'
       return render_edit_on_fail
     end
 
-    friend_names = params[:friend_names] || []
-    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
+    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
       flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
       return render_edit_on_fail
     end
 
     return render_edit_on_fail unless @match.save
 
-    @match.set_heroes_from_ids(params[:heroes])
-    @match.set_friends_from_names(friend_names)
+    @match.set_heroes_from_ids(@selected_heroes)
+    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@match.season, @account, anchor: "match-row-#{@match.id}")
   end
