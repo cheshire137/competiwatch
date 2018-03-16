@@ -29,7 +29,9 @@
     <%= render partial: 'matches/placement_form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends, season: @season } %>
+                         all_friends: @all_friends, season: @season,
+                         selected_heroes: @selected_heroes,
+                         selected_friend_names: @selected_friend_names } %>
     <%= render partial: 'matches/additional_fields',
                locals: { match: @match, form: f } %>
     <button type="submit" class="btn btn-large btn-primary">
@@ -41,7 +43,9 @@
     <%= render partial: 'matches/form',
                locals: { form: f, match: @match, maps: @maps, prior_match: @latest_match,
                          heroes_by_role: @heroes_by_role, friends: @friends,
-                         all_friends: @all_friends, season: @season } %>
+                         all_friends: @all_friends, season: @season,
+                         selected_heroes: @selected_heroes,
+                         selected_friend_names: @selected_friend_names } %>
     <%= render partial: 'matches/additional_fields',
                locals: { match: @match, form: f } %>
     <button type="submit" class="mr-2 btn btn-large btn-primary">

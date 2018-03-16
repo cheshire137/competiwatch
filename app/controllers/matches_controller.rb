@@ -39,17 +39,18 @@ class MatchesController < ApplicationController
     @match = @account.matches.new(create_match_params)
     @match.season = @season_number
 
-    friend_names = params[:friend_names] || []
-    if friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
+    @selected_friend_names = params[:friend_names] || []
+    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
       flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players " \
                       'in your group.'
       return render_edit_on_fail
     end
 
+    @selected_heroes = params[:heroes]
     return render_edit_on_fail unless @match.save
 
-    @match.set_heroes_from_ids(params[:heroes])
-    @match.set_friends_from_names(friend_names)
+    @match.set_heroes_from_ids(@selected_heroes)
+    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@season_number, @account, anchor: "match-row-#{@match.id}")
   end

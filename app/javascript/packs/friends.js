@@ -50,7 +50,8 @@ const observer = new SelectorObserver(document, '#friends-list', function() {
     preserveCase: true,
     saveOnBlur: true,
     onTagAdd: validateFriends,
-    onTagRemove: validateFriends
+    onTagRemove: validateFriends,
+    tags: JSON.parse(this.getAttribute('data-selected-friends'))
   }
   const taggle = new Taggle('friends-list', options)
   autocompleteFriends(this, taggle)

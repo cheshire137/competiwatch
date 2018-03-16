@@ -1,3 +1,7 @@
+<%
+  remaining_selected_friend_names = selected_friend_names - friends
+%>
+
 <div class="Box p-3 mb-3 js-friends-container">
   <% if friends.any? %>
     <dl class="form-group mt-0">
@@ -7,9 +11,10 @@
       </dt>
       <dd>
         <% friends.each do |name| %>
+          <% checked = selected_friend_names.include?(name) || match.friend_names.include?(name) %>
           <div class="form-checkbox my-0 friend-form-checkbox d-inline-block">
             <label for="friend-<%= name %>" class="text-normal css-truncate">
-              <input <% if match.friend_names.include?(name) %>checked<% end %> name="friend_names[]" value="<%= name %>" id="friend-<%= name %>" type="checkbox">
+              <input <% if checked %>checked<% end %> name="friend_names[]" value="<%= name %>" id="friend-<%= name %>" type="checkbox">
               <span class="css-truncate-target"><%= name %></span>
             </label>
           </div>
@@ -28,7 +33,7 @@
       </span>
       <span class="text-small d-block-sm text-gray text-normal">Separate with commas</span>
     </div>
-    <div id="friends-list" data-friends="<%= all_friends.to_json %>" class="position-relative form-control width-full clearfix taggle-container"></div>
+    <div id="friends-list" data-selected-friends="<%= remaining_selected_friend_names.to_json %>" data-friends="<%= all_friends.to_json %>" class="position-relative form-control width-full clearfix taggle-container"></div>
     <% if friends.empty? %>
       <p class="d-none note js-max-friends-message">Too many selected</p>
     <% end %>
