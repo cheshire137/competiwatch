@@ -83,6 +83,14 @@ module MatchesHelper
     end
   end
 
+  def match_save_method(match)
+    if match.persisted?
+      :put
+    else
+      :post
+    end
+  end
+
   def friends_in(matches)
     friend_names = {}
     matches.map do |match|

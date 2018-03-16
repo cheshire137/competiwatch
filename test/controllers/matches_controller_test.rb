@@ -195,6 +195,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select '.flash-error', text: /Rank must be less than or equal to #{Match::MAX_RANK}/
+    assert_select "form[action='/season/#{@season}/#{account.to_param}'][method='post']"
+    assert_select 'input[name="_method"][value="put"]', false
   end
 
   test 'shows error message when too many friends are given on create' do
@@ -289,6 +291,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_select '.flash-error', text: /Rank must be less than or equal to #{@season.max_rank}/
     assert_select "option[value='#{account1.id}']", text: account1.battletag
     assert_select "option[value='#{account2.id}']", text: account2.battletag
+    assert_select "form[action='/matches/#{match.id}'][method='post']"
+    assert_select 'input[name="_method"][value="put"]'
   end
 
   test 'renders edit page when too many friends are chosen' do
