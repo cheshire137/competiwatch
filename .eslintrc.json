@@ -1,0 +1,35 @@
+{
+    "extends": "airbnb",
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es6": true
+    },
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "ecmaFeatures": {
+            "experimentalObjectRestSpread": true
+        },
+        "sourceType": "module"
+    },
+    "plugins": [
+        "import"
+    ],
+    "rules": {
+        "semi": [2, "never"],
+        "dot-location": [2, "object"],
+        "no-console": [2, { "allow": ["error", "confirm"] }],
+        "no-multi-assign": 0,
+        "comma-dangle": [2, { "arrays": "never" }],
+        "import/extensions": 0,
+        "func-names": 0,
+        "space-before-function-paren": [2, "never"],
+        "no-plusplus": 0,
+        "arrow-parens": 0,
+        "no-param-reassign": [2, { "props": false }],
+        "import/no-extraneous-dependencies": [2, {
+            "devDependencies": true, "optionalDependencies": false, "peerDependencies": false
+        }],
+        "jsx-a11y/anchor-has-content": 0
+    }
+}
