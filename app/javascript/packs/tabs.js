@@ -1,5 +1,4 @@
 import {on} from 'delegated-events'
-import remoteLoadContent from './remote-load-content.js'
 
 function activateTab(link, tabContent) {
   const otherLinks = document.querySelectorAll('.js-tab')
@@ -15,10 +14,6 @@ function activateTab(link, tabContent) {
 
   tabContent.classList.remove('d-none')
   link.classList.add('selected')
-
-  if (link.classList.contains('js-trends-tab')) {
-    remoteLoadContent()
-  }
 
   setTimeout(function() {
     if (typeof document.scrollIntoView === 'function') {
