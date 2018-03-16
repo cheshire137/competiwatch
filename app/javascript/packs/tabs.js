@@ -55,11 +55,17 @@ on('click', '.js-tab', function(event) {
 function loadTabFromUrl() {
   const tabID = (window.location.hash || '').replace(/^#/, '')
   const tabContent = document.getElementById(tabID)
-  const link = document.querySelector(`.js-tab[href="#${tabID}"]`)
-  if (!tabContent || !link) {
+  const allTabLinks = document.querySelectorAll('.js-tab')
+  const activeTabLinks = Array.from(allTabLinks).filter(tabLink => {
+    const url = new URL(tabLink.href)
+    return url.hash === `#${tabID}`
+  })
+  if (!tabContent || activeTabLinks.length < 1) {
     return
   }
 
-  activateTab(link, tabContent)
+  for (const activeTabLink of activeTabLinks) {
+    activateTab(activeTabLink, tabContent)
+  }
 }
 loadTabFromUrl()
