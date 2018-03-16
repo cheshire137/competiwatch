@@ -8,7 +8,7 @@
       </div>
     <% end %>
     <% if @matches.any? %>
-      <div>
+      <div class="js-hide-on-log-form">
         <%= render partial: 'matches/filter_menu',
                    locals: { account: @account, season: @season } %>
         <% if @can_edit %>
@@ -43,13 +43,13 @@
               </li>
             <% else %>
               <li>
-                <a href="#log-placement-matches" class="dropdown-item js-tab">
+                <a href="#log-placement-matches" class="dropdown-item js-log-match-tab js-tab">
                   Log placement match
                 </a>
               </li>
               <% unless @account.any_placements?(@season) %>
                 <li>
-                  <a href="#log-placement-rank" class="dropdown-item js-tab">
+                  <a href="#log-placement-rank" class="dropdown-item js-log-match-tab js-tab">
                     Log placement SR
                   </a>
                 </li>
@@ -68,11 +68,11 @@
           Log a match
         </a>
       <% else %>
-        <a href="#log-placement-matches" class="UnderlineNav-item js-tab" role="tab">
+        <a href="#log-placement-matches" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
           Log placement match
         </a>
         <% unless @account.any_placements?(@season) %>
-          <a href="#log-placement-rank" class="UnderlineNav-item js-tab" role="tab">
+          <a href="#log-placement-rank" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
             Log placement SR
           </a>
         <% end %>
