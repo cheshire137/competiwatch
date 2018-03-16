@@ -29,7 +29,6 @@
         "no-param-reassign": [2, { "props": false }],
         "import/no-extraneous-dependencies": [2, {
             "devDependencies": true, "optionalDependencies": false, "peerDependencies": false
-        }],
-        "jsx-a11y/anchor-has-content": 0
+        }]
     }
 }
