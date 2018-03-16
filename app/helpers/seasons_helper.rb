@@ -19,8 +19,11 @@ module SeasonsHelper
     percent + 2
   end
 
-  def rank_image(rank, classes: '')
-    rank_tier_image(Match.rank_tier(rank), classes: classes)
+  def rank_image(rank, classes: '', outer_classes: '')
+    outer_classes += ' d-inline-block tooltipped-n tooltipped'
+    content_tag(:span, class: outer_classes, 'aria-label' => rank.to_s) do
+      rank_tier_image(Match.rank_tier(rank), classes: classes)
+    end
   end
 
   def rank_tier_image(rank_tier, classes: '', id: nil)

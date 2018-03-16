@@ -15,7 +15,7 @@ class AdminController < ApplicationController
     @account_count = Account.count
     @season_share_count = SeasonShare.count
     @active_user_count = all_users.active.count
-    @users = all_users.paginate(page: current_page, per_page: 8)
+    @users = all_users.paginate(page: current_page, per_page: 6)
     @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
     @accounts_by_user_id = Account.order_by_battletag.group_by(&:user_id)
     @seasons = Season.latest_first
