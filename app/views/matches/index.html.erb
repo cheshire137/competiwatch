@@ -2,11 +2,11 @@
 
 <% content_for(:breadcrumb) do %>
   <div class="d-flex-md flex-items-center-md flex-justify-between-md">
-    <% if @can_edit %>
-      <div class="mb-2-sm">
+    <div class="mb-2-sm">
+      <% if @can_edit %>
         <%= account_switcher(@account) %> / <%= season_switcher(@season) %>
-      </div>
-    <% end %>
+      <% end %>
+    </div>
     <% if @matches.any? %>
       <div class="js-hide-on-log-form">
         <%= render partial: 'matches/filter_menu',
