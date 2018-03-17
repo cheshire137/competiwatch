@@ -17,7 +17,8 @@ class Match < ApplicationRecord
 
   before_validation :set_result
   after_create :reset_career_high, if: :saved_change_to_rank?
-  after_save :delete_straggler_friends, if: :saved_change_to_friend_ids_list?
+  after_save :delete_straggler_friends_on_save, if: :saved_change_to_friend_ids_list?
+  after_destroy :delete_straggler_friends_on_destroy
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -401,11 +402,18 @@ class Match < ApplicationRecord
     end
   end
 
-  def delete_straggler_friends
+  def delete_straggler_friends_on_save
     old_friend_ids = attribute_before_last_save('friend_ids_list')
     removed_friend_ids = old_friend_ids - friend_ids_list
     removed_friends = Friend.where(id: removed_friend_ids)
     removed_friends.each do |friend|
+      friend.destroy if friend.matches.empty?
+    end
+  end
+
+  def delete_straggler_friends_on_destroy
+    old_friends = Friend.where(id: friend_ids_list)
+    old_friends.each do |friend|
       friend.destroy if friend.matches.empty?
     end
   end
