@@ -5,7 +5,7 @@ class AddGroupMemberIdsToMatches < ActiveRecord::Migration[5.1]
     execute <<-SQL
       UPDATE matches SET group_member_ids = friend_ids
       FROM (
-        SELECT match_id, ARRAY_AGG(friend_id) AS friend_ids
+        SELECT match_id, ARRAY_AGG(friend_id ORDER BY friend_id) AS friend_ids
         FROM match_friends
         GROUP BY match_id
       ) AS match_friends
