@@ -5,6 +5,7 @@ class Match < ApplicationRecord
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
   MAX_PER_SEASON = 500
+  MAX_FRIENDS_PER_MATCH = 5
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
@@ -30,6 +31,7 @@ class Match < ApplicationRecord
   validate :rank_or_placement
   validate :account_has_not_met_season_limit
   validate :friend_user_matches_account
+  validate :group_size_within_limit
 
   has_one :user, through: :account
   has_and_belongs_to_many :heroes
@@ -387,6 +389,12 @@ class Match < ApplicationRecord
 
     unless friend_user_ids.size == 1 && friend_user_ids.first == account_id
       errors.add(:friend_ids_list, "must be a friend of the owner of account #{account}")
+    end
+  end
+
+  def group_size_within_limit
+    if friend_count >= MAX_FRIENDS_PER_MATCH
+      errors.add(:base, "Match already has a full group: you, #{friend_names.join(', ')}")
     end
   end
 
