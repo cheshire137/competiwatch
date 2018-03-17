@@ -16,6 +16,7 @@ class Match < ApplicationRecord
 
   before_validation :set_result
   after_create :reset_career_high, if: :saved_change_to_rank?
+  after_save :delete_straggler_friends, if: :saved_change_to_friend_ids_list?
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -374,6 +375,15 @@ class Match < ApplicationRecord
     if other_matches.count >= MAX_PER_SEASON
       errors.add(:base, "#{account} has reached the maximum allowed number of matches in " \
                         "season #{season}.")
+    end
+  end
+
+  def delete_straggler_friends
+    old_friend_ids = attribute_before_last_save('friend_ids_list')
+    removed_friend_ids = old_friend_ids - friend_ids_list
+    removed_friends = Friend.where(id: removed_friend_ids)
+    removed_friends.each do |friend|
+      friend.destroy if removed_friends.matches.empty?
     end
   end
 end
