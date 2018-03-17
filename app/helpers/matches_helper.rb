@@ -237,6 +237,7 @@ module MatchesHelper
     else
       win_loss_rank_change_color(match, matches)
     end
+    return '' unless color
 
     "background-color: rgb(#{color[0]}, #{color[1]}, #{color[2]})"
   end
@@ -254,6 +255,8 @@ module MatchesHelper
     gradient = ColorGradient.new(colors: color_range, steps: rank_changes.length)
     rgb_colors = gradient.rgb
     index = rank_changes.index(this_rank_change)
+    return unless index
+
     rgb_colors[index]
   end
 
