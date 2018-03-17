@@ -87,7 +87,7 @@ class UserTest < ActiveSupport::TestCase
     assert_equal primary_user, friend1.reload.user
     refute Friend.exists?(friend2.id), 'should have deleted friend with same name'
     refute User.exists?(secondary_user.id), 'secondary user should have been deleted'
-    assert_equal [friend1], match2.reload.friends,
+    assert_equal [friend1], match2.reload.group_members,
       'should have replaced friend in match with existing friend of the same name'
   end
 

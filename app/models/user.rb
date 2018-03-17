@@ -73,8 +73,8 @@ class User < ApplicationRecord
 
   def friend_names(season)
     season_matches = matches.in_season(season)
-    Match.prefill_friends(season_matches, user: self)
-    season_matches.flat_map(&:friends).uniq.
+    Match.prefill_group_members(season_matches, user: self)
+    season_matches.flat_map(&:group_members).uniq.
       sort_by { |friend| friend.name.downcase }.map(&:name)
   end
 

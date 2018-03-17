@@ -35,7 +35,7 @@
       </div>
     </div>
   <% end %>
-  <% if matches.any? { |match| match.friends.any? } %>
+  <% if matches.any? { |match| match.group_members.any? } %>
     <div class="d-flex mt-2 flex-justify-between flex-wrap">
       <%= group_size_summary(matches) %>
     </div>

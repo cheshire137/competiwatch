@@ -94,7 +94,7 @@ module MatchesHelper
   def friends_in(matches)
     friend_names = {}
     matches.map do |match|
-      match.friends.each do |friend|
+      match.group_members.each do |friend|
         friend_names[friend.name] ||= 1
       end
     end

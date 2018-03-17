@@ -17,7 +17,7 @@ class MatchExporter
         csv << [match.rank, match.map.try(:name), match.comment, match.day_of_week,
                 match.time_of_day, match.hero_names.join(', '),
                 match.ally_leaver_char, match.ally_thrower_char, match.enemy_leaver_char,
-                match.enemy_thrower_char, match.friend_names.join(', '),
+                match.enemy_thrower_char, match.group_member_names.join(', '),
                 match.placement_char, match.result]
       end
     end
@@ -28,7 +28,7 @@ class MatchExporter
   def matches_to_export
     matches = @account.matches.in_season(@season).
       includes(:prior_match, :heroes, :map).ordered_by_time
-    Match.prefill_friends(matches, user: @account.user)
+    Match.prefill_group_members(matches, user: @account.user)
     matches
   end
 end

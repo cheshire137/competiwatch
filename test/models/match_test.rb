@@ -5,7 +5,7 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
-  test 'prefill_friends sets friends list from group_member_ids' do
+  test 'prefill_group_members sets group members list from group_member_ids' do
     user = create(:user)
     account = create(:account, user: user)
     friend1 = create(:friend, user: user, name: 'Sally')
@@ -13,13 +13,13 @@ class MatchTest < ActiveSupport::TestCase
     match1 = create(:match, account: account, group_member_ids: [friend1.id])
     match2 = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
 
-    Match.prefill_friends([match1, match2], user: user)
+    Match.prefill_group_members([match1, match2], user: user)
 
     friend1.destroy
     friend2.destroy
 
-    assert_equal %w[Sally], match1.friends.map(&:name)
-    assert_equal %w[Jim Sally], match2.friends.map(&:name).sort
+    assert_equal %w[Sally], match1.group_members.map(&:name)
+    assert_equal %w[Jim Sally], match2.group_members.map(&:name).sort
   end
 
   test 'top_accounts returns a hash of accounts with the most matches' do
@@ -112,7 +112,7 @@ class MatchTest < ActiveSupport::TestCase
       match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
   test 'removes match friends not in given name list' do
@@ -128,7 +128,7 @@ class MatchTest < ActiveSupport::TestCase
       match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
     assert Friend.exists?(friend.id),
       'should not delete friend when friend removed from match but still in other matches'
   end
@@ -145,7 +145,7 @@ class MatchTest < ActiveSupport::TestCase
       match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
   test 'leaves existing friend in match when adding another existing friend' do
@@ -161,7 +161,7 @@ class MatchTest < ActiveSupport::TestCase
       match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
   test 'requires friend user to match account user' do

@@ -18,7 +18,7 @@ class SeasonsController < ApplicationController
 
   def confirm_wipe
     @matches = @account.matches.in_season(@season).includes(:heroes, :map).ordered_by_time
-    Match.prefill_friends(@matches, user: @account.user)
+    Match.prefill_group_members(@matches, user: @account.user)
     @match_count = @matches.count
   end
 

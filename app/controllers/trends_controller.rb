@@ -23,7 +23,7 @@ class TrendsController < ApplicationController
     season_high_heroes_chart
     rank_tier_chart
     @matches = account_matches_in_season.includes(:prior_match, :heroes, :map).ordered_by_time
-    Match.prefill_friends(@matches, user: match_source_user)
+    Match.prefill_group_members(@matches, user: match_source_user)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
   end
@@ -32,20 +32,20 @@ class TrendsController < ApplicationController
     @active_seasons = current_user.active_seasons
     @matches = account_matches_in_season.
       includes(:prior_match, :map, :heroes, :account).with_result.ordered_by_time
-    Match.prefill_friends(@matches, user: match_source_user)
+    Match.prefill_group_members(@matches, user: match_source_user)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
-    @friends, @match_counts_by_friend = get_friends_and_match_counts(@matches)
-    @most_frequent_match_count = @match_counts_by_friend.values.max
-    @most_frequent_friends = @match_counts_by_friend.
+    @group_members, @match_counts_by_group_member = get_group_members_and_match_counts(@matches)
+    @most_frequent_match_count = @match_counts_by_group_member.values.max
+    @most_frequent_group_members = @match_counts_by_group_member.
       select { |name, count| count == @most_frequent_match_count }.keys
-    @win_rates_by_friend = get_win_rates_by_friend(@matches, @match_counts_by_friend)
-    @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
-    @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
+    @win_rates_by_group_member = get_win_rates_by_group_member(@matches, @match_counts_by_group_member)
+    @most_winning_group_members = get_most_winning_group_members(@win_rates_by_group_member)
+    @most_losing_group_members = get_most_losing_group_members(@win_rates_by_group_member, @most_winning_group_members)
     win_loss_chart
     role_chart
     day_time_chart
@@ -63,18 +63,18 @@ class TrendsController < ApplicationController
     @active_seasons = @account.active_seasons
     @matches = account_matches_in_season.includes(:heroes, :prior_match, :map).
       with_result.ordered_by_time
-    Match.prefill_friends(@matches, user: match_source_user)
+    Match.prefill_group_members(@matches, user: match_source_user)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
-    @friends, @match_counts_by_friend = get_friends_and_match_counts(@matches)
-    @most_frequent_match_count = @match_counts_by_friend.values.max
-    @most_frequent_friends = @match_counts_by_friend.
+    @group_members, @match_counts_by_group_member = get_group_members_and_match_counts(@matches)
+    @most_frequent_match_count = @match_counts_by_group_member.values.max
+    @most_frequent_group_members = @match_counts_by_group_member.
       select { |name, count| count == @most_frequent_match_count }.keys
-    @win_rates_by_friend = get_win_rates_by_friend(@matches, @match_counts_by_friend)
-    @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
-    @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
+    @win_rates_by_group_member = get_win_rates_by_group_member(@matches, @match_counts_by_group_member)
+    @most_winning_group_members = get_most_winning_group_members(@win_rates_by_group_member)
+    @most_losing_group_members = get_most_losing_group_members(@win_rates_by_group_member, @most_winning_group_members)
     win_loss_chart
     role_chart
     day_time_chart
@@ -91,20 +91,20 @@ class TrendsController < ApplicationController
   def all_accounts
     @matches = account_matches_in_season.
       includes(:heroes, :account, :map, :prior_match).with_result.ordered_by_time
-    Match.prefill_friends(@matches, user: match_source_user)
+    Match.prefill_group_members(@matches, user: match_source_user)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
     @total_wins, @total_losses, @total_draws = get_total_wins_losses_draws(@matches)
-    @friends, @match_counts_by_friend = get_friends_and_match_counts(@matches)
-    @most_frequent_match_count = @match_counts_by_friend.values.max
-    @most_frequent_friends = @match_counts_by_friend.
+    @group_members, @match_counts_by_group_member = get_group_members_and_match_counts(@matches)
+    @most_frequent_match_count = @match_counts_by_group_member.values.max
+    @most_frequent_group_members = @match_counts_by_group_member.
       select { |name, count| count == @most_frequent_match_count }.keys
-    @win_rates_by_friend = get_win_rates_by_friend(@matches, @match_counts_by_friend)
-    @most_winning_friends = get_most_winning_friends(@win_rates_by_friend)
-    @most_losing_friends = get_most_losing_friends(@win_rates_by_friend, @most_winning_friends)
+    @win_rates_by_group_member = get_win_rates_by_group_member(@matches, @match_counts_by_group_member)
+    @most_winning_group_members = get_most_winning_group_members(@win_rates_by_group_member)
+    @most_losing_group_members = get_most_losing_group_members(@win_rates_by_group_member, @most_winning_group_members)
     win_loss_chart
     role_chart
     day_time_chart
@@ -285,7 +285,7 @@ class TrendsController < ApplicationController
 
   def group_member_chart
     matches = account_matches_in_season.with_result
-    Match.prefill_friends(matches, user: match_source_user)
+    Match.prefill_group_members(matches, user: match_source_user)
 
     wins_by_group_member = Hash.new(0)
     losses_by_group_member = Hash.new(0)
@@ -293,7 +293,7 @@ class TrendsController < ApplicationController
     @group_members = []
 
     matches.each do |match|
-      match.friend_names.each do |group_member|
+      match.group_member_names.each do |group_member|
         @group_members << group_member unless @group_members.include?(group_member)
         if match.win?
           wins_by_group_member[group_member] += 1
@@ -384,10 +384,10 @@ class TrendsController < ApplicationController
 
   def group_stats
     matches = account_matches_in_season.with_result
-    Match.prefill_friends(matches, user: match_source_user)
+    Match.prefill_group_members(matches, user: match_source_user)
 
     hasher = ->(hash, match) do
-      group_members = match.friend_names
+      group_members = match.group_member_names
       if group_members.any?
         hash[group_members] ||= 0
         hash[group_members] += 1
@@ -399,16 +399,16 @@ class TrendsController < ApplicationController
     @match_counts_by_group_members = matches.inject({}, &hasher)
 
     unique_groups = @match_counts_by_group_members.keys.sort
-    @win_rates_by_group_members = unique_groups.inject({}) do |hash, friend_names|
-      wins = @wins_by_group_members[friend_names] || 0
-      total = @match_counts_by_group_members[friend_names]
-      hash[friend_names] = (wins / total.to_f * 100).round
+    @win_rates_by_group_members = unique_groups.inject({}) do |hash, group_member_names|
+      wins = @wins_by_group_members[group_member_names] || 0
+      total = @match_counts_by_group_members[group_member_names]
+      hash[group_member_names] = (wins / total.to_f * 100).round
       hash
     end
 
-    @match_counts_by_group_members = @match_counts_by_group_members.sort_by do |friend_names, match_count|
-      win_rate = @win_rates_by_group_members[friend_names]
-      [-match_count, -win_rate, friend_names.size, friend_names.join(',')]
+    @match_counts_by_group_members = @match_counts_by_group_members.sort_by do |group_member_names, match_count|
+      win_rate = @win_rates_by_group_members[group_member_names]
+      [-match_count, -win_rate, group_member_names.size, group_member_names.join(',')]
     end.to_h
   end
 
@@ -438,14 +438,14 @@ class TrendsController < ApplicationController
     [hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id]
   end
 
-  def get_most_losing_friends(win_rates_by_friend, most_winning_friends)
-    min = win_rates_by_friend.values.min
-    win_rates_by_friend.select { |name, pct| pct == min }.keys - most_winning_friends
+  def get_most_losing_group_members(win_rates_by_group_member, most_winning_group_members)
+    min = win_rates_by_group_member.values.min
+    win_rates_by_group_member.select { |name, pct| pct == min }.keys - most_winning_group_members
   end
 
-  def get_most_winning_friends(win_rates_by_friend)
-    max = win_rates_by_friend.values.max
-    win_rates_by_friend.select { |name, pct| pct == max }.keys
+  def get_most_winning_group_members(win_rates_by_group_member)
+    max = win_rates_by_group_member.values.max
+    win_rates_by_group_member.select { |name, pct| pct == max }.keys
   end
 
   def get_lowest_and_highest_rank(matches)
@@ -453,29 +453,30 @@ class TrendsController < ApplicationController
     [all_ranks.min, all_ranks.max]
   end
 
-  def get_win_rates_by_friend(matches, match_counts_by_friend)
-    win_counts_by_friend = matches.select(&:win?).flat_map(&:friends).inject({}) do |hash, friend|
+  def get_win_rates_by_group_member(matches, match_counts_by_group_member)
+    wins = matches.select(&:win?)
+    win_counts_by_group_member = wins.flat_map(&:group_members).inject({}) do |hash, friend|
       hash[friend.name] ||= 0
       hash[friend.name] += 1
       hash
     end
-    friends_with_more_than_one_match = match_counts_by_friend.select { |name, count| count > 1 }.keys
-    friends_with_more_than_one_match.inject({}) do |hash, name|
-      friend_wins = win_counts_by_friend[name] || 0
-      hash[name] = (friend_wins / match_counts_by_friend[name].to_f * 100).round
+    group_members_with_more_than_one_match = match_counts_by_group_member.select { |name, count| count > 1 }.keys
+    group_members_with_more_than_one_match.inject({}) do |hash, name|
+      group_member_wins = win_counts_by_group_member[name] || 0
+      hash[name] = (group_member_wins / match_counts_by_group_member[name].to_f * 100).round
       hash
     end
   end
 
-  def get_friends_and_match_counts(matches)
-    friends_with_dupes = matches.flat_map(&:friends)
-    friends = friends_with_dupes.uniq.map(&:name).sort_by(&:downcase)
-    match_counts_by_friend = friends_with_dupes.inject({}) do |hash, friend|
+  def get_group_members_and_match_counts(matches)
+    group_members_with_dupes = matches.flat_map(&:group_members)
+    group_members = group_members_with_dupes.uniq.map(&:name).sort_by(&:downcase)
+    match_counts_by_group_member = group_members_with_dupes.inject({}) do |hash, friend|
       hash[friend.name] ||= 0
       hash[friend.name] += 1
       hash
     end
-    [friends, match_counts_by_friend]
+    [group_members, match_counts_by_group_member]
   end
 
   def get_total_wins_losses_draws(matches)

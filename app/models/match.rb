@@ -9,7 +9,7 @@ class Match < ApplicationRecord
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
-  attr_writer :friends
+  attr_writer :group_members
 
   belongs_to :account
   belongs_to :map, required: false
@@ -95,18 +95,18 @@ class Match < ApplicationRecord
     end
   end
 
-  def self.prefill_friends(matches, user:)
+  def self.prefill_group_members(matches, user:)
     friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
     ids_in_order = friends_by_id.keys
     matches.each do |match|
       friends_by_id_for_match = friends_by_id.slice(*match.group_member_ids).
         sort_by { |id, _friend| ids_in_order.index(id) }.to_h
-      match.friends = friends_by_id_for_match.values
+      match.group_members = friends_by_id_for_match.values
     end
   end
 
-  def friends
-    @friends ||= user.friends.where(id: group_member_ids).order_by_name
+  def group_members
+    @group_members ||= user.friends.where(id: group_member_ids).order_by_name
   end
 
   def rank_tier
@@ -122,8 +122,8 @@ class Match < ApplicationRecord
     friend_count + 1
   end
 
-  def friend_names
-    friends.map(&:name)
+  def group_member_names
+    group_members.map(&:name)
   end
 
   def hero_names
@@ -398,7 +398,8 @@ class Match < ApplicationRecord
 
   def group_size_within_limit
     if friend_count >= MAX_FRIENDS_PER_MATCH
-      errors.add(:base, "Match already has a full group: you, #{friend_names.take(5).join(', ')}")
+      party = group_member_names.take(5).join(', ')
+      errors.add(:base, "Match already has a full group: you, #{party}")
     end
   end
 
