@@ -33,7 +33,7 @@ class MatchExporterTest < ActiveSupport::TestCase
 
     @match4 = create(:match, season: @season, account: @account, rank: 1295,
                      map: @map1, prior_match: @match3, comment: 'this is so cool',
-                     friend_ids_list: [@friend1.id, @friend2.id])
+                     group_member_ids: [@friend1.id, @friend2.id])
   end
 
   test 'generates CSV of season matches' do

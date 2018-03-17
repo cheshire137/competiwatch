@@ -52,8 +52,8 @@ class User < ApplicationRecord
       primary_friend = primary_user.friends.find_by_name(secondary_friend.name)
       if primary_friend
         Match.with_friend(secondary_friend).each do |match|
-          match.friend_ids_list -= [secondary_friend.id]
-          match.friend_ids_list << primary_friend.id
+          match.group_member_ids -= [secondary_friend.id]
+          match.group_member_ids << primary_friend.id
           success = success && match.save
           break unless success
         end

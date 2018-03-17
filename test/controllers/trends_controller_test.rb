@@ -13,10 +13,10 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @hero2 = heroes(:genji)
     @friend = create(:friend, user: @user)
     @match1 = create(:match, account: @account, season: @season.number,
-                     result: :win, friend_ids_list: [@friend.id])
+                     result: :win, group_member_ids: [@friend.id])
     @match1.heroes << @hero1
     @match2 = create(:match, account: @account, season: @season.number,
-                     prior_match: @match1, friend_ids_list: [@friend.id])
+                     prior_match: @match1, group_member_ids: [@friend.id])
     @match2.heroes << @hero2
   end
 

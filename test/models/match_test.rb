@@ -5,13 +5,13 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
-  test 'prefill_friends sets friends list from friend_ids_list' do
+  test 'prefill_friends sets friends list from group_member_ids' do
     user = create(:user)
     account = create(:account, user: user)
     friend1 = create(:friend, user: user, name: 'Sally')
     friend2 = create(:friend, user: user, name: 'Jim')
-    match1 = create(:match, account: account, friend_ids_list: [friend1.id])
-    match2 = create(:match, account: account, friend_ids_list: [friend1.id, friend2.id])
+    match1 = create(:match, account: account, group_member_ids: [friend1.id])
+    match2 = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
 
     Match.prefill_friends([match1, match2], user: user)
 
@@ -119,8 +119,8 @@ class MatchTest < ActiveSupport::TestCase
     user = create(:user)
     account = create(:account, user: user)
     friend = create(:friend, user: user, name: 'Rob')
-    match = create(:match, account: account, friend_ids_list: [friend.id])
-    other_match = create(:match, account: account, friend_ids_list: [friend.id])
+    match = create(:match, account: account, group_member_ids: [friend.id])
+    other_match = create(:match, account: account, group_member_ids: [friend.id])
     names = %w[Jamie Seed]
 
     assert_difference 'Friend.count', 2 do
@@ -137,7 +137,7 @@ class MatchTest < ActiveSupport::TestCase
     user = create(:user)
     account = create(:account, user: user)
     friend = create(:friend, user: user, name: 'Rob')
-    match = create(:match, account: account, friend_ids_list: [friend.id])
+    match = create(:match, account: account, group_member_ids: [friend.id])
     names = %w[Rob Seed]
 
     assert_difference 'Friend.count' do
@@ -153,7 +153,7 @@ class MatchTest < ActiveSupport::TestCase
     account = create(:account, user: user)
     friend1 = create(:friend, user: user, name: 'Rob')
     friend2 = create(:friend, user: user, name: 'Seed')
-    match = create(:match, account: account, friend_ids_list: [friend1.id])
+    match = create(:match, account: account, group_member_ids: [friend1.id])
     names = %w[Rob Seed]
 
     assert_no_difference 'Friend.count' do
@@ -168,10 +168,10 @@ class MatchTest < ActiveSupport::TestCase
     friend = create(:friend)
     match_user = create(:user)
     match_account = create(:account, user: match_user)
-    match = build(:match, account: match_account, friend_ids_list: [friend.id])
+    match = build(:match, account: match_account, group_member_ids: [friend.id])
 
     refute_predicate match, :valid?
-    assert_includes match.errors.messages[:friend_ids_list],
+    assert_includes match.errors.messages[:group_member_ids],
       "has a group member who is not #{match_user}'s friend"
   end
 
@@ -180,7 +180,7 @@ class MatchTest < ActiveSupport::TestCase
     friends = []
     6.times { |i| friends << create(:friend, name: "Friend#{i}", user: user) }
     account = create(:account, user: user)
-    match = build(:match, account: account, friend_ids_list: friends.map(&:id))
+    match = build(:match, account: account, group_member_ids: friends.map(&:id))
 
     refute_predicate match, :valid?
     assert_includes match.errors.messages[:base],
@@ -192,10 +192,10 @@ class MatchTest < ActiveSupport::TestCase
     account = create(:account, user: user)
     friend1 = create(:friend, user: user)
     friend2 = create(:friend, user: user)
-    match = create(:match, account: account, friend_ids_list: [friend1.id, friend2.id])
+    match = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
 
     assert_difference 'Friend.count', -2 do
-      match.friend_ids_list = []
+      match.group_member_ids = []
       match.save!
     end
 
@@ -208,7 +208,7 @@ class MatchTest < ActiveSupport::TestCase
     account = create(:account, user: user)
     friend1 = create(:friend, user: user)
     friend2 = create(:friend, user: user)
-    match = create(:match, account: account, friend_ids_list: [friend1.id, friend2.id])
+    match = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
 
     assert_difference 'Friend.count', -2 do
       match.destroy!

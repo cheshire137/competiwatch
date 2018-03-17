@@ -74,11 +74,11 @@ class UserTest < ActiveSupport::TestCase
     primary_user = create(:user)
     primary_account = create(:account, user: primary_user)
     friend1 = create(:friend, user: primary_user, name: 'Luis')
-    match1 = create(:match, account: primary_account, friend_ids_list: [friend1.id])
+    match1 = create(:match, account: primary_account, group_member_ids: [friend1.id])
     secondary_user = create(:user)
     secondary_account = create(:account, user: secondary_user)
     friend2 = create(:friend, user: secondary_user, name: 'Luis')
-    match2 = create(:match, account: secondary_account, friend_ids_list: [friend2.id])
+    match2 = create(:match, account: secondary_account, group_member_ids: [friend2.id])
 
     assert_difference 'Friend.count', -1 do
       assert secondary_user.merge_with(primary_user), 'should return true on success'
@@ -172,10 +172,10 @@ class UserTest < ActiveSupport::TestCase
     account1 = create(:account, user: user)
     account2 = create(:account, user: user)
     season = 4
-    match1 = create(:match, account: account1, season: season, friend_ids_list: [friend1.id])
-    match2 = create(:match, account: account2, season: season, friend_ids_list: [friend2.id])
-    match3 = create(:match, account: account2, season: season + 1, friend_ids_list: [friend3.id])
-    match4 = create(:match, account: account2, season: season, friend_ids_list: [friend2.id])
+    match1 = create(:match, account: account1, season: season, group_member_ids: [friend1.id])
+    match2 = create(:match, account: account2, season: season, group_member_ids: [friend2.id])
+    match3 = create(:match, account: account2, season: season + 1, group_member_ids: [friend3.id])
+    match4 = create(:match, account: account2, season: season, group_member_ids: [friend2.id])
 
     result = user.friend_names(season)
 

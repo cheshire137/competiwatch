@@ -17,7 +17,7 @@ class Match < ApplicationRecord
 
   before_validation :set_result
   after_create :reset_career_high, if: :saved_change_to_rank?
-  after_save :delete_straggler_friends_on_save, if: :saved_change_to_friend_ids_list?
+  after_save :delete_straggler_friends_on_save, if: :saved_change_to_group_member_ids?
   after_destroy :delete_straggler_friends_on_destroy
 
   validates :season, presence: true,
@@ -65,7 +65,7 @@ class Match < ApplicationRecord
     friend_ids = friends_or_ids.map do |friend_or_id|
       friend_or_id.is_a?(Friend) ? friend_or_id.id : friend_or_id
     end
-    where('friend_ids_list @> ARRAY[?]::integer[]', friend_ids)
+    where('group_member_ids @> ARRAY[?]::integer[]', friend_ids)
   }
   scope :with_friend, ->(friend_or_id) { with_friends([friend_or_id]) }
 
@@ -99,14 +99,14 @@ class Match < ApplicationRecord
     friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
     ids_in_order = friends_by_id.keys
     matches.each do |match|
-      friends_by_id_for_match = friends_by_id.slice(*match.friend_ids_list).
+      friends_by_id_for_match = friends_by_id.slice(*match.group_member_ids).
         sort_by { |id, _friend| ids_in_order.index(id) }.to_h
       match.friends = friends_by_id_for_match.values
     end
   end
 
   def friends
-    @friends ||= user.friends.where(id: friend_ids_list).order_by_name
+    @friends ||= user.friends.where(id: group_member_ids).order_by_name
   end
 
   def rank_tier
@@ -115,7 +115,7 @@ class Match < ApplicationRecord
   end
 
   def friend_count
-    friend_ids_list.size
+    group_member_ids.size
   end
 
   def group_size
@@ -247,13 +247,13 @@ class Match < ApplicationRecord
     friends_by_name = user.friends.where(name: names).
       map { |friend| [friend.name, friend] }.to_h
     friend_ids_to_keep = friends_by_name.values.map(&:id)
-    self.friend_ids_list = friend_ids_to_keep
+    self.group_member_ids = friend_ids_to_keep
 
     new_names = names - friends_by_name.keys
     new_names.each do |name|
       friend = friends_by_name[name] || user.friends.create(name: name)
       if friend.persisted?
-        friend_ids_list << friend.id
+        group_member_ids << friend.id
       end
     end
   end
@@ -388,11 +388,11 @@ class Match < ApplicationRecord
   end
 
   def friend_user_matches_account
-    return unless account && friend_ids_list.present?
-    friend_user_ids = Friend.where(id: friend_ids_list).pluck(:user_id).uniq
+    return unless account && group_member_ids.present?
+    friend_user_ids = Friend.where(id: group_member_ids).pluck(:user_id).uniq
 
     unless friend_user_ids.size == 1 && friend_user_ids.first == account.user_id
-      errors.add(:friend_ids_list, "has a group member who is not #{user}'s friend")
+      errors.add(:group_member_ids, "has a group member who is not #{user}'s friend")
     end
   end
 
@@ -403,8 +403,8 @@ class Match < ApplicationRecord
   end
 
   def delete_straggler_friends_on_save
-    old_friend_ids = attribute_before_last_save('friend_ids_list')
-    removed_friend_ids = old_friend_ids - friend_ids_list
+    old_friend_ids = attribute_before_last_save('group_member_ids')
+    removed_friend_ids = old_friend_ids - group_member_ids
     removed_friends = Friend.where(id: removed_friend_ids)
     removed_friends.each do |friend|
       friend.destroy if friend.matches.empty?
@@ -412,7 +412,7 @@ class Match < ApplicationRecord
   end
 
   def delete_straggler_friends_on_destroy
-    old_friends = Friend.where(id: friend_ids_list)
+    old_friends = Friend.where(id: group_member_ids)
     old_friends.each do |friend|
       friend.destroy if friend.matches.empty?
     end
