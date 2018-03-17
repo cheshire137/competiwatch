@@ -271,20 +271,6 @@ class Match < ApplicationRecord
     end
   end
 
-  def set_heroes_from_ids(hero_ids)
-    heroes_to_keep = Hero.where(id: hero_ids)
-    heroes_to_remove = heroes - heroes_to_keep
-    heroes_to_add = heroes_to_keep - heroes
-
-    heroes_to_remove.each do |hero|
-      heroes.delete(hero)
-    end
-
-    heroes_to_add.each do |hero|
-      self.heroes << hero
-    end
-  end
-
   def placement_log?
     map.blank? && persisted? && !placement? && prior_match.nil?
   end
