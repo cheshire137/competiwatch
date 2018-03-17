@@ -1,6 +1,6 @@
 class AddFriendIdsListToMatches < ActiveRecord::Migration[5.1]
   def up
-    add_column :matches, :friend_ids_list, :integer, array: true
+    add_column :matches, :friend_ids_list, :integer, array: true, default: [], null: false
 
     execute <<-SQL
       UPDATE matches SET friend_ids_list = friend_ids

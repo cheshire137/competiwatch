@@ -88,7 +88,7 @@ ActiveRecord::Schema.define(version: 20180316235009) do
     t.boolean "ally_thrower"
     t.boolean "enemy_leaver"
     t.boolean "ally_leaver"
-    t.integer "friend_ids_list", array: true
+    t.integer "friend_ids_list", default: [], null: false, array: true
     t.index ["account_id"], name: "index_matches_on_account_id"
     t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
     t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"
