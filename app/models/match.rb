@@ -108,7 +108,11 @@ class Match < ApplicationRecord
   end
 
   def group_size
-    friends.to_a.size + 1
+    friend_ids_list.size + 1
+  end
+
+  def friend_count
+    friend_ids_list.size
   end
 
   def friend_names
