@@ -27,6 +27,26 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to profile_path(account)
   end
 
+  test 'allows admin to view unshared season when admin param is given' do
+    admin_account = create(:account, admin: true)
+    other_account = create(:account)
+
+    sign_in_as(admin_account)
+    get "/season/#{@season}/#{other_account.to_param}", params: { admin: 1 }
+
+    assert_response :ok
+  end
+
+  test 'redirects admin from unshared season when admin param is omitted' do
+    admin_account = create(:account, admin: true)
+    other_account = create(:account)
+
+    sign_in_as(admin_account)
+    get "/season/#{@season}/#{other_account.to_param}"
+
+    assert_redirected_to profile_path(other_account)
+  end
+
   test 'index page loads successfully for the user who owns the account' do
     account = create(:account)
     create(:match, account: account, season: @season.number)

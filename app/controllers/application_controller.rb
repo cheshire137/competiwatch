@@ -62,9 +62,14 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def allow_admin_bypass?
+    signed_in? && current_account.admin? && params[:admin].present?
+  end
+
   def ensure_season_is_visible
     return if signed_in? && current_user == @account.user
     return if @account.season_is_public?(@season)
+    return if allow_admin_bypass?
     redirect_to profile_path(@account)
   end
 
