@@ -403,7 +403,7 @@ class Match < ApplicationRecord
     removed_friend_ids = old_friend_ids - friend_ids_list
     removed_friends = Friend.where(id: removed_friend_ids)
     removed_friends.each do |friend|
-      friend.destroy if removed_friends.matches.empty?
+      friend.destroy if friend.matches.empty?
     end
   end
 end
