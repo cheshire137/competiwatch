@@ -51,7 +51,12 @@ class User < ApplicationRecord
     friends.each do |secondary_friend|
       primary_friend = primary_user.friends.find_by_name(secondary_friend.name)
       if primary_friend
-        MatchFriend.where(friend_id: secondary_friend.id).update_all(friend_id: primary_friend.id)
+        Match.with_friend(secondary_friend).each do |match|
+          match.friend_ids_list -= [secondary_friend.id]
+          match.friend_ids_list << primary_friend.id
+          success = success && match.save
+          break unless success
+        end
         success = success && secondary_friend.destroy
       else
         secondary_friend.user = primary_user
