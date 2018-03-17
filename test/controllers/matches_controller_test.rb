@@ -46,8 +46,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     friend = create(:friend, user: user)
     account = create(:account, user: user)
-    match = create(:match, account: account, season: @past_season.number)
-    create(:match_friend, match: match, friend: friend)
+    match = create(:match, account: account, season: @past_season.number,
+                   group_member_ids: [friend.id])
 
     sign_in_as(account)
     get "/season/#{@past_season}/#{account.to_param}"
