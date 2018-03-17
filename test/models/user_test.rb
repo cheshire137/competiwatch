@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
   test 'season_high returns highest rank from given season' do
     user = create(:user)
     account1 = create(:account, user: user)
@@ -26,6 +22,9 @@ class UserTest < ActiveSupport::TestCase
     create(:match, account: account2, season: 2, rank: 2500)
     create(:match, account: account1, season: 4, rank: 2420)
     create(:match, account: account1, season: 4, rank: nil, placement: true)
+
+    account1.delete_career_high_cache
+    account2.delete_career_high_cache
 
     assert_equal 2501, user.career_high
   end
