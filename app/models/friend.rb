@@ -9,6 +9,6 @@ class Friend < ApplicationRecord
   scope :order_by_name, ->{ order('LOWER(name) ASC') }
 
   def matches
-    Match.with_group_member(self)
+    Match.joins(:account).where(accounts: { user_id: user_id }).with_group_member(self)
   end
 end
