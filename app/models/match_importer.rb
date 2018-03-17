@@ -25,7 +25,7 @@ class MatchImporter
 
   def import_match(row, prior_match:)
     match = @account.matches.new(season: @season, comment: row['comment'],
-                                       prior_match: prior_match)
+                                 prior_match: prior_match)
 
     if (rank = row['rank']).present?
       match.rank = rank.to_i

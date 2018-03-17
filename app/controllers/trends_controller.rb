@@ -22,8 +22,8 @@ class TrendsController < ApplicationController
     career_high_heroes_chart
     season_high_heroes_chart
     rank_tier_chart
-    @matches = account_matches_in_season.includes(:prior_match, :heroes, :map, :friends).
-      ordered_by_time
+    @matches = account_matches_in_season.includes(:prior_match, :heroes, :map).ordered_by_time
+    Match.prefill_friends(@matches, user: match_source_user)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
   end
@@ -31,7 +31,8 @@ class TrendsController < ApplicationController
   def all_seasons_accounts
     @active_seasons = current_user.active_seasons
     @matches = account_matches_in_season.
-      includes(:prior_match, :map, :friends, :heroes, :account).with_result.ordered_by_time
+      includes(:prior_match, :map, :heroes, :account).with_result.ordered_by_time
+    Match.prefill_friends(@matches, user: match_source_user)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
@@ -60,8 +61,9 @@ class TrendsController < ApplicationController
 
   def all_seasons
     @active_seasons = @account.active_seasons
-    @matches = account_matches_in_season.includes(:friends, :heroes, :prior_match, :map).
+    @matches = account_matches_in_season.includes(:heroes, :prior_match, :map).
       with_result.ordered_by_time
+    Match.prefill_friends(@matches, user: match_source_user)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
@@ -88,7 +90,8 @@ class TrendsController < ApplicationController
 
   def all_accounts
     @matches = account_matches_in_season.
-      includes(:friends, :heroes, :account, :map, :prior_match).with_result.ordered_by_time
+      includes(:heroes, :account, :map, :prior_match).with_result.ordered_by_time
+    Match.prefill_friends(@matches, user: match_source_user)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
@@ -119,6 +122,10 @@ class TrendsController < ApplicationController
 
   def match_source
     @match_source ||= @account ? @account : current_user
+  end
+
+  def match_source_user
+    match_source.is_a?(User) ? match_source : match_source.user
   end
 
   def account_matches_in_season
@@ -207,8 +214,7 @@ class TrendsController < ApplicationController
   end
 
   def group_size_chart
-    matches = account_matches_in_season.includes(:friends).
-      with_result
+    matches = account_matches_in_season.with_result
 
     wins_by_group_size = Hash.new(0)
     losses_by_group_size = Hash.new(0)
@@ -278,7 +284,8 @@ class TrendsController < ApplicationController
   end
 
   def group_member_chart
-    matches = account_matches_in_season.includes(:friends).with_result
+    matches = account_matches_in_season.with_result
+    Match.prefill_friends(matches, user: match_source_user)
 
     wins_by_group_member = Hash.new(0)
     losses_by_group_member = Hash.new(0)
@@ -376,7 +383,8 @@ class TrendsController < ApplicationController
   end
 
   def group_stats
-    matches = account_matches_in_season.includes(:friends).with_result
+    matches = account_matches_in_season.with_result
+    Match.prefill_friends(matches, user: match_source_user)
 
     hasher = ->(hash, match) do
       group_members = match.friend_names

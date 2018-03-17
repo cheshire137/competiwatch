@@ -16,7 +16,8 @@ class MatchesController < ApplicationController
   def index
     @can_edit = signed_in? && @account.user == current_user
     @matches = @account.matches.in_season(@season_number).
-      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
+      includes(:prior_match, :heroes, :map).ordered_by_time
+    Match.prefill_friends(@matches, user: @account.user)
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
@@ -31,7 +32,7 @@ class MatchesController < ApplicationController
       @all_friends = current_user.all_friend_names
       placement = !@account.finished_placements?(@season_number)
       @match = @account.matches.new(prior_match: @latest_match, season: @season_number,
-                                          placement: placement)
+                                    placement: placement)
     end
   end
 
