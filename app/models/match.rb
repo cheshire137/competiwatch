@@ -13,9 +13,6 @@ class Match < ApplicationRecord
   belongs_to :map, required: false
   belongs_to :prior_match, required: false, class_name: 'Match'
 
-  has_many :match_friends, dependent: :destroy
-  has_many :friends, through: :match_friends
-
   before_validation :set_result
   after_create :reset_career_high, if: :saved_change_to_rank?
 
