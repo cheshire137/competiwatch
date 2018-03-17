@@ -422,7 +422,7 @@ class Match < ApplicationRecord
   def hero_ids_exist
     return if hero_ids.empty?
     valid_hero_ids = Hero.pluck(:id)
-    invalid_hero_ids = valid_hero_ids - hero_ids
+    invalid_hero_ids = hero_ids - valid_hero_ids
     if invalid_hero_ids.any?
       errors.add(:hero_ids, "contains invalid values: #{invalid_hero_ids.map(&:to_s).join(', ')}")
     end
