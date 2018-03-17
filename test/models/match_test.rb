@@ -5,6 +5,23 @@ class MatchTest < ActiveSupport::TestCase
     Rails.cache.clear
   end
 
+  test 'prefill_friends sets friends list from friend_ids_list' do
+    user = create(:user)
+    account = create(:account, user: user)
+    friend1 = create(:friend, user: user, name: 'Sally')
+    friend2 = create(:friend, user: user, name: 'Jim')
+    match1 = create(:match, account: account, friend_ids_list: [friend1.id])
+    match2 = create(:match, account: account, friend_ids_list: [friend1.id, friend2.id])
+
+    Match.prefill_friends([match1, match2], user: user)
+
+    friend1.destroy
+    friend2.destroy
+
+    assert_equal %w[Sally], match1.friends.map(&:name)
+    assert_equal %w[Jim Sally], match2.friends.map(&:name).sort
+  end
+
   test 'top_accounts returns a hash of accounts with the most matches' do
     account1 = create(:account)
     account2 = create(:account)
