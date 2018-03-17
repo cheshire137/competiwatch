@@ -11,6 +11,17 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal match2, match1.next_match
   end
 
+  test 'updates prior_match on destroy' do
+    account = create(:account)
+    match1 = create(:match, account: account, season: 1)
+    match2 = create(:match, account: account, season: 1, prior_match: match1)
+    match3 = create(:match, account: account, season: 1, prior_match: match2)
+
+    match2.destroy!
+
+    assert_equal match1, match3.reload.prior_match
+  end
+
   test 'requires hero_ids to include only valid hero IDs' do
     match = build(:match, hero_ids: [heroes(:ana).id, -1, heroes(:mercy).id])
 

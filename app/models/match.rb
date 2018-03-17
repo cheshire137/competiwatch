@@ -19,6 +19,7 @@ class Match < ApplicationRecord
   after_create :reset_career_high, if: :saved_change_to_rank?
   after_save :delete_straggler_friends_on_save, if: :saved_change_to_group_member_ids?
   after_destroy :delete_straggler_friends_on_destroy
+  after_destroy :update_next_match_prior_match
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -443,5 +444,15 @@ class Match < ApplicationRecord
     if invalid_hero_ids.any?
       errors.add(:hero_ids, "contains invalid values: #{invalid_hero_ids.map(&:to_s).join(', ')}")
     end
+  end
+
+  def update_next_match_prior_match
+    return unless prior_match_id
+
+    match_after = next_match
+    return unless match_after
+
+    match_after.prior_match_id = prior_match_id
+    match_after.save
   end
 end
