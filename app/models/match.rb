@@ -237,14 +237,16 @@ class Match < ApplicationRecord
   end
 
   def set_friends_from_names(names)
-    match_friends_to_remove = match_friends -
-      match_friends.joins(:friend).where(friends: { name: names })
-    match_friends_to_remove.each(&:destroy)
+    friends_by_name = user.friends.where(name: names).
+      map { |friend| [friend.name, friend] }.to_h
+    friend_ids_to_keep = friends_by_name.values.map(&:id)
+    self.friend_ids_list = friend_ids_to_keep
 
-    names.each do |name|
-      friend = user.friends.where(name: name).first_or_create
+    new_names = names - friends_by_name.keys
+    new_names.each do |name|
+      friend = friends_by_name[name] || user.friends.create(name: name)
       if friend.persisted?
-        match_friends.where(friend: friend).first_or_create
+        friend_ids_list << friend.id
       end
     end
   end
