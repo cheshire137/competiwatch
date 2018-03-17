@@ -90,6 +90,13 @@ class Match < ApplicationRecord
     end
   end
 
+  def self.prefill_friends(matches, user:)
+    friends_by_id = user.friends.map { |friend| [friend.id, friend] }.to_h
+    matches.each do |match|
+      match.friends = friends_by_id.slice(match.friend_ids_list).values
+    end
+  end
+
   def friends
     @friends ||= user.friends.where(id: friend_ids_list).order_by_name
   end
