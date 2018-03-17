@@ -48,10 +48,11 @@ class MatchesController < ApplicationController
       return render_edit_on_fail
     end
 
+    @match.set_friends_from_names(@selected_friend_names)
+
     return render_edit_on_fail unless @match.save
 
     @match.set_heroes_from_ids(@selected_heroes)
-    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@season_number, @account, anchor: "match-row-#{@match.id}")
   end
@@ -96,10 +97,11 @@ class MatchesController < ApplicationController
       return render_edit_on_fail
     end
 
+    @match.set_friends_from_names(@selected_friend_names)
+
     return render_edit_on_fail unless @match.save
 
     @match.set_heroes_from_ids(@selected_heroes)
-    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@match.season, @account, anchor: "match-row-#{@match.id}")
   end

@@ -58,13 +58,13 @@ class MatchImporter
       match.enemy_leaver = enemy_leaver.downcase == 'y'
     end
 
-    unless match.save
-      errors << match.errors
-    end
-
-    if match.persisted? && (friend_name_str = row['group']).present?
+    if (friend_name_str = row['group']).present?
       friend_names = split_string(friend_name_str)
       match.set_friends_from_names friend_names
+    end
+
+    unless match.save
+      errors << match.errors
     end
 
     if match.persisted? && (hero_name_str = row['heroes']).present?
