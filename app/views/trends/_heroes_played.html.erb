@@ -9,10 +9,9 @@
     <h3 class="h3 text-center mb-2">Heroes played</h3>
     <div>
       <% visible_heroes.each do |hero| %>
-        <%= render partial: 'seasons/hero_bar',
-                   locals: { match_count: match_counts_by_hero[hero], hero: hero,
-                             max_hero_match_count: max_hero_match_count,
-                             total_matches: total_matches } %>
+        <%= hero_bar(hero, match_count: match_counts_by_hero[hero],
+                     max_match_count: max_hero_match_count,
+                     total_match_count: total_matches) %>
       <% end %>
     </div>
     <% if hidden_heroes.any? %>
@@ -21,10 +20,9 @@
       </button>
       <div id="remaining-heroes" class="d-none">
         <% hidden_heroes.each do |hero| %>
-          <%= render partial: 'seasons/hero_bar',
-                     locals: { match_count: match_counts_by_hero[hero], hero: hero,
-                               max_hero_match_count: max_hero_match_count,
-                               total_matches: total_matches } %>
+          <%= hero_bar(hero, match_count: match_counts_by_hero[hero],
+                       max_match_count: max_hero_match_count,
+                       total_match_count: total_matches) %>
         <% end %>
       </div>
     <% end %>

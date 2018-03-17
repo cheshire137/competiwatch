@@ -1,7 +1,0 @@
-<div aria-label="<%= pluralize(match_count, 'match') %>" class="tooltipped tooltipped-s d-flex flex-items-center mb-1">
-  <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
-  <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
-  <span class="hero-bar-container d-inline-block">
-    <span class="hero-bar hero-bar-<%= hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(match_count, max_hero_match_count, total_matches) %>%"></span>
-  </span>
-</div>
