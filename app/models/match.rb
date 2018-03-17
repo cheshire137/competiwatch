@@ -95,9 +95,12 @@ class Match < ApplicationRecord
   end
 
   def self.prefill_friends(matches, user:)
-    friends_by_id = user.friends.map { |friend| [friend.id, friend] }.to_h
+    friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
+    ids_in_order = friends_by_id.keys
     matches.each do |match|
-      match.friends = friends_by_id.slice(*match.friend_ids_list).values
+      friends_by_id_for_match = friends_by_id.slice(*match.friend_ids_list).
+        sort_by { |id, _friend| ids_in_order.index(id) }.to_h
+      match.friends = friends_by_id_for_match.values
     end
   end
 
