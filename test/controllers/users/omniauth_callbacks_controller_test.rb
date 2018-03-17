@@ -3,6 +3,8 @@ require 'test_helper'
 class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
   include Devise::Test::IntegrationHelpers
 
+  fixtures :seasons
+
   test 'creates an account and user when account does not exist' do
     uid = '123'
     battletag = 'Somebody#1234'
