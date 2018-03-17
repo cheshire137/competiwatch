@@ -146,11 +146,7 @@ class Match < ApplicationRecord
   end
 
   def hero_names
-    if association(:heroes).loaded?
-      heroes.map(&:name).sort
-    else
-      heroes.order_by_name.pluck(:name)
-    end
+    heroes.map(&:name)
   end
 
   def placement_char
