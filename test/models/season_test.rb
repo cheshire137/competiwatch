@@ -4,7 +4,7 @@ class SeasonTest < ActiveSupport::TestCase
   fixtures :seasons
 
   setup do
-    Rails.cache.clear
+    Rails.cache.delete(Season::LATEST_SEASON_CACHE_KEY)
   end
 
   test 'active? returns true for started-but-not-yet-ended season' do

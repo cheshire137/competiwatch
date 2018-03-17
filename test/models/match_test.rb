@@ -1,10 +1,6 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
-  end
-
   test 'prefill_group_members sets group members list from group_member_ids' do
     user = create(:user)
     account = create(:account, user: user)
@@ -73,6 +69,7 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'clears account career high cache if rank is greater' do
     account = create(:account)
+    account.delete_career_high_cache
 
     create(:match, rank: 1234, account: account) # prime the cache
     assert_equal 1234, Rails.cache.fetch("career-high-#{account}")
