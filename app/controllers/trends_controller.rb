@@ -22,8 +22,9 @@ class TrendsController < ApplicationController
     career_high_heroes_chart
     season_high_heroes_chart
     rank_tier_chart
-    @matches = account_matches_in_season.includes(:prior_match, :heroes, :map).ordered_by_time
+    @matches = account_matches_in_season.includes(:prior_match, :map).ordered_by_time
     Match.prefill_group_members(@matches, user: match_source_user)
+    Match.prefill_heroes(@matches)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
   end
@@ -31,8 +32,9 @@ class TrendsController < ApplicationController
   def all_seasons_accounts
     @active_seasons = current_user.active_seasons
     @matches = account_matches_in_season.
-      includes(:prior_match, :map, :heroes, :account).with_result.ordered_by_time
+      includes(:prior_match, :map, :account).with_result.ordered_by_time
     Match.prefill_group_members(@matches, user: match_source_user)
+    Match.prefill_heroes(@matches)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
@@ -61,9 +63,10 @@ class TrendsController < ApplicationController
 
   def all_seasons
     @active_seasons = @account.active_seasons
-    @matches = account_matches_in_season.includes(:heroes, :prior_match, :map).
+    @matches = account_matches_in_season.includes(:prior_match, :map).
       with_result.ordered_by_time
     Match.prefill_group_members(@matches, user: match_source_user)
+    Match.prefill_heroes(@matches)
     @total_matches = @matches.count
     @match_counts_by_hero, @max_hero_match_count = get_match_counts_by_hero(@matches)
     @lowest_sr, @highest_sr = get_lowest_and_highest_rank(@matches)
@@ -90,8 +93,9 @@ class TrendsController < ApplicationController
 
   def all_accounts
     @matches = account_matches_in_season.
-      includes(:heroes, :account, :map, :prior_match).with_result.ordered_by_time
+      includes(:account, :map, :prior_match).with_result.ordered_by_time
     Match.prefill_group_members(@matches, user: match_source_user)
+    Match.prefill_heroes(@matches)
     @total_matches = @matches.count
     @total_accounts = @matches.map(&:account_id).uniq.size
     @account_battletags = @matches.map(&:account).uniq.map(&:battletag).sort_by(&:downcase)
@@ -167,7 +171,8 @@ class TrendsController < ApplicationController
   end
 
   def role_chart
-    matches = account_matches_in_season.includes(:heroes).not_draws
+    matches = account_matches_in_season.not_draws
+    Match.prefill_heroes(matches)
     wins_by_role = Hash.new(0)
     losses_by_role = Hash.new(0)
 
@@ -316,8 +321,8 @@ class TrendsController < ApplicationController
     return unless @season_high
 
     cutoff = @season_high - CAREER_HIGH_CUTOFF
-    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff).
-      includes(:heroes)
+    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff)
+    Match.prefill_heroes(matches)
     hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id =
       wins_losses_draws_by_hero_id(matches)
     hero_names_by_id = hero_names_by_id.
@@ -334,8 +339,8 @@ class TrendsController < ApplicationController
     return unless @career_high
 
     cutoff = @career_high - CAREER_HIGH_CUTOFF
-    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff).
-      includes(:heroes)
+    matches = account_matches_in_season.with_rank.with_result.where('matches.rank >= ?', cutoff)
+    Match.prefill_heroes(matches)
     hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id =
       wins_losses_draws_by_hero_id(matches)
     hero_names_by_id = hero_names_by_id.
@@ -348,7 +353,8 @@ class TrendsController < ApplicationController
   end
 
   def heroes_chart
-    matches = account_matches_in_season.includes(:heroes).with_result
+    matches = account_matches_in_season.with_result
+    Match.prefill_heroes(matches)
     hero_names_by_id, wins_by_hero_id, losses_by_hero_id, draws_by_hero_id =
       wins_losses_draws_by_hero_id(matches)
     hero_names_by_id = hero_names_by_id.
@@ -501,8 +507,9 @@ class TrendsController < ApplicationController
 
   def get_player_roles
     all_roles = Hero::ROLES
-    played_roles = account_matches_in_season.includes(:heroes).
-      select { |match| match.heroes.any? }.flat_map(&:heroes).
+    matches = account_matches_in_season
+    Match.prefill_heroes(matches)
+    played_roles = matches.select { |match| match.heroes.any? }.flat_map(&:heroes).
       group_by(&:role).sort_by { |role, matches| -matches.size }.
       map { |role, matches| [role, matches.size] }.to_h.keys
     all_roles.select { |role| played_roles.include?(role) }.

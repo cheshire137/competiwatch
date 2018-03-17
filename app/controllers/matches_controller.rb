@@ -16,8 +16,9 @@ class MatchesController < ApplicationController
   def index
     @can_edit = signed_in? && @account.user == current_user
     @matches = @account.matches.in_season(@season_number).
-      includes(:prior_match, :heroes, :map).ordered_by_time
+      includes(:prior_match, :map).ordered_by_time
     Match.prefill_group_members(@matches, user: @account.user)
+    Match.prefill_heroes(@matches)
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
