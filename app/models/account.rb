@@ -40,7 +40,6 @@ class Account < ApplicationRecord
 
   has_many :matches, dependent: :destroy
   has_many :season_shares, dependent: :destroy
-  has_many :heroes, through: :matches
 
   def self.top_rank
     with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
