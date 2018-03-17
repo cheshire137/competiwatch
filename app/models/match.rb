@@ -9,7 +9,7 @@ class Match < ApplicationRecord
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
-  attr_writer :group_members
+  attr_writer :group_members, :heroes
 
   belongs_to :account
   belongs_to :map, required: false
@@ -92,6 +92,20 @@ class Match < ApplicationRecord
     else
       :grandmaster
     end
+  end
+
+  def self.prefill_heroes(matches)
+    heroes_by_id = Hero.order_by_name.map { |hero| [hero.id, hero] }.to_h
+    ids_in_order = heroes_by_id.keys
+    matches.each do |match|
+      heroes_by_id_for_match = heroes_by_id.slice(*match.hero_ids).
+        sort_by { |id, _hero| ids_in_order.index(id) }.to_h
+      match.heroes = heroes_by_id_for_match.values
+    end
+  end
+
+  def heroes
+    @heroes ||= Hero.where(id: hero_ids).order_by_name
   end
 
   def self.prefill_group_members(matches, user:)
