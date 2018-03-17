@@ -29,6 +29,7 @@ class Match < ApplicationRecord
   validate :season_same_as_prior_match
   validate :rank_or_placement
   validate :account_has_not_met_season_limit
+  validate :friend_user_matches_account
 
   has_one :user, through: :account
   has_and_belongs_to_many :heroes
@@ -377,6 +378,15 @@ class Match < ApplicationRecord
     if other_matches.count >= MAX_PER_SEASON
       errors.add(:base, "#{account} has reached the maximum allowed number of matches in " \
                         "season #{season}.")
+    end
+  end
+
+  def friend_user_matches_account
+    return unless account_id && friend_ids_list.present?
+    friend_user_ids = Friend.where(id: friend_ids_list).pluck(:user_id).uniq
+
+    unless friend_user_ids.size == 1 && friend_user_ids.first == account_id
+      errors.add(:friend_ids_list, "must be a friend of the owner of account #{account}")
     end
   end
 
