@@ -7,4 +7,8 @@ class Friend < ApplicationRecord
     length: { maximum: MAX_NAME_LENGTH }
 
   scope :order_by_name, ->{ order('LOWER(name) ASC') }
+
+  def matches
+    Match.with_friend(self)
+  end
 end
