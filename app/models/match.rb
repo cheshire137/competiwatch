@@ -392,7 +392,7 @@ class Match < ApplicationRecord
     friend_user_ids = Friend.where(id: friend_ids_list).pluck(:user_id).uniq
 
     unless friend_user_ids.size == 1 && friend_user_ids.first == account.user_id
-      errors.add(:base, "Your group must be friends with the owner of account #{account}")
+      errors.add(:friend_ids_list, "has a group member who is not #{user}'s friend")
     end
   end
 
