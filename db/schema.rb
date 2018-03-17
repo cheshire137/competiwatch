@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180316235009) do
+ActiveRecord::Schema.define(version: 20180317202258) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -89,6 +89,7 @@ ActiveRecord::Schema.define(version: 20180316235009) do
     t.boolean "enemy_leaver"
     t.boolean "ally_leaver"
     t.integer "group_member_ids", default: [], null: false, array: true
+    t.integer "hero_ids", default: [], null: false, array: true
     t.index ["account_id"], name: "index_matches_on_account_id"
     t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
     t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"
