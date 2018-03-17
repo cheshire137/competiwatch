@@ -44,11 +44,9 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     csv = fixture_file_upload('files/valid-match-import.csv')
 
     assert_difference "user.friends.count", 3 do
-      assert_difference "MatchFriend.count", 4 do
-        assert_difference "account.matches.in_season(#{@season}).count", 6 do
-          sign_in_as(account)
-          post "/import/#{@season}/#{account.to_param}", params: { csv: csv }
-        end
+      assert_difference "account.matches.in_season(#{@season}).count", 6 do
+        sign_in_as(account)
+        post "/import/#{@season}/#{account.to_param}", params: { csv: csv }
       end
     end
 

@@ -9,7 +9,6 @@ class MatchExporterTest < ActiveSupport::TestCase
 
     user = create(:user)
     @account = create(:account, user: user)
-
     @friend1 = create(:friend, user: user, name: 'Siege')
     @friend2 = create(:friend, user: user, name: 'Rob')
 
@@ -33,9 +32,8 @@ class MatchExporterTest < ActiveSupport::TestCase
     @match3.heroes << @hero2
 
     @match4 = create(:match, season: @season, account: @account, rank: 1295,
-                     map: @map1, prior_match: @match3, comment: 'this is so cool')
-    create(:match_friend, match: @match4, friend: @friend1)
-    create(:match_friend, match: @match4, friend: @friend2)
+                     map: @map1, prior_match: @match3, comment: 'this is so cool',
+                     friend_ids_list: [@friend1.id, @friend2.id])
   end
 
   test 'generates CSV of season matches' do
@@ -61,7 +59,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     File.open(path, 'w') { |file| file.puts csv }
 
     importer = MatchImporter.new(account: @account, season: @season)
-    assert_no_difference ['Match.count', 'Friend.count', 'MatchFriend.count'] do
+    assert_no_difference ['Match.count', 'Friend.count'] do
       importer.import(path)
       assert_empty importer.errors
     end
