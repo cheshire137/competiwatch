@@ -42,6 +42,19 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='/season/#{@season}/#{account.to_param}']"
   end
 
+  test 'index page loads successfully for past season for account owner' do
+    user = create(:user)
+    friend = create(:friend, user: user)
+    account = create(:account, user: user)
+    match = create(:match, account: account, season: @past_season.number)
+    create(:match_friend, match: match, friend: friend)
+
+    sign_in_as(account)
+    get "/season/#{@past_season}/#{account.to_param}"
+
+    assert_response :ok
+  end
+
   test 'index page has future season message when no matches' do
     account = create(:account)
 
