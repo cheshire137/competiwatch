@@ -211,7 +211,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
 
-    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    text = /Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
   end
 
@@ -305,7 +305,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
 
-    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    text = /Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
   end
 

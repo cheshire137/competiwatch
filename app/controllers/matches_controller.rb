@@ -41,8 +41,8 @@ class MatchesController < ApplicationController
     @selected_heroes = (params[:heroes] || []).map(&:to_i)
     @selected_friend_names = params[:friend_names] || []
 
-    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players " \
+    if @selected_friend_names.size > Match::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players " \
                       'in your group.'
       return render_edit_on_fail
     end
@@ -90,8 +90,8 @@ class MatchesController < ApplicationController
       return render_edit_on_fail
     end
 
-    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+    if @selected_friend_names.size > Match::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group."
       return render_edit_on_fail
     end
 
