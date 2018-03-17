@@ -33,6 +33,7 @@ class Match < ApplicationRecord
   validate :account_has_not_met_season_limit
   validate :friend_user_matches_account
   validate :group_size_within_limit
+  validate :hero_ids_exist
 
   has_one :user, through: :account
 
@@ -415,6 +416,15 @@ class Match < ApplicationRecord
     old_friends = Friend.where(id: group_member_ids)
     old_friends.each do |friend|
       friend.destroy if friend.matches.empty?
+    end
+  end
+
+  def hero_ids_exist
+    return if hero_ids.empty?
+    valid_hero_ids = Hero.pluck(:id)
+    invalid_hero_ids = valid_hero_ids - hero_ids
+    if invalid_hero_ids.any?
+      errors.add(:hero_ids, "contains invalid values: #{invalid_hero_ids.map(&:to_s).join(', ')}")
     end
   end
 end
