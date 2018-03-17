@@ -384,11 +384,11 @@ class Match < ApplicationRecord
   end
 
   def friend_user_matches_account
-    return unless account_id && friend_ids_list.present?
+    return unless account && friend_ids_list.present?
     friend_user_ids = Friend.where(id: friend_ids_list).pluck(:user_id).uniq
 
-    unless friend_user_ids.size == 1 && friend_user_ids.first == account_id
-      errors.add(:friend_ids_list, "must be a friend of the owner of account #{account}")
+    unless friend_user_ids.size == 1 && friend_user_ids.first == account.user_id
+      errors.add(:base, "Your group must be friends with the owner of account #{account}")
     end
   end
 
