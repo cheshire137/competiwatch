@@ -9,6 +9,6 @@ class Friend < ApplicationRecord
   scope :order_by_name, ->{ order('LOWER(name) ASC') }
 
   def matches
-    Match.with_friend(self)
+    Match.with_group_member(self)
   end
 end

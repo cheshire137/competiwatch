@@ -61,13 +61,13 @@ class Match < ApplicationRecord
     joins("INNER JOIN season_shares ON season_shares.season = matches.season " \
           "AND season_shares.account_id = matches.account_id")
   }
-  scope :with_friends, ->(friends_or_ids) {
+  scope :with_group_members, ->(friends_or_ids) {
     friend_ids = friends_or_ids.map do |friend_or_id|
       friend_or_id.is_a?(Friend) ? friend_or_id.id : friend_or_id
     end
     where('group_member_ids @> ARRAY[?]::integer[]', friend_ids)
   }
-  scope :with_friend, ->(friend_or_id) { with_friends([friend_or_id]) }
+  scope :with_group_member, ->(friend_or_id) { with_group_members([friend_or_id]) }
 
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
