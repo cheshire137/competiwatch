@@ -110,12 +110,12 @@ class Match < ApplicationRecord
     self.class.rank_tier(rank)
   end
 
-  def group_size
-    friend_ids_list.size + 1
-  end
-
   def friend_count
     friend_ids_list.size
+  end
+
+  def group_size
+    friend_count + 1
   end
 
   def friend_names
