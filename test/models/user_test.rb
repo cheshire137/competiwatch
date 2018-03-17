@@ -73,24 +73,20 @@ class UserTest < ActiveSupport::TestCase
     primary_user = create(:user)
     primary_account = create(:account, user: primary_user)
     friend1 = create(:friend, user: primary_user, name: 'Luis')
-    match1 = create(:match, account: primary_account)
-    match_friend1 = create(:match_friend, friend: friend1, match: match1)
+    match1 = create(:match, account: primary_account, group_member_ids: [friend1.id])
     secondary_user = create(:user)
     secondary_account = create(:account, user: secondary_user)
     friend2 = create(:friend, user: secondary_user, name: 'Luis')
-    match2 = create(:match, account: secondary_account)
-    match_friend2 = create(:match_friend, friend: friend2, match: match2)
+    match2 = create(:match, account: secondary_account, group_member_ids: [friend2.id])
 
-    assert_no_difference 'MatchFriend.count' do
-      assert_difference 'Friend.count', -1 do
-        assert secondary_user.merge_with(primary_user), 'should return true on success'
-      end
+    assert_difference 'Friend.count', -1 do
+      assert secondary_user.merge_with(primary_user), 'should return true on success'
     end
 
     assert_equal primary_user, friend1.reload.user
     refute Friend.exists?(friend2.id), 'should have deleted friend with same name'
     refute User.exists?(secondary_user.id), 'secondary user should have been deleted'
-    assert_equal friend1, match_friend2.reload.friend,
+    assert_equal [friend1], match2.reload.group_members,
       'should have replaced friend in match with existing friend of the same name'
   end
 
@@ -141,8 +137,8 @@ class UserTest < ActiveSupport::TestCase
       user.destroy
     end
 
-    refute MatchFriend.exists?(friend1.id)
-    refute MatchFriend.exists?(friend2.id)
+    refute Friend.exists?(friend1.id)
+    refute Friend.exists?(friend2.id)
   end
 
   test 'deletes OAuth accounts when deleted' do
@@ -175,14 +171,10 @@ class UserTest < ActiveSupport::TestCase
     account1 = create(:account, user: user)
     account2 = create(:account, user: user)
     season = 4
-    match1 = create(:match, account: account1, season: season)
-    create(:match_friend, match: match1, friend: friend1)
-    match2 = create(:match, account: account2, season: season)
-    create(:match_friend, match: match2, friend: friend2)
-    match3 = create(:match, account: account2, season: season + 1)
-    create(:match_friend, match: match3, friend: friend3)
-    match4 = create(:match, account: account2, season: season)
-    create(:match_friend, match: match4, friend: friend2)
+    match1 = create(:match, account: account1, season: season, group_member_ids: [friend1.id])
+    match2 = create(:match, account: account2, season: season, group_member_ids: [friend2.id])
+    match3 = create(:match, account: account2, season: season + 1, group_member_ids: [friend3.id])
+    match4 = create(:match, account: account2, season: season, group_member_ids: [friend2.id])
 
     result = user.friend_names(season)
 

@@ -21,9 +21,9 @@
       <% end %>
     </span>
   <% end %>
-  <% if match.friends.any? %>
-    <span class="css-truncate tooltipped tooltipped-s tooltipped-multiline" aria-label="<%= match.friend_names.join(', ') %>">
-      <span class="css-truncate-target"><%= match.friend_names.join(', ') %></span>
+  <% if match.group_members.any? %>
+    <span class="css-truncate tooltipped tooltipped-s tooltipped-multiline" aria-label="<%= match.group_member_names.join(', ') %>">
+      <span class="css-truncate-target"><%= match.group_member_names.join(', ') %></span>
     </span>
   <% end %>
 </div>

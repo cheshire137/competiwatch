@@ -35,14 +35,14 @@
                  locals: { matches: @matches } %>
     </div>
     <div id="group-charts" class="js-tab-contents tab-contents d-none">
-      <% if @friends.any? %>
+      <% if @group_members.any? %>
         <h3 class="h3 mb-2">Group Members</h3>
         <%= render partial: 'seasons/group_members',
-                   locals: { friends: @friends, most_frequent_friends: @most_frequent_friends,
+                   locals: { group_members: @group_members, most_frequent_group_members: @most_frequent_group_members,
                              most_frequent_match_count: @most_frequent_match_count,
-                             most_winning_friends: @most_winning_friends,
-                             win_rates_by_friend: @win_rates_by_friend,
-                             match_counts_by_friend: @match_counts_by_friend } %>
+                             most_winning_group_members: @most_winning_group_members,
+                             win_rates_by_group_member: @win_rates_by_group_member,
+                             match_counts_by_group_member: @match_counts_by_group_member } %>
         <hr class="mb-4 pt-2">
       <% end %>
       <%= render partial: 'trends/group_charts',

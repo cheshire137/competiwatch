@@ -4,7 +4,7 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
   setup do
-    Rails.cache.clear
+    Rails.cache.delete(Season::LATEST_SEASON_CACHE_KEY)
   end
 
   test 'loads successfully' do

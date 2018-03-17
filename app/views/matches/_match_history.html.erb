@@ -1,6 +1,6 @@
 <%
   can_edit = signed_in? && account.user == current_user
-  show_group_column = matches.any? { |match| match.friends.any? }
+  show_group_column = matches.any? { |match| match.group_members.any? }
   show_heroes_column = matches.any? { |match| match.heroes.any? }
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
   show_comment_column = matches.any? { |match| match.comment.present? }
@@ -91,7 +91,7 @@
           <% end %>
           <% if show_group_column %>
             <td class="match-cell hide-sm friends-cell">
-              <%= match.friend_names.join(', ') %>
+              <%= match.group_member_names.join(', ') %>
             </td>
           <% end %>
           <% if show_thrower_leaver_column %>

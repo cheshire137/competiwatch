@@ -5,19 +5,20 @@ class Match < ApplicationRecord
   MAX_RANK = 5000
   TOTAL_PLACEMENT_MATCHES = 10
   MAX_PER_SEASON = 500
+  MAX_FRIENDS_PER_MATCH = 5
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
+  attr_writer :group_members
 
   belongs_to :account
   belongs_to :map, required: false
   belongs_to :prior_match, required: false, class_name: 'Match'
 
-  has_many :match_friends, dependent: :destroy
-  has_many :friends, through: :match_friends
-
   before_validation :set_result
   after_create :reset_career_high, if: :saved_change_to_rank?
+  after_save :delete_straggler_friends_on_save, if: :saved_change_to_group_member_ids?
+  after_destroy :delete_straggler_friends_on_destroy
 
   validates :season, presence: true,
     numericality: { only_integer: true, greater_than_or_equal_to: 1 }
@@ -30,6 +31,8 @@ class Match < ApplicationRecord
   validate :season_same_as_prior_match
   validate :rank_or_placement
   validate :account_has_not_met_season_limit
+  validate :friend_user_matches_account
+  validate :group_size_within_limit
 
   has_one :user, through: :account
   has_and_belongs_to_many :heroes
@@ -58,6 +61,13 @@ class Match < ApplicationRecord
     joins("INNER JOIN season_shares ON season_shares.season = matches.season " \
           "AND season_shares.account_id = matches.account_id")
   }
+  scope :with_group_members, ->(friends_or_ids) {
+    friend_ids = friends_or_ids.map do |friend_or_id|
+      friend_or_id.is_a?(Friend) ? friend_or_id.id : friend_or_id
+    end
+    where('group_member_ids @> ARRAY[?]::integer[]', friend_ids)
+  }
+  scope :with_group_member, ->(friend_or_id) { with_group_members([friend_or_id]) }
 
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
@@ -85,21 +95,35 @@ class Match < ApplicationRecord
     end
   end
 
+  def self.prefill_group_members(matches, user:)
+    friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
+    ids_in_order = friends_by_id.keys
+    matches.each do |match|
+      friends_by_id_for_match = friends_by_id.slice(*match.group_member_ids).
+        sort_by { |id, _friend| ids_in_order.index(id) }.to_h
+      match.group_members = friends_by_id_for_match.values
+    end
+  end
+
+  def group_members
+    @group_members ||= user.friends.where(id: group_member_ids).order_by_name
+  end
+
   def rank_tier
     return unless rank.present?
     self.class.rank_tier(rank)
   end
 
-  def group_size
-    friends.to_a.size + 1
+  def friend_count
+    group_member_ids.size
   end
 
-  def friend_names
-    if association(:friends).loaded?
-      friends.map(&:name).sort
-    else
-      friends.order_by_name.pluck(:name)
-    end
+  def group_size
+    friend_count + 1
+  end
+
+  def group_member_names
+    group_members.map(&:name)
   end
 
   def hero_names
@@ -220,14 +244,16 @@ class Match < ApplicationRecord
   end
 
   def set_friends_from_names(names)
-    match_friends_to_remove = match_friends -
-      match_friends.joins(:friend).where(friends: { name: names })
-    match_friends_to_remove.each(&:destroy)
+    friends_by_name = user.friends.where(name: names).
+      map { |friend| [friend.name, friend] }.to_h
+    friend_ids_to_keep = friends_by_name.values.map(&:id)
+    self.group_member_ids = friend_ids_to_keep
 
-    names.each do |name|
-      friend = user.friends.where(name: name).first_or_create
+    new_names = names - friends_by_name.keys
+    new_names.each do |name|
+      friend = friends_by_name[name] || user.friends.create(name: name)
       if friend.persisted?
-        match_friends.where(friend: friend).first_or_create
+        group_member_ids << friend.id
       end
     end
   end
@@ -358,6 +384,38 @@ class Match < ApplicationRecord
     if other_matches.count >= MAX_PER_SEASON
       errors.add(:base, "#{account} has reached the maximum allowed number of matches in " \
                         "season #{season}.")
+    end
+  end
+
+  def friend_user_matches_account
+    return unless account && group_member_ids.present?
+    friend_user_ids = Friend.where(id: group_member_ids).pluck(:user_id).uniq
+
+    unless friend_user_ids.size == 1 && friend_user_ids.first == account.user_id
+      errors.add(:group_member_ids, "has a group member who is not #{user}'s friend")
+    end
+  end
+
+  def group_size_within_limit
+    if friend_count >= MAX_FRIENDS_PER_MATCH
+      party = group_member_names.take(5).join(', ')
+      errors.add(:base, "Match already has a full group: you, #{party}")
+    end
+  end
+
+  def delete_straggler_friends_on_save
+    old_friend_ids = attribute_before_last_save('group_member_ids')
+    removed_friend_ids = old_friend_ids - group_member_ids
+    removed_friends = Friend.where(id: removed_friend_ids)
+    removed_friends.each do |friend|
+      friend.destroy if friend.matches.empty?
+    end
+  end
+
+  def delete_straggler_friends_on_destroy
+    old_friends = Friend.where(id: group_member_ids)
+    old_friends.each do |friend|
+      friend.destroy if friend.matches.empty?
     end
   end
 end

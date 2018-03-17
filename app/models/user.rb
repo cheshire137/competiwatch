@@ -51,7 +51,12 @@ class User < ApplicationRecord
     friends.each do |secondary_friend|
       primary_friend = primary_user.friends.find_by_name(secondary_friend.name)
       if primary_friend
-        MatchFriend.where(friend_id: secondary_friend.id).update_all(friend_id: primary_friend.id)
+        Match.with_group_member(secondary_friend).each do |match|
+          match.group_member_ids -= [secondary_friend.id]
+          match.group_member_ids << primary_friend.id
+          success = success && match.save
+          break unless success
+        end
         success = success && secondary_friend.destroy
       else
         secondary_friend.user = primary_user
@@ -67,7 +72,9 @@ class User < ApplicationRecord
   end
 
   def friend_names(season)
-    matches.in_season(season).includes(:friends).flat_map(&:friends).uniq.
+    season_matches = matches.in_season(season)
+    Match.prefill_group_members(season_matches, user: self)
+    season_matches.flat_map(&:group_members).uniq.
       sort_by { |friend| friend.name.downcase }.map(&:name)
   end
 

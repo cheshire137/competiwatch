@@ -65,7 +65,7 @@ module TrendsHelper
 
   def show_group_member_chart?(matches)
     return @show_group_member_chart if defined? @show_group_member_chart
-    @show_group_member_chart = matches.any? { |match| match.friends.any? }
+    @show_group_member_chart = matches.any? { |match| match.group_members.any? }
   end
 
   def show_thrower_leaver_chart?(matches)

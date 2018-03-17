@@ -46,8 +46,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     user = create(:user)
     friend = create(:friend, user: user)
     account = create(:account, user: user)
-    match = create(:match, account: account, season: @past_season.number)
-    create(:match_friend, match: match, friend: friend)
+    match = create(:match, account: account, season: @past_season.number,
+                   group_member_ids: [friend.id])
 
     sign_in_as(account)
     get "/season/#{@past_season}/#{account.to_param}"
@@ -224,7 +224,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
 
-    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    text = /Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
   end
 
@@ -318,7 +318,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
 
-    text = /Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group/
+    text = /Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group/
     assert_select '.flash-error', text: text
   end
 

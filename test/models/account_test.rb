@@ -3,10 +3,6 @@ require 'test_helper'
 class AccountTest < ActiveSupport::TestCase
   fixtures :seasons, :heroes
 
-  setup do
-    Rails.cache.clear
-  end
-
   test 'most_played_heroes returns a hash of the heroes and match counts' do
     account = create(:account)
     other_account = create(:account)
@@ -98,6 +94,7 @@ class AccountTest < ActiveSupport::TestCase
 
   test 'career_high is nil for account with no matches' do
     account = create(:account)
+    account.delete_career_high_cache
 
     assert_nil account.career_high
   end
@@ -107,6 +104,7 @@ class AccountTest < ActiveSupport::TestCase
     create(:match, account: account, season: 1, rank: 50)
     create(:match, account: account, season: 2, rank: 2501)
     create(:match, account: account, season: 4, rank: 2420)
+    account.delete_career_high_cache
 
     assert_equal 2501, account.career_high
     assert_equal 2501, Rails.cache.fetch("career-high-#{account}")

@@ -1,8 +1,21 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
-  setup do
-    Rails.cache.clear
+  test 'prefill_group_members sets group members list from group_member_ids' do
+    user = create(:user)
+    account = create(:account, user: user)
+    friend1 = create(:friend, user: user, name: 'Sally')
+    friend2 = create(:friend, user: user, name: 'Jim')
+    match1 = create(:match, account: account, group_member_ids: [friend1.id])
+    match2 = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
+
+    Match.prefill_group_members([match1, match2], user: user)
+
+    friend1.destroy
+    friend2.destroy
+
+    assert_equal %w[Sally], match1.group_members.map(&:name)
+    assert_equal %w[Jim Sally], match2.group_members.map(&:name).sort
   end
 
   test 'top_accounts returns a hash of accounts with the most matches' do
@@ -56,6 +69,7 @@ class MatchTest < ActiveSupport::TestCase
 
   test 'clears account career high cache if rank is greater' do
     account = create(:account)
+    account.delete_career_high_cache
 
     create(:match, rank: 1234, account: account) # prime the cache
     assert_equal 1234, Rails.cache.fetch("career-high-#{account}")
@@ -90,31 +104,28 @@ class MatchTest < ActiveSupport::TestCase
     match = create(:match)
     names = %w[Jamie Seed]
 
-    assert_difference ['MatchFriend.count', 'Friend.count'], 2 do
+    assert_difference 'Friend.count', 2 do
       match.set_friends_from_names names
+      match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
   test 'removes match friends not in given name list' do
     user = create(:user)
     account = create(:account, user: user)
-    match = create(:match, account: account)
-    other_match = create(:match, account: account)
     friend = create(:friend, user: user, name: 'Rob')
-    match_friend = create(:match_friend, match: match, friend: friend)
-    create(:match_friend, friend: friend, match: other_match)
+    match = create(:match, account: account, group_member_ids: [friend.id])
+    other_match = create(:match, account: account, group_member_ids: [friend.id])
     names = %w[Jamie Seed]
 
-    assert_difference 'MatchFriend.count' do
-      assert_difference 'Friend.count', 2 do
-        match.set_friends_from_names names
-      end
+    assert_difference 'Friend.count', 2 do
+      match.set_friends_from_names names
+      match.save!
     end
 
-    assert_equal names, match.reload.friend_names
-    refute MatchFriend.exists?(match_friend.id)
+    assert_equal names, match.reload.group_member_names
     assert Friend.exists?(friend.id),
       'should not delete friend when friend removed from match but still in other matches'
   end
@@ -122,49 +133,86 @@ class MatchTest < ActiveSupport::TestCase
   test 'adds existing friend to match based on name' do
     user = create(:user)
     account = create(:account, user: user)
-    match = create(:match, account: account)
     friend = create(:friend, user: user, name: 'Rob')
-    match_friend = create(:match_friend, match: match, friend: friend)
+    match = create(:match, account: account, group_member_ids: [friend.id])
     names = %w[Rob Seed]
 
-    assert_difference 'MatchFriend.count' do
-      assert_difference 'Friend.count' do
-        match.set_friends_from_names names
-      end
+    assert_difference 'Friend.count' do
+      match.set_friends_from_names names
+      match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
   test 'leaves existing friend in match when adding another existing friend' do
     user = create(:user)
     account = create(:account, user: user)
-    match = create(:match, account: account)
     friend1 = create(:friend, user: user, name: 'Rob')
     friend2 = create(:friend, user: user, name: 'Seed')
-    match_friend = create(:match_friend, match: match, friend: friend1)
+    match = create(:match, account: account, group_member_ids: [friend1.id])
     names = %w[Rob Seed]
 
-    assert_difference 'MatchFriend.count' do
-      assert_no_difference 'Friend.count' do
-        match.set_friends_from_names names
-      end
+    assert_no_difference 'Friend.count' do
+      match.set_friends_from_names names
+      match.save!
     end
 
-    assert_equal names, match.reload.friend_names
+    assert_equal names, match.reload.group_member_names
   end
 
-  test 'deletes friends when deleted' do
-    match = create(:match)
-    match_friend1 = create(:match_friend, match: match)
-    match_friend2 = create(:match_friend, match: match)
+  test 'requires friend user to match account user' do
+    friend = create(:friend)
+    match_user = create(:user)
+    match_account = create(:account, user: match_user)
+    match = build(:match, account: match_account, group_member_ids: [friend.id])
 
-    assert_difference 'MatchFriend.count', -2 do
-      match.destroy
+    refute_predicate match, :valid?
+    assert_includes match.errors.messages[:group_member_ids],
+      "has a group member who is not #{match_user}'s friend"
+  end
+
+  test 'disallows more than 5 others in your match group' do
+    user = create(:user)
+    friends = []
+    6.times { |i| friends << create(:friend, name: "Friend#{i}", user: user) }
+    account = create(:account, user: user)
+    match = build(:match, account: account, group_member_ids: friends.map(&:id))
+
+    refute_predicate match, :valid?
+    assert_includes match.errors.messages[:base],
+      'Match already has a full group: you, Friend0, Friend1, Friend2, Friend3, Friend4'
+  end
+
+  test 'deletes friends when last match has them removed' do
+    user = create(:user)
+    account = create(:account, user: user)
+    friend1 = create(:friend, user: user)
+    friend2 = create(:friend, user: user)
+    match = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
+
+    assert_difference 'Friend.count', -2 do
+      match.group_member_ids = []
+      match.save!
     end
 
-    refute MatchFriend.exists?(match_friend1.id)
-    refute MatchFriend.exists?(match_friend2.id)
+    refute Friend.exists?(friend1.id)
+    refute Friend.exists?(friend2.id)
+  end
+
+  test 'deletes friends when last match including them is destroyed' do
+    user = create(:user)
+    account = create(:account, user: user)
+    friend1 = create(:friend, user: user)
+    friend2 = create(:friend, user: user)
+    match = create(:match, account: account, group_member_ids: [friend1.id, friend2.id])
+
+    assert_difference 'Friend.count', -2 do
+      match.destroy!
+    end
+
+    refute Friend.exists?(friend1.id)
+    refute Friend.exists?(friend2.id)
   end
 
   test 'requires valid season' do

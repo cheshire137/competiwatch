@@ -21,7 +21,7 @@
         &middot;
         <%= pluralize(hero_count, 'hero') %>
       <% end %>
-      <% if (friend_count = match.match_friends.count) > 0 %>
+      <% if (friend_count = match.friend_count) > 0 %>
         &middot;
         <%= pluralize(friend_count, 'friend') %>
       <% end %>

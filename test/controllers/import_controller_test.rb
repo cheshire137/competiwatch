@@ -44,11 +44,9 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
     csv = fixture_file_upload('files/valid-match-import.csv')
 
     assert_difference "user.friends.count", 3 do
-      assert_difference "MatchFriend.count", 4 do
-        assert_difference "account.matches.in_season(#{@season}).count", 6 do
-          sign_in_as(account)
-          post "/import/#{@season}/#{account.to_param}", params: { csv: csv }
-        end
+      assert_difference "account.matches.in_season(#{@season}).count", 6 do
+        sign_in_as(account)
+        post "/import/#{@season}/#{account.to_param}", params: { csv: csv }
       end
     end
 
@@ -60,13 +58,13 @@ class ImportControllerTest < ActionDispatch::IntegrationTest
       {
         rank: 3903, map: 'Watchpoint: Gibraltar', comment: 'red Junkrat, favored team',
         ally_leaver: false, ally_thrower: true, enemy_leaver: false, enemy_thrower: false,
-        friend_names: %w[Jamie]
+        group_member_names: %w[Jamie]
       },
-      { rank: 3928, map: 'Lijiang Tower', comment: 'unfavored team', friend_names: %w[Jamie Rob] },
+      { rank: 3928, map: 'Lijiang Tower', comment: 'unfavored team', group_member_names: %w[Jamie Rob] },
       {
         rank: 3954, map: 'Junkertown', comment: 'first game w/o perf. SR',
         ally_leaver: false, ally_thrower: false, enemy_leaver: false, enemy_thrower: false,
-        friend_names: %w[Siege]
+        group_member_names: %w[Siege]
       },
       {
         rank: 3931, map: 'Hollywood', comment: 'overextending, feeding teammate',

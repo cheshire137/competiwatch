@@ -16,7 +16,8 @@ class MatchesController < ApplicationController
   def index
     @can_edit = signed_in? && @account.user == current_user
     @matches = @account.matches.in_season(@season_number).
-      includes(:prior_match, :heroes, :map, :friends).ordered_by_time
+      includes(:prior_match, :heroes, :map).ordered_by_time
+    Match.prefill_group_members(@matches, user: @account.user)
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
@@ -31,7 +32,7 @@ class MatchesController < ApplicationController
       @all_friends = current_user.all_friend_names
       placement = !@account.finished_placements?(@season_number)
       @match = @account.matches.new(prior_match: @latest_match, season: @season_number,
-                                          placement: placement)
+                                    placement: placement)
     end
   end
 
@@ -41,16 +42,17 @@ class MatchesController < ApplicationController
     @selected_heroes = (params[:heroes] || []).map(&:to_i)
     @selected_friend_names = params[:friend_names] || []
 
-    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players " \
+    if @selected_friend_names.size > Match::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players " \
                       'in your group.'
       return render_edit_on_fail
     end
 
+    @match.set_friends_from_names(@selected_friend_names)
+
     return render_edit_on_fail unless @match.save
 
     @match.set_heroes_from_ids(@selected_heroes)
-    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@season_number, @account, anchor: "match-row-#{@match.id}")
   end
@@ -90,15 +92,16 @@ class MatchesController < ApplicationController
       return render_edit_on_fail
     end
 
-    if @selected_friend_names.size > MatchFriend::MAX_FRIENDS_PER_MATCH
-      flash[:error] = "Cannot have more than #{MatchFriend::MAX_FRIENDS_PER_MATCH} other players in your group."
+    if @selected_friend_names.size > Match::MAX_FRIENDS_PER_MATCH
+      flash[:error] = "Cannot have more than #{Match::MAX_FRIENDS_PER_MATCH} other players in your group."
       return render_edit_on_fail
     end
+
+    @match.set_friends_from_names(@selected_friend_names)
 
     return render_edit_on_fail unless @match.save
 
     @match.set_heroes_from_ids(@selected_heroes)
-    @match.set_friends_from_names(@selected_friend_names)
 
     redirect_to matches_path(@match.season, @account, anchor: "match-row-#{@match.id}")
   end
