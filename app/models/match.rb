@@ -35,7 +35,6 @@ class Match < ApplicationRecord
   validate :group_size_within_limit
 
   has_one :user, through: :account
-  has_and_belongs_to_many :heroes
 
   scope :wins, ->{ where(result: RESULT_MAPPINGS[:win]) }
   scope :losses, ->{ where(result: RESULT_MAPPINGS[:loss]) }

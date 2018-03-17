@@ -8,8 +8,6 @@ class Hero < ApplicationRecord
 
   alias_attribute :to_s, :name
 
-  has_and_belongs_to_many :matches
-
   ROLE_SORT = {
     'DPS' => 0,
     'hitscan' => 1,
