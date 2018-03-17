@@ -8,6 +8,7 @@ class Match < ApplicationRecord
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
+  attr_writer :friends
 
   belongs_to :account
   belongs_to :map, required: false
@@ -80,6 +81,10 @@ class Match < ApplicationRecord
     else
       :grandmaster
     end
+  end
+
+  def friends
+    @friends ||= user.friends.where(id: friend_ids_list).order_by_name
   end
 
   def rank_tier
