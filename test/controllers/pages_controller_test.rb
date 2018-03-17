@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class PagesControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test 'responds with LETS_ENCRYPT_VALUE' do
     ENV['LETS_ENCRYPT_VALUE'] = 'something something'
 
