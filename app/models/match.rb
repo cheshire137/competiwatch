@@ -116,11 +116,7 @@ class Match < ApplicationRecord
   end
 
   def friend_names
-    if association(:friends).loaded?
-      friends.map(&:name).sort
-    else
-      friends.order_by_name.pluck(:name)
-    end
+    friends.map(&:name)
   end
 
   def hero_names
