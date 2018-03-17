@@ -1,7 +1,15 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
-  fixtures :heroes
+  fixtures :heroes, :seasons
+
+  test 'next_match returns the match following this one in the season' do
+    account = create(:account)
+    match1 = create(:match, account: account, season: 1)
+    match2 = create(:match, account: account, season: 1, prior_match: match1)
+
+    assert_equal match2, match1.next_match
+  end
 
   test 'requires hero_ids to include only valid hero IDs' do
     match = build(:match, hero_ids: [heroes(:ana).id, -1, heroes(:mercy).id])

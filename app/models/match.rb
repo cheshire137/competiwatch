@@ -344,6 +344,11 @@ class Match < ApplicationRecord
     end
   end
 
+  def next_match
+    return unless id && account && season
+    account.matches.in_season(season).where(prior_match_id: id).first
+  end
+
   private
 
   def reset_career_high
