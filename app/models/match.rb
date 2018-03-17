@@ -95,6 +95,17 @@ class Match < ApplicationRecord
     end
   end
 
+  def self.count_by_hero_id(scope: nil)
+    matches_played_by_hero_id = Hash.new(0)
+    matches = (scope || Match).select(:hero_ids)
+    matches.each do |match|
+      match.hero_ids.each do |hero_id|
+        matches_played_by_hero_id[hero_id] += 1
+      end
+    end
+    matches_played_by_hero_id.sort_by { |_hero_id, match_count| -match_count }.to_h
+  end
+
   def self.prefill_heroes(matches)
     heroes_by_id = Hero.order_by_name.map { |hero| [hero.id, hero] }.to_h
     ids_in_order = heroes_by_id.keys

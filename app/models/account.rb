@@ -46,15 +46,7 @@ class Account < ApplicationRecord
   end
 
   def most_played_heroes(limit: 5)
-    matches_played_by_hero_id = Hash.new(0)
-    matches = Match.where(account_id: id).select(:hero_ids)
-    matches.each do |match|
-      match.hero_ids.each do |hero_id|
-        matches_played_by_hero_id[hero_id] += 1
-      end
-    end
-    matches_played_by_hero_id = matches_played_by_hero_id.
-      sort_by { |_hero_id, match_count| -match_count }.to_h
+    matches_played_by_hero_id = Match.count_by_hero_id(scope: Match.where(account_id: id))
     hero_ids = matches_played_by_hero_id.keys.take(limit)
     heroes_by_id = Hero.where(id: hero_ids).map { |hero| [hero.id, hero] }.to_h
     hero_ids.map do |hero_id|
