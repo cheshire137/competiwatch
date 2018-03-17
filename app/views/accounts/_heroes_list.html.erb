@@ -5,11 +5,6 @@
 %>
 
 <% heroes.each do |hero, match_count| %>
-  <div class="d-flex flex-items-center mb-1 hero-list-item">
-    <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait', width: 30, height: 30) %>
-    <span class="d-inline-block hero-name text-bold mr-2"><%= hero %></span>
-    <span aria-label="<%= number_with_delimiter(match_count) %> <%= 'match'.pluralize(match_count) %>" class="hero-bar-container tooltipped tooltipped-w d-inline-block">
-      <span class="hero-bar hero-bar-<%= hero.slug %> d-inline-block rounded-2" style="width: <%= hero_bar_width(match_count, max_match_count, total_match_count) %>%"></span>
-    </span>
-  </div>
+  <%= hero_bar(hero, match_count: match_count, max_match_count: max_match_count,
+               total_match_count: total_match_count) %>
 <% end %>

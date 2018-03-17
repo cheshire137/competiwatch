@@ -1,6 +1,15 @@
 require 'test_helper'
 
 class MatchTest < ActiveSupport::TestCase
+  fixtures :heroes
+
+  test 'requires hero_ids to include only valid hero IDs' do
+    match = build(:match, hero_ids: [heroes(:ana).id, -1, heroes(:mercy).id])
+
+    refute_predicate match, :valid?
+    assert_includes match.errors.messages[:hero_ids], 'contains invalid values: -1'
+  end
+
   test 'prefill_group_members sets group members list from group_member_ids' do
     user = create(:user)
     account = create(:account, user: user)

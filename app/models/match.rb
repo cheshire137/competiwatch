@@ -33,9 +33,9 @@ class Match < ApplicationRecord
   validate :account_has_not_met_season_limit
   validate :friend_user_matches_account
   validate :group_size_within_limit
+  validate :hero_ids_exist
 
   has_one :user, through: :account
-  has_and_belongs_to_many :heroes
 
   scope :wins, ->{ where(result: RESULT_MAPPINGS[:win]) }
   scope :losses, ->{ where(result: RESULT_MAPPINGS[:loss]) }
@@ -95,6 +95,36 @@ class Match < ApplicationRecord
     end
   end
 
+  def self.count_by_hero_id(scope: nil)
+    matches_played_by_hero_id = Hash.new(0)
+    matches = (scope || Match).select(:hero_ids)
+    matches.each do |match|
+      match.hero_ids.each do |hero_id|
+        matches_played_by_hero_id[hero_id] += 1
+      end
+    end
+    matches_played_by_hero_id.sort_by { |_hero_id, match_count| -match_count }.to_h
+  end
+
+  def self.prefill_heroes(matches)
+    heroes_by_id = Hero.order_by_name.map { |hero| [hero.id, hero] }.to_h
+    ids_in_order = heroes_by_id.keys
+    matches.each do |match|
+      heroes_by_id_for_match = heroes_by_id.slice(*match.hero_ids).
+        sort_by { |id, _hero| ids_in_order.index(id) }.to_h
+      match.heroes = heroes_by_id_for_match.values
+    end
+  end
+
+  def heroes
+    @heroes ||= Hero.where(id: hero_ids).order_by_name
+  end
+
+  def heroes=(list)
+    @heroes = list
+    self.hero_ids = list.map(&:id)
+  end
+
   def self.prefill_group_members(matches, user:)
     friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
     ids_in_order = friends_by_id.keys
@@ -127,11 +157,7 @@ class Match < ApplicationRecord
   end
 
   def hero_names
-    if association(:heroes).loaded?
-      heroes.map(&:name).sort
-    else
-      heroes.order_by_name.pluck(:name)
-    end
+    heroes.map(&:name)
   end
 
   def placement_char
@@ -255,20 +281,6 @@ class Match < ApplicationRecord
       if friend.persisted?
         group_member_ids << friend.id
       end
-    end
-  end
-
-  def set_heroes_from_ids(hero_ids)
-    heroes_to_keep = Hero.where(id: hero_ids)
-    heroes_to_remove = heroes - heroes_to_keep
-    heroes_to_add = heroes_to_keep - heroes
-
-    heroes_to_remove.each do |hero|
-      heroes.delete(hero)
-    end
-
-    heroes_to_add.each do |hero|
-      self.heroes << hero
     end
   end
 
@@ -416,6 +428,15 @@ class Match < ApplicationRecord
     old_friends = Friend.where(id: group_member_ids)
     old_friends.each do |friend|
       friend.destroy if friend.matches.empty?
+    end
+  end
+
+  def hero_ids_exist
+    return if hero_ids.empty?
+    valid_hero_ids = Hero.pluck(:id)
+    invalid_hero_ids = hero_ids - valid_hero_ids
+    if invalid_hero_ids.any?
+      errors.add(:hero_ids, "contains invalid values: #{invalid_hero_ids.map(&:to_s).join(', ')}")
     end
   end
 end

@@ -1,4 +1,22 @@
 module TrendsHelper
+  def hero_bar(hero, match_count:, max_match_count:, total_match_count:)
+    tooltip = number_with_delimiter(match_count) + ' match'.pluralize(match_count)
+    width_percent = hero_bar_width(match_count, max_match_count, total_match_count)
+    content_tag(:div, class: 'd-flex flex-items-center mb-1 hero-list-item') do
+      safe_join([
+        image_tag("heroes/#{hero.slug}.png", alt: hero.name,
+                  class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait',
+                  width: 30, height: 30),
+        content_tag(:span, hero, class: 'd-inline-block hero-name text-bold mr-2'),
+        content_tag(:span, 'aria-label' => tooltip,
+                    class: 'hero-bar-container tooltipped tooltipped-w d-inline-block') do
+          content_tag(:span, '', style: "width: #{width_percent}%",
+                      class: "hero-bar hero-bar-#{hero.slug} d-inline-block rounded-2")
+        end
+      ])
+    end
+  end
+
   def group_member_chart_style(group_members)
     height = group_members.size * 80
     height = 600 if height > 600

@@ -26,9 +26,9 @@ class MatchExporter
   private
 
   def matches_to_export
-    matches = @account.matches.in_season(@season).
-      includes(:prior_match, :heroes, :map).ordered_by_time
+    matches = @account.matches.in_season(@season).includes(:prior_match, :map).ordered_by_time
     Match.prefill_group_members(matches, user: @account.user)
+    Match.prefill_heroes(matches)
     matches
   end
 end

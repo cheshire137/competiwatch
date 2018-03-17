@@ -63,18 +63,17 @@ class MatchImporter
       match.set_friends_from_names friend_names
     end
 
-    unless match.save
-      errors << match.errors
-    end
-
-    if match.persisted? && (hero_name_str = row['heroes']).present?
+    if (hero_name_str = row['heroes']).present?
       hero_names = split_string(hero_name_str)
       heroes = hero_names.map do |name|
         flat_name = Hero.flatten_name(name)
         heroes_by_name[flat_name]
       end
-      heroes = heroes.compact
-      heroes.each { |hero| match.heroes << hero }
+      match.heroes = heroes.compact
+    end
+
+    unless match.save
+      errors << match.errors
     end
 
     match

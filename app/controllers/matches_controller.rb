@@ -16,8 +16,9 @@ class MatchesController < ApplicationController
   def index
     @can_edit = signed_in? && @account.user == current_user
     @matches = @account.matches.in_season(@season_number).
-      includes(:prior_match, :heroes, :map).ordered_by_time
+      includes(:prior_match, :map).ordered_by_time
     Match.prefill_group_members(@matches, user: @account.user)
+    Match.prefill_heroes(@matches)
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
     @longest_loss_streak = @matches.map(&:loss_streak).compact.max
@@ -49,11 +50,9 @@ class MatchesController < ApplicationController
     end
 
     @match.set_friends_from_names(@selected_friend_names)
+    @match.hero_ids = @selected_heroes
 
     return render_edit_on_fail unless @match.save
-
-    @match.set_heroes_from_ids(@selected_heroes)
-
     redirect_to matches_path(@season_number, @account, anchor: "match-row-#{@match.id}")
   end
 
@@ -98,11 +97,9 @@ class MatchesController < ApplicationController
     end
 
     @match.set_friends_from_names(@selected_friend_names)
+    @match.hero_ids = @selected_heroes
 
     return render_edit_on_fail unless @match.save
-
-    @match.set_heroes_from_ids(@selected_heroes)
-
     redirect_to matches_path(@match.season, @account, anchor: "match-row-#{@match.id}")
   end
 

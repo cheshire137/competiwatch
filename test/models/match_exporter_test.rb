@@ -20,17 +20,12 @@ class MatchExporterTest < ActiveSupport::TestCase
 
     @match1 = create(:match, season: @season, account: @account, rank: 1234,
                      map: nil, prior_match: nil)
-
     @match2 = create(:match, season: @season, account: @account, rank: 1254,
-                     map: @map1, ally_thrower: true, prior_match: @match1, time_of_day: :evening)
-    @match2.heroes << @hero3
-
+                     map: @map1, ally_thrower: true, prior_match: @match1, time_of_day: :evening,
+                     heroes: [@hero3])
     @match3 = create(:match, season: @season, account: @account, rank: 1273,
                      map: @map2, enemy_leaver: true, prior_match: @match2, time_of_day: :morning,
-                     day_of_week: :weekday)
-    @match3.heroes << @hero1
-    @match3.heroes << @hero2
-
+                     day_of_week: :weekday, heroes: [@hero1, @hero2])
     @match4 = create(:match, season: @season, account: @account, rank: 1295,
                      map: @map1, prior_match: @match3, comment: 'this is so cool',
                      group_member_ids: [@friend1.id, @friend2.id])
