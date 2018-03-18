@@ -8,6 +8,20 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'sole_accounts returns accounts that are the sole account for their user' do
+    user1 = create(:user)
+    account1 = create(:account, user: user1)
+
+    user2 = create(:user)
+    account2 = create(:account, user: user2)
+    account3 = create(:account, user: user2)
+
+    user3 = create(:user)
+    account4 = create(:account, user: user3)
+
+    assert_equal [account1, account4], Account.sole_accounts
+  end
+
   test 'without_matches returns accounts that have not logged a match' do
     account1 = create(:account)
     create(:match, account: account1)

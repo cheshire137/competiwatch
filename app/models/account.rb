@@ -44,6 +44,13 @@ class Account < ApplicationRecord
     scope
   end
 
+  scope :sole_accounts, -> do
+    joins(:user).joins('LEFT OUTER JOIN accounts other_accounts ' \
+                       'ON users.id=other_accounts.user_id ' \
+                       'AND other_accounts.id <> accounts.id').
+      where('other_accounts.id IS NULL')
+  end
+
   after_update :remove_default, if: :saved_change_to_user_id?
   after_update :refresh_profile_data, if: :region_or_platform_changed?
 
