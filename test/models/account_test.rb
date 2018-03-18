@@ -277,6 +277,21 @@ class AccountTest < ActiveSupport::TestCase
     assert_includes account.errors.messages[:battletag], "can't be blank"
   end
 
+  test 'raises exception when trying to delete account with matches' do
+    account = create(:account)
+    match1 = create(:match, account: account)
+    match2 = create(:match, account: account)
+
+    assert_no_difference 'Match.count' do
+      assert_raises ActiveRecord::DeleteRestrictionError do
+        account.reload.destroy
+      end
+    end
+
+    assert Match.exists?(match1.id)
+    assert Match.exists?(match2.id)
+  end
+
   test 'deletes season shares when deleted' do
     account = create(:account)
     share1 = create(:season_share, account: account, season: seasons(:one).number)

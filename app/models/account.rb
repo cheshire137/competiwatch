@@ -57,7 +57,7 @@ class Account < ApplicationRecord
 
   alias_attribute :to_s, :battletag
 
-  has_many :matches
+  has_many :matches, dependent: :restrict_with_exception
   has_many :season_shares, dependent: :destroy
 
   def self.find_by_param(battletag_param)
