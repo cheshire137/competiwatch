@@ -9,7 +9,8 @@ class MatchImporter
   end
 
   def import(path)
-    table = CSV.read(path, headers: true, header_converters: [:downcase])
+    table = CSV.read(path, headers: true, header_converters: [:downcase],
+                     encoding: 'ISO-8859-1')
     @account.wipe_season(@season)
     prior_match = nil
     table.each do |row|
