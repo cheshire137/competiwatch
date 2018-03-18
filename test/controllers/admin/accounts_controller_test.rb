@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
+  include ActiveJob::TestHelper
   fixtures :seasons
+
+  setup do
+    clear_enqueued_jobs
+  end
 
   test 'non-admin cannot view accounts' do
     account = create(:account)
@@ -23,6 +28,49 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select '.test-userless-accounts li', text: userless_account.battletag
     assert_select '.test-deletable-accounts li', text: deletable_account.battletag
+    assert_select "form[action='#{admin_prune_accounts_path}'] input[name='_method'][value='delete']"
+  end
+
+  test 'non-admin cannot prune old accounts' do
+    account = create(:account)
+
+    assert_difference 'enqueued_jobs.size' do
+      sign_in_as(account)
+      delete '/admin/accounts/prune'
+
+      assert_response :not_found
+    end
+
+    prune_job = enqueued_jobs.detect { |enqueued_job| enqueued_job[:job] == PruneOldAccountsJob }
+    assert_nil prune_job
+
+    profile_job = enqueued_jobs.detect { |enqueued_job| enqueued_job[:job] == SetProfileDataJob }
+    refute_nil profile_job
+    assert_equal [account.id], profile_job[:args]
+  end
+
+  test 'anonymous user cannot prune old accounts' do
+    assert_no_difference 'enqueued_jobs.size' do
+      delete '/admin/accounts/prune'
+
+      assert_response :not_found
+    end
+  end
+
+  test 'admin can prune old accounts' do
+    admin_account = create(:account, admin: true)
+
+    assert_difference 'enqueued_jobs.size', 2 do
+      sign_in_as(admin_account)
+      delete '/admin/accounts/prune'
+
+      assert_redirected_to admin_accounts_path
+      assert_equal 'Deleting old sole accounts without matches...', flash[:notice]
+    end
+
+    prune_job = enqueued_jobs.detect { |enqueued_job| enqueued_job[:job] == PruneOldAccountsJob }
+    refute_nil prune_job
+    assert_empty prune_job[:args]
   end
 
   test 'non-admin cannot edit accounts' do

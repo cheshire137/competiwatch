@@ -10,6 +10,11 @@ class Admin::AccountsController < ApplicationController
     @deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated
   end
 
+  def prune
+    PruneOldAccountsJob.perform_later
+    redirect_to admin_accounts_path, notice: 'Deleting old sole accounts without matches...'
+  end
+
   def update
     unless params[:user_id] && params[:account_id]
       flash[:error] = 'Please specify a user and an account.'
