@@ -55,7 +55,9 @@ class Account < ApplicationRecord
   end
 
   def self.average_rank
-    with_rank.select('AVG(rank) AS avg_rank').to_a.first.avg_rank.round
+    avg_rank = with_rank.select('AVG(rank) AS avg_rank').to_a.first.avg_rank
+    return unless avg_rank
+    avg_rank.round
   end
 
   def most_played_heroes(limit: 5)
