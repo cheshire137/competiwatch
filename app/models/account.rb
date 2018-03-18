@@ -33,6 +33,7 @@ class Account < ApplicationRecord
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
+  scope :not_recently_updated, ->{ where('accounts.updated_at <= ?', 2.months.ago) }
 
   scope :without_matches, -> do
     account_ids_with_matches = Match.group(:account_id).pluck(:account_id)

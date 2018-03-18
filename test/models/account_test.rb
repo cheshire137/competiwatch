@@ -8,6 +8,14 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'not_recently_updated returns accounts not updated for more than 2 months' do
+    old_account1 = create(:account, updated_at: 3.months.ago)
+    old_account2 = create(:account, updated_at: 1.year.ago)
+    account3 = create(:account, updated_at: 1.month.ago)
+
+    assert_equal [old_account1, old_account2], Account.not_recently_updated
+  end
+
   test 'sole_accounts and without_matches are chainable' do
     user1 = create(:user)
     account1 = create(:account, user: user1)
