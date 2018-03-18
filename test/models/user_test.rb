@@ -1,6 +1,26 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'total_by_account_count returns count of users having X accounts' do
+    user1 = create(:user)
+    create(:account, user: user1)
+
+    user2 = create(:user)
+    create(:account, user: user2)
+    create(:account, user: user2)
+
+    user3 = create(:user)
+    create(:account, user: user3)
+    create(:account, user: user3)
+
+    user4 = create(:user)
+    create(:account, user: user4)
+    create(:account, user: user4)
+
+    assert_equal 1, User.total_by_account_count(num_accounts: 1)
+    assert_equal 3, User.total_by_account_count(num_accounts: 2)
+  end
+
   test 'season_high returns highest rank from given season' do
     user = create(:user)
     account1 = create(:account, user: user)

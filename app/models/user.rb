@@ -23,6 +23,19 @@ class User < ApplicationRecord
     where(id: share_user_ids | match_user_ids)
   end
 
+  # Public: See how many users there are with the specified number of linked accounts.
+  def self.total_by_account_count(num_accounts:)
+    num_accounts = num_accounts.to_i
+    query = <<-SQL
+      SELECT COUNT(*) FROM (
+        SELECT user_id, COUNT(*) FROM accounts GROUP BY user_id
+      ) accounts_by_user WHERE count = #{num_accounts}
+    SQL
+    result = ActiveRecord::Base.connection.exec_query(query)
+    row = result.rows.first
+    row.first
+  end
+
   def name
     battletag.split('#').first
   end
