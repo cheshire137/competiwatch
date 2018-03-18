@@ -33,7 +33,7 @@
       </div>
     </header>
     <div class="container layout-children-container mb-4">
-      <% if signed_in? || !is_profile_page? %>
+      <% if show_main_nav_bar? %>
         <%= render partial: 'layouts/main_nav' %>
       <% end %>
       <% if alert.present? %>

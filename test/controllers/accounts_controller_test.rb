@@ -54,6 +54,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select 'a', text: /Season 1\s+1\s+match/
+    assert_select "a[href='/season/2/#{account.to_param}']"
+    assert_select "a[href='/trends/2/#{account.to_param}']"
   end
 
   test 'anonymous user can view a profile' do
@@ -69,6 +71,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'a', text: /Season 1\s+1\s+match/
     refute_includes response.body, 'Season 2'
+    assert_select "a[href='/season/2/#{account.to_param}']", false
+    assert_select "a[href='/trends/2/#{account.to_param}']", false
   end
 
   test "can view another user's profile" do
@@ -86,6 +90,8 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select 'a', text: /Season 1\s+1\s+match/
     refute_includes response.body, 'Season 2'
+    assert_select "a[href='/season/2/#{account1.to_param}']", false
+    assert_select "a[href='/trends/2/#{account1.to_param}']", false
   end
 
   test 'anonymous user cannot set default account' do
