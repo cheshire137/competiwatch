@@ -1,5 +1,40 @@
 <% content_for(:title, 'Accounts Admin') %>
 
+<ul class="list-style-none mb-4">
+  <% @accounts.each_with_index do |account, i| %>
+    <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+      <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
+        <%= avatar_for(account) %>
+        <span class="text-bold"><%= account %></span>
+      </a>
+      <% if account.rank %>
+        <span class="d-inline-block mx-2">&middot;</span>
+        <%= rank_image(account.rank, classes: 'flex-shrink-0 rank-fit-height',
+                       outer_classes: 'flex-shrink-0') %>
+        <%= account.rank %>
+      <% end %>
+      <div class="note">
+        <% if account.admin? %>
+          <span class="text-bold text-red">Admin</span>
+          <span class="d-inline-block mx-2">&middot;</span>
+        <% end %>
+        <%= account.region_name %> / <%= account.platform_name %>
+        <% if account.level %>
+          <span class="d-inline-block mx-2">&middot;</span>
+          Level <%= number_with_delimiter account.level %>
+        <% end %>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<% if @accounts.total_pages > 1 %>
+  <div class="my-4">
+    <%= page_entries_info @accounts %>
+    <%= will_paginate @accounts %>
+  </div>
+<% end %>
+
 <% if @userless_accounts.any? %>
   <div class="clearfix">
     <div class="col-md-6 mb-4 float-left">

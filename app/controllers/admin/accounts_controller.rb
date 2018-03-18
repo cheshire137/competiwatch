@@ -2,6 +2,7 @@ class Admin::AccountsController < ApplicationController
   before_action :require_admin
 
   def index
+    @accounts = Account.order_by_battletag.paginate(page: current_page, per_page: 20)
     @userless_accounts = Account.without_user.order_by_battletag
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
     @userless_account_options = [['--', '']] +
