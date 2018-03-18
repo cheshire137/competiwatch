@@ -3,6 +3,16 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'with_thrower_or_leaver returns matches that had a thrower or leaver' do
+    match1 = create(:match)
+    match2 = create(:match, ally_thrower: true)
+    match3 = create(:match, ally_leaver: true)
+    match4 = create(:match, enemy_thrower: true)
+    match5 = create(:match, enemy_leaver: true)
+
+    assert_equal [match2, match3, match4, match5], Match.with_thrower_or_leaver
+  end
+
   test 'next_match returns the match following this one in the season' do
     account = create(:account)
     match1 = create(:match, account: account, season: 1)
