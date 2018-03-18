@@ -3,6 +3,16 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'thrower_leaver_percent returns percentage of matches with a result that had a thrower or leaver' do
+    match1 = create(:match, result: :win)
+    match2 = create(:match, ally_thrower: true, result: :loss)
+    match3 = create(:match, ally_leaver: true, result: :draw)
+    match4 = create(:match, enemy_thrower: true, result: :win)
+    match5 = create(:match, enemy_leaver: true, result: :win)
+
+    assert_equal 80, Match.thrower_leaver_percent
+  end
+
   test 'with_thrower_or_leaver returns matches that had a thrower or leaver' do
     match1 = create(:match)
     match2 = create(:match, ally_thrower: true)

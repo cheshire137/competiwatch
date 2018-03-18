@@ -88,6 +88,15 @@ class Match < ApplicationRecord
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
   end
 
+  def self.thrower_leaver_percent
+    total_matches = Match.with_result.count
+    return 0 if total_matches < 1
+
+    thrower_leaver_match_count = Match.with_result.with_thrower_or_leaver.count
+    percent = (thrower_leaver_match_count.to_f / total_matches) * 100
+    percent.round
+  end
+
   def self.rank_tier(rank)
     if rank < 1500
       :bronze
