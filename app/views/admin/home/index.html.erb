@@ -8,8 +8,8 @@
         <%= 'active user'.pluralize(@active_user_count) %>
       </li>
       <li>
-        <strong><%= number_with_delimiter @users.total_entries %></strong>
-        <%= 'total user'.pluralize(@users.total_entries) %>
+        <strong><%= number_with_delimiter @user_count %></strong>
+        <%= 'total user'.pluralize(@user_count) %>
       </li>
       <li>
         <strong><%= number_with_delimiter @account_count %></strong>
@@ -67,12 +67,6 @@
         <%= render partial: 'admin/home/top_accounts',
                    locals: { top_accounts: @top_accounts } %>
       <% end %>
-
-      <%= render partial: 'admin/home/users',
-                 locals: { users: @users,
-                           accounts_by_user_id: @accounts_by_user_id,
-                           friends_by_user_id: @friends_by_user_id, seasons: @seasons,
-                           matches_by_account_id: @matches_by_account_id } %>
     </div>
   </div>
   <div class="col-md-6 float-left">

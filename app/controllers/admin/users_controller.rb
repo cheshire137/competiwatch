@@ -3,6 +3,12 @@ class Admin::UsersController < ApplicationController
 
   def index
     all_users = User.order_by_battletag
+    @users = all_users.paginate(page: current_page, per_page: 20)
+    @friends_by_user_id = Friend.select(:user_id).group_by(&:user_id)
+    @accounts_by_user_id = Account.order_by_battletag.group_by(&:user_id)
+    @matches_by_account_id = Match.select([:season, :account_id]).
+      group_by(&:account_id)
+    @seasons = Season.latest_first
     @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
   end
 
