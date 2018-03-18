@@ -1,6 +1,11 @@
 class Admin::SeasonsController < ApplicationController
   before_action :require_admin
 
+  def index
+    @new_season = Season.new(number: Season.current_or_latest_number + 1)
+    @seasons = Season.latest_first
+  end
+
   def destroy
     season = Season.find(params[:season_id])
 

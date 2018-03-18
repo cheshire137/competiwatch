@@ -3,6 +3,24 @@ require 'test_helper'
 class Admin::SeasonsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'non-admin cannot view seasons' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/admin/seasons'
+
+    assert_response :not_found
+  end
+
+  test 'admin can view seasons' do
+    admin_account = create(:account, admin: true)
+
+    sign_in_as(admin_account)
+    get '/admin/seasons'
+
+    assert_response :ok
+  end
+
   test 'non-admin users cannot update season' do
     account = create(:account)
     season = seasons(:one)

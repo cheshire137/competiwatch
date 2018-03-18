@@ -89,17 +89,6 @@
   </div>
 </div>
 
-<hr>
-
-<div class="mt-4 clearfix">
-  <div class="col-md-6 mb-4 float-left">
-    <div class="mr-4-md">
-      <%= render partial: 'admin/home/seasons',
-                 locals: { new_season: @new_season, seasons: @seasons } %>
-    </div>
-  </div>
-</div>
-
 <% if @userless_accounts.any? %>
   <div class="clearfix">
     <div class="col-md-6 mb-4 float-left">
