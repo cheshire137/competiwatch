@@ -8,6 +8,19 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'without_matches returns accounts that have not logged a match' do
+    account1 = create(:account)
+    create(:match, account: account1)
+
+    account2 = create(:account)
+
+    account3 = create(:account)
+    create(:match, account: account3)
+    create(:match, account: account3)
+
+    assert_equal [account2], Account.without_matches
+  end
+
   test 'updates profile data when region changes' do
     account = create(:account, region: 'us')
     account.region = 'global'

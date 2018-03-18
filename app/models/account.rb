@@ -34,6 +34,16 @@ class Account < ApplicationRecord
   scope :without_user, ->{ where(user_id: nil) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
 
+  scope :without_matches, -> do
+    account_ids_with_matches = Match.group(:account_id).pluck(:account_id)
+    batch_size = 100
+    scope = where(nil)
+    account_ids_with_matches.each_slice(batch_size) do |account_ids|
+      scope = scope.where('id NOT IN (?)', account_ids)
+    end
+    scope
+  end
+
   after_update :remove_default, if: :saved_change_to_user_id?
   after_update :refresh_profile_data, if: :region_or_platform_changed?
 
