@@ -1,0 +1,19 @@
+<div class="dropdown js-menu-container">
+  <button class="btn-link py-3 no-underline text-bold dropdown-toggle js-menu-target" type="button" aria-expanded="false" aria-haspopup="true">
+    Admin
+    <span class="dropdown-caret"></span>
+  </button>
+  <div class="dropdown-menu-content js-menu-content">
+    <ul class="dropdown-menu dropdown-menu-se">
+      <li>
+        <a class="dropdown-item" href="<%= admin_path %>">Dashboard</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="<%= admin_users_path %>">Users</a>
+      </li>
+      <li>
+        <a class="dropdown-item" href="<%= admin_seasons_path %>">Seasons</a>
+      </li>
+    </ul>
+  </div>
+</div>

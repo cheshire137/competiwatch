@@ -1,0 +1,20 @@
+<h2 class="h2 mb-2">Latest accounts</h2>
+<ul class="list-style-none mb-4">
+  <% i = 0 %>
+  <% latest_accounts.each do |account| %>
+    <li<% if i > 0 %> class="border-top mt-2 pt-2"<% end %>>
+      <div class="d-flex flex-items-start">
+        <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
+          <%= avatar_for(account) %>
+          <span class="text-bold"><%= account %></span>
+        </a>
+        <% if account.rank %>
+          <span class="d-inline-block mx-2">&middot;</span>
+          <%= rank_image(account.rank, classes: 'flex-shrink-0',
+                         outer_classes: 'flex-shrink-0') %>
+        <% end %>
+      </div>
+    </li>
+    <% i += 1 %>
+  <% end %>
+</ul>

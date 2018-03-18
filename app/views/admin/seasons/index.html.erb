@@ -1,14 +1,15 @@
-<h2 class="h2 mb-2 d-flex flex-justify-between flex-items-center">
-  Seasons
-  <button class="btn-link text-small text-normal js-toggle-details" data-target=".new-season" type="button">
+<% content_for(:title, 'Season Admin') %>
+
+<div class="clearfix mb-4">
+  <button class="btn-link text-small text-normal float-right js-toggle-details" data-target=".new-season" type="button">
     <span class="ion ion-plus"></span>
     Add a season
   </button>
-</h2>
+</div>
 
 <div class="d-none border rounded-2 p-2 mt-2 mb-4 new-season">
   <h3 class="h4 mb-2">New season</h3>
-  <%= form_for(new_season, url: admin_create_season_path, as: :create_season) do |form| %>
+  <%= form_for(@new_season, url: admin_create_season_path, as: :create_season) do |form| %>
     <div class="form-group mt-0">
       <%= form.label :number, 'Number:', class: 'mr-2' %>
       <%= form.number_field :number, min: 0, step: 1, class: 'form-control' %>
@@ -32,8 +33,8 @@
 </div>
 
 <ul class="list-style-none">
-  <% seasons.each_with_index do |season, i| %>
-    <li class="<%= 'border-top mt-1 pt-1' if i > 0 %>">
+  <% @seasons.each_with_index do |season, i| %>
+    <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <div class="d-flex flex-justify-between width-full">
         <strong>Season <%= season %></strong>
         <div>

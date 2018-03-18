@@ -11,6 +11,14 @@ module ApplicationHelper
     datetime.in_time_zone.strftime('%B %-d, %Y %l:%M %P %Z')
   end
 
+  def show_admin_controls?
+    signed_in? && current_account.admin?
+  end
+
+  def is_admin_page?
+    ['admin/home', 'admin/users', 'admin/accounts', 'admin/seasons'].include?(params[:controller])
+  end
+
   def current_season_number
     @current_season_number ||= params[:season] || Season.current_or_latest_number
   end

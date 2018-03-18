@@ -78,6 +78,12 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
+  # Public: Returns an array with the number of the season with the most matches logged in it,
+  # and the number of matches.
+  def self.top_season
+    group(:season).count.sort_by { |_season, match_count| -match_count }.first
+  end
+
   def self.rank_tier(rank)
     if rank < 1500
       :bronze

@@ -1,9 +1,11 @@
+<% content_for(:title, 'User Admin') %>
+
 <h2 class="h2 mb-2">Users</h2>
 <ul class="list-style-none mb-4">
-  <% users.each_with_index do |user, i| %>
+  <% @users.each_with_index do |user, i| %>
     <%
-      accounts_for_user = accounts_by_user_id[user.id] || []
-      friend_count = (friends_by_user_id[user.id] || []).size
+      accounts_for_user = @accounts_by_user_id[user.id] || []
+      friend_count = (@friends_by_user_id[user.id] || []).size
     %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <h3 class="h4">
@@ -24,12 +26,12 @@
         <% end %>
         <% accounts_for_user.each do |account| %>
           <%
-            account_matches = matches_by_account_id[account.id] || []
+            account_matches = @matches_by_account_id[account.id] || []
             match_count = account_matches.size
             details_class = if match_count > 0
               "account-#{account.id}"
             end
-            seasons_with_matches = get_seasons_with_matches(seasons, account_matches)
+            seasons_with_matches = get_seasons_with_matches(@seasons, account_matches)
           %>
           <li class="mt-1">
             <div class="d-flex flex-items-start">
@@ -69,9 +71,39 @@
   <% end %>
 </ul>
 
-<% if users.total_pages > 1 %>
+<% if @users.total_pages > 1 %>
   <div class="my-4">
-    <%= page_entries_info users %>
-    <%= will_paginate users %>
+    <%= page_entries_info @users %>
+    <%= will_paginate @users %>
+  </div>
+<% end %>
+
+<% if @user_options.size > 1 %>
+  <hr class="mb-4">
+  <div class="clearfix">
+    <div class="col-md-5 float-left">
+      <div class="border border-red p-3 rounded-2">
+        <h2 class="h2 mb-2">Merge users</h2>
+        <%= form_tag admin_merge_users_path do %>
+          <div class="form-group mt-0">
+            <label for="primary_user_id">Primary user:</label>
+            <%= select_tag :primary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+            <p class="note">
+              This user will be kept.
+            </p>
+          </div>
+          <div class="form-group">
+            <label for="secondary_user_id">Secondary user:</label>
+            <%= select_tag :secondary_user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+            <p class="note">
+              This user will be deleted.
+            </p>
+          </div>
+          <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to combine these users?">
+            Combine users
+          </button>
+        <% end %>
+      </div>
+    </div>
   </div>
 <% end %>

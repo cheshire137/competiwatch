@@ -41,12 +41,14 @@ Rails.application.routes.draw do
   get '/import/:season/:battletag' => 'import#index', as: :import, season: /\d+/
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
 
-  get '/admin' => 'admin#index', as: :admin
-  post '/admin/merge-users' => 'admin#merge_users', as: :admin_merge_users
-  post '/admin/update-account' => 'admin#update_account', as: :admin_update_account
-  put '/admin/season' => 'admin#update_season', as: :admin_update_season
-  post '/admin/season' => 'admin#create_season', as: :admin_create_season
-  delete '/admin/season' => 'admin#destroy_season', as: :admin_destroy_season
+  get '/admin' => 'admin/home#index', as: :admin
+  get '/admin/users' => 'admin/users#index', as: :admin_users
+  post '/admin/users/merge' => 'admin/users#merge', as: :admin_merge_users
+  post '/admin/account' => 'admin/accounts#update', as: :admin_update_account
+  get '/admin/seasons' => 'admin/seasons#index', as: :admin_seasons
+  put '/admin/season' => 'admin/seasons#update', as: :admin_update_season
+  post '/admin/season' => 'admin/seasons#create', as: :admin_create_season
+  delete '/admin/season' => 'admin/seasons#destroy', as: :admin_destroy_season
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about
