@@ -50,6 +50,7 @@ Rails.application.routes.draw do
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about
+  get '/help' => 'pages#help', as: :help
 
   root to: 'login#index'
 end

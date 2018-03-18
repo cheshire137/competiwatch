@@ -25,6 +25,9 @@
         <a href="<%= export_path %>" class="dropdown-item <%= 'selected' if is_page?('export', 'index') %>">Export matches</a>
       </li>
       <li>
+        <a href="<%= help_path %>" class="dropdown-item <%= 'selected' if is_page?('pages', 'help') %>">Help</a>
+      </li>
+      <li>
         <%= form_tag sign_out_path, method: :delete do %>
           <button type="submit" class="dropdown-item btn-link">
             Log out
