@@ -6,13 +6,13 @@
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu dropdown-menu-se">
       <li>
-        <a class="dropdown-item" href="<%= admin_path %>">Dashboard</a>
+        <a class="dropdown-item <%= 'selected' if is_page?('admin/home', 'index') %>" href="<%= admin_path %>">Dashboard</a>
       </li>
       <li>
-        <a class="dropdown-item" href="<%= admin_users_path %>">Users</a>
+        <a class="dropdown-item <%= 'selected' if is_page?('admin/users', 'index') %>" href="<%= admin_users_path %>">Users</a>
       </li>
       <li>
-        <a class="dropdown-item" href="<%= admin_seasons_path %>">Seasons</a>
+        <a class="dropdown-item <%= 'selected' if is_page?('admin/seasons', 'index') %>" href="<%= admin_seasons_path %>">Seasons</a>
       </li>
     </ul>
   </div>
