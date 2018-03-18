@@ -19,9 +19,6 @@ class Admin::HomeController < ApplicationController
     @season_share_count = SeasonShare.count
     @active_user_count = User.active.count
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
-    @userless_accounts = Account.without_user.order_by_battletag
-    @userless_account_options = [['--', '']] +
-      @userless_accounts.map { |account| [account.battletag, account.id] }
     @top_heroes = Hero.most_played
   end
 end

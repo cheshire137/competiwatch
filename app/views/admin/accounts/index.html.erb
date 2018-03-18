@@ -1,0 +1,32 @@
+<% content_for(:title, 'Accounts Admin') %>
+
+<% if @userless_accounts.any? %>
+  <div class="clearfix">
+    <div class="col-md-6 mb-4 float-left">
+      <h2 class="h2 mb-2">Accounts without users</h2>
+      <ul class="list-style-none">
+        <% @userless_accounts.each do |account| %>
+          <li><%= account %></li>
+        <% end %>
+      </ul>
+    </div>
+    <div class="col-md-6 mb-4 float-left">
+      <div class="border border-red ml-4-md p-3 rounded-2">
+        <h2 class="h2 mb-2">Tie account to a user</h2>
+        <%= form_tag admin_update_account_path do %>
+          <div class="form-group mt-0">
+            <label for="user_id">User:</label>
+            <%= select_tag :user_id, options_for_select(@user_options), class: 'form-select', required: true %>
+          </div>
+          <div class="form-group">
+            <label for="account_id">Account:</label>
+            <%= select_tag :account_id, options_for_select(@userless_account_options), class: 'form-select', required: true %>
+          </div>
+          <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to connect the account to the user?">
+            Connect account to user
+          </button>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>

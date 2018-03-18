@@ -3,6 +3,26 @@ require 'test_helper'
 class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'non-admin cannot view accounts' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/admin/accounts'
+
+    assert_response :not_found
+  end
+
+  test 'admin can view accounts' do
+    admin_account = create(:account, admin: true)
+    userless_account = create(:account, user: nil)
+
+    sign_in_as(admin_account)
+    get '/admin/accounts'
+
+    assert_response :ok
+    assert_select 'li', text: userless_account.battletag
+  end
+
   test 'non-admin cannot edit accounts' do
     account = create(:account)
     user = create(:user)

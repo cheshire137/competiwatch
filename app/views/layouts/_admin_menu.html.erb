@@ -12,6 +12,9 @@
         <a class="dropdown-item <%= 'selected' if is_page?('admin/users', 'index') %>" href="<%= admin_users_path %>">Users</a>
       </li>
       <li>
+        <a class="dropdown-item <%= 'selected' if is_page?('admin/accounts', 'index') %>" href="<%= admin_accounts_path %>">Accounts</a>
+      </li>
+      <li>
         <a class="dropdown-item <%= 'selected' if is_page?('admin/seasons', 'index') %>" href="<%= admin_seasons_path %>">Seasons</a>
       </li>
     </ul>

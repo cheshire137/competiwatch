@@ -21,7 +21,6 @@ class Admin::HomeControllerTest < ActionDispatch::IntegrationTest
 
   test 'loads successfully for admin' do
     admin_account = create(:account, admin: true)
-    userless_account = create(:account, user: nil)
     match1 = create(:match, season: 1, heroes: [heroes(:mercy)])
     user = create(:user)
     account = create(:account, user: user)
@@ -34,6 +33,5 @@ class Admin::HomeControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :ok
     assert_select 'button', text: /#{admin_account.name}/
-    assert_select 'li', text: userless_account.battletag
   end
 end

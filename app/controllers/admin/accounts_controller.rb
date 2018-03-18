@@ -1,6 +1,13 @@
 class Admin::AccountsController < ApplicationController
   before_action :require_admin
 
+  def index
+    @userless_accounts = Account.without_user.order_by_battletag
+    @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
+    @userless_account_options = [['--', '']] +
+      @userless_accounts.map { |account| [account.battletag, account.id] }
+  end
+
   def update
     unless params[:user_id] && params[:account_id]
       flash[:error] = 'Please specify a user and an account.'
