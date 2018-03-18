@@ -90,7 +90,7 @@ class Match < ApplicationRecord
 
   def self.thrower_leaver_percent
     total_matches = Match.with_result.count
-    return 0 if total_matches < 1
+    return if total_matches < 1
 
     thrower_leaver_match_count = Match.with_result.with_thrower_or_leaver.count
     percent = (thrower_leaver_match_count.to_f / total_matches) * 100
