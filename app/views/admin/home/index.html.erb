@@ -63,9 +63,9 @@
       </li>
     </ul>
   </div>
-  <% if @top_season.present? %>
-    <div class="col-md-3 float-left">
-      <ul class="list-style-none">
+  <div class="col-md-3 float-left">
+    <ul class="list-style-none">
+      <% if @top_season.present? %>
         <li>
           <strong>Top season:</strong>
           Season <%= @top_season[0] %>
@@ -74,9 +74,13 @@
             <%= 'match'.pluralize(@top_season[1]) %>
           </div>
         </li>
-      </ul>
-    </div>
-  <% end %>
+      <% end %>
+      <li>
+        <strong><%= number_with_delimiter @total_users_with_single_account %></strong>
+        <%= 'user'.pluralize(@total_users_with_single_account) %> with single account
+      </li>
+    </ul>
+  </div>
 </div>
 
 <div class="clearfix mb-4">
