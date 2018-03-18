@@ -25,7 +25,7 @@ class MatchImporter
   private
 
   def import_match(row, prior_match:)
-    match = @account.matches.new(season: @season, comment: row['comment'],
+    match = @account.matches.new(season: @season, comment: comment_for(row),
                                  prior_match: prior_match)
 
     if (rank = row['rank']).present?
@@ -78,6 +78,10 @@ class MatchImporter
     end
 
     match
+  end
+
+  def comment_for(row)
+    row['comment'].presence || row['comments']
   end
 
   def split_string(str)
