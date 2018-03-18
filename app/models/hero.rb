@@ -1,3 +1,5 @@
+# encoding: UTF-8
+
 class Hero < ApplicationRecord
   ROLES = %w[healer DPS tank off-tank flanker defense hitscan].freeze
 
@@ -53,11 +55,11 @@ class Hero < ApplicationRecord
   end
 
   def self.slug_for(name)
-    case name
-    when 'D.Va' then 'dva'
-    when 'Lúcio' then 'lucio'
-    when 'Soldier: 76' then 'soldier76'
-    when 'Torbjörn' then 'torbjorn'
+    case name.downcase
+    when 'd.va' then 'dva'
+    when 'lúcio' then 'lucio'
+    when 'soldier: 76' then 'soldier76'
+    when 'torbjörn' then 'torbjorn'
     else name.downcase
     end
   end
