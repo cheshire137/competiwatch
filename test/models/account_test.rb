@@ -8,6 +8,57 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'not_recently_updated returns accounts not updated for more than 2 months' do
+    old_account1 = create(:account, updated_at: 3.months.ago)
+    old_account2 = create(:account, updated_at: 1.year.ago)
+    account3 = create(:account, updated_at: 1.month.ago)
+
+    assert_equal [old_account1, old_account2], Account.not_recently_updated
+  end
+
+  test 'sole_accounts and without_matches are chainable' do
+    user1 = create(:user)
+    account1 = create(:account, user: user1)
+    create(:match, account: account1)
+
+    user2 = create(:user)
+    account2 = create(:account, user: user2)
+    account3 = create(:account, user: user2)
+    create(:match, account: account3)
+
+    user3 = create(:user)
+    account4 = create(:account, user: user3)
+
+    assert_equal [account4], Account.without_matches.sole_accounts
+  end
+
+  test 'sole_accounts returns accounts that are the sole account for their user' do
+    user1 = create(:user)
+    account1 = create(:account, user: user1)
+
+    user2 = create(:user)
+    account2 = create(:account, user: user2)
+    account3 = create(:account, user: user2)
+
+    user3 = create(:user)
+    account4 = create(:account, user: user3)
+
+    assert_equal [account1, account4], Account.sole_accounts
+  end
+
+  test 'without_matches returns accounts that have not logged a match' do
+    account1 = create(:account)
+    create(:match, account: account1)
+
+    account2 = create(:account)
+
+    account3 = create(:account)
+    create(:match, account: account3)
+    create(:match, account: account3)
+
+    assert_equal [account2], Account.without_matches
+  end
+
   test 'updates profile data when region changes' do
     account = create(:account, region: 'us')
     account.region = 'global'
@@ -226,17 +277,32 @@ class AccountTest < ActiveSupport::TestCase
     assert_includes account.errors.messages[:battletag], "can't be blank"
   end
 
-  test 'deletes matches when deleted' do
+  test 'raises exception when trying to delete account with matches' do
     account = create(:account)
     match1 = create(:match, account: account)
     match2 = create(:match, account: account)
 
-    assert_difference 'Match.count', -2 do
+    assert_no_difference 'Match.count' do
+      assert_raises ActiveRecord::DeleteRestrictionError do
+        account.reload.destroy
+      end
+    end
+
+    assert Match.exists?(match1.id)
+    assert Match.exists?(match2.id)
+  end
+
+  test 'deletes season shares when deleted' do
+    account = create(:account)
+    share1 = create(:season_share, account: account, season: seasons(:one).number)
+    share2 = create(:season_share, account: account, season: seasons(:two).number)
+
+    assert_difference 'SeasonShare.count', -2 do
       account.reload.destroy
     end
 
-    refute Match.exists?(match1.id)
-    refute Match.exists?(match2.id)
+    refute SeasonShare.exists?(share1.id)
+    refute SeasonShare.exists?(share2.id)
   end
 
   test 'requires provider' do

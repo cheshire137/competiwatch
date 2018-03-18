@@ -33,13 +33,31 @@ class Account < ApplicationRecord
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
+  scope :not_recently_updated, ->{ where('accounts.updated_at <= ?', 2.months.ago) }
+
+  scope :without_matches, -> do
+    account_ids_with_matches = Match.group(:account_id).pluck(:account_id)
+    batch_size = 100
+    scope = where(nil)
+    account_ids_with_matches.each_slice(batch_size) do |account_ids|
+      scope = scope.where('accounts.id NOT IN (?)', account_ids)
+    end
+    scope
+  end
+
+  scope :sole_accounts, -> do
+    joins(:user).joins('LEFT OUTER JOIN accounts other_accounts ' \
+                       'ON users.id=other_accounts.user_id ' \
+                       'AND other_accounts.id <> accounts.id').
+      where('other_accounts.id IS NULL')
+  end
 
   after_update :remove_default, if: :saved_change_to_user_id?
   after_update :refresh_profile_data, if: :region_or_platform_changed?
 
   alias_attribute :to_s, :battletag
 
-  has_many :matches, dependent: :destroy
+  has_many :matches, dependent: :restrict_with_exception
   has_many :season_shares, dependent: :destroy
 
   def self.find_by_param(battletag_param)

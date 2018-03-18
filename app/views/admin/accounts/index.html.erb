@@ -3,10 +3,7 @@
 <ul class="list-style-none mb-4">
   <% @accounts.each_with_index do |account, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-      <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-        <%= avatar_for(account) %>
-        <span class="text-bold"><%= account %></span>
-      </a>
+      <%= link_to_account(account) %>
       <% if account.rank %>
         <span class="d-inline-block mx-2">&middot;</span>
         <%= rank_image(account.rank, classes: 'flex-shrink-0 rank-fit-height',
@@ -40,13 +37,33 @@
   </div>
 <% end %>
 
+<% if @deletable_accounts.any? %>
+  <div class="clearfix">
+    <div class="col-md-6 mb-4 float-left">
+      <h2 class="h2 mb-2">Deletable accounts</h2>
+      <ul class="list-style-none test-deletable-accounts">
+        <% @deletable_accounts.each_with_index do |account, i| %>
+          <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+            <%= link_to_account(account) %>
+          </li>
+        <% end %>
+      </ul>
+      <%= form_tag admin_prune_accounts_path, method: :delete do %>
+        <button type="submit" class="btn btn-danger" data-confirm="Are you sure you want to delete these accounts? They don't have any matches logged.">
+          Prune old accounts
+        </button>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+
 <% if @userless_accounts.any? %>
   <div class="clearfix">
     <div class="col-md-6 mb-4 float-left">
       <h2 class="h2 mb-2">Accounts without users</h2>
-      <ul class="list-style-none">
+      <ul class="list-style-none test-userless-accounts">
         <% @userless_accounts.each do |account| %>
-          <li><%= account %></li>
+          <li><%= link_to_account(account) %></li>
         <% end %>
       </ul>
     </div>

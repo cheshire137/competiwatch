@@ -4,10 +4,7 @@
   <% top_accounts.each do |account, match_count| %>
     <li<% if i > 0 %> class="border-top mt-2 pt-2"<% end %>>
       <div class="d-flex flex-items-start">
-        <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-          <%= avatar_for(account) %>
-          <span class="text-bold"><%= account %></span>
-        </a>
+        <%= link_to_account(account) %>
         <span class="d-inline-block mx-2">&middot;</span>
         <%= number_with_delimiter match_count %>
         <%= 'match'.pluralize(match_count) %>

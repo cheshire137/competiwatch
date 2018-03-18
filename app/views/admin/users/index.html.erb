@@ -34,10 +34,7 @@
           %>
           <li class="mt-1">
             <div class="d-flex flex-items-start">
-              <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-                <%= avatar_for(account) %>
-                <span class="text-bold"><%= account %></span>
-              </a>
+              <%= link_to_account(account) %>
               <% if details_class %>
                 <span class="d-inline-block mx-2">&middot;</span>
                 <button type="button" class="btn-link js-toggle-details" data-target=".<%= details_class %>">

@@ -1,6 +1,26 @@
 require 'test_helper'
 
 class UserTest < ActiveSupport::TestCase
+  test 'total_by_account_count returns count of users having X accounts' do
+    user1 = create(:user)
+    create(:account, user: user1)
+
+    user2 = create(:user)
+    create(:account, user: user2)
+    create(:account, user: user2)
+
+    user3 = create(:user)
+    create(:account, user: user3)
+    create(:account, user: user3)
+
+    user4 = create(:user)
+    create(:account, user: user4)
+    create(:account, user: user4)
+
+    assert_equal 1, User.total_by_account_count(num_accounts: 1)
+    assert_equal 3, User.total_by_account_count(num_accounts: 2)
+  end
+
   test 'season_high returns highest rank from given season' do
     user = create(:user)
     account1 = create(:account, user: user)
@@ -141,17 +161,19 @@ class UserTest < ActiveSupport::TestCase
     refute Friend.exists?(friend2.id)
   end
 
-  test 'deletes OAuth accounts when deleted' do
+  test 'raises exception if has accounts when trying to destroy' do
     user = create(:user)
     account1 = create(:account, user: user)
     account2 = create(:account, user: user)
 
-    assert_difference 'Account.count', -2 do
-      user.destroy
+    assert_no_difference 'Account.count' do
+      assert_raises ActiveRecord::DeleteRestrictionError do
+        user.destroy
+      end
     end
 
-    refute Account.exists?(account1.id)
-    refute Account.exists?(account2.id)
+    assert Account.exists?(account1.id)
+    assert Account.exists?(account2.id)
   end
 
   test "friend_names returns empty list when season has no matches" do

@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:bnet]
 
-  has_many :accounts, dependent: :destroy
+  has_many :accounts, dependent: :restrict_with_exception
   has_many :friends, dependent: :destroy
   has_many :matches, through: :accounts
   has_many :season_shares, through: :accounts
@@ -21,6 +21,19 @@ class User < ApplicationRecord
     match_user_ids = Match.joins(:account).where('matches.updated_at >= ?', cutoff_time).
       pluck('accounts.user_id')
     where(id: share_user_ids | match_user_ids)
+  end
+
+  # Public: See how many users there are with the specified number of linked accounts.
+  def self.total_by_account_count(num_accounts:)
+    num_accounts = num_accounts.to_i
+    query = <<-SQL
+      SELECT COUNT(*) FROM (
+        SELECT user_id, COUNT(*) FROM accounts GROUP BY user_id
+      ) accounts_by_user WHERE count = #{num_accounts}
+    SQL
+    result = ActiveRecord::Base.connection.exec_query(query)
+    row = result.rows.first
+    row.first
   end
 
   def name

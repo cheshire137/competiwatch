@@ -45,6 +45,7 @@ Rails.application.routes.draw do
   get '/admin/users' => 'admin/users#index', as: :admin_users
   post '/admin/users/merge' => 'admin/users#merge', as: :admin_merge_users
   get '/admin/accounts' => 'admin/accounts#index', as: :admin_accounts
+  delete '/admin/accounts/prune' => 'admin/accounts#prune', as: :admin_prune_accounts
   post '/admin/account' => 'admin/accounts#update', as: :admin_update_account
   get '/admin/seasons' => 'admin/seasons#index', as: :admin_seasons
   put '/admin/season' => 'admin/seasons#update', as: :admin_update_season

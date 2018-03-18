@@ -7,6 +7,12 @@ class Admin::AccountsController < ApplicationController
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |account| [account.battletag, account.id] }
+    @deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated
+  end
+
+  def prune
+    PruneOldAccountsJob.perform_later
+    redirect_to admin_accounts_path, notice: 'Deleting old sole accounts without matches...'
   end
 
   def update

@@ -20,5 +20,7 @@ class Admin::HomeController < ApplicationController
     @active_user_count = User.active.count
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
     @top_heroes = Hero.most_played
+    @total_users_with_single_account = User.total_by_account_count(num_accounts: 1)
+    @total_accounts_without_matches = Account.without_matches.count
   end
 end
