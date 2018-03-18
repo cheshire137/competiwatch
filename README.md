@@ -100,6 +100,18 @@ heroku certs:update /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsenc
 
 See [Renewing certificates with Certbot](https://certbot.eff.org/docs/using.html#renewing-certificates).
 
+### Database Backups
+
+To back up the database from Heroku, you can use `bin/backup-database` which will
+capture the current state of the Heroku database, download it, and move the dump
+file to the directory specified in the `BACKUP_DIR` environment variable.
+
+Example:
+
+```bash
+BACKUP_DIR=~/Dropbox bin/backup-database
+```
+
 ## Admin Accounts
 
 You can set some accounts as administrators that can see general data such as how many

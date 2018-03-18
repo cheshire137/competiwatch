@@ -27,8 +27,6 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
           current_user.reload
           account.reload
 
-          SetProfileDataJob.perform_later(account.id)
-
           { notice: "Successfully linked #{battletags.join(', ')}." }
         else
           if account.changed?

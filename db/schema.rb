@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180317202258) do
+ActiveRecord::Schema.define(version: 20180318170107) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -49,12 +49,6 @@ ActiveRecord::Schema.define(version: 20180317202258) do
     t.index ["role"], name: "index_heroes_on_role"
   end
 
-  create_table "heroes_matches", force: :cascade do |t|
-    t.integer "hero_id", null: false
-    t.integer "match_id", null: false
-    t.index ["hero_id", "match_id"], name: "index_heroes_matches_on_hero_id_and_match_id", unique: true
-  end
-
   create_table "maps", force: :cascade do |t|
     t.string "name", limit: 50, null: false
     t.string "map_type", limit: 30, null: false
@@ -63,12 +57,6 @@ ActiveRecord::Schema.define(version: 20180317202258) do
     t.string "slug"
     t.string "color", limit: 16, default: "#ffffff", null: false
     t.index ["name"], name: "index_maps_on_name", unique: true
-  end
-
-  create_table "match_friends", force: :cascade do |t|
-    t.integer "match_id", null: false
-    t.integer "friend_id", null: false
-    t.index ["match_id", "friend_id"], name: "index_match_friends_on_match_id_and_friend_id", unique: true
   end
 
   create_table "matches", force: :cascade do |t|
