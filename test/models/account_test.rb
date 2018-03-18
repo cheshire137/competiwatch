@@ -277,17 +277,17 @@ class AccountTest < ActiveSupport::TestCase
     assert_includes account.errors.messages[:battletag], "can't be blank"
   end
 
-  test 'deletes matches when deleted' do
+  test 'deletes season shares when deleted' do
     account = create(:account)
-    match1 = create(:match, account: account)
-    match2 = create(:match, account: account)
+    share1 = create(:season_share, account: account, season: seasons(:one).number)
+    share2 = create(:season_share, account: account, season: seasons(:two).number)
 
-    assert_difference 'Match.count', -2 do
+    assert_difference 'SeasonShare.count', -2 do
       account.reload.destroy
     end
 
-    refute Match.exists?(match1.id)
-    refute Match.exists?(match2.id)
+    refute SeasonShare.exists?(share1.id)
+    refute SeasonShare.exists?(share2.id)
   end
 
   test 'requires provider' do
