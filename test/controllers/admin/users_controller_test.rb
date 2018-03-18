@@ -3,6 +3,15 @@ require 'test_helper'
 class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'non-admin cannot view users' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/admin/users'
+
+    assert_response :not_found
+  end
+
   test 'non-admin cannot merge users' do
     primary_user = create(:user)
     secondary_user = create(:user)
@@ -31,6 +40,15 @@ class Admin::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_nil flash[:notice]
     assert_equal 'Please choose a primary and a secondary user.', flash[:error]
     assert_redirected_to admin_path
+  end
+
+  test 'admin can view users' do
+    admin_account = create(:account, admin: true)
+
+    sign_in_as(admin_account)
+    get '/admin/users'
+
+    assert_response :ok
   end
 
   test 'admin can merge two users' do

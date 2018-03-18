@@ -1,6 +1,11 @@
 class Admin::UsersController < ApplicationController
   before_action :require_admin
 
+  def index
+    all_users = User.order_by_battletag
+    @user_options = [['--', '']] + all_users.map { |user| [user.battletag, user.id] }
+  end
+
   def merge
     unless params[:primary_user_id] && params[:secondary_user_id]
       flash[:error] = 'Please choose a primary and a secondary user.'

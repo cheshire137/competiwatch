@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   post '/import/:season/:battletag' => 'import#create', season: /\d+/
 
   get '/admin' => 'admin/home#index', as: :admin
+  get '/admin/users' => 'admin/users#index', as: :admin_users
   post '/admin/users/merge' => 'admin/users#merge', as: :admin_merge_users
   post '/admin/account' => 'admin/accounts#update', as: :admin_update_account
   put '/admin/season' => 'admin/seasons#update', as: :admin_update_season

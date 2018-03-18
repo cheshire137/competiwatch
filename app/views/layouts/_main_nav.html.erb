@@ -19,6 +19,10 @@
       <% elsif show_back_link? %>
         <a href="<%= matches_path(current_season_number, current_account) %>" class="UnderlineNav-item" role="tab">&larr; Back to your matches</a>
       <% end %>
+
+      <% if show_admin_controls? && is_admin_page? %>
+        <%= render partial: 'layouts/admin_menu' %>
+      <% end %>
     </div>
 
     <% if signed_in? %>
