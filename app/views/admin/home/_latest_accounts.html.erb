@@ -14,6 +14,11 @@
                          outer_classes: 'flex-shrink-0') %>
         <% end %>
       </div>
+      <div class="note">
+        <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime account.created_at %>">
+          <%= time_ago_in_words account.created_at %> ago
+        </span>
+      </div>
     </li>
     <% i += 1 %>
   <% end %>
