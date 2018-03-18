@@ -9,6 +9,7 @@ class Admin::HomeController < ApplicationController
     @bottom_rank = Account.bottom_rank
     @average_rank = Account.average_rank
     @friend_count = Friend.count
+    @top_season = Match.top_season
     @match_count = Match.count
     @latest_matches = Match.joins(:account).where('accounts.user_id <> ?', current_user.id).
       order(id: :desc).limit(5)

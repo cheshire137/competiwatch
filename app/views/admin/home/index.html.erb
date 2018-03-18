@@ -63,6 +63,20 @@
       </li>
     </ul>
   </div>
+  <% if @top_season.present? %>
+    <div class="col-md-3 float-left">
+      <ul class="list-style-none">
+        <li>
+          <strong>Top season:</strong>
+          Season <%= @top_season[0] %>
+          <div class="note mt-0">
+            <%= number_with_delimiter(@top_season[1]) %>
+            <%= 'match'.pluralize(@top_season[1]) %>
+          </div>
+        </li>
+      </ul>
+    </div>
+  <% end %>
 </div>
 
 <div class="clearfix mb-4">
