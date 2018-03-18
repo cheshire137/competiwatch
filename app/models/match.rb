@@ -88,11 +88,16 @@ class Match < ApplicationRecord
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
   end
 
-  def self.thrower_leaver_percent
-    total_matches = Match.with_result.count
+  def self.thrower_leaver_percent(season: nil)
+    total_matches = Match.with_result
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
     return if total_matches < 1
 
-    thrower_leaver_match_count = Match.with_result.with_thrower_or_leaver.count
+    thrower_leaver_match_count = Match.with_result.with_thrower_or_leaver
+    thrower_leaver_match_count = thrower_leaver_match_count.in_season(season) if season
+    thrower_leaver_match_count = thrower_leaver_match_count.count
+
     percent = (thrower_leaver_match_count.to_f / total_matches) * 100
     percent.round
   end
