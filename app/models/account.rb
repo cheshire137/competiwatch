@@ -39,7 +39,7 @@ class Account < ApplicationRecord
     batch_size = 100
     scope = where(nil)
     account_ids_with_matches.each_slice(batch_size) do |account_ids|
-      scope = scope.where('id NOT IN (?)', account_ids)
+      scope = scope.where('accounts.id NOT IN (?)', account_ids)
     end
     scope
   end

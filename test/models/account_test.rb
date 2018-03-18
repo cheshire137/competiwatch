@@ -8,6 +8,22 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'sole_accounts and without_matches are chainable' do
+    user1 = create(:user)
+    account1 = create(:account, user: user1)
+    create(:match, account: account1)
+
+    user2 = create(:user)
+    account2 = create(:account, user: user2)
+    account3 = create(:account, user: user2)
+    create(:match, account: account3)
+
+    user3 = create(:user)
+    account4 = create(:account, user: user3)
+
+    assert_equal [account4], Account.without_matches.sole_accounts
+  end
+
   test 'sole_accounts returns accounts that are the sole account for their user' do
     user1 = create(:user)
     account1 = create(:account, user: user1)
