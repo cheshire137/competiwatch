@@ -1,1 +1,40 @@
 <% content_for(:title, 'Community') %>
+
+<div class="clearfix">
+  <% if @top_rank %>
+    <div class="col-md-4 float-left">
+      <div class="Box p-3 mr-3">
+        <h3 class="h3 text-gray text-center text-normal">Top rank</h3>
+        <div class="h2 text-normal d-flex flex-items-start flex-justify-center">
+          <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
+                         outer_classes: 'flex-shrink-0 mr-1') %>
+          <%= @top_rank %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if @average_rank %>
+    <div class="col-md-4 float-left">
+      <div class="Box p-3 mx-2">
+        <h3 class="h3 text-gray text-center text-normal">Average rank</h3>
+        <div class="h2 text-normal d-flex flex-items-start flex-justify-center">
+          <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
+                         outer_classes: 'flex-shrink-0 mr-1') %>
+          <%= @average_rank %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+  <% if @bottom_rank %>
+    <div class="col-md-4 float-left">
+      <div class="Box p-3 ml-3">
+        <h3 class="h3 text-gray text-center text-normal">Lowest rank</h3>
+        <div class="h2 text-normal d-flex flex-items-start flex-justify-center">
+          <%= rank_image(@bottom_rank, classes: 'flex-shrink-0 rank-fit-height',
+                         outer_classes: 'flex-shrink-0 mr-1') %>
+          <%= @bottom_rank %>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
