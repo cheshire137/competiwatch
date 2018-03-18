@@ -64,11 +64,11 @@
   <div class="col-md-6 float-left">
     <div class="mr-4-md">
       <% if @top_accounts.any? %>
-        <%= render partial: 'admin/top_accounts',
+        <%= render partial: 'admin/home/top_accounts',
                    locals: { top_accounts: @top_accounts } %>
       <% end %>
 
-      <%= render partial: 'admin/users',
+      <%= render partial: 'admin/home/users',
                  locals: { users: @users,
                            accounts_by_user_id: @accounts_by_user_id,
                            friends_by_user_id: @friends_by_user_id, seasons: @seasons,
@@ -78,10 +78,10 @@
   <div class="col-md-6 float-left">
     <div class="ml-4-md">
       <% if @latest_matches.any? %>
-        <%= render partial: 'admin/latest_matches', locals: { matches: @latest_matches } %>
+        <%= render partial: 'admin/home/latest_matches', locals: { matches: @latest_matches } %>
       <% end %>
       <% if @latest_shared_seasons.any? %>
-        <%= render partial: 'admin/latest_shared_seasons',
+        <%= render partial: 'admin/home/latest_shared_seasons',
                    locals: { season_shares: @latest_shared_seasons } %>
       <% end %>
       <% if @top_heroes.any? %>
@@ -100,7 +100,7 @@
 <div class="mt-4 clearfix">
   <div class="col-md-6 mb-4 float-left">
     <div class="mr-4-md">
-      <%= render partial: 'admin/seasons',
+      <%= render partial: 'admin/home/seasons',
                  locals: { new_season: @new_season, seasons: @seasons } %>
     </div>
   </div>
