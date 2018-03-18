@@ -70,6 +70,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_select '.blankslate', false
     assert_equal true, assigns(:can_edit)
     assert_select "form[action='/season/#{@season}/#{account.to_param}']"
+    assert_select "a[href='/season/#{@season}/#{account.to_param}']"
+    assert_select "a[href='/trends/#{@season}/#{account.to_param}']"
   end
 
   test 'index page loads successfully for past season for account owner' do
@@ -83,6 +85,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     get "/season/#{@past_season}/#{account.to_param}"
 
     assert_response :ok
+    assert_select "a[href='/season/#{@past_season}/#{account.to_param}']"
+    assert_select "a[href='/trends/#{@past_season}/#{account.to_param}']"
   end
 
   test 'index page has future season message when no matches' do
@@ -128,6 +132,8 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_equal false, assigns(:can_edit)
     assert_select '.js-match-filter'
+    assert_select "a[href='/season/#{@season}/#{account.to_param}']"
+    assert_select "a[href='/trends/#{@season}/#{account.to_param}']"
   end
 
   test 'index page loads successfully for anonymous user when season is shared' do
