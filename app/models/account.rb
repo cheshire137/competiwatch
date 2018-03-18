@@ -50,6 +50,14 @@ class Account < ApplicationRecord
     with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
   end
 
+  def self.bottom_rank
+    with_rank.select('MIN(rank) AS min_rank').to_a.first.min_rank
+  end
+
+  def self.average_rank
+    with_rank.select('AVG(rank) AS avg_rank').to_a.first.avg_rank.round
+  end
+
   def most_played_heroes(limit: 5)
     matches_played_by_hero_id = Match.count_by_hero_id(scope: Match.where(account_id: id))
     hero_ids = matches_played_by_hero_id.keys.take(limit)

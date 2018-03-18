@@ -1,4 +1,4 @@
-<% content_for(:title, 'Admin Home') %>
+<% content_for(:title, 'Admin Dashboard') %>
 
 <div class="blankslate clearfix mb-4 p-3">
   <div class="col-md-3 float-left">
@@ -17,24 +17,42 @@
       </li>
     </ul>
   </div>
+  <% if @top_rank || @average_rank || @bottom_rank %>
+    <div class="col-md-3 float-left">
+      <ul class="list-style-none">
+        <% if @top_rank %>
+          <li class="d-flex flex-items-start flex-justify-center">
+            <strong class="d-inline-block mr-1">Top rank:</strong>
+            <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
+                           outer_classes: 'flex-shrink-0 mr-1') %>
+            <%= @top_rank %>
+          </li>
+        <% end %>
+        <% if @average_rank %>
+          <li class="d-flex flex-items-start flex-justify-center">
+            <strong class="d-inline-block mr-1">Average rank:</strong>
+            <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
+                           outer_classes: 'flex-shrink-0 mr-1') %>
+            <%= @average_rank %>
+          </li>
+        <% end %>
+        <% if @bottom_rank %>
+          <li class="d-flex flex-items-start flex-justify-center">
+            <strong class="d-inline-block mr-1">Bottom rank:</strong>
+            <%= rank_image(@bottom_rank, classes: 'flex-shrink-0 rank-fit-height',
+                           outer_classes: 'flex-shrink-0 mr-1') %>
+            <%= @bottom_rank %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
-      <% if @top_rank %>
-        <li class="d-flex flex-items-start flex-justify-center">
-          <strong class="d-inline-block mr-1">Top rank:</strong>
-          <%= rank_image(@top_rank, classes: 'flex-shrink-0',
-                         outer_classes: 'flex-shrink-0 mr-1') %>
-          <%= @top_rank %>
-        </li>
-      <% end %>
       <li>
         <strong><%= number_with_delimiter @match_count %></strong>
         <%= 'match'.pluralize(@match_count) %>
       </li>
-    </ul>
-  </div>
-  <div class="col-md-3 float-left">
-    <ul class="list-style-none">
       <li>
         <strong><%= number_with_delimiter @friend_count %></strong>
         <%= 'friend'.pluralize(@friend_count) %>
