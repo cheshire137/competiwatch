@@ -51,9 +51,10 @@
   <div class="col-md-6 float-left">
     <h2 class="h2 mb-2">Stats</h2>
     <ul class="list-style-none">
-      <% if @thrower_leaver_percent %>
+      <% if @thrower_leaver_percent && @season_number %>
         <li>
           <%= @thrower_leaver_percent %>% of matches had a thrower or leaver
+          in season <%= @season_number %>
           <% if @thrower_leaver_percent > 0 %>
             😿
           <% else %>
