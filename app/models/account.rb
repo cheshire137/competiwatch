@@ -41,6 +41,11 @@ class Account < ApplicationRecord
   has_many :matches, dependent: :destroy
   has_many :season_shares, dependent: :destroy
 
+  def self.find_by_param(battletag_param)
+    battletag = battletag_param.split('-').join('#')
+    where(battletag: battletag).first
+  end
+
   def self.top_rank
     with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
   end
