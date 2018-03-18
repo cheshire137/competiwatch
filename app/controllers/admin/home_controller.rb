@@ -3,7 +3,7 @@ class Admin::HomeController < ApplicationController
 
   def index
     @user_count = User.count
-    @latest_account = Account.order(id: :desc).where('user_id <> ?', current_user).first
+    @latest_accounts = Account.order(id: :desc).where('user_id <> ?', current_user).limit(5)
     @top_accounts = Match.top_accounts
     @top_rank = Account.top_rank
     @bottom_rank = Account.bottom_rank

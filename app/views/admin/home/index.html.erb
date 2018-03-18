@@ -63,24 +63,15 @@
       </li>
     </ul>
   </div>
-  <% if @latest_account %>
-    <div class="col-md-3 float-left">
-      <ul class="list-style-none">
-        <li class="text-bold">Latest account</li>
-        <li>
-          <a href="<%= profile_path(@latest_account) %>" target="_blank" rel="noopener noreferrer">
-            <%= avatar_for(@latest_account) %>
-            <%= @latest_account %>
-          </a>
-        </li>
-      </ul>
-    </div>
-  <% end %>
 </div>
 
 <div class="clearfix mb-4">
   <div class="col-md-6 float-left">
     <div class="mr-4-md">
+      <% if @latest_accounts.any? %>
+        <%= render partial: 'admin/home/latest_accounts',
+                   locals: { latest_accounts: @latest_accounts } %>
+      <% end %>
       <% if @top_accounts.any? %>
         <%= render partial: 'admin/home/top_accounts',
                    locals: { top_accounts: @top_accounts } %>
