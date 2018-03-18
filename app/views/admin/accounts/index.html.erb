@@ -3,10 +3,7 @@
 <ul class="list-style-none mb-4">
   <% @accounts.each_with_index do |account, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-      <a href="<%= profile_path(account) %>" target="_blank" rel="noopener noreferrer">
-        <%= avatar_for(account) %>
-        <span class="text-bold"><%= account %></span>
-      </a>
+      <%= link_to_account(account) %>
       <% if account.rank %>
         <span class="d-inline-block mx-2">&middot;</span>
         <%= rank_image(account.rank, classes: 'flex-shrink-0 rank-fit-height',
@@ -46,7 +43,7 @@
       <h2 class="h2 mb-2">Accounts without users</h2>
       <ul class="list-style-none">
         <% @userless_accounts.each do |account| %>
-          <li><%= account %></li>
+          <li><%= link_to_account(account) %></li>
         <% end %>
       </ul>
     </div>
