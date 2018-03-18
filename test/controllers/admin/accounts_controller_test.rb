@@ -15,12 +15,14 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
   test 'admin can view accounts' do
     admin_account = create(:account, admin: true)
     userless_account = create(:account, user: nil)
+    deletable_account = create(:account, updated_at: 1.year.ago)
 
     sign_in_as(admin_account)
     get '/admin/accounts'
 
     assert_response :ok
-    assert_select 'li', text: userless_account.battletag
+    assert_select '.test-userless-accounts li', text: userless_account.battletag
+    assert_select '.test-deletable-accounts li', text: deletable_account.battletag
   end
 
   test 'non-admin cannot edit accounts' do

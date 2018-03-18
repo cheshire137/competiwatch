@@ -37,11 +37,26 @@
   </div>
 <% end %>
 
+<% if @deletable_accounts.any? %>
+  <div class="clearfix">
+    <div class="col-md-6 mb-4 float-left">
+      <h2 class="h2 mb-2">Deletable accounts</h2>
+      <ul class="list-style-none test-deletable-accounts">
+        <% @deletable_accounts.each_with_index do |account, i| %>
+          <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
+            <%= link_to_account(account) %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+<% end %>
+
 <% if @userless_accounts.any? %>
   <div class="clearfix">
     <div class="col-md-6 mb-4 float-left">
       <h2 class="h2 mb-2">Accounts without users</h2>
-      <ul class="list-style-none">
+      <ul class="list-style-none test-userless-accounts">
         <% @userless_accounts.each do |account| %>
           <li><%= link_to_account(account) %></li>
         <% end %>
