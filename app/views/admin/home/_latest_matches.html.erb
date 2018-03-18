@@ -7,10 +7,7 @@
 <ul class="mb-4 list-style-none">
   <% matches.each_with_index do |match, i| %>
     <li<% if i > 0 %> class="mt-1"<% end %>>
-      <a href="<%= profile_path(match.account) %>" target="_blank" rel="noopener noreferrer">
-        <%= avatar_for(match.account) %>
-        <%= match.account %>
-      </a>
+      <%= link_to_account(match.account) %>
       &middot;
       <%= match_result(match) %>
       <% if map = match.map %>

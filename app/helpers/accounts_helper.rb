@@ -9,7 +9,7 @@ module AccountsHelper
       safe_join([
         avatar_for(account),
         content_tag(:span, account, class: 'text-bold')
-      ])
+      ], ' ')
     end
   end
 
