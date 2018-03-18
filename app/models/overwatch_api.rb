@@ -2,10 +2,13 @@ class OverwatchAPI
   include HTTParty
   base_uri 'ow-api.herokuapp.com'
 
+  attr_reader :response
+
   def initialize(battletag:, region:, platform:)
     @battletag = User.parameterize(battletag)
     @region = region
     @platform = platform
+    @response = nil
   end
 
   def profile_url
@@ -13,8 +16,8 @@ class OverwatchAPI
   end
 
   def profile
-    resp = self.class.get(profile_url)
-    resp.parsed_response if resp.success?
+    @response = self.class.get(profile_url)
+    return @response.parsed_response if @response.success?
   end
 
   def stats_url
@@ -22,7 +25,7 @@ class OverwatchAPI
   end
 
   def stats
-    resp = self.class.get(stats_url)
-    resp.parsed_response if resp.success?
+    @response = self.class.get(stats_url)
+    return @response.parsed_response if @response.success?
   end
 end
