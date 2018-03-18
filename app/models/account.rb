@@ -208,10 +208,14 @@ class Account < ApplicationRecord
     VALID_REGIONS[region]
   end
 
+  def api_response
+    overwatch_api.response
+  end
+
   private
 
   def overwatch_api
-    OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
+    @overwatch_api ||= OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
   end
 
   def overwatch_api_profile_cache_key
