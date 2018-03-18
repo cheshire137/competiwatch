@@ -1,7 +1,7 @@
 class User < ApplicationRecord
   devise :omniauthable, omniauth_providers: [:bnet]
 
-  has_many :accounts, dependent: :destroy
+  has_many :accounts, dependent: :restrict_with_exception
   has_many :friends, dependent: :destroy
   has_many :matches, through: :accounts
   has_many :season_shares, through: :accounts

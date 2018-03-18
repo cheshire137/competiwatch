@@ -161,17 +161,19 @@ class UserTest < ActiveSupport::TestCase
     refute Friend.exists?(friend2.id)
   end
 
-  test 'deletes OAuth accounts when deleted' do
+  test 'raises exception if has accounts when trying to destroy' do
     user = create(:user)
     account1 = create(:account, user: user)
     account2 = create(:account, user: user)
 
-    assert_difference 'Account.count', -2 do
-      user.destroy
+    assert_no_difference 'Account.count' do
+      assert_raises ActiveRecord::DeleteRestrictionError do
+        user.destroy
+      end
     end
 
-    refute Account.exists?(account1.id)
-    refute Account.exists?(account2.id)
+    assert Account.exists?(account1.id)
+    assert Account.exists?(account2.id)
   end
 
   test "friend_names returns empty list when season has no matches" do
