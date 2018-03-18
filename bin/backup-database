@@ -1,0 +1,17 @@
+#!/bin/sh
+
+_dest_dir=${BACKUP_DIR:=~/Documents}
+if [ ! -d $_dest_dir ]; then
+  echo "Backup destination directory $_dest_dir does not exist"
+  exit 1
+fi
+
+heroku pg:backups:capture
+heroku pg:backups:download
+
+_now=$(date +"%Y-%m-%d")
+_dest_filename="competiwatch-prod-$_now.dump"
+_dest_path="$_dest_dir/$_dest_filename"
+
+echo "Backing up to $_dest_path"
+mv latest.dump $_dest_path
