@@ -35,6 +35,7 @@ class Account < ApplicationRecord
   scope :with_rank, ->{ where('rank IS NOT NULL') }
 
   after_update :remove_default, if: :saved_change_to_user_id?
+  after_update :refresh_profile_data, if: :region_or_platform_changed?
 
   alias_attribute :to_s, :battletag
 
@@ -214,6 +215,10 @@ class Account < ApplicationRecord
 
   private
 
+  def region_or_platform_changed?
+    saved_change_to_platform? || saved_change_to_region?
+  end
+
   def overwatch_api
     @overwatch_api ||= OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
   end
@@ -228,5 +233,9 @@ class Account < ApplicationRecord
 
   def career_high_cache_key
     "career-high-#{battletag}"
+  end
+
+  def refresh_profile_data
+    SetProfileDataJob.perform_later(id)
   end
 end
