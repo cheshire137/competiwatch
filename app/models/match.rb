@@ -90,6 +90,20 @@ class Match < ApplicationRecord
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
   end
 
+  def self.weekday_win_percent(season: nil)
+    total_matches = Match.with_result.weekdays
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    win_count = Match.wins.weekdays
+    win_count = win_count.in_season(season) if season
+    win_count = win_count.count
+
+    percent = (win_count.to_f / total_matches) * 100
+    percent.round
+  end
+
   def self.weekend_win_percent(season: nil)
     total_matches = Match.with_result.weekends
     total_matches = total_matches.in_season(season) if season

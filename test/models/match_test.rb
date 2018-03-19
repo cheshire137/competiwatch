@@ -3,6 +3,26 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'weekday_win_percent looks only in specified season if given' do
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :loss, season: 1)
+    create(:match, day_of_week: :weekend, result: :draw, season: 2)
+    create(:match, day_of_week: :weekend, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :win, season: 2)
+
+    assert_equal 50, Match.weekday_win_percent(season: 1)
+  end
+
+  test 'weekday_win_percent returns percentage of matches won on a weekday' do
+    create(:match, day_of_week: :weekday, result: :win)
+    create(:match, day_of_week: :weekend, result: :loss)
+    create(:match, day_of_week: :weekend, result: :draw)
+    create(:match, day_of_week: :weekend, result: :win)
+    create(:match, day_of_week: :weekday, result: :win)
+
+    assert_equal 100, Match.weekday_win_percent
+  end
+
   test 'weekend_win_percent looks only in specified season if given' do
     create(:match, day_of_week: :weekday, result: :win, season: 1)
     create(:match, day_of_week: :weekend, result: :loss, season: 1)
