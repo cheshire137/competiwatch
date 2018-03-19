@@ -3,6 +3,26 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'weekend_win_percent looks only in specified season if given' do
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+    create(:match, day_of_week: :weekend, result: :loss, season: 1)
+    create(:match, day_of_week: :weekend, result: :draw, season: 2)
+    create(:match, day_of_week: :weekend, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+
+    assert_equal 50, Match.weekend_win_percent(season: 1)
+  end
+
+  test 'weekend_win_percent returns percentage of matches won on the weekend' do
+    create(:match, day_of_week: :weekday, result: :win)
+    create(:match, day_of_week: :weekend, result: :loss)
+    create(:match, day_of_week: :weekend, result: :draw)
+    create(:match, day_of_week: :weekend, result: :win)
+    create(:match, day_of_week: :weekday, result: :win)
+
+    assert_equal 33, Match.weekend_win_percent
+  end
+
   test 'weekends returns only weekend matches' do
     match1 = create(:match, day_of_week: :weekday)
     match2 = create(:match, day_of_week: :weekend)
@@ -11,9 +31,9 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'thrower_leaver_percent looks only in specified season' do
-    match1 = create(:match, result: :win, season: 1)
-    match2 = create(:match, ally_thrower: true, result: :loss, season: 1)
-    match3 = create(:match, ally_leaver: true, result: :draw, season: 2)
+    create(:match, result: :win, season: 1)
+    create(:match, ally_thrower: true, result: :loss, season: 1)
+    create(:match, ally_leaver: true, result: :draw, season: 2)
 
     assert_equal 50, Match.thrower_leaver_percent(season: 1)
   end
@@ -23,11 +43,11 @@ class MatchTest < ActiveSupport::TestCase
   end
 
   test 'thrower_leaver_percent returns percentage of matches with a result that had a thrower or leaver' do
-    match1 = create(:match, result: :win)
-    match2 = create(:match, ally_thrower: true, result: :loss)
-    match3 = create(:match, ally_leaver: true, result: :draw)
-    match4 = create(:match, enemy_thrower: true, result: :win)
-    match5 = create(:match, enemy_leaver: true, result: :win)
+    create(:match, result: :win)
+    create(:match, ally_thrower: true, result: :loss)
+    create(:match, ally_leaver: true, result: :draw)
+    create(:match, enemy_thrower: true, result: :win)
+    create(:match, enemy_leaver: true, result: :win)
 
     assert_equal 80, Match.thrower_leaver_percent
   end
