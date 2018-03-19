@@ -55,6 +55,7 @@ class Match < ApplicationRecord
     where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)
   }
   scope :weekends, ->{ where(day_of_week: DAY_OF_WEEK_MAPPINGS[:weekend]) }
+  scope :weekdays, ->{ where(day_of_week: DAY_OF_WEEK_MAPPINGS[:weekday]) }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('matches.rank IS NOT NULL') }
   scope :with_result, ->{ where('result IS NOT NULL') }

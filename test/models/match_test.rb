@@ -30,6 +30,13 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal [match2], Match.weekends
   end
 
+  test 'weekdays returns only weekend matches' do
+    match1 = create(:match, day_of_week: :weekday)
+    match2 = create(:match, day_of_week: :weekend)
+
+    assert_equal [match1], Match.weekdays
+  end
+
   test 'thrower_leaver_percent looks only in specified season' do
     create(:match, result: :win, season: 1)
     create(:match, ally_thrower: true, result: :loss, season: 1)
