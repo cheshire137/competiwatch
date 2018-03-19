@@ -7,6 +7,23 @@ class SeasonTest < ActiveSupport::TestCase
     Rails.cache.delete(Season::LATEST_SEASON_CACHE_KEY)
   end
 
+  test 'current_or_last_number returns active season if one is ongoing' do
+    prior_season = seasons(:two)
+    prior_season.ended_on = 1.day.ago
+    prior_season.save!
+    current_season = create(:season, number: 3, started_on: 5.hours.ago, ended_on: nil)
+
+    assert_equal current_season.number, Season.current_or_last_number
+  end
+
+  test 'current_or_last_number returns season that most recently ended if none is ongoing' do
+    prior_season = seasons(:two)
+    prior_season.ended_on = 1.day.ago
+    prior_season.save!
+
+    assert_equal 2, Season.current_or_last_number
+  end
+
   test 'active? returns true for started-but-not-yet-ended season' do
     season = build(:season, started_on: 1.week.ago)
 
