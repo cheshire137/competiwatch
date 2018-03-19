@@ -39,8 +39,11 @@ class Hero < ApplicationRecord
     ALIASES[hero_alias.downcase.to_sym] || hero_alias
   end
 
-  def self.most_played(limit: 5)
-    matches_played_by_hero_id = Match.count_by_hero_id
+  def self.most_played(limit: 5, season: nil)
+    scope = if season
+      Match.in_season(season)
+    end
+    matches_played_by_hero_id = Match.count_by_hero_id(scope: scope)
     hero_ids = matches_played_by_hero_id.keys.take(limit)
     heroes = Hero.where(id: hero_ids).map { |hero| [hero.id, hero] }.to_h
     hero_ids.map do |hero_id|

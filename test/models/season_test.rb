@@ -21,7 +21,7 @@ class SeasonTest < ActiveSupport::TestCase
     prior_season.ended_on = 1.day.ago
     prior_season.save!
 
-    assert_equal 2, Season.current_or_last_number
+    assert_equal prior_season.number, Season.current_or_last_number
   end
 
   test 'active? returns true for started-but-not-yet-ended season' do
