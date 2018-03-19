@@ -42,19 +42,24 @@
 <div class="clearfix mb-4">
   <% if @top_heroes.any? %>
     <div class="col-md-6 float-left">
-      <h2 class="h2 mb-2">Most played heroes</h2>
+      <h2 class="h2 mb-2">
+        Most played heroes
+        <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %>
+      </h2>
       <div class="mb-4 pb-2 overflow-hidden">
         <%= render partial: 'accounts/heroes_list', locals: { heroes: @top_heroes } %>
       </div>
     </div>
   <% end %>
   <div class="col-md-6 float-left">
-    <h2 class="h2 mb-2">Stats</h2>
+    <h2 class="h2 mb-2">
+      Stats
+      <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %>
+    </h2>
     <ul class="list-style-none">
-      <% if @thrower_leaver_percent && @season_number %>
+      <% if @thrower_leaver_percent %>
         <li>
           <%= @thrower_leaver_percent %>% of matches had a thrower or leaver
-          in season <%= @season_number %>
           <% if @thrower_leaver_percent > 0 %>
             😿
           <% else %>

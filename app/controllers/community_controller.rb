@@ -3,8 +3,8 @@ class CommunityController < ApplicationController
     @top_rank = Account.top_rank
     @bottom_rank = Account.bottom_rank
     @average_rank = Account.average_rank
-    @top_heroes = Hero.most_played
-    @season_number = Season.current_or_latest_number
+    @season_number = Season.current_or_last_number
+    @top_heroes = Hero.most_played(season: @season_number)
     @thrower_leaver_percent = Match.thrower_leaver_percent(season: @season_number)
   end
 end
