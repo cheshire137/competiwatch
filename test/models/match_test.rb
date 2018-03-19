@@ -3,6 +3,13 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'weekends returns only weekend matches' do
+    match1 = create(:match, day_of_week: :weekday)
+    match2 = create(:match, day_of_week: :weekend)
+
+    assert_equal [match2], Match.weekends
+  end
+
   test 'thrower_leaver_percent looks only in specified season' do
     match1 = create(:match, result: :win, season: 1)
     match2 = create(:match, ally_thrower: true, result: :loss, season: 1)
