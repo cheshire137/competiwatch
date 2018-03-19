@@ -58,13 +58,18 @@
     </h2>
     <ul class="list-style-none">
       <% if @thrower_leaver_percent %>
-        <li>
+        <li class="mb-1">
           <%= @thrower_leaver_percent %>% of matches had a thrower or leaver
           <% if @thrower_leaver_percent > 0 %>
             😿
           <% else %>
             🎉
           <% end %>
+        </li>
+      <% end %>
+      <% if @weekend_win_percent %>
+        <li class="mb-1">
+          <%= @weekend_win_percent %>% of weekend matches were won
         </li>
       <% end %>
     </ul>
