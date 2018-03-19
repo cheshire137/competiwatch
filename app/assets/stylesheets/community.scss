@@ -1,3 +1,9 @@
-// Place all the styles related to the community controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+.win-bar-container {
+  width: 200px;
+  height: 15px;
+}
+
+.win-bar {
+  height: 15px;
+  box-shadow: rgba(0, 0, 0, 0.1) -2px -2px 0 0 inset;
+}

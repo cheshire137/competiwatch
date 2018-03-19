@@ -68,8 +68,23 @@
         </li>
       <% end %>
       <% if @weekend_win_percent %>
-        <li class="mb-1">
-          <%= @weekend_win_percent %>% of weekend matches were won
+        <li class="mb-1  d-flex flex-items-center">
+          <% if @max_win_percent %>
+            <span class="win-bar-container d-inline-block mr-2">
+              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekend_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekend_win_percent + 10) %>"></span>
+            </span>
+          <% end %>
+          <span><%= @weekend_win_percent %>% of weekend matches were won</span>
+        </li>
+      <% end %>
+      <% if @weekday_win_percent %>
+        <li class="mb-1 d-flex flex-items-center">
+          <% if @max_win_percent %>
+            <span class="win-bar-container d-inline-block mr-2">
+              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekday_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekday_win_percent + 10) %>"></span>
+            </span>
+          <% end %>
+          <span><%= @weekday_win_percent %>% of weekday matches were won</span>
         </li>
       <% end %>
     </ul>

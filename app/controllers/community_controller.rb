@@ -8,5 +8,9 @@ class CommunityController < ApplicationController
     @top_heroes = Hero.most_played(season: @season_number)
     @thrower_leaver_percent = Match.thrower_leaver_percent(season: @season_number)
     @weekend_win_percent = Match.weekend_win_percent(season: @season_number)
+    @weekday_win_percent = Match.weekday_win_percent(season: @season_number)
+    @max_win_percent = if @weekend_win_percent && @weekday_win_percent
+      [@weekday_win_percent, @weekend_win_percent].max
+    end
   end
 end
