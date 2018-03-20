@@ -89,6 +89,15 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal [match2, match3, match4, match5], Match.with_thrower_or_leaver
   end
 
+  test 'restricts comment length' do
+    comment = 'a' * (Match::MAX_COMMENT_LENGTH + 1)
+    match = build(:match, comment: comment)
+
+    refute_predicate match, :valid?
+    assert_includes match.errors.messages[:comment],
+      "is too long (maximum is #{Match::MAX_COMMENT_LENGTH} characters)"
+  end
+
   test 'can log a 6-stack game' do
     user = create(:user)
     account = create(:account, user: user)
