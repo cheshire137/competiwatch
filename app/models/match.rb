@@ -103,6 +103,24 @@ class Match < ApplicationRecord
     win_counts.sort_by { |group_size, _count| group_size }.to_h
   end
 
+  def self.map_win_percentages(season:)
+    matches = in_season(season).with_map.with_result
+    maps = Map.select('name, id')
+    totals = Hash.new(0)
+    wins = Hash.new(0)
+    matches.each do |match|
+      totals[match.map_id] += 1
+      if match.win?
+        wins[match.map_id] += 1
+      end
+    end
+    percentages = {}
+    maps.each do |map|
+      percentages[map] = ((wins[map.id].to_f / totals[map.id]) * 100).round
+    end
+    percentages.sort_by { |_map, percent| -percent }.to_h
+  end
+
   # Public: Returns an array with the number of the season with the most matches logged in it,
   # and the number of matches.
   def self.top_season

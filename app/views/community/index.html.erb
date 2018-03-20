@@ -56,7 +56,7 @@
       Stats
       <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %>
     </h2>
-    <ul class="list-style-none">
+    <ul class="list-style-none mb-4">
       <% if @thrower_leaver_percent %>
         <li class="mb-1">
           <%= @thrower_leaver_percent %>% of matches had a thrower or leaver
@@ -67,16 +67,9 @@
           <% end %>
         </li>
       <% end %>
-      <% if @weekend_win_percent %>
-        <li class="mb-1  d-flex flex-items-center">
-          <% if @max_win_percent %>
-            <span class="win-bar-container d-inline-block mr-2">
-              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekend_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekend_win_percent + 10) %>"></span>
-            </span>
-          <% end %>
-          <span><%= @weekend_win_percent %>% of weekend matches were won</span>
-        </li>
-      <% end %>
+    </ul>
+    <h4 class="h4 mb-2 text-normal">Time of day</h4>
+    <ul class="list-style-none mb-4">
       <% if @weekday_win_percent %>
         <li class="mb-1 d-flex flex-items-center">
           <% if @max_win_percent %>
@@ -84,7 +77,36 @@
               <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekday_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekday_win_percent + 10) %>"></span>
             </span>
           <% end %>
-          <span><%= @weekday_win_percent %>% of weekday matches were won</span>
+          <span><%= @weekday_win_percent %>% of <strong>weekday</strong> matches were won</span>
+        </li>
+      <% end %>
+      <% if @weekend_win_percent %>
+        <li class="mb-1  d-flex flex-items-center">
+          <% if @max_win_percent %>
+            <span class="win-bar-container d-inline-block mr-2">
+              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekend_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekend_win_percent + 10) %>"></span>
+            </span>
+          <% end %>
+          <span><%= @weekend_win_percent %>% of <strong>weekend</strong> matches were won</span>
+        </li>
+      <% end %>
+    </ul>
+    <h4 class="h4 mb-2 text-normal">Maps</h4>
+    <ul class="list-style-none mb-4">
+      <% if @highest_win_map %>
+        <li class="mb-1">
+          <span class="win-bar-container d-inline-block mr-2">
+            <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@highest_win_map_pct, @highest_win_map_pct, 100) %>%; background-color: <%= win_rate_color(@highest_win_map_pct + 10) %>"></span>
+          </span>
+          <%= @highest_win_map_pct %>% of <strong><%= @highest_win_map %></strong> matches won
+        </li>
+      <% end %>
+      <% if @lowest_win_map %>
+        <li class="mb-1">
+          <span class="win-bar-container d-inline-block mr-2">
+            <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@lowest_win_map_pct, @highest_win_map_pct, 100) %>%; background-color: <%= win_rate_color(@lowest_win_map_pct + 10) %>"></span>
+          </span>
+          <%= @lowest_win_map_pct %>% of <strong><%= @lowest_win_map %></strong> matches won
         </li>
       <% end %>
     </ul>
