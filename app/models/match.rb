@@ -119,6 +119,13 @@ class Match < ApplicationRecord
     percentages.sort_by { |_map, percent| -percent }.to_h
   end
 
+  def self.win_percent(season:)
+    matches = in_season(season).with_result
+    total = matches.count
+    wins = matches.wins.count
+    ((wins.to_f / total) * 100).round
+  end
+
   def self.map_draw_percentages(season:)
     matches = in_season(season).with_map.with_result
     maps = Map.select('name, id')

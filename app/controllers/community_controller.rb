@@ -12,6 +12,7 @@ class CommunityController < ApplicationController
     @max_win_percent = if @weekend_win_percent && @weekday_win_percent
       [@weekday_win_percent, @weekend_win_percent].max
     end
+    @overall_win_percent = Match.win_percent(season: @season_number)
 
     map_win_percentages = Match.map_win_percentages(season: @season_number)
     maps = map_win_percentages.keys

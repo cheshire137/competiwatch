@@ -40,8 +40,8 @@
 </div>
 
 <div class="clearfix mb-4">
-  <% if @top_heroes.any? %>
-    <div class="col-md-6 float-left">
+  <div class="col-md-6 float-left">
+    <% if @top_heroes.any? %>
       <h2 class="h2 mb-2">
         Most played heroes
         <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %>
@@ -49,22 +49,23 @@
       <div class="mb-4 pb-2 overflow-hidden">
         <%= render partial: 'accounts/heroes_list', locals: { heroes: @top_heroes } %>
       </div>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
   <div class="col-md-6 float-left">
     <h2 class="h2 mb-2">
       Stats
       <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %>
     </h2>
+    <h4 class="h4 mb-2 text-normal">General</h4>
     <ul class="list-style-none mb-4">
+      <% if @overall_win_percent %>
+        <li class="mb-1">
+          <strong><%= @overall_win_percent %>%</strong> of matches won
+        </li>
+      <% end %>
       <% if @thrower_leaver_percent %>
         <li class="mb-1">
-          <%= @thrower_leaver_percent %>% of matches had a thrower or leaver
-          <% if @thrower_leaver_percent > 0 %>
-            😿
-          <% else %>
-            🎉
-          <% end %>
+          <strong><%= @thrower_leaver_percent %>%</strong> of matches had a thrower or leaver
         </li>
       <% end %>
     </ul>
