@@ -6,6 +6,7 @@ class Match < ApplicationRecord
   TOTAL_PLACEMENT_MATCHES = 10
   MAX_PER_SEASON = 500
   MAX_FRIENDS_PER_MATCH = 5
+  MAX_COMMENT_LENGTH = 300
   RANK_TIERS = [:bronze, :silver, :gold, :platinum, :diamond, :master, :grandmaster].freeze
 
   attr_accessor :win_streak, :loss_streak
@@ -29,6 +30,7 @@ class Match < ApplicationRecord
   validates :result, inclusion: { in: RESULT_MAPPINGS.keys }, allow_nil: true
   validates :time_of_day, inclusion: { in: TIME_OF_DAY_MAPPINGS.keys }, allow_nil: true
   validates :day_of_week, inclusion: { in: DAY_OF_WEEK_MAPPINGS.keys }, allow_nil: true
+  validates :comment, length: { maximum: MAX_COMMENT_LENGTH }
   validate :season_same_as_prior_match
   validate :rank_or_placement
   validate :account_has_not_met_season_limit
