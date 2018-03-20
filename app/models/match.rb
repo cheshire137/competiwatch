@@ -88,7 +88,7 @@ class Match < ApplicationRecord
   end
 
   def self.group_size_win_percentages(season:)
-    matches = in_season(season).with_result.select(:group_member_ids)
+    matches = in_season(season).with_result.select('group_member_ids, result')
     match_counts = Hash.new(0)
     win_counts = Hash.new(0)
     matches.each do |match|
@@ -97,7 +97,8 @@ class Match < ApplicationRecord
     end
     percentages_by_group_size = Hash.new(0)
     match_counts.each do |group_size, match_count|
-      percentages_by_group_size[group_size] = (win_counts[group_size].to_f / match_count) * 100
+      percentages_by_group_size[group_size] =
+        ((win_counts[group_size].to_f / match_count) * 100).round
     end
     percentages_by_group_size.sort_by { |group_size, _percentage| group_size }.to_h
   end
