@@ -36,16 +36,6 @@
           </div>
         </div>
       <% end %>
-      <% if @bottom_rank %>
-        <div class="Box p-2 mb-4">
-          <h4 class="h4 text-gray text-center text-normal">Lowest rank</h4>
-          <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
-            <%= rank_image(@bottom_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @bottom_rank %>
-          </div>
-        </div>
-      <% end %>
     </div>
   </div>
   <div class="col-md-6 float-left">
