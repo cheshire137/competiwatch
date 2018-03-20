@@ -469,8 +469,8 @@ class Match < ApplicationRecord
   end
 
   def group_size_within_limit
-    if friend_count >= MAX_FRIENDS_PER_MATCH
-      party = group_member_names.take(5).join(', ')
+    if friend_count > MAX_FRIENDS_PER_MATCH
+      party = group_member_names.take(MAX_FRIENDS_PER_MATCH).join(', ')
       errors.add(:base, "Match already has a full group: you, #{party}")
     end
   end

@@ -89,6 +89,16 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal [match2, match3, match4, match5], Match.with_thrower_or_leaver
   end
 
+  test 'can log a 6-stack game' do
+    user = create(:user)
+    account = create(:account, user: user)
+    match = build(:match, account: account, result: :win)
+    match.set_friends_from_names %w[A B C D E]
+
+    assert_predicate match, :valid?
+    assert match.save
+  end
+
   test 'next_match returns the match following this one in the season' do
     account = create(:account)
     match1 = create(:match, account: account, season: 1)
