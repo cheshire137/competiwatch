@@ -12,27 +12,31 @@
           <%= render partial: 'accounts/heroes_list', locals: { heroes: @top_heroes } %>
         </div>
       <% end %>
-      <% if @top_rank %>
+      <% if @top_rank && @average_rank %>
         <h2 class="h2 mb-2">
           Ranks
           <span class="text-gray text-normal d-inline-block ml-2 h3">Overall</span>
         </h2>
-        <div class="Box p-2 mb-2">
-          <h4 class="h4 text-gray text-center text-normal">Top rank</h4>
-          <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
-            <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @top_rank %>
+        <div class="clearfix">
+          <div class="float-left col-md-6">
+            <div class="Box p-2 mr-1">
+              <h4 class="h4 text-gray text-center text-normal">Top rank</h4>
+              <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
+                <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
+                               outer_classes: 'flex-shrink-0 mr-1') %>
+                <%= @top_rank %>
+              </div>
+            </div>
           </div>
-        </div>
-      <% end %>
-      <% if @average_rank %>
-        <div class="Box p-2 mb-2">
-          <h4 class="h4 text-gray text-center text-normal">Average rank</h4>
-          <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
-            <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @average_rank %>
+          <div class="float-left col-md-6">
+            <div class="Box p-2 ml-1">
+              <h4 class="h4 text-gray text-center text-normal">Average rank</h4>
+              <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
+                <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
+                               outer_classes: 'flex-shrink-0 mr-1') %>
+                <%= @average_rank %>
+              </div>
+            </div>
           </div>
         </div>
       <% end %>
