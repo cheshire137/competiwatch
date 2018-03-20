@@ -84,6 +84,24 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
+  def self.total_by_group_size(season:)
+    matches = in_season(season).select(:group_member_ids)
+    match_counts = Hash.new(0)
+    matches.each do |match|
+      match_counts[match.group_size] += 1
+    end
+    match_counts.sort_by { |group_size, _count| group_size }.to_h
+  end
+
+  def self.wins_by_group_size(season:)
+    matches = in_season(season).wins.select(:group_member_ids)
+    win_counts = Hash.new(0)
+    matches.each do |match|
+      win_counts[match.group_size] += 1
+    end
+    win_counts.sort_by { |group_size, _count| group_size }.to_h
+  end
+
   # Public: Returns an array with the number of the season with the most matches logged in it,
   # and the number of matches.
   def self.top_season
