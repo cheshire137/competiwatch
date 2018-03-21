@@ -5,15 +5,15 @@ class SeasonShareTest < ActiveSupport::TestCase
 
   test 'with_matches returns season shares for accounts that have matches in given season' do
     account1 = create(:account)
-    create(:match, season: 1, account: account1)
+    create(:match, season: 1, account: account1, result: :win)
     share1 = create(:season_share, account: account1, season: 1)
 
     account2 = create(:account)
-    create(:match, season: 2, account: account2)
+    create(:match, season: 2, account: account2, result: :win)
     share2 = create(:season_share, account: account2, season: 2)
 
     account3 = create(:account)
-    create(:match, season: 1, account: account3)
+    create(:match, season: 1, account: account3, result: :win)
     share3 = create(:season_share, account: account3, season: 1)
 
     assert_equal [share1, share3], SeasonShare.with_matches(1).order(:id)
