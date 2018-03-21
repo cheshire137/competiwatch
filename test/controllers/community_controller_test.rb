@@ -1,6 +1,8 @@
 require 'test_helper'
 
 class CommunityControllerTest < ActionDispatch::IntegrationTest
+  fixtures :seasons
+
   test 'anonymous user cannot view community index' do
     get '/community'
 
