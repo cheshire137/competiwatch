@@ -92,7 +92,13 @@ To add a certificate initially:
 heroku certs:add /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsencrypt/live/your-domain/privkey.pem
 ```
 
-To update the certificate later once it's been renewed:
+To renew a certificate:
+
+```bash
+sudo certbot renew
+```
+
+To update the certificate once it's been renewed:
 
 ```bash
 heroku certs:update /etc/letsencrypt/live/your-domain/fullchain.pem /etc/letsencrypt/live/your-domain/privkey.pem
