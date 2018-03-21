@@ -16,8 +16,11 @@ class CommunityController < ApplicationController
     @overall_win_percent = Match.win_percent(season: @season_number)
     @group_size_win_percentages = Match.group_size_win_percentages(season: @season_number)
     @max_group_size_win_percentage = @group_size_win_percentages.values.max
+
     @season_shares = SeasonShare.with_matches(@season_number).includes(:account).random_order.
-      limit(5)
+      limit(6)
+    @match_counts_for_season_share = Match.in_season(@season_number).
+      where(account_id: @season_shares.pluck(:account_id)).group(:account_id).count
 
     map_win_percentages = Match.map_win_percentages(season: @season_number)
     maps = map_win_percentages.keys
