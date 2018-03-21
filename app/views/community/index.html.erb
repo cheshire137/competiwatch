@@ -129,29 +129,53 @@
   </div>
 </div>
 
-<% if @group_size_win_percentages.any? %>
+<% if @group_size_win_percentages.any? || @season_shares.size > 2 %>
   <hr class="mb-4">
 
-  <h2 class="h2 mb-2">
-    Group size
-    <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-  </h2>
+  <div class="clearfix">
+    <% if @group_size_win_percentages.any? %>
+      <div class="float-left col-md-6">
+        <h2 class="h2 mb-2">
+          Group size
+          <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
+        </h2>
 
-  <% group_sizes.each do |group_size| %>
-    <div class="mb-2">
-      <div class="win-bar-container d-inline-block mr-3">
-        <% if @group_size_win_percentages[group_size] %>
-          <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@group_size_win_percentages[group_size], @max_group_size_win_percentage, 100) %>%; background-color: <%= win_rate_color(@group_size_win_percentages[group_size] + 10) %>"></span>
-        <% else %>
-          &mdash;
+        <% group_sizes.each do |group_size| %>
+          <div class="mb-2">
+            <div class="win-bar-container d-inline-block mr-3">
+              <% if @group_size_win_percentages[group_size] %>
+                <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@group_size_win_percentages[group_size], @max_group_size_win_percentage, 100) %>%; background-color: <%= win_rate_color(@group_size_win_percentages[group_size] + 10) %>"></span>
+              <% else %>
+                &mdash;
+              <% end %>
+            </div>
+            <strong><%= group_size_name(group_size) %></strong>:
+            <% if @group_size_win_percentages[group_size] %>
+              <%= @group_size_win_percentages[group_size] %>% of games won
+            <% else %>
+              <em>No matches logged</em>
+            <% end %>
+          </div>
         <% end %>
       </div>
-      <strong><%= group_size_name(group_size) %></strong>:
-      <% if @group_size_win_percentages[group_size] %>
-        <%= @group_size_win_percentages[group_size] %>% of games won
-      <% else %>
-        <em>No matches logged</em>
-      <% end %>
-    </div>
-  <% end %>
+    <% end %>
+
+    <% if @season_shares.size > 2 %>
+      <div class="float-left col-md-6">
+        <h2 class="h2 mb-2">
+          Shared matches
+          <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
+        </h2>
+        <ul class="list-style-none">
+          <% @season_shares.each_with_index do |season_share, i| %>
+            <li<% if i > 0 %> class="mt-2"<% end %>>
+              <a href="<%= matches_path(season_share.season, season_share.account) %>">
+                <%= account_with_avatar(season_share.account) %>
+              </a>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+  </div>
 <% end %>

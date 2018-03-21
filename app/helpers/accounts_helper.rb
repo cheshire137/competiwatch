@@ -6,11 +6,15 @@ module AccountsHelper
       link_options[:rel] = 'noopener noreferrer'
     end
     link_to(profile_path(account), link_options) do
-      safe_join([
-        avatar_for(account),
-        content_tag(:span, account, class: 'text-bold')
-      ], ' ')
+      account_with_avatar(account)
     end
+  end
+
+  def account_with_avatar(account)
+    safe_join([
+      avatar_for(account),
+      content_tag(:span, account, class: 'text-bold')
+    ], ' ')
   end
 
   def hero_tldr_roles(heroes)
