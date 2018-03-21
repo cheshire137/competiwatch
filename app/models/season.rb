@@ -25,8 +25,17 @@ class Season < ApplicationRecord
     current_number || latest_number
   end
 
+  def self.current_or_last_number
+    current_number || last_number
+  end
+
   def self.current_number
     current.try(:number)
+  end
+
+  def self.last_number
+    last_season = latest_first.ended.first
+    last_season.try(:number)
   end
 
   def self.latest_number(skip_cache: false)

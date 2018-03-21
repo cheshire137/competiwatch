@@ -131,6 +131,8 @@ accounts tied to the same user.
 
 ## Thanks
 
+See [the libraries I'm using](https://github.com/cheshire137/competiwatch/network/dependencies).
+
 - [Chart.js library](http://www.chartjs.org/)
 - [Primer CSS library](https://github.com/primer/primer)
 - Color palette [Tell Me No Secrets](http://www.colourlovers.com/palette/4523673/Tell_Me_No_Secrets)

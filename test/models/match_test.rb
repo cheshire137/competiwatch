@@ -3,6 +3,92 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'weekday_win_percent looks only in specified season if given' do
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :loss, season: 1)
+    create(:match, day_of_week: :weekend, result: :draw, season: 2)
+    create(:match, day_of_week: :weekend, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :win, season: 2)
+
+    assert_equal 50, Match.weekday_win_percent(season: 1)
+  end
+
+  test 'weekday_win_percent returns percentage of matches won on a weekday' do
+    create(:match, day_of_week: :weekday, result: :win)
+    create(:match, day_of_week: :weekend, result: :loss)
+    create(:match, day_of_week: :weekend, result: :draw)
+    create(:match, day_of_week: :weekend, result: :win)
+    create(:match, day_of_week: :weekday, result: :win)
+
+    assert_equal 100, Match.weekday_win_percent
+  end
+
+  test 'weekend_win_percent looks only in specified season if given' do
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+    create(:match, day_of_week: :weekend, result: :loss, season: 1)
+    create(:match, day_of_week: :weekend, result: :draw, season: 2)
+    create(:match, day_of_week: :weekend, result: :win, season: 1)
+    create(:match, day_of_week: :weekday, result: :win, season: 1)
+
+    assert_equal 50, Match.weekend_win_percent(season: 1)
+  end
+
+  test 'weekend_win_percent returns percentage of matches won on the weekend' do
+    create(:match, day_of_week: :weekday, result: :win)
+    create(:match, day_of_week: :weekend, result: :loss)
+    create(:match, day_of_week: :weekend, result: :draw)
+    create(:match, day_of_week: :weekend, result: :win)
+    create(:match, day_of_week: :weekday, result: :win)
+
+    assert_equal 33, Match.weekend_win_percent
+  end
+
+  test 'weekends returns only weekend matches' do
+    match1 = create(:match, day_of_week: :weekday)
+    match2 = create(:match, day_of_week: :weekend)
+
+    assert_equal [match2], Match.weekends
+  end
+
+  test 'weekdays returns only weekend matches' do
+    match1 = create(:match, day_of_week: :weekday)
+    match2 = create(:match, day_of_week: :weekend)
+
+    assert_equal [match1], Match.weekdays
+  end
+
+  test 'thrower_leaver_percent looks only in specified season' do
+    create(:match, result: :win, season: 1)
+    create(:match, ally_thrower: true, result: :loss, season: 1)
+    create(:match, ally_leaver: true, result: :draw, season: 2)
+
+    assert_equal 50, Match.thrower_leaver_percent(season: 1)
+  end
+
+  test 'thrower_leaver_percent returns nil when no matches' do
+    assert_nil Match.thrower_leaver_percent
+  end
+
+  test 'thrower_leaver_percent returns percentage of matches with a result that had a thrower or leaver' do
+    create(:match, result: :win)
+    create(:match, ally_thrower: true, result: :loss)
+    create(:match, ally_leaver: true, result: :draw)
+    create(:match, enemy_thrower: true, result: :win)
+    create(:match, enemy_leaver: true, result: :win)
+
+    assert_equal 80, Match.thrower_leaver_percent
+  end
+
+  test 'with_thrower_or_leaver returns matches that had a thrower or leaver' do
+    match1 = create(:match)
+    match2 = create(:match, ally_thrower: true)
+    match3 = create(:match, ally_leaver: true)
+    match4 = create(:match, enemy_thrower: true)
+    match5 = create(:match, enemy_leaver: true)
+
+    assert_equal [match2, match3, match4, match5], Match.with_thrower_or_leaver
+  end
+
   test 'restricts comment length' do
     comment = 'a' * (Match::MAX_COMMENT_LENGTH + 1)
     match = build(:match, comment: comment)

@@ -56,9 +56,12 @@ class Match < ApplicationRecord
   scope :placement_logs, ->{
     where('placement IS NULL OR placement = ?', false).where(map_id: nil, prior_match: nil)
   }
+  scope :weekends, ->{ where(day_of_week: DAY_OF_WEEK_MAPPINGS[:weekend]) }
+  scope :weekdays, ->{ where(day_of_week: DAY_OF_WEEK_MAPPINGS[:weekday]) }
   scope :ordered_by_time, ->{ order(created_at: :asc) }
   scope :with_rank, ->{ where('matches.rank IS NOT NULL') }
   scope :with_result, ->{ where('result IS NOT NULL') }
+  scope :with_map, ->{ where('map_id IS NOT NULL') }
   scope :with_day_and_time, ->{ where('time_of_day IS NOT NULL AND day_of_week IS NOT NULL') }
   scope :publicly_shared, ->{
     joins("INNER JOIN season_shares ON season_shares.season = matches.season " \
@@ -71,6 +74,10 @@ class Match < ApplicationRecord
     where('group_member_ids @> ARRAY[?]::integer[]', friend_ids)
   }
   scope :with_group_member, ->(friend_or_id) { with_group_members([friend_or_id]) }
+  scope :with_thrower_or_leaver, -> do
+    where('enemy_thrower = ? OR ally_thrower = ? OR enemy_leaver = ? OR ally_leaver = ?',
+          true, true, true, true)
+  end
 
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
@@ -80,10 +87,107 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
+  def self.group_size_win_percentages(season:)
+    matches = in_season(season).with_result.select('group_member_ids, result')
+    match_counts = Hash.new(0)
+    win_counts = Hash.new(0)
+    matches.each do |match|
+      match_counts[match.group_size] += 1
+      win_counts[match.group_size] += 1 if match.win?
+    end
+    percentages_by_group_size = Hash.new(0)
+    match_counts.each do |group_size, match_count|
+      percentages_by_group_size[group_size] =
+        ((win_counts[group_size].to_f / match_count) * 100).round
+    end
+    percentages_by_group_size.sort_by { |group_size, _percentage| group_size }.to_h
+  end
+
+  def self.map_win_percentages(season:)
+    matches = in_season(season).with_map.with_result
+    maps = Map.select('name, id')
+    totals = Hash.new(0)
+    wins = Hash.new(0)
+    matches.each do |match|
+      totals[match.map_id] += 1
+      wins[match.map_id] += 1 if match.win?
+    end
+    percentages = {}
+    maps.each do |map|
+      percentages[map] = ((wins[map.id].to_f / totals[map.id]) * 100).round
+    end
+    percentages.sort_by { |_map, percent| -percent }.to_h
+  end
+
+  def self.win_percent(season:)
+    matches = in_season(season).with_result
+    total = matches.count
+    wins = matches.wins.count
+    ((wins.to_f / total) * 100).round
+  end
+
+  def self.map_draw_percentages(season:)
+    matches = in_season(season).with_map.with_result
+    maps = Map.select('name, id')
+    totals = Hash.new(0)
+    draws = Hash.new(0)
+    matches.each do |match|
+      totals[match.map_id] += 1
+      draws[match.map_id] += 1 if match.draw?
+    end
+    percentages = {}
+    maps.each do |map|
+      percentages[map] = ((draws[map.id].to_f / totals[map.id]) * 100).round
+    end
+    percentages.sort_by { |_map, percent| -percent }.to_h
+  end
+
   # Public: Returns an array with the number of the season with the most matches logged in it,
   # and the number of matches.
   def self.top_season
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
+  end
+
+  def self.weekday_win_percent(season: nil)
+    total_matches = Match.with_result.weekdays
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    win_count = Match.wins.weekdays
+    win_count = win_count.in_season(season) if season
+    win_count = win_count.count
+
+    percent = (win_count.to_f / total_matches) * 100
+    percent.round
+  end
+
+  def self.weekend_win_percent(season: nil)
+    total_matches = Match.with_result.weekends
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    win_count = Match.wins.weekends
+    win_count = win_count.in_season(season) if season
+    win_count = win_count.count
+
+    percent = (win_count.to_f / total_matches) * 100
+    percent.round
+  end
+
+  def self.thrower_leaver_percent(season: nil)
+    total_matches = Match.with_result
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    thrower_leaver_match_count = Match.with_result.with_thrower_or_leaver
+    thrower_leaver_match_count = thrower_leaver_match_count.in_season(season) if season
+    thrower_leaver_match_count = thrower_leaver_match_count.count
+
+    percent = (thrower_leaver_match_count.to_f / total_matches) * 100
+    percent.round
   end
 
   def self.rank_tier(rank)

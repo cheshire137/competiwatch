@@ -2,7 +2,23 @@
 require 'test_helper'
 
 class HeroTest < ActiveSupport::TestCase
-  fixtures :heroes
+  fixtures :heroes, :seasons
+
+  test 'most_played looks at only specified season if given' do
+    account = create(:account)
+    other_account = create(:account)
+    match1 = create(:match, account: account, heroes: [heroes(:ana), heroes(:mercy)],
+                    season: 1)
+    match2 = create(:match, account: account, heroes: [heroes(:ana), heroes(:mercy)],
+                    season: 2)
+    match3 = create(:match, account: account, heroes: [heroes(:mccree)],
+                    season: 1)
+    other_match = create(:match, account: other_account, heroes: [heroes(:mccree)],
+                         season: 1)
+
+    expected = { heroes(:mccree) => 2, heroes(:ana) => 1, heroes(:mercy) => 1 }
+    assert_equal expected, Hero.most_played(season: 1)
+  end
 
   test 'most_played returns a hash of the heroes and match counts' do
     account = create(:account)

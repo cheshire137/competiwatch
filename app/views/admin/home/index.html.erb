@@ -4,53 +4,25 @@
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
-        <strong><%= number_with_delimiter @active_user_count %></strong>
-        <%= 'active user'.pluralize(@active_user_count) %>
+        <a class="text-gray-dark" href="<%= admin_users_path %>">
+          <strong><%= number_with_delimiter @active_user_count %></strong>
+          <%= 'active user'.pluralize(@active_user_count) %>
+        </a>
       </li>
       <li>
-        <strong><%= number_with_delimiter @user_count %></strong>
-        <%= 'total user'.pluralize(@user_count) %>
+        <a class="text-gray-dark" href="<%= admin_users_path %>">
+          <strong><%= number_with_delimiter @user_count %></strong>
+          <%= 'total user'.pluralize(@user_count) %>
+        </a>
       </li>
       <li>
-        <strong><%= number_with_delimiter @account_count %></strong>
-        <%= 'account'.pluralize(@account_count) %>
-      </li>
-      <li>
-        <strong><%= number_with_delimiter @total_accounts_without_matches %></strong>
-        <%= 'account'.pluralize(@total_accounts_without_matches) %> without matches
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @account_count %></strong>
+          <%= 'account'.pluralize(@account_count) %>
+        </a>
       </li>
     </ul>
   </div>
-  <% if @top_rank || @average_rank || @bottom_rank %>
-    <div class="col-md-3 float-left">
-      <ul class="list-style-none">
-        <% if @top_rank %>
-          <li class="d-flex flex-items-start flex-justify-center">
-            <strong class="d-inline-block mr-1">Top rank:</strong>
-            <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @top_rank %>
-          </li>
-        <% end %>
-        <% if @average_rank %>
-          <li class="d-flex flex-items-start flex-justify-center">
-            <strong class="d-inline-block mr-1">Average rank:</strong>
-            <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @average_rank %>
-          </li>
-        <% end %>
-        <% if @bottom_rank %>
-          <li class="d-flex flex-items-start flex-justify-center">
-            <strong class="d-inline-block mr-1">Bottom rank:</strong>
-            <%= rank_image(@bottom_rank, classes: 'flex-shrink-0 rank-fit-height',
-                           outer_classes: 'flex-shrink-0 mr-1') %>
-            <%= @bottom_rank %>
-          </li>
-        <% end %>
-      </ul>
-    </div>
-  <% end %>
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
@@ -71,17 +43,37 @@
     <ul class="list-style-none">
       <% if @top_season.present? %>
         <li>
-          <strong>Top season:</strong>
-          Season <%= @top_season[0] %>
-          <div class="note mt-0">
-            <%= number_with_delimiter(@top_season[1]) %>
-            <%= 'match'.pluralize(@top_season[1]) %>
-          </div>
+          <a class="text-gray-dark" href="<%= admin_seasons_path %>">
+            <strong>Top season:</strong>
+            Season <%= @top_season[0] %>
+            <span class="note mt-0 d-block">
+              <%= number_with_delimiter(@top_season[1]) %>
+              <%= 'match'.pluralize(@top_season[1]) %>
+            </span>
+          </a>
         </li>
       <% end %>
       <li>
-        <strong><%= number_with_delimiter @total_users_with_single_account %></strong>
-        <%= 'user'.pluralize(@total_users_with_single_account) %> with single account
+        <a class="text-gray-dark" href="<%= admin_users_path %>">
+          <strong><%= number_with_delimiter @total_users_with_single_account %></strong>
+          <%= 'user'.pluralize(@total_users_with_single_account) %> with single account
+        </a>
+      </li>
+    </ul>
+  </div>
+  <div class="col-md-3 float-left">
+    <ul class="list-style-none">
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @total_accounts_without_matches %></strong>
+          <%= 'account'.pluralize(@total_accounts_without_matches) %> without matches
+        </a>
+      </li>
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @total_deletable_accounts %></strong>
+          deletable <%= 'account'.pluralize(@total_deletable_accounts) %>
+        </a>
       </li>
     </ul>
   </div>
@@ -108,13 +100,6 @@
       <% if @latest_shared_seasons.any? %>
         <%= render partial: 'admin/home/latest_shared_seasons',
                    locals: { season_shares: @latest_shared_seasons } %>
-      <% end %>
-      <% if @top_heroes.any? %>
-        <h2 class="h2 mb-2">Most played heroes</h2>
-        <div class="mb-4 pb-2 overflow-hidden">
-          <%= render partial: 'accounts/heroes_list',
-                     locals: { heroes: @top_heroes } %>
-        </div>
       <% end %>
     </div>
   </div>

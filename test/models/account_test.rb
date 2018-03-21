@@ -43,7 +43,7 @@ class AccountTest < ActiveSupport::TestCase
     user3 = create(:user)
     account4 = create(:account, user: user3)
 
-    assert_equal [account1, account4], Account.sole_accounts
+    assert_equal [account1, account4], Account.sole_accounts.order(:id)
   end
 
   test 'without_matches returns accounts that have not logged a match' do

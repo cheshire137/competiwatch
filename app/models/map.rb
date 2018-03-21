@@ -3,6 +3,8 @@ class Map < ApplicationRecord
 
   VALID_MAP_TYPES = %w[assault escort hybrid control].freeze
 
+  scope :order_by_name, ->{ order(:name) }
+
   validates :name, presence: true, uniqueness: true
   validates :map_type, presence: true, inclusion: { in: VALID_MAP_TYPES }
 

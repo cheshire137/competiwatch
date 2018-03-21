@@ -22,8 +22,7 @@ module MatchesHelper
     match_count_by_group_size.sort_by { |group_size, _match_count| group_size }.to_h
   end
 
-  def group_size_summary(matches)
-    match_count_by_group_size = get_match_count_by_group_size(matches)
+  def group_size_name(group_size)
     descriptions = {
       1 => 'solo queuing',
       2 => 'duo queuing',
@@ -32,19 +31,25 @@ module MatchesHelper
       5 => '5-stack',
       6 => '6-stack'
     }
+    descriptions[group_size]
+  end
+
+  def group_size_summary(matches)
+    match_count_by_group_size = get_match_count_by_group_size(matches)
+
     summaries = []
     match_count_by_group_size.each do |group_size, match_count|
       suffix = if group_size < 3
         safe_join([
           " #{'match'.pluralize(match_count)}",
           '<br>'.html_safe,
-          content_tag(:span, descriptions[group_size], class: 'text-small text-gray')
+          content_tag(:span, group_size_name(group_size), class: 'text-small text-gray')
         ])
       else
         safe_join([
           " #{'match'.pluralize(match_count)}",
           '<br>'.html_safe,
-          content_tag(:span, "in a #{descriptions[group_size]}", class: 'text-small text-gray')
+          content_tag(:span, "in a #{group_size_name(group_size)}", class: 'text-small text-gray')
         ])
       end
       summary = safe_join([
