@@ -1,0 +1,10 @@
+/*
+ * Fix tooltip width in tables for Firefox
+ *
+ * https://github.com/cheshire137/competiwatch/issues/55
+ */
+
+.tooltipped-multiline.tooltipped-w::after,
+.tooltipped-multiline.tooltipped-e::after{
+  right: -100%;
+}
