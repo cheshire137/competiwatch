@@ -59,20 +59,6 @@ class AccountTest < ActiveSupport::TestCase
     assert_equal [account2], Account.without_matches
   end
 
-  test 'updates profile data when region changes' do
-    account = create(:account, region: 'us')
-    account.region = 'global'
-
-    assert_difference 'enqueued_jobs.size' do
-      account.save!
-    end
-
-    enqueued_job = enqueued_jobs.first
-    refute_nil enqueued_job
-    assert_equal SetProfileDataJob, enqueued_job[:job]
-    assert_equal [account.id], enqueued_job[:args]
-  end
-
   test 'updates profile data when platform changes' do
     account = create(:account, platform: 'pc')
     account.platform = 'psn'

@@ -53,7 +53,7 @@ class Account < ApplicationRecord
   end
 
   after_update :remove_default, if: :saved_change_to_user_id?
-  after_update :refresh_profile_data, if: :region_or_platform_changed?
+  after_update :refresh_profile_data, if: :saved_change_to_platform?
 
   alias_attribute :to_s, :battletag
 
@@ -224,16 +224,12 @@ class Account < ApplicationRecord
 
   private
 
-  def region_or_platform_changed?
-    saved_change_to_platform? || saved_change_to_region?
-  end
-
   def overwatch_api
     @overwatch_api ||= OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
   end
 
   def overwatch_api_profile_cache_key
-    "ow-api/profile/#{battletag}/#{region}/#{platform}"
+    "ow-api/profile/#{battletag}/#{platform}"
   end
 
   def career_high_cache_key
