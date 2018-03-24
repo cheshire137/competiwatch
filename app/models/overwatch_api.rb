@@ -1,5 +1,6 @@
 class OverwatchAPI
   include HTTParty
+  # See https://github.com/Fuyukai/OWAPI
   base_uri 'https://owapi.net'
 
   attr_reader :response
