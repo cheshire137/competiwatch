@@ -228,7 +228,7 @@ class Account < ApplicationRecord
   end
 
   def overwatch_api_profile_cache_key
-    "ow-api/profile/#{battletag}/#{platform}"
+    "owapi/profile/#{battletag}/#{platform}"
   end
 
   def career_high_cache_key
