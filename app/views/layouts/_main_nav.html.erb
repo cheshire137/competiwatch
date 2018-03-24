@@ -17,9 +17,11 @@
           <a class="UnderlineNav-item <%= 'selected' if is_profile_page? %>" role="tab" href="<%= profile_path(current_battletag_param) %>">Profile</a>
         <% end %>
 
-        <a href="<%= community_path %>" role="tab" class="UnderlineNav-item <%= 'selected' if is_page?('community', 'index') %>">
-          Community
-        </a>
+        <% if signed_in? %>
+          <a href="<%= community_path %>" role="tab" class="UnderlineNav-item <%= 'selected' if is_page?('community', 'index') %>">
+            Community
+          </a>
+        <% end %>
       <% elsif show_back_link? %>
         <a href="<%= matches_path(current_season_number, current_account) %>" class="UnderlineNav-item" role="tab">&larr; Back to your matches</a>
       <% end %>
