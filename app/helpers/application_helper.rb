@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def donate_url
+    ENV['DONATE_URL']
+  end
+
+  def show_donate_link?
+    donate_url.present?
+  end
+
   def url_with(options = {})
     url_for(params.permit(:battletag, :season).merge(options))
   end

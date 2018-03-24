@@ -54,6 +54,10 @@
         Built with &hearts; by Sarah
         <span class="d-inline-block mx-4">&middot;</span>
         <a href="<%= about_path %>">About</a>
+        <% if show_donate_link? %>
+          <span class="d-inline-block mx-4">&middot;</span>
+          <a href="<%= donate_url %>">Donate</a>
+        <% end %>
         <span class="d-inline-block mx-4">&middot;</span>
         <a href="<%= help_path %>">Help</a>
         <span class="d-inline-block mx-4">&middot;</span>

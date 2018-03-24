@@ -67,6 +67,7 @@ heroku git:remote -a your-heroku-app
 heroku config:set BNET_APP_ID=your_app_id_here
 heroku config:set BNET_APP_SECRET=your_app_secret_here
 heroku config:set BNET_APP_HOST=your-heroku-app.herokuapp.com
+heroku config:set DONATE_URL="your Patreon/PayPal/etc URL for taking donations"
 git push heroku master
 heroku run rake db:migrate
 heroku ps:scale web=1

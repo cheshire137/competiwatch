@@ -4,3 +4,4 @@ export BNET_APP_HOST=your_ngrok_host_here
 export RACK_ENV=development
 export PORT=3000
 export LETS_ENCRYPT_VALUE=""
+export DONATE_URL=""
