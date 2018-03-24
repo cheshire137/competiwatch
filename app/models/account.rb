@@ -33,6 +33,7 @@ class Account < ApplicationRecord
   scope :without_user, ->{ where(user_id: nil) }
   scope :with_rank, ->{ where('rank IS NOT NULL') }
   scope :not_recently_updated, ->{ where('accounts.updated_at <= ?', 2.months.ago) }
+  scope :without_avatar, ->{ where('avatar_url IS NULL') }
 
   scope :without_matches, -> do
     account_ids_with_matches = Match.group(:account_id).pluck(:account_id)

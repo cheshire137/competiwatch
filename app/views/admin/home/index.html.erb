@@ -75,6 +75,12 @@
           deletable <%= 'account'.pluralize(@total_deletable_accounts) %>
         </a>
       </li>
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @total_without_avatars %></strong>
+          <%= 'account'.pluralize(@total_without_avatars) %> without avatars
+        </a>
+      </li>
     </ul>
   </div>
 </div>
