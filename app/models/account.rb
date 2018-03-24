@@ -22,8 +22,7 @@ class Account < ApplicationRecord
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
   validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
-  validates :avatar_url, :star_url, :level_url, format: URL_REGEX, allow_nil: true,
-    allow_blank: true
+  validates :avatar_url, :level_url, format: URL_REGEX, allow_nil: true, allow_blank: true
   validates :rank, numericality: {
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: Match::MAX_RANK
   }, allow_nil: true

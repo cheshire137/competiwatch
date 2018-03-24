@@ -129,13 +129,6 @@ class AccountTest < ActiveSupport::TestCase
     assert_includes account.errors.messages[:avatar_url], 'is invalid'
   end
 
-  test 'requires valid URL for star_url' do
-    account = Account.new(star_url: 'https:/some-site.com')
-
-    refute_predicate account, :valid?
-    assert_includes account.errors.messages[:star_url], 'is invalid'
-  end
-
   test 'requires valid URL for level_url' do
     account = Account.new(level_url: 'https:/some-site.com')
 
