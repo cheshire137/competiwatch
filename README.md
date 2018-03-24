@@ -8,6 +8,8 @@ played, whether there were throwers or leavers in your game, the time of day you
 played, whether you played on a weekday or weekend, and notes for each game. Allows
 you to import past seasons from a spreadsheet as well as export your data.
 
+[Donations are welcome](https://www.patreon.com/cheshire137) to help pay for server costs.
+
 ## Screenshots
 
 ![Screenshot of match history](https://raw.githubusercontent.com/cheshire137/competiwatch/master/screenshot-top.png)
