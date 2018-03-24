@@ -1,0 +1,191 @@
+---
+http_interactions:
+- request:
+    method: get
+    uri: https://owapi.net/api/v3/u/MarchHare-11348/stats?platform=pc
+    body:
+      encoding: US-ASCII
+      string: ''
+    headers:
+      Accept-Encoding:
+      - gzip;q=1.0,deflate;q=0.6,identity;q=0.3
+      Accept:
+      - "*/*"
+      User-Agent:
+      - Ruby
+  response:
+    status:
+      code: 200
+      message: OK
+    headers:
+      Date:
+      - Sat, 24 Mar 2018 16:37:15 GMT
+      Content-Type:
+      - application/json
+      Transfer-Encoding:
+      - chunked
+      Connection:
+      - keep-alive
+      Set-Cookie:
+      - __cfduid=d3e6d0e20b6d36d75418193737d8e65f71521909429; expires=Sun, 24-Mar-19
+        16:37:09 GMT; path=/; domain=.owapi.net; HttpOnly; Secure
+      X-Powered-By:
+      - Kyoukai/2.2.1.post1
+      Access-Control-Allow-Origin:
+      - "*"
+      Access-Control-Allow-Methods:
+      - GET
+      Strict-Transport-Security:
+      - max-age=15552000; includeSubDomains; preload
+      X-Content-Type-Options:
+      - nosniff
+      Expect-Ct:
+      - max-age=604800, report-uri="https://report-uri.cloudflare.com/cdn-cgi/beacon/expect-ct"
+      Server:
+      - cloudflare
+      Cf-Ray:
+      - 400a8f8b6bdd3840-ATL
+    body:
+      encoding: ASCII-8BIT
+      string: '{"kr": {"stats": {"quickplay": {"overall_stats": {"win_rate": 0, "wins":
+        70, "avatar": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "games": 0, "losses": 0, "level": 92, "tier": "platinum", "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "prestige": 0, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "comprank": 2553}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 0.0, "healing_done": 0.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        1676.0, "medals": 321.0, "eliminations_most_in_game": 51.0, "objective_time":
+        2.3002777777777776, "turrets_destroyed": 69.0, "kill_streak_best": 51.0, "healing_done_most_in_game":
+        3900.0, "objective_kills": 728.0, "time_played": 16.0, "medals_silver": 108.0,
+        "final_blows": 678.0, "games_won": 70.0, "melee_final_blows": 11.0, "melee_final_blows_most_in_game":
+        2.0, "teleporter_pad_destroyed": 1.0, "medals_bronze": 88.0, "solo_kills":
+        118.0, "solo_kills_most_in_game": 17.0, "turrets_destroyed_most_in_game":
+        9.0, "time_spent_on_fire": 0.6755555555555556, "hero_damage_done_most_in_game":
+        5368.0, "defensive_assists_most_in_game": 12.0, "objective_kills_most_in_game":
+        25.0, "multikill_best": 4.0, "hero_damage_done": 48333.0, "objective_time_most_in_game":
+        0.0725, "kpd": 2.97, "environmental_kills": 11.0, "multikills": 11.0, "offensive_assists_most_in_game":
+        16.0, "barrier_damage_done_most_in_game": 6825.0, "all_damage_done": 616120.0,
+        "medals_gold": 125.0, "teleporter_pad_destroyed_most_in_game": 1.0, "defensive_assists":
+        66.0, "cards": 46.0, "final_blows_most_in_game": 17.0, "offensive_assists":
+        211.0, "barrier_damage_done": 16653.0, "healing_done": 12265.0, "time_spent_on_fire_most_in_game":
+        0.05277777777777778, "environmental_kills_most_in_game": 3.0, "all_damage_done_most_in_game":
+        15012.0, "deaths": 565.0}, "competitive": false, "average_stats": {}}, "competitive":
+        {"overall_stats": {"win_rate": 50.0, "games": 18, "losses": 9, "tier": "platinum",
+        "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "avatar": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "prestige": 0, "level": 92, "wins": 9, "comprank": 2553, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "ties": 0}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 5.0, "healing_done": 12.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        320.0, "time_spent_on_fire": 0.2588888888888889, "time_played": 3.0, "hero_damage_done_most_in_game":
+        10564.0, "defensive_assists_most_in_game": 46.0, "recon_assists": 3.0, "objective_kills_most_in_game":
+        18.0, "eliminations_most_in_game": 36.0, "objective_time": 0.42416666666666664,
+        "hero_damage_done": 93465.0, "objective_time_most_in_game": 0.06527777777777778,
+        "kpd": 2.42, "kill_streak_best": 36.0, "multikill_best": 3.0, "medals": 33.0,
+        "multikills": 3.0, "offensive_assists_most_in_game": 37.0, "barrier_damage_done_most_in_game":
+        12741.0, "healing_done_most_in_game": 14930.0, "games_lost": 9.0, "all_damage_done":
+        159525.0, "medals_gold": 9.0, "recon_assists_most_in_game": 3.0, "defensive_assists":
+        409.0, "cards": 11.0, "objective_kills": 163.0, "offensive_assists": 253.0,
+        "barrier_damage_done": 64657.0, "healing_done": 167156.0, "time_spent_on_fire_most_in_game":
+        0.07777777777777778, "games_won": 9.0, "games_played": 18.0, "medals_bronze":
+        9.0, "solo_kills_most_in_game": 13.0, "solo_kills": 6.0, "final_blows_most_in_game":
+        13.0, "final_blows": 78.0, "medals_silver": 15.0, "all_damage_done_most_in_game":
+        23798.0, "deaths": 132.0}, "competitive": true, "average_stats": {}}}}, "eu":
+        {"stats": {"quickplay": {"overall_stats": {"win_rate": 0, "wins": 70, "avatar":
+        "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "games": 0, "losses": 0, "level": 92, "tier": "platinum", "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "prestige": 0, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "comprank": 2553}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 0.0, "healing_done": 0.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        1676.0, "medals": 321.0, "eliminations_most_in_game": 51.0, "objective_time":
+        2.3002777777777776, "turrets_destroyed": 69.0, "kill_streak_best": 51.0, "healing_done_most_in_game":
+        3900.0, "objective_kills": 728.0, "time_played": 16.0, "medals_silver": 108.0,
+        "final_blows": 678.0, "games_won": 70.0, "melee_final_blows": 11.0, "melee_final_blows_most_in_game":
+        2.0, "teleporter_pad_destroyed": 1.0, "medals_bronze": 88.0, "solo_kills":
+        118.0, "solo_kills_most_in_game": 17.0, "turrets_destroyed_most_in_game":
+        9.0, "time_spent_on_fire": 0.6755555555555556, "hero_damage_done_most_in_game":
+        5368.0, "defensive_assists_most_in_game": 12.0, "objective_kills_most_in_game":
+        25.0, "multikill_best": 4.0, "hero_damage_done": 48333.0, "objective_time_most_in_game":
+        0.0725, "kpd": 2.97, "environmental_kills": 11.0, "multikills": 11.0, "offensive_assists_most_in_game":
+        16.0, "barrier_damage_done_most_in_game": 6825.0, "all_damage_done": 616120.0,
+        "medals_gold": 125.0, "teleporter_pad_destroyed_most_in_game": 1.0, "defensive_assists":
+        66.0, "cards": 46.0, "final_blows_most_in_game": 17.0, "offensive_assists":
+        211.0, "barrier_damage_done": 16653.0, "healing_done": 12265.0, "time_spent_on_fire_most_in_game":
+        0.05277777777777778, "environmental_kills_most_in_game": 3.0, "all_damage_done_most_in_game":
+        15012.0, "deaths": 565.0}, "competitive": false, "average_stats": {}}, "competitive":
+        {"overall_stats": {"win_rate": 50.0, "games": 18, "losses": 9, "tier": "platinum",
+        "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "avatar": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "prestige": 0, "level": 92, "wins": 9, "comprank": 2553, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "ties": 0}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 5.0, "healing_done": 12.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        320.0, "time_spent_on_fire": 0.2588888888888889, "time_played": 3.0, "hero_damage_done_most_in_game":
+        10564.0, "defensive_assists_most_in_game": 46.0, "recon_assists": 3.0, "objective_kills_most_in_game":
+        18.0, "eliminations_most_in_game": 36.0, "objective_time": 0.42416666666666664,
+        "hero_damage_done": 93465.0, "objective_time_most_in_game": 0.06527777777777778,
+        "kpd": 2.42, "kill_streak_best": 36.0, "multikill_best": 3.0, "medals": 33.0,
+        "multikills": 3.0, "offensive_assists_most_in_game": 37.0, "barrier_damage_done_most_in_game":
+        12741.0, "healing_done_most_in_game": 14930.0, "games_lost": 9.0, "all_damage_done":
+        159525.0, "medals_gold": 9.0, "recon_assists_most_in_game": 3.0, "defensive_assists":
+        409.0, "cards": 11.0, "objective_kills": 163.0, "offensive_assists": 253.0,
+        "barrier_damage_done": 64657.0, "healing_done": 167156.0, "time_spent_on_fire_most_in_game":
+        0.07777777777777778, "games_won": 9.0, "games_played": 18.0, "medals_bronze":
+        9.0, "solo_kills_most_in_game": 13.0, "solo_kills": 6.0, "final_blows_most_in_game":
+        13.0, "final_blows": 78.0, "medals_silver": 15.0, "all_damage_done_most_in_game":
+        23798.0, "deaths": 132.0}, "competitive": true, "average_stats": {}}}}, "any":
+        null, "us": {"stats": {"quickplay": {"overall_stats": {"win_rate": 0, "wins":
+        70, "avatar": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "games": 0, "losses": 0, "level": 92, "tier": "platinum", "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "prestige": 0, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "comprank": 2553}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 0.0, "healing_done": 0.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        1676.0, "medals": 321.0, "eliminations_most_in_game": 51.0, "objective_time":
+        2.3002777777777776, "turrets_destroyed": 69.0, "kill_streak_best": 51.0, "healing_done_most_in_game":
+        3900.0, "objective_kills": 728.0, "time_played": 16.0, "medals_silver": 108.0,
+        "final_blows": 678.0, "games_won": 70.0, "melee_final_blows": 11.0, "melee_final_blows_most_in_game":
+        2.0, "teleporter_pad_destroyed": 1.0, "medals_bronze": 88.0, "solo_kills":
+        118.0, "solo_kills_most_in_game": 17.0, "turrets_destroyed_most_in_game":
+        9.0, "time_spent_on_fire": 0.6755555555555556, "hero_damage_done_most_in_game":
+        5368.0, "defensive_assists_most_in_game": 12.0, "objective_kills_most_in_game":
+        25.0, "multikill_best": 4.0, "hero_damage_done": 48333.0, "objective_time_most_in_game":
+        0.0725, "kpd": 2.97, "environmental_kills": 11.0, "multikills": 11.0, "offensive_assists_most_in_game":
+        16.0, "barrier_damage_done_most_in_game": 6825.0, "all_damage_done": 616120.0,
+        "medals_gold": 125.0, "teleporter_pad_destroyed_most_in_game": 1.0, "defensive_assists":
+        66.0, "cards": 46.0, "final_blows_most_in_game": 17.0, "offensive_assists":
+        211.0, "barrier_damage_done": 16653.0, "healing_done": 12265.0, "time_spent_on_fire_most_in_game":
+        0.05277777777777778, "environmental_kills_most_in_game": 3.0, "all_damage_done_most_in_game":
+        15012.0, "deaths": 565.0}, "competitive": false, "average_stats": {}}, "competitive":
+        {"overall_stats": {"win_rate": 50.0, "games": 18, "losses": 9, "tier": "platinum",
+        "rank_image": "https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/0x0250000000000921_Border.png",
+        "avatar": "https://d1u1mce87gyfbn.cloudfront.net/game/unlocks/0x02500000000013FE.png",
+        "prestige": 0, "level": 92, "wins": 9, "comprank": 2553, "tier_image": "https://d1u1mce87gyfbn.cloudfront.net/game/rank-icons/season-2/rank-4.png",
+        "ties": 0}, "rolling_average_stats": {"eliminations": 0.0, "time_spent_on_fire":
+        0.0, "deaths": 0.0, "solo_kills": 0.0, "all_damage_done": 11.0, "final_blows":
+        0.0, "objective_kills": 0.0, "barrier_damage_done": 5.0, "healing_done": 12.0,
+        "objective_time": 0.0, "hero_damage_done": 7.0}, "game_stats": {"eliminations":
+        320.0, "time_spent_on_fire": 0.2588888888888889, "time_played": 3.0, "hero_damage_done_most_in_game":
+        10564.0, "defensive_assists_most_in_game": 46.0, "recon_assists": 3.0, "objective_kills_most_in_game":
+        18.0, "eliminations_most_in_game": 36.0, "objective_time": 0.42416666666666664,
+        "hero_damage_done": 93465.0, "objective_time_most_in_game": 0.06527777777777778,
+        "kpd": 2.42, "kill_streak_best": 36.0, "multikill_best": 3.0, "medals": 33.0,
+        "multikills": 3.0, "offensive_assists_most_in_game": 37.0, "barrier_damage_done_most_in_game":
+        12741.0, "healing_done_most_in_game": 14930.0, "games_lost": 9.0, "all_damage_done":
+        159525.0, "medals_gold": 9.0, "recon_assists_most_in_game": 3.0, "defensive_assists":
+        409.0, "cards": 11.0, "objective_kills": 163.0, "offensive_assists": 253.0,
+        "barrier_damage_done": 64657.0, "healing_done": 167156.0, "time_spent_on_fire_most_in_game":
+        0.07777777777777778, "games_won": 9.0, "games_played": 18.0, "medals_bronze":
+        9.0, "solo_kills_most_in_game": 13.0, "solo_kills": 6.0, "final_blows_most_in_game":
+        13.0, "final_blows": 78.0, "medals_silver": 15.0, "all_damage_done_most_in_game":
+        23798.0, "deaths": 132.0}, "competitive": true, "average_stats": {}}}}, "_request":
+        {"route": "/api/v3/u/MarchHare-11348/stats", "api_ver": 3}}'
+    http_version: 
+  recorded_at: Sat, 24 Mar 2018 16:37:15 GMT
+recorded_with: VCR 4.0.0

@@ -22,8 +22,7 @@ class Account < ApplicationRecord
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
   validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
-  validates :avatar_url, :star_url, :level_url, format: URL_REGEX, allow_nil: true,
-    allow_blank: true
+  validates :avatar_url, :level_url, format: URL_REGEX, allow_nil: true, allow_blank: true
   validates :rank, numericality: {
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: Match::MAX_RANK
   }, allow_nil: true
@@ -53,7 +52,7 @@ class Account < ApplicationRecord
   end
 
   after_update :remove_default, if: :saved_change_to_user_id?
-  after_update :refresh_profile_data, if: :region_or_platform_changed?
+  after_update :refresh_profile_data, if: :saved_change_to_platform?
 
   alias_attribute :to_s, :battletag
 
@@ -92,7 +91,7 @@ class Account < ApplicationRecord
   # Public: Check if this account hasn't been updated in a while.
   def out_of_date?
     time_diff = Time.zone.now - updated_at
-    time_diff >= 1.week
+    time_diff >= 2.weeks
   end
 
   def name
@@ -100,21 +99,12 @@ class Account < ApplicationRecord
   end
 
   def overwatch_api_profile
-    data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 1.week) do
+    data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 2.weeks) do
       overwatch_api.profile
     end
     return unless data
 
-    OverwatchAPIProfile.new(data)
-  end
-
-  def overwatch_api_stats(heroes_by_name)
-    data = Rails.cache.fetch(overwatch_api_stats_cache_key, expires_in: 1.week) do
-      overwatch_api.stats
-    end
-    return unless data
-
-    OverwatchAPIStats.new(data, heroes_by_name: heroes_by_name)
+    OverwatchAPIProfile.new(data, region: region)
   end
 
   def overbuff_url
@@ -233,20 +223,12 @@ class Account < ApplicationRecord
 
   private
 
-  def region_or_platform_changed?
-    saved_change_to_platform? || saved_change_to_region?
-  end
-
   def overwatch_api
-    @overwatch_api ||= OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
+    @overwatch_api ||= OverwatchAPI.new(battletag: battletag, platform: platform)
   end
 
   def overwatch_api_profile_cache_key
-    "ow-api/profile/#{battletag}/#{region}/#{platform}"
-  end
-
-  def overwatch_api_stats_cache_key
-    "ow-api/stats/#{battletag}/#{region}/#{platform}"
+    "owapi/profile/#{battletag}/#{platform}"
   end
 
   def career_high_cache_key

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180318170107) do
+ActiveRecord::Schema.define(version: 20180324162903) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,7 +26,6 @@ ActiveRecord::Schema.define(version: 20180318170107) do
     t.string "region", limit: 6, default: "us", null: false
     t.boolean "admin", default: false, null: false
     t.text "avatar_url"
-    t.text "star_url"
     t.integer "rank"
     t.integer "level"
     t.text "level_url"

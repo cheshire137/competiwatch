@@ -86,7 +86,13 @@ class MatchTest < ActiveSupport::TestCase
     match4 = create(:match, enemy_thrower: true)
     match5 = create(:match, enemy_leaver: true)
 
-    assert_equal [match2, match3, match4, match5], Match.with_thrower_or_leaver
+    result = Match.with_thrower_or_leaver
+
+    refute_includes result, match1
+    assert_includes result, match2
+    assert_includes result, match3
+    assert_includes result, match4
+    assert_includes result, match5
   end
 
   test 'restricts comment length' do

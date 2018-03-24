@@ -15,7 +15,6 @@ class SetProfileDataJob < ApplicationJob
     account.level = profile.level
     account.rank = profile.rank
     account.level_url = profile.level_url
-    account.star_url = profile.star_url
 
     if account.changed? && !account.save
       errors = account.errors.full_messages.join(', ')
