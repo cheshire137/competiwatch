@@ -108,15 +108,6 @@ class Account < ApplicationRecord
     OverwatchAPIProfile.new(data)
   end
 
-  def overwatch_api_stats(heroes_by_name)
-    data = Rails.cache.fetch(overwatch_api_stats_cache_key, expires_in: 1.week) do
-      overwatch_api.stats
-    end
-    return unless data
-
-    OverwatchAPIStats.new(data, heroes_by_name: heroes_by_name)
-  end
-
   def overbuff_url
     "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
   end
@@ -243,10 +234,6 @@ class Account < ApplicationRecord
 
   def overwatch_api_profile_cache_key
     "ow-api/profile/#{battletag}/#{region}/#{platform}"
-  end
-
-  def overwatch_api_stats_cache_key
-    "ow-api/stats/#{battletag}/#{region}/#{platform}"
   end
 
   def career_high_cache_key
