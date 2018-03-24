@@ -91,7 +91,7 @@ class Account < ApplicationRecord
   # Public: Check if this account hasn't been updated in a while.
   def out_of_date?
     time_diff = Time.zone.now - updated_at
-    time_diff >= 1.week
+    time_diff >= 2.weeks
   end
 
   def name
