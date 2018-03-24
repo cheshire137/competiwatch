@@ -225,7 +225,7 @@ class Account < ApplicationRecord
   private
 
   def overwatch_api
-    @overwatch_api ||= OverwatchAPI.new(battletag: battletag, region: region, platform: platform)
+    @overwatch_api ||= OverwatchAPI.new(battletag: battletag, platform: platform)
   end
 
   def overwatch_api_profile_cache_key
