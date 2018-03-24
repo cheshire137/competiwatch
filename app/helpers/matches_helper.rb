@@ -42,13 +42,13 @@ module MatchesHelper
       suffix = if group_size < 3
         safe_join([
           " #{'match'.pluralize(match_count)}",
-          '<br>'.html_safe,
+          tag(:br),
           content_tag(:span, group_size_name(group_size), class: 'text-small text-gray')
         ])
       else
         safe_join([
           " #{'match'.pluralize(match_count)}",
-          '<br>'.html_safe,
+          tag(:br),
           content_tag(:span, "in a #{group_size_name(group_size)}", class: 'text-small text-gray')
         ])
       end
