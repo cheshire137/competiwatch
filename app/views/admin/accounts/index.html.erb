@@ -58,7 +58,7 @@
 <% end %>
 
 <% if @userless_accounts.any? %>
-  <div class="clearfix">
+  <div class="clearfix mb-4">
     <div class="col-md-6 mb-4 float-left">
       <h2 class="h2 mb-2">Accounts without users</h2>
       <ul class="list-style-none test-userless-accounts">
@@ -84,6 +84,27 @@
           </button>
         <% end %>
       </div>
+    </div>
+  </div>
+<% end %>
+
+<% if @avatarless_accounts.any? %>
+  <div class="clearfix">
+    <div class="col-md-6 float-left">
+      <h2 class="h2 mb-2">Accounts without avatars</h2>
+      <%= form_tag admin_update_account_profile_path, method: :put do %>
+        <div class="form-group mt-0">
+          <label for="account_id_select">Choose an account:</label>
+          <select id="account_id_select" name="id" required class="form-select">
+            <% @avatarless_accounts.each do |account| %>
+              <option value="<%= account.id %>"><%= account %></option>
+            <% end %>
+          </select>
+        </div>
+        <button type="submit" class="btn">
+          Fetch profile
+        </button>
+      <% end %>
     </div>
   </div>
 <% end %>

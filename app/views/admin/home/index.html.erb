@@ -78,7 +78,12 @@
       <li>
         <a class="text-gray-dark" href="<%= admin_accounts_path %>">
           <strong><%= number_with_delimiter @total_without_avatars %></strong>
-          <%= 'account'.pluralize(@total_without_avatars) %> without avatars
+          <%= 'account'.pluralize(@total_without_avatars) %> without
+          <% if @total_without_avatars == 1 %>
+            an avatar
+          <% else %>
+            avatars
+          <% end %>
         </a>
       </li>
     </ul>

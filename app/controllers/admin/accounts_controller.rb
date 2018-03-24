@@ -8,11 +8,19 @@ class Admin::AccountsController < ApplicationController
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |account| [account.battletag, account.id] }
     @deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated
+    @avatarless_accounts = Account.without_avatar.order_by_battletag
   end
 
   def prune
     PruneOldAccountsJob.perform_later
     redirect_to admin_accounts_path, notice: 'Deleting old sole accounts without matches...'
+  end
+
+  def update_profile
+    account = Account.find(params[:id])
+    SetProfileDataJob.perform_later(account.id)
+    flash[:notice] = "Updating #{account}..."
+    redirect_to admin_accounts_path
   end
 
   def update
