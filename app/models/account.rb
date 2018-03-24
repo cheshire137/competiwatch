@@ -100,7 +100,7 @@ class Account < ApplicationRecord
   end
 
   def overwatch_api_profile
-    data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 1.week) do
+    data = Rails.cache.fetch(overwatch_api_profile_cache_key, expires_in: 2.weeks) do
       overwatch_api.profile
     end
     return unless data
