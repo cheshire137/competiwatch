@@ -114,4 +114,48 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to admin_path
     assert_equal user, account.reload.user
   end
+
+  test 'anonymous users cannot kick off profile update job' do
+    account = create(:account)
+
+    assert_no_difference 'enqueued_jobs.size' do
+      put '/admin/account/update-profile', params: { id: account.id }
+
+      assert_response :not_found
+    end
+  end
+
+  test 'non-admin cannot kick off profile update job' do
+    account = create(:account)
+
+    assert_difference 'enqueued_jobs.size' do
+      sign_in_as(create(:account))
+      put '/admin/account/update-profile', params: { id: account.id }
+
+      assert_response :not_found
+    end
+
+    profile_job = enqueued_jobs.detect do |enqueued_job|
+      enqueued_job[:job] == SetProfileDataJob && [account.id] == enqueued_job[:args]
+    end
+    assert_nil profile_job
+  end
+
+  test 'admin can kick off profile update job' do
+    admin_account = create(:account, admin: true)
+    account = create(:account)
+
+    assert_difference 'enqueued_jobs.size', 2 do
+      sign_in_as(admin_account)
+      put '/admin/account/update-profile', params: { id: account.id }
+    end
+
+    assert_equal "Updating #{account}...", flash[:notice]
+    assert_redirected_to admin_accounts_path
+
+    profile_job = enqueued_jobs.detect do |enqueued_job|
+      enqueued_job[:job] == SetProfileDataJob && [account.id] == enqueued_job[:args]
+    end
+    refute_nil profile_job
+  end
 end

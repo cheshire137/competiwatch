@@ -19,8 +19,7 @@ class Admin::AccountsController < ApplicationController
   def update_profile
     account = Account.find(params[:id])
     SetProfileDataJob.perform_later(account.id)
-    flash[:notice] = "Updating #{account}..."
-    redirect_to admin_accounts_path
+    redirect_to admin_accounts_path, notice: "Updating #{account}..."
   end
 
   def update
