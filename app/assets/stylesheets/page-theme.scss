@@ -5,7 +5,7 @@
 }
 
 .main-nav-link {
-  color: #fff;
+  color: $text-white;
 }
 
 .UnderlineNav-item.selected {
@@ -14,11 +14,82 @@
 
 body.theme-dark {
   background-color: $bg-gray-dark;
-  color: $bg-gray;
+  color: $gray-200;
+
+  .h1,
+  .h2,
+  .h3 {
+    color: $gray-400;
+  }
+
+  .h4,
+  .comment-cell {
+    color: $gray-300;
+  }
 
   a,
-  .btn-link {
-    color: $orange;
+  .btn-link,
+  a.h1,
+  a.h2,
+  a.h3,
+  .blankslate a.h1,
+  .Box a.h1,
+  .dropdown-menu a.h1,
+  .blankslate a.h2,
+  .Box a.h2,
+  .dropdown-menu a.h2,
+  .blankslate a.h3,
+  .Box a.h3,
+  .dropdown-menu a.h3 {
+    color: $pale-blue;
+  }
+
+  .match-placement-row .match-cell.sr-change-cell,
+  .match-placement-row .match-cell.rank-cell,
+  .match-placement-row .match-cell.comment-cell,
+  .match-placement-row .match-cell.time-cell,
+  .match-placement-row .match-cell.heroes-cell,
+  .match-placement-row .match-cell.throwers-leavers-cell,
+  .match-placement-row .match-cell.options-cell,
+  .match-placement-row .match-cell.friends-cell {
+    background-color: lighten($bg-gray-dark, 10%);
+  }
+
+  .match-number-cell.match-cell,
+  .match-placement-log-row .match-number-cell.match-cell {
+    background-color: $gray-700;
+    color: $gray-300;
+  }
+
+  .rank-cell.better-than-placement,
+  .result-win.result-cell {
+    background-color: $green;
+    color: rgb(248, 249, 247);
+  }
+
+  .result-draw.result-cell,
+  .streak-empty {
+    background-color: $dark-goldenrod;
+  }
+
+  .match-placement-log-row .match-cell,
+  .match-placement-log-row .match-cell.streak-empty {
+    background-color: $gray-800;
+  }
+
+  .match-placement-log-row .match-cell.rank-cell,
+  .match-placement-row.match-last-placement-row .match-cell.rank-cell {
+    background-color: #a77d0a;
+  }
+
+  .rank-cell.worse-than-placement,
+  .result-loss.result-cell {
+    background-color: #af121b;
+    color: #f9e3e4;
+  }
+
+  .match-header {
+    background-color: $dry-dark-blue;
   }
 
   .border-top,
@@ -27,8 +98,57 @@ body.theme-dark {
   .border-left,
   .border-right,
   .UnderlineNav,
-  .subnav-item {
+  .subnav-item,
+  hr,
+  .rule,
+  .ui-widget.ui-widget-content,
+  .dropdown-wide .dropdown-menu .dropdown-column + .dropdown-column,
+  .tabnav-tab.selected,
+  .tabnav {
     border-color: lighten($bg-gray-dark, 15%) !important;
+  }
+
+  .dropdown-divider {
+    background-color: lighten($bg-gray-dark, 15%);
+  }
+
+  .dropdown-header {
+    color: $gray-300;
+  }
+
+  .dropdown-selectable .dropdown-item.selected,
+  .tabnav-tab.selected,
+  .tabnav-tab:hover,
+  .tabnav-tab:focus {
+    color: $text-white;
+  }
+
+  .tabnav-tab.selected {
+    background-color: $gray-900;
+  }
+
+  .flash-warn,
+  .flash-error,
+  .flash-success {
+    color: $text-white;
+
+    .h1,
+    .h2,
+    .h3 {
+      color: $text-white;
+    }
+  }
+
+  .flash-warn {
+    background-color: $yellow-800;
+  }
+
+  .flash-error {
+    background-color: $red-800;
+  }
+
+  .flash-success {
+    background-color: $green-800;
   }
 
   .subnav-item:hover,
@@ -37,60 +157,245 @@ body.theme-dark {
   }
 
   .subnav-item.selected {
-    background-color: darken($bg-blue, 15%);
-    border-color: darken($bg-blue, 15%);
+    background-color: $dark-blue;
+    border-color: $dark-blue;
+  }
+
+  .filter-item:hover {
+    background-color: $gray-700;
   }
 
   .text-gray {
-    color: $text-gray-light !important;
+    color: $gray-300 !important;
+  }
+
+  .text-gray-dark {
+    color: $gray-200 !important;
+  }
+
+  .text-orange {
+    color: $orange-300 !important;
+  }
+
+  .text-red {
+    color: $red-300 !important;
   }
 
   .note {
-    color: darken($text-gray-light, 5%);
+    color: $gray-300;
   }
 
   .main-nav {
-    background-color: darken($bg-blue, 15%);
+    background-color: $dark-blue;
   }
 
   .main-nav-link {
     color: $text-gray-light;
   }
 
+  .match-cell,
+  .match-header {
+    border-color: $gray-800;
+  }
+
   .blankslate,
   .Box,
   .dropdown-menu {
-    background-color: lighten($bg-gray-dark, 10%);
-    border-color: lighten($bg-gray-dark, 5%);
+    background-color: $gray-800;
+    border-color: $gray-700;
+
+    .h1,
+    .h2,
+    .h3 {
+      color: $gray-300;
+    }
   }
 
   .UnderlineNav-item.selected {
     color: $text-gray-light;
-    border-bottom-color: darken($green, 20%);
+    border-bottom-color: $green;
   }
 
   .UnderlineNav-item:hover,
   .UnderlineNav-item:focus {
-    color: #fff;
+    color: $text-white;
   }
 
   .btn-outline {
-    background-color: $bg-gray-dark;
+    background-color: $gray-600;
+  }
+
+  .btn,
+  .form-control,
+  .form-select {
+    border-color: $gray-800;
   }
 
   .btn {
-    border-color: darken($bg-gray, 10%);
-  }
-
-  .btn-primary {
+    background-color: $gray-600;
     background-image: none;
-    background-color: darken($green, 20%);
+    color: $text-white;
 
-    &:hover,
-    &:focus {
-      background-color: darken($green, 25%);
+    &:hover {
+      background-color: $gray-700;
       background-image: none;
     }
+  }
+
+  .form-control,
+  .form-select,
+  .form-group .form-control:focus {
+    background-color: rgba(40,40,40,0.4);
+    color: $text-white;
+  }
+
+  .taggle_list .taggle {
+    background-color: $gray-600;
+  }
+
+  .taggle_input {
+    color: $gray-200;
+  }
+
+  .ui-widget-content {
+    background-color: $gray-900;
+    color: $text-white;
+  }
+
+  .darken-change {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .darken-change-win {
+    background-color: rgba(35,103,0,0.5);
+  }
+
+  .darken-change-loss {
+    background-color: rgba(175,18,27,0.5);
+  }
+
+  .darken-change-draw {
+    background-color: $dark-goldenrod;
+  }
+
+  .background-junkertown {
+    background-color: darken($junkertown, 20%);
+  }
+
+  .background-hanamura {
+    background-color: $hanamura-dark;
+  }
+
+  .background-temple-of-anubis {
+    background-color: $temple-of-anubis-dark;
+  }
+
+  .background-volskaya-industries {
+    background-color: darken($volskaya-industries, 20%);
+  }
+
+  .background-dorado {
+    background-color: darken($dorado, 20%);
+  }
+
+  .background-route-66 {
+    background-color: $route-66-dark;
+  }
+
+  .background-watchpoint-gibraltar {
+    background-color: $watchpoint-gibraltar-dark;
+  }
+
+  .background-eichenwalde {
+    background-color: $eichenwalde-dark;
+  }
+
+  .background-blizzard-world {
+    background-color: darken($blizzard-world, 20%);
+  }
+
+  .background-hollywood {
+    background-color: $hollywood-dark;
+  }
+
+  .background-king-s-row {
+    background-color: $kings-row-dark;
+  }
+
+  .background-numbani {
+    background-color: $numbani-dark;
+  }
+
+  .background-ilios {
+    background-color: $ilios-dark;
+  }
+
+  .background-lijiang-tower {
+    background-color: darken($lijiang-tower, 20%);
+  }
+
+  .background-nepal {
+    background-color: $nepal-dark;
+  }
+
+  .background-oasis {
+    background-color: $oasis-dark;
+  }
+
+  .background-horizon-lunar-colony {
+    background-color: $horizon-lunar-colony-dark;
+  }
+
+  .text-bastion {
+    color: $bastion;
+  }
+
+  .text-brigitte {
+    color: lighten($brigitte, 20%);
+  }
+
+  .text-hanzo {
+    color: lighten($hanzo, 20%);
+  }
+
+  .text-mccree {
+    color: lighten($mccree, 10%);
+  }
+
+  .text-mercy {
+    color: $mercy;
+  }
+
+  .text-moira {
+    color: lighten($moira, 20%);
+  }
+
+  .text-reaper {
+    color: lighten($reaper, 70%);
+  }
+
+  .text-reinhardt {
+    color: lighten($reinhardt, 20%);
+  }
+
+  .text-soldier76 {
+    color: lighten($soldier76, 10%);
+  }
+
+  .text-sombra {
+    color: lighten($sombra, 20%);
+  }
+
+  .text-winston {
+    color: lighten($winston, 20%);
+  }
+
+  .text-zenyatta {
+    color: $zenyatta;
   }
 }
 

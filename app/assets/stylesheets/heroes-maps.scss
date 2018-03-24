@@ -1,0 +1,285 @@
+@import "colors.scss";
+
+.text-ana {
+  color: $ana;
+}
+
+.text-bastion {
+  color: darken($bastion, 20%);
+}
+
+.text-brigitte {
+  color: $brigitte;
+}
+
+.text-doomfist {
+  color: $doomfist;
+}
+
+.text-dva {
+  color: darken($dva, 20%);
+}
+
+.text-genji {
+  color: darken($genji, 30%);
+}
+
+.text-hanzo {
+  color: $hanzo;
+}
+
+.text-junkrat {
+  color: $junkrat;
+}
+
+.text-lucio {
+  color: $lucio;
+}
+
+.text-mccree {
+  color: $mccree;
+}
+
+.text-mei {
+  color: $mei;
+}
+
+.text-mercy {
+  color: darken($mercy, 20%);
+}
+
+.text-moira {
+  color: $moira;
+}
+
+.text-orisa {
+  color: $orisa;
+}
+
+.text-pharah {
+  color: $pharah;
+}
+
+.text-reaper {
+  color: $reaper;
+}
+
+.text-reinhardt {
+  color: $reinhardt;
+}
+
+.text-roadhog {
+  color: $roadhog;
+}
+
+.text-soldier76 {
+  color: $soldier76;
+}
+
+.text-sombra {
+  color: $sombra;
+}
+
+.text-symmetra {
+  color: $symmetra;
+}
+
+.text-torbjorn {
+  color: darken($torbjorn, 15%);
+}
+
+.text-tracer {
+  color: $tracer;
+}
+
+.text-widowmaker {
+  color: $widowmaker;
+}
+
+.text-winston {
+  color: $winston;
+}
+
+.text-zarya {
+  color: $zarya;
+}
+
+.text-zenyatta {
+  color: darken($zenyatta, 20%);
+}
+
+.background-junkertown {
+  background-color: $junkertown;
+}
+
+.background-hanamura {
+  background-color: $hanamura;
+}
+
+.background-temple-of-anubis {
+  background-color: $temple-of-anubis;
+}
+
+.background-volskaya-industries {
+  background-color: $volskaya-industries;
+}
+
+.background-dorado {
+  background-color: $dorado;
+}
+
+.background-route-66 {
+  background-color: $route-66;
+}
+
+.background-watchpoint-gibraltar {
+  background-color: $watchpoint-gibraltar;
+}
+
+.background-eichenwalde {
+  background-color: $eichenwalde;
+}
+
+.background-blizzard-world {
+  background-color: $blizzard-world;
+}
+
+.background-hollywood {
+  background-color: $hollywood;
+}
+
+.background-king-s-row {
+  background-color: $kings-row;
+}
+
+.background-numbani {
+  background-color: $numbani;
+}
+
+.background-ilios {
+  background-color: $ilios;
+}
+
+.background-lijiang-tower {
+  background-color: $lijiang-tower;
+}
+
+.background-nepal {
+  background-color: $nepal;
+}
+
+.background-oasis {
+  background-color: $oasis;
+}
+
+.background-horizon-lunar-colony {
+  background-color: $horizon-lunar-colony;
+}
+
+.hero-bar-mercy {
+  background-color: rgb(255, 225, 108);
+}
+
+.hero-bar-brigitte {
+  background-color: #8b4b31;
+}
+
+.hero-bar-moira {
+  background-color: rgb(105, 28, 207);
+}
+
+.hero-bar-zarya {
+  background-color: rgb(245, 113, 168);
+}
+
+.hero-bar-ana {
+  background-color: rgb(204, 194, 174);
+}
+
+.hero-bar-torbjorn {
+  background-color: rgb(255, 98, 0);
+}
+
+.hero-bar-widowmaker {
+  background-color: rgb(111, 111, 174);
+}
+
+.hero-bar-mei {
+  background-color: rgb(154, 219, 244);
+}
+
+.hero-bar-junkrat {
+  background-color: rgb(211, 147, 8);
+}
+
+.hero-bar-doomfist {
+  background-color: rgb(224, 78, 52);
+}
+
+.hero-bar-reaper {
+  background-color: rgb(39, 39, 37);
+}
+
+.hero-bar-sombra {
+  background-color: rgb(117, 27, 156);
+}
+
+.hero-bar-mccree {
+  background-color: rgb(141, 57, 57);
+}
+
+.hero-bar-soldier76 {
+  background-color: rgb(88, 112, 182);
+}
+
+.hero-bar-genji {
+  background-color: rgb(132, 254, 1);
+}
+
+.hero-bar-bastion {
+  background-color: rgb(110, 153, 77);
+}
+
+.hero-bar-pharah {
+  background-color: rgb(27, 101, 198);
+}
+
+.hero-bar-roadhog {
+  background-color: rgb(193, 148, 119);
+}
+
+.hero-bar-winston {
+  background-color: rgb(76, 80, 92);
+}
+
+.hero-bar-tracer {
+  background-color: rgb(248, 145, 27);
+}
+
+.hero-bar-hanzo {
+  background-color: rgb(147, 136, 72);
+}
+
+.hero-bar-dva {
+  background-color: rgb(255, 127, 209);
+}
+
+.hero-bar-orisa {
+  background-color: rgb(220, 154, 0);
+}
+
+.hero-bar-lucio {
+  background-color: rgb(139, 236, 34);
+}
+
+.hero-bar-reinhardt {
+  background-color: rgb(170, 149, 142);
+}
+
+.hero-bar-zenyatta {
+  background-color: rgb(199, 156, 0);
+}
+
+.hero-bar-symmetra {
+  background-color: rgb(92, 236, 255);
+}

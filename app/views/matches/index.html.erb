@@ -101,7 +101,7 @@
                        season: @season, account: @account } %>
 
   <% if @can_edit && !@season.future? && @matches.any? %>
-    <p class="mt-4 text-small">
+    <p class="mt-4 note">
       You can also
       <a href="<%= import_path(@season, @account) %>"><% if @matches.any? %>replace<% else %>import<% end %> your match history</a>
       for season <%= @season %> on <span class="text-bold"><%= @account %></span>

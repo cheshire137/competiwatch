@@ -17,6 +17,22 @@ const transparentAllyColor = 'rgba(41,159,253,0.7)'
 const enemyColor = '#FD9629'
 const transparentEnemyColor = 'rgba(253,150,41,0.7)'
 
+const darkThemeTextColor = '#d1d5da'
+const lightThemeTextColor = '#666'
+
+function isDarkTheme() {
+  return document.body.classList.contains('theme-dark')
+}
+
+function chartFontColor() {
+  if (isDarkTheme()) {
+    return darkThemeTextColor
+  }
+  return lightThemeTextColor
+}
+
+Chart.defaults.global.defaultFontColor = chartFontColor()
+
 function wholeTicks(value) {
   if (Number.isInteger(value)) {
     return value
@@ -65,7 +81,9 @@ streaksObserver.observe()
 const roleChartObserver = new SelectorObserver(document, '.js-role-chart', function() {
   const context = this.getContext('2d')
   const options = {
-    responsive: true, maintainAspectRatio: false, legend: { position: 'left' }
+    responsive: true, maintainAspectRatio: false,
+    legend: { position: 'left' },
+    scale: { ticks: { showLabelBackdrop: false, beginAtZero: true } }
   }
   const roles = this.getAttribute('data-roles')
   const winCounts = this.getAttribute('data-wins')
@@ -140,7 +158,11 @@ const winLossBarObserver = new SelectorObserver(document, '.js-win-loss-bar-char
     scales.xAxes = numberAxisOptions
     scales.yAxes = labelAxisOptions
   }
-  const options = { scales, responsive: true, maintainAspectRatio: false }
+  const options = {
+    scales,
+    responsive: true,
+    maintainAspectRatio: false
+  }
   const labels = this.getAttribute('data-labels')
   const wins = this.getAttribute('data-wins')
   const losses = this.getAttribute('data-losses')

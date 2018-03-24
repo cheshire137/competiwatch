@@ -44,8 +44,11 @@
             <%= match_number(i, match, matches) %>
           </td>
           <td class="match-cell hide-sm result-cell result-<%= match.result %>"><%= match_result_short(match) %></td>
-          <td class="match-cell sr-change-cell" style="<%= match_rank_change_style(match, matches) %>">
-            <%= match_rank_change(match, matches) %>
+          <td class="position-relative match-cell sr-change-cell" style="<%= match_rank_change_style(match, matches) %>">
+            <% if (rank_change = match_rank_change(match, matches)).present? && rank_change != '--' %>
+              <span class="darken-change darken-change-<%= match.result %>"></span>
+            <% end %>
+            <span class="position-relative"><%= rank_change %></span>
           </td>
           <td class="match-cell rank-cell <%= match_rank_class(match, placement_rank) %>">
             <div class="d-flex flex-items-center flex-justify-center">
@@ -55,12 +58,15 @@
               <%= match.rank || '--' %>
             </div>
           </td>
-          <td class="match-cell hide-sm <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
-            <% if match.win? %>
-              <%= match.win_streak %>
-            <% elsif match.loss? %>
-              <%= match.loss_streak %>
-            <% end %>
+          <td class="match-cell position-relative hide-sm <%= 'streak-empty' if !match.win? && !match.loss? %>" style="<%= match.win? ? match_win_streak_style(match, i, longest_win_streak) : match_loss_streak_style(match, i, longest_loss_streak) %>">
+            <span class="darken-change darken-change-<%= match.result %>"></span>
+            <span class="position-relative">
+              <% if match.win? %>
+                <%= match.win_streak %>
+              <% elsif match.loss? %>
+                <%= match.loss_streak %>
+              <% end %>
+            </span>
           </td>
           <td class="match-cell no-wrap <% if match.map %>background-<%= match.map.slug %><% end %>"><%= match.map %></td>
           <% if show_comment_column %>

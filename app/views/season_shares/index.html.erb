@@ -16,7 +16,7 @@
         <% @all_seasons.each_with_index do |season, i| %>
           <% is_shared = shared_seasons.include?(season) %>
 
-          <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'background-oasis' if is_shared %> <% if i > 0 %>border-top<% end %>">
+          <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'text-bold' if is_shared %> <% if i > 0 %>border-top<% end %>">
             <a href="<%= matches_path(season, account) %>" class="no-wrap">Season <%= season %></a>
             <span class="text-gray">
               <% if is_shared %>
