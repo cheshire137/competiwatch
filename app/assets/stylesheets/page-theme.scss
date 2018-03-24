@@ -108,6 +108,14 @@ body.theme-dark {
     border-color: lighten($bg-gray-dark, 15%) !important;
   }
 
+  .carousel-nav {
+    box-shadow: none;
+  }
+
+  .carousel-nav-item.active {
+    background-color: $gray-700;
+  }
+
   .dropdown-divider {
     background-color: lighten($bg-gray-dark, 15%);
   }
@@ -223,6 +231,14 @@ body.theme-dark {
 
   .btn-outline {
     background-color: $gray-600;
+  }
+
+  .btn-primary.btn-large {
+    background-color: $gray-700;
+
+    &:hover {
+      background-color: $gray-800;
+    }
   }
 
   .btn,
