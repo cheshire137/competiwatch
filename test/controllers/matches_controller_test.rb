@@ -9,6 +9,19 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     @future_season = create(:season, started_on: 4.months.from_now)
   end
 
+  test 'HTML in comment does not render' do
+    account = create(:account)
+    comment = 'hey <b>buddy</b>'
+    match = create(:match, account: account, season: @season.number, comment: comment)
+
+    sign_in_as(account)
+    get "/season/#{@season}/#{account.to_param}"
+
+    assert_response :ok
+    assert_includes response.body, 'hey &lt;b&gt;buddy&lt;/b&gt;'
+    refute_includes response.body, comment
+  end
+
   test 'redirects to profile when season is not visible for anonymous user' do
     account = create(:account)
 
