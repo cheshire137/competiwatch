@@ -21,46 +21,47 @@
   <% end %>
 <% end %>
 
-<div class="col-md-6 float-md-left pr-4">
-  <%= form_tag import_path, multipart: true do %>
-    <dl class="form-group mt-0">
-      <dt><label for="csv">Choose a CSV file:</label></dt>
-      <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
-    </dl>
-    <button type="submit" class="btn"<% if @match_count > 0 %> data-confirm="Are you sure you want to wipe season <%= @season %> for <%= @account %> and replace it with matches from the chosen file?"<% end %>>
-      Import <%= @account %>'s season <%= @season %> matches
-    </button>
-  <% end %>
+<div class="clearfix mb-4">
+  <div class="col-md-6 float-md-left pr-4">
+    <%= form_tag import_path, multipart: true do %>
+      <dl class="form-group mt-0">
+        <dt><label for="csv">Choose a CSV file:</label></dt>
+        <dd><%= file_field_tag :csv, class: 'form-control', required: true %></dd>
+      </dl>
+      <button type="submit" class="btn"<% if @match_count > 0 %> data-confirm="Are you sure you want to wipe season <%= @season %> for <%= @account %> and replace it with matches from the chosen file?"<% end %>>
+        Import <%= @account %>'s season <%= @season %> matches
+      </button>
+    <% end %>
 
-  <h4 class="h4 mt-4 mb-2">Requirements:</h4>
-  <ul class="ml-4 mb-4-sm">
-    <li><span class="text-bold">Valid columns:</span> rank, heroes, map, comment, time, day, ally thrower, ally leaver, enemy thrower, enemy leaver, group, result, placement</li>
-    <li>Rank is required for non-placement matches</li>
-    <li>Valid values for 'day' column: weekday, weekend</li>
-    <li>Valid values for 'time' column: morning, afternoon, evening, night</li>
-    <li>Valid values for thrower, leaver, and placement columns: Y, N</li>
-    <li>Valid values for result column: win, loss, draw</li>
-    <li>'Group' should be a comma-separated list of the people who grouped with you</li>
-    <li>Column order does not matter</li>
-    <li>A header row is required; it is case insensitive</li>
-    <li>Hero names must be comma-separated; case doesn't matter</li>
-  </ul>
-</div>
+    <h4 class="h4 mt-4 mb-2">Requirements:</h4>
+    <ul class="ml-4 mb-4-sm">
+      <li><span class="text-bold">Valid columns:</span> rank, heroes, map, comment, time, day, ally thrower, ally leaver, enemy thrower, enemy leaver, group, result, placement</li>
+      <li>Rank is required for non-placement matches</li>
+      <li>Valid values for 'day' column: weekday, weekend</li>
+      <li>Valid values for 'time' column: morning, afternoon, evening, night</li>
+      <li>Valid values for thrower, leaver, and placement columns: Y, N</li>
+      <li>Valid values for result column: win, loss, draw</li>
+      <li>'Group' should be a comma-separated list of the people who grouped with you</li>
+      <li>Column order does not matter</li>
+      <li>A header row is required; it is case insensitive</li>
+      <li>Hero names must be comma-separated; case doesn't matter</li>
+    </ul>
+  </div>
 
-<div class="col-md-6 float-md-left">
-  <div class="js-tab-container">
-    <h4 class="h4 mb-2">Sample formatting</h4>
-    <div class="tabnav mb-0">
-      <nav class="tabnav-tabs">
-        <a href="#sample1" class="tabnav-tab selected js-tab">Sample file #1</a>
-        <a href="#sample2" class="tabnav-tab js-tab">Sample file #2</a>
-        <a href="#sample3" class="tabnav-tab js-tab">Sample file #3</a>
-      </nav>
-    </div>
+  <div class="col-md-6 float-md-left">
+    <div class="js-tab-container">
+      <h4 class="h4 mb-2">Sample formatting</h4>
+      <div class="tabnav mb-0">
+        <nav class="tabnav-tabs">
+          <a href="#sample1" class="tabnav-tab selected js-tab">Sample file #1</a>
+          <a href="#sample2" class="tabnav-tab js-tab">Sample file #2</a>
+          <a href="#sample3" class="tabnav-tab js-tab">Sample file #3</a>
+        </nav>
+      </div>
 
-    <div id="sample1" class="js-tab-contents border p-3 border-top-0">
-      <p>In this example, 3929 is where you placed:</p>
-      <pre class="mb-2">day,Rank,Map,Comment,Group
+      <div id="sample1" class="js-tab-contents border p-3 border-top-0">
+        <p>In this example, 3929 is where you placed:</p>
+        <pre class="mb-2">day,Rank,Map,Comment,Group
 ,3929,,,
 weekday,3954,Hanamura,favored,"Rob, Siege"
 weekend,3978,Nepal,,Rob
@@ -69,12 +70,12 @@ weekday,3953,Temple of Anubis,leaver on my team,
 ,3949,Hollywood,even team SRs,"Siege, Zion"
 weekend,3925,Junkertown,"slightly favored, PotG",</pre>
 
-      Includes whether you played on a weekday or the weekend, your SR, which map you played on, a comment about the game, and which of your friends you grouped with.
-    </div>
+        Includes whether you played on a weekday or the weekend, your SR, which map you played on, a comment about the game, and which of your friends you grouped with.
+      </div>
 
-    <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
-      <p>In this example, 3249 is where you placed:</p>
-      <pre class="mb-2">rank,Time,map,heroes
+      <div id="sample2" class="js-tab-contents d-none border p-3 border-top-0">
+        <p>In this example, 3249 is where you placed:</p>
+        <pre class="mb-2">rank,Time,map,heroes
 3249,,,
 3333,morning,,Lúcio
 3322,afternoon,Ilios,lucio
@@ -83,12 +84,12 @@ weekend,3925,Junkertown,"slightly favored, PotG",</pre>
 3437,Night,Route 66,widowmaker
 3474,evening,Hollywood,</pre>
 
-      Includes your SR, what general time you played, which map you played on, and which heroes you played.
-    </div>
+        Includes your SR, what general time you played, which map you played on, and which heroes you played.
+      </div>
 
-    <div id="sample3" class="js-tab-contents d-none border p-3 border-top-0">
-      <p>This file includes 10 placement matches and a regular match:</p>
-      <pre class="mb-2">placement,result,rank,map,comment
+      <div id="sample3" class="js-tab-contents d-none border p-3 border-top-0">
+        <p>This file includes 10 placement matches and a regular match:</p>
+        <pre class="mb-2">placement,result,rank,map,comment
 Y,win,,Hanamura,""
 Y,win,,Nepal,"trickled"
 Y,loss,,Ilios,""
@@ -102,7 +103,24 @@ Y,loss,3115,Ilios,"couldn't stop Junkrat"
 N,,3135,Numbani,"good teamwork"
 </pre>
 
-      Includes whether the match was a placement match or not, what the outcome of the placement match was, your SR, which map you played on, and a comment about the match.
+        Includes whether the match was a placement match or not, what the outcome of the placement match was, your SR, which map you played on, and a comment about the match.
+      </div>
     </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="clearfix">
+  <div class="col-md-6 float-left">
+    <h4 class="h4 mb-2">How to get a CSV file</h4>
+    <p>
+      If you've been recording your competitive matches in a tool like Excel or
+      Google Sheets, you can export those matches as a CSV (comma-separated value)
+      file to import into Competiwatch.
+    </p>
+    <p>
+      In Google Sheets for example, go to File &gt; Download as &gt; Comma-separated values (.csv, current sheet).
+    </p>
   </div>
 </div>
