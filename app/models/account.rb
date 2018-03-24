@@ -105,7 +105,7 @@ class Account < ApplicationRecord
     end
     return unless data
 
-    OverwatchAPIProfile.new(data)
+    OverwatchAPIProfile.new(data, region: region)
   end
 
   def overbuff_url

@@ -1,20 +1,22 @@
 class OverwatchAPIProfile
-  attr_reader :star_url, :avatar_url, :level, :rank, :rank_url, :level_url
+  attr_reader :avatar_url, :level, :rank, :level_url
 
-  def initialize(data)
-    @star_url = data['star'].presence
-    @star_url += 'png' if @star_url && @star_url.ends_with?('.')
+  def initialize(data, region:)
+    region_data = data[region]
+    return unless region_data
 
-    @avatar_url = data['portrait'].presence
-    @avatar_url += 'png' if @avatar_url && @avatar_url.ends_with?('.')
+    stats = region_data['stats']
+    overall_stats = if (competitive = stats['competitive']).present?
+      competitive['overall_stats']
+    elsif (quickplay = stats['quickplay']).present?
+      quickplay['overall_stats']
+    end
 
-    @level = data['level']
-    @level_url = data['levelFrame'].presence
-    @level_url += 'png' if @level_url && @level_url.ends_with?('.')
-
-    if competitive = data['competitive']
-      @rank = competitive['rank']
-      @rank_url = competitive['rank_img']
+    if overall_stats
+      @rank = overall_stats['comprank']
+      @level_url = overall_stats['rank_image']
+      @avatar_url = overall_stats['avatar']
+      @level = (overall_stats['prestige'] * 100) + overall_stats['level']
     end
   end
 end
