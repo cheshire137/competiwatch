@@ -323,6 +323,41 @@ class MatchTest < ActiveSupport::TestCase
       'Match already has a full group: you, Friend0, Friend1, Friend2, Friend3, Friend4'
   end
 
+  test 'last_placement? returns true when creating 10th placement match in a season' do
+    account = create(:account)
+    (Match::TOTAL_PLACEMENT_MATCHES - 1).times do
+      create(:match, account: account, season: 1, placement: true, rank: nil, result: :win)
+    end
+    match = build(:match, account: account, season: 1, placement: true, rank: 2500, result: :loss)
+
+    assert_predicate match, :last_placement?
+  end
+
+  test 'last_placement? returns true when editing 10th placement match in a season' do
+    account = create(:account)
+    (Match::TOTAL_PLACEMENT_MATCHES - 1).times do
+      create(:match, account: account, season: 1, placement: true, rank: nil, result: :win)
+    end
+    match = create(:match, account: account, season: 1, placement: true, rank: 2500, result: :loss)
+
+    assert_predicate match, :last_placement?
+  end
+
+  test 'last_placement? returns false when editing non-last placement match in a season' do
+    account = create(:account)
+    matches = []
+    (Match::TOTAL_PLACEMENT_MATCHES - 1).times do
+      matches << create(:match, account: account, season: 1, placement: true, rank: nil,
+                        result: :win)
+    end
+    create(:match, account: account, season: 1, placement: true, rank: 2500, result: :loss)
+
+    matches.each_with_index do |non_last_placement, i|
+      refute_predicate non_last_placement, :last_placement?,
+        "placement match #{i + 1} should not be the last placement match"
+    end
+  end
+
   test 'deletes friends when last match has them removed' do
     user = create(:user)
     account = create(:account, user: user)

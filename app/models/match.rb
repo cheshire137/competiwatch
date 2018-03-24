@@ -335,11 +335,10 @@ class Match < ApplicationRecord
   def last_placement?
     return false unless placement?
 
-    # Use this method to check before creating the last placement match, not
-    # to check after the fact.
-    return false if persisted?
-
-    other_placements = account.matches.placements.in_season(season)
+    other_placements = account.matches.placements.ordered_by_time.in_season(season)
+    if persisted?
+      other_placements = other_placements.where('id <> ?', id).where('created_at < ?', created_at)
+    end
     other_placements.count == TOTAL_PLACEMENT_MATCHES - 1
   end
 
