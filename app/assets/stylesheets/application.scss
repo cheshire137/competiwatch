@@ -63,7 +63,7 @@ a.ui-button:active,
 .ui-button.ui-state-active:hover {
   border-color: darken($green, 10%);
   background-color: $green;
-  color: $white;
+  color: $text-white;
 }
 
 .layout-container {
@@ -92,6 +92,13 @@ dt {
   display: block;
   max-width: 100%;
   height: auto;
+}
+
+.subnav-item.selected,
+.subnav-item.selected:hover,
+.subnav-item.selected:focus,
+.filter-item.selected {
+  background-color: $light-blue;
 }
 
 @supports(position:sticky) {

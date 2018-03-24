@@ -10,6 +10,21 @@
   width: 16em;
 }
 
+.dropdown-item:hover,
+.dropdown-item:focus {
+  background-color: $light-blue;
+  color: $text-white;
+}
+
+.dropdown-item.btn-link {
+  color: $gray-900;
+
+  &:hover,
+  &:focus {
+    color: $text-white;
+  }
+}
+
 .dropdown-menu {
   font-size: 14px;
   font-weight: normal;

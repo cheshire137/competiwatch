@@ -12,12 +12,8 @@
   }
 }
 
-.btn-green {
-  @include btn-solid($white, $green);
-}
-
-.btn-pink {
-  @include btn-solid($white, $pink);
+.btn-primary {
+  @include btn-solid($text-white, $green);
 }
 
 .form-group textarea.form-control {
@@ -27,4 +23,9 @@
 
 .btn-link:disabled:hover {
   text-decoration: none;
+}
+
+a,
+.btn-link {
+  color: $light-blue;
 }
