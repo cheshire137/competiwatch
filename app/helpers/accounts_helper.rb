@@ -31,7 +31,8 @@ module AccountsHelper
   end
 
   def heroes_tldr(heroes)
-    hero_tldr_roles(heroes).map { |role| Hero.pretty_role(role) }.join(' / ')
+    roles = hero_tldr_roles(heroes).map { |role| Hero.pretty_role(role) }
+    roles.take(3).join(' / ')
   end
 
   def avatar_for(account, classes: '')
