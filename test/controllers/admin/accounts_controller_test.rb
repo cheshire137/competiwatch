@@ -139,7 +139,7 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     }
 
     assert_equal "Successfully tied account #{account} to user #{user}.", flash[:notice]
-    assert_redirected_to admin_path
+    assert_redirected_to admin_account_path(account.id)
     assert_equal user, account.reload.user
   end
 
@@ -179,7 +179,7 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_equal "Updating #{account}...", flash[:notice]
-    assert_redirected_to admin_accounts_path
+    assert_redirected_to admin_account_path(account.id)
 
     profile_job = enqueued_jobs.detect do |enqueued_job|
       enqueued_job[:job] == SetProfileDataJob && [account.id] == enqueued_job[:args]

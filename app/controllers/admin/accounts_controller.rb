@@ -23,7 +23,7 @@ class Admin::AccountsController < ApplicationController
   def update_profile
     account = Account.find(params[:id])
     SetProfileDataJob.perform_later(account.id)
-    redirect_to admin_accounts_path, notice: "Updating #{account}..."
+    redirect_to admin_account_path(account.id), notice: "Updating #{account}..."
   end
 
   def update
@@ -43,6 +43,6 @@ class Admin::AccountsController < ApplicationController
                       account.errors.full_messages.join(', ')
     end
 
-    redirect_to admin_path
+    redirect_to admin_account_path(account.id)
   end
 end
