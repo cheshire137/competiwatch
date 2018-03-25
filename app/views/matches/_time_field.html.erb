@@ -1,4 +1,4 @@
 <div class="form-group mt-0">
   <%= form.label :time_of_day, 'Time of day:', class: 'mr-2' %>
-  <%= form.select :time_of_day, options_for_select(time_of_day_options, match.time_of_day), {}, { class: 'form-select' } %>
+  <%= form.select :time_of_day, options_for_select(time_of_day_options, match.time_of_day), {}, { class: "form-select #{'js-no-update' if match.persisted?}" } %>
 </div>

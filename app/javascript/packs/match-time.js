@@ -5,8 +5,14 @@ function selectTimeAndDay() {
   if (!timeSelect) {
     return
   }
+  if (timeSelect.classList.contains('js-no-update')) {
+    return
+  }
 
   const daySelect = document.getElementById('match_day_of_week')
+  if (daySelect.classList.contains('js-no-update')) {
+    return
+  }
   const date = new Date()
   const dayOfWeek = date.getDay()
   const hours = date.getHours()
