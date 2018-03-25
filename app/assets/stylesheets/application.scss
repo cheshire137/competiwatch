@@ -96,6 +96,14 @@ strong {
   height: auto;
 }
 
+.subnav-item.dropdown {
+  padding: 0;
+
+  .dropdown-toggle {
+    padding: 6px 14px;
+  }
+}
+
 .subnav-item.selected,
 .subnav-item.selected:hover,
 .subnav-item.selected:focus,
