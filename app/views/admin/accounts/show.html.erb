@@ -15,6 +15,22 @@
       <dd class="mb-2"><%= @account.battletag %></dd>
       <dt class="mb-1">User</dt>
       <dd class="mb-2"><%= @account.user %></dd>
+      <dt class="mb-1">Default account?</dt>
+      <dd class="mb-2"><%= @account.default? ? 'yes' : 'no' %></dd>
+      <dt class="mb-1">Linked accounts</dt>
+      <dd class="mb-2">
+        <% if @linked_accounts && @linked_accounts.any? %>
+          <ul class="list-style-none">
+            <% @linked_accounts.each_with_index do |other_account, i| %>
+              <li<% if i > 0 %> class="mt-1"<% end %>>
+                <%= admin_link_to_account(other_account) %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          &mdash;
+        <% end %>
+      </dd>
       <dt class="mb-1">Match count</dt>
       <dd class="mb-2">
         <%= number_with_delimiter @total_matches %>

@@ -15,6 +15,9 @@ class Admin::AccountsController < ApplicationController
     @account = Account.find(params[:id])
     @total_matches = @account.matches.count
     @total_season_shares = @account.season_shares.count
+    @linked_accounts = if @account.user
+      @account.user.accounts.order_by_battletag
+    end
   end
 
   def prune
