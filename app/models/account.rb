@@ -46,6 +46,11 @@ class Account < ApplicationRecord
     scope
   end
 
+  scope :search_by_battletag, ->(query) do
+    sanitized_query = query.gsub(/[\\_%]/) { |x| ["\\", x].join }
+    where('LOWER(battletag) LIKE ?', "#{sanitized_query.downcase}%")
+  end
+
   scope :sole_accounts, -> do
     joins(:user).joins('LEFT OUTER JOIN accounts other_accounts ' \
                        'ON users.id=other_accounts.user_id ' \

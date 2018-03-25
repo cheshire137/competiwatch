@@ -2,7 +2,8 @@ class Admin::AccountsController < ApplicationController
   before_action :require_admin
 
   def index
-    @accounts = Account.latest_first.paginate(page: current_page, per_page: 20)
+    @query = params[:q]
+    @accounts = search_or_list_accounts(@query)
     @userless_accounts = Account.without_user.order_by_battletag
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
     @userless_account_options = [['--', '']] +
@@ -49,5 +50,13 @@ class Admin::AccountsController < ApplicationController
     end
 
     redirect_to admin_account_path(account.id)
+  end
+
+  private
+
+  def search_or_list_accounts(query)
+    accounts = Account.latest_first
+    accounts = accounts.search_by_battletag(query) if query.present?
+    accounts.paginate(page: current_page, per_page: 20)
   end
 end

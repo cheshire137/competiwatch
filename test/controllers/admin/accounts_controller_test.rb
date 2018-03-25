@@ -59,6 +59,20 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_select "form[action='#{admin_prune_accounts_path}'] input[name='_method'][value='delete']"
   end
 
+  test 'admin can search list of accounts by battletag' do
+    admin_account = create(:account, admin: true)
+    account1 = create(:account, battletag: 'ATastySnippet#1234')
+    account2 = create(:account, battletag: 'ZooVisit#9876')
+
+    sign_in_as(admin_account)
+    get '/admin/accounts', params: { q: 'ata' }
+
+    assert_response :ok
+    assert_select "input[type='search'][value='ata']"
+    assert_select "a[href='/admin/account/#{account1.id}']", text: /#{account1.battletag}/
+    assert_select "a[href='/admin/account/#{account2.id}']", false
+  end
+
   test 'non-admin cannot prune old accounts' do
     account = create(:account)
 
