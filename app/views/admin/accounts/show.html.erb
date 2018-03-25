@@ -1,22 +1,28 @@
 <% content_for(:title, "Admin / Accounts / #{@account}") %>
 
 <% content_for(:breadcrumb) do %>
-  <a href="<%= admin_path %>">Admin</a> /
-  <a href="<%= admin_accounts_path %>">Accounts</a> /
-  <%= @account %>
+  <div class="d-flex-md flex-items-center-md flex-justify-between-md">
+    <div>
+      <a href="<%= admin_path %>">Admin</a> /
+      <a href="<%= admin_accounts_path %>">Accounts</a> /
+      <%= @account %>
+    </div>
+    <div>
+      <a href="<%= profile_path(@account) %>">View profile</a>
+    </div>
+  </div>
 <% end %>
 
 <div class="clearfix">
   <div class="col-md-6 float-left">
     <dl>
-      <dt class="mb-1">ID</dt>
-      <dd class="mb-2"><%= @account.id %></dd>
-      <dt class="mb-1">Battletag</dt>
-      <dd class="mb-2"><%= @account.battletag %></dd>
-      <dt class="mb-1">User</dt>
-      <dd class="mb-2"><%= @account.user %></dd>
-      <dt class="mb-1">Default account?</dt>
-      <dd class="mb-2"><%= @account.default? ? 'yes' : 'no' %></dd>
+      <dd class="mb-2"><strong>ID:</strong> <%= @account.id %></dd>
+      <dd class="mb-2"><strong>Battletag:</strong> <%= @account.battletag %></dd>
+      <dd class="mb-2"><strong>User:</strong> <%= @account.user %></dd>
+      <dd class="mb-2">
+        <strong>Default account?</strong>
+        <%= @account.default? ? 'yes' : 'no' %>
+      </dd>
       <dt class="mb-1">Linked accounts</dt>
       <dd class="mb-2">
         <% if @linked_accounts && @linked_accounts.any? %>
@@ -31,13 +37,13 @@
           &mdash;
         <% end %>
       </dd>
-      <dt class="mb-1">Match count</dt>
       <dd class="mb-2">
+        <strong>Match count:</strong>
         <%= number_with_delimiter @total_matches %>
         <%= 'match'.pluralize(@total_matches) %>
       </dd>
-      <dt class="mb-1">Shared season count</dt>
       <dd class="mb-2">
+        <strong>Shared season count:</strong>
         <%= number_with_delimiter @total_season_shares %>
         shared <%= 'season'.pluralize(@total_season_shares) %>
       </dd>
@@ -55,21 +61,22 @@
           <% end %>
         <% end %>
       </dd>
-      <dt class="mb-1">Administrator?</dt>
       <dd class="mb-2 <%= 'text-red text-bold' if @account.admin? %>">
+        <strong>Administrator?</strong>
         <%= @account.admin? ? 'yes' : 'no' %>
       </dd>
-      <dt class="mb-1">Platform</dt>
-      <dd class="mb-2"><%= @account.platform_name %></dd>
-      <dt class="mb-1">Region</dt>
-      <dd class="mb-2"><%= @account.region_name %></dd>
+      <dd class="mb-2"><strong>Platform:</strong> <%= @account.platform_name %></dd>
+      <dd class="mb-2"><strong>Region:</strong> <%= @account.region_name %></dd>
     </dl>
   </div>
   <div class="col-md-6 float-left">
     <dl>
-      <dt class="mb-1">Level</dt>
+      <% unless @account.level %>
+        <dt class="mb-1">Level</dt>
+      <% end %>
       <dd class="mb-2">
         <% if @account.level %>
+          <strong>Level:</strong>
           <%= number_with_delimiter @account.level %>
         <% else %>
           <%= form_tag admin_update_account_profile_path, method: :put do %>
