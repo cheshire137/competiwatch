@@ -4,7 +4,7 @@
   <% latest_accounts.each do |account| %>
     <li<% if i > 0 %> class="border-top mt-2 pt-2"<% end %>>
       <div class="d-flex flex-items-start">
-        <%= link_to_account(account) %>
+        <%= admin_link_to_account(account) %>
         <% if account.rank %>
           <span class="d-inline-block mx-2">&middot;</span>
           <%= rank_image(account.rank, classes: 'flex-shrink-0',

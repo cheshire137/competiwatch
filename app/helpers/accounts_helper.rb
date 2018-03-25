@@ -1,13 +1,16 @@
 module AccountsHelper
-  def link_to_account(account, new_tab: true)
+  def admin_link_to_account(account)
+    link_to_account(account, new_tab: false, url: admin_account_path(account.id))
+  end
+
+  def link_to_account(account, new_tab: true, url: nil)
     link_options = {}
     if new_tab
       link_options[:target] = '_blank'
       link_options[:rel] = 'noopener noreferrer'
     end
-    link_to(profile_path(account), link_options) do
-      account_with_avatar(account)
-    end
+    url ||= profile_path(account)
+    link_to(url, link_options) { account_with_avatar(account) }
   end
 
   def account_with_avatar(account)
