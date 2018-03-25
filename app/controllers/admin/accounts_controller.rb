@@ -11,6 +11,10 @@ class Admin::AccountsController < ApplicationController
     @avatarless_accounts = Account.without_avatar.latest_first
   end
 
+  def show
+    @account = Account.find(params[:id])
+  end
+
   def prune
     PruneOldAccountsJob.perform_later
     redirect_to admin_accounts_path, notice: 'Deleting old sole accounts without matches...'

@@ -8,7 +8,7 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     clear_enqueued_jobs
   end
 
-  test 'non-admin cannot view accounts' do
+  test 'non-admin cannot view list of accounts' do
     account = create(:account)
 
     sign_in_as(account)
@@ -17,7 +17,35 @@ class Admin::AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_response :not_found
   end
 
-  test 'admin can view accounts' do
+  test 'non-admin cannot view account' do
+    account1 = create(:account)
+    account2 = create(:account)
+
+    sign_in_as(account1)
+    get "/admin/account/#{account2.id}"
+
+    assert_response :not_found
+  end
+
+  test 'anonymous user cannot view account' do
+    account = create(:account)
+
+    get "/admin/account/#{account.id}"
+
+    assert_response :not_found
+  end
+
+  test 'admin can view account' do
+    admin_account = create(:account, admin: true)
+    account = create(:account)
+
+    sign_in_as(admin_account)
+    get "/admin/account/#{account.id}"
+
+    assert_response :ok
+  end
+
+  test 'admin can view list of accounts' do
     admin_account = create(:account, admin: true)
     userless_account = create(:account, user: nil)
     deletable_account = create(:account, updated_at: 1.year.ago)
