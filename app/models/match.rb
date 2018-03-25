@@ -87,12 +87,19 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
-  def self.group_size_win_percentages(season:)
-    matches = in_season(season).with_result.select('group_member_ids, result')
+  def self.match_counts_by_group_size(season:)
+    matches = in_season(season).with_result.select(:group_member_ids)
     match_counts = Hash.new(0)
-    win_counts = Hash.new(0)
     matches.each do |match|
       match_counts[match.group_size] += 1
+    end
+    match_counts
+  end
+
+  def self.group_size_win_percentages(season:, match_counts:)
+    matches = in_season(season).with_result.select('group_member_ids, result')
+    win_counts = Hash.new(0)
+    matches.each do |match|
       win_counts[match.group_size] += 1 if match.win?
     end
     percentages_by_group_size = Hash.new(0)
