@@ -60,5 +60,7 @@ Rails.application.routes.draw do
   get '/about' => 'pages#about', as: :about
   get '/help' => 'pages#help', as: :help
 
+  match '/404', to: 'errors#not_found', via: :all
+  match '*path', to: 'errors#not_found', via: :all
   root to: 'login#index'
 end

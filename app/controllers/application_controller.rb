@@ -40,19 +40,23 @@ class ApplicationController < ActionController::Base
     end
   end
 
+  def render_404
+    render template: 'errors/not_found', status: :not_found, layout: 'errors'
+  end
+
   def set_account
     battletag = User.battletag_from_param(params[:battletag])
     @account = Account.find_by_battletag(battletag)
     if @account
       SetProfileDataJob.perform_later(@account.id) if @account.out_of_date?
     else
-      render file: Rails.root.join('public', '404.html'), status: :not_found
+      render_404
     end
   end
 
   def ensure_account_is_mine
     unless @account.user == current_user
-      render file: Rails.root.join('public', '404.html'), status: :not_found
+      render_404
     end
   end
 
@@ -86,8 +90,6 @@ class ApplicationController < ActionController::Base
   helper_method :current_account
 
   def require_admin
-    unless signed_in? && current_account.admin?
-      render file: Rails.root.join('public', '404.html'), status: :not_found
-    end
+    render_404 unless signed_in? && current_account.admin?
   end
 end
