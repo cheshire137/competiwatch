@@ -1,0 +1,21 @@
+<footer class="my-4 border-top text-small text-gray py-4">
+  <div class="container pt-4 text-center">
+    Built with &hearts; by Sarah
+    <span class="d-inline-block mx-4">&middot;</span>
+    <a href="<%= about_path %>">About</a>
+    <span class="d-inline-block mx-4">&middot;</span>
+    <a href="<%= help_path %>">Help</a>
+    <% if show_donate_link? %>
+      <span class="d-inline-block mx-4">&middot;</span>
+      <a href="<%= donate_url %>">Donate</a>
+    <% end %>
+    <span class="d-inline-block mx-4">&middot;</span>
+    <a href="https://github.com/cheshire137/competiwatch">View source</a>
+    <span class="d-inline-block mx-4">&middot;</span>
+    <a href="https://github.com/cheshire137/competiwatch/issues">Find a bug?</a>
+    <% if show_admin_controls? %>
+      <span class="d-inline-block mx-4">&middot;</span>
+      <a href="<%= admin_path %>">Admin</a>
+    <% end %>
+  </div>
+</footer>

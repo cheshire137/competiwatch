@@ -14,11 +14,6 @@
       <div class="container">
         <div class="d-flex-md py-2 flex-justify-between-md flex-items-center-md">
           <h1 class="h1 lh-condensed clearfix">
-            <% if signed_in? %>
-              <div class="d-block-sm float-right">
-                <%= render partial: 'layouts/main_menu' %>
-              </div>
-            <% end %>
             <a class="main-nav-link no-underline d-inline-block mr-3" href="<%= root_path %>">Competiwatch</a>
             <% if content_for(:title) && !is_page?('login', 'index') %>
               <span class="h3 lh-condensed text-normal d-inline-block main-nav-link">
@@ -33,9 +28,6 @@
       </div>
     </header>
     <div class="container layout-children-container mb-4">
-      <% if show_main_nav_bar? %>
-        <%= render partial: 'layouts/main_nav' %>
-      <% end %>
       <%= render partial: 'layouts/error_messages' %>
       <div class="mt-4">
         <%= yield %>

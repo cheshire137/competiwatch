@@ -128,9 +128,7 @@ class MatchesController < ApplicationController
 
   def set_match
     @match = Match.where(id: params[:id]).first
-    unless @match && @match.user == current_user
-      render file: Rails.root.join('public', '404.html'), status: :not_found
-    end
+    render_404 unless @match && @match.user == current_user
   end
 
   def get_maps
