@@ -8,7 +8,7 @@ class Admin::AccountsController < ApplicationController
     @userless_account_options = [['--', '']] +
       @userless_accounts.map { |account| [account.battletag, account.id] }
     @deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated
-    @avatarless_accounts = Account.without_avatar.order_by_battletag
+    @avatarless_accounts = Account.without_avatar.latest_first
   end
 
   def prune
