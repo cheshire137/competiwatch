@@ -1,11 +1,16 @@
-<% content_for(:title, 'Season Admin') %>
+<% content_for(:title, 'Admin / Seasons') %>
 
-<div class="clearfix mb-4">
-  <button class="btn-link text-small text-normal float-right js-toggle-details" data-target=".new-season" type="button">
-    <span class="ion ion-plus"></span>
-    Add a season
-  </button>
-</div>
+<% content_for(:breadcrumb) do %>
+  <div class="d-flex-md flex-items-center-md flex-justify-between-md">
+    <div>
+      <a href="<%= admin_path %>">Admin</a> / Seasons
+    </div>
+    <button class="btn-link js-toggle-details" data-target=".new-season" type="button">
+      <span class="ion ion-plus"></span>
+      Add a season
+    </button>
+  </div>
+<% end %>
 
 <div class="d-none border rounded-2 p-2 mt-2 mb-4 new-season">
   <h3 class="h4 mb-2">New season</h3>

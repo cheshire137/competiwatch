@@ -1,4 +1,8 @@
-<% content_for(:title, 'Accounts Admin') %>
+<% content_for(:title, 'Admin / Accounts') %>
+
+<% content_for(:breadcrumb) do %>
+  <a href="<%= admin_path %>">Admin</a> / Accounts
+<% end %>
 
 <ul class="list-style-none mb-4">
   <% @accounts.each_with_index do |account, i| %>
