@@ -8,6 +8,24 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'search_by_battletag strips %' do
+    query = '%hey'
+    assert_equal %q(SELECT "accounts".* FROM "accounts" WHERE (LOWER(battletag) LIKE '\%hey%')),
+      Account.search_by_battletag(query).to_sql
+  end
+
+  test 'search_by_battletag searches the start of battletag with the given query, case insensitive' do
+    account1 = create(:account, battletag: 'abc#123')
+    account2 = create(:account, battletag: 'ABCd#456')
+    account3 = create(:account, battletag: 'zyx#987')
+
+    result = Account.search_by_battletag('abc')
+
+    assert_includes result, account1
+    assert_includes result, account2
+    refute_includes result, account3
+  end
+
   test 'not_recently_updated returns accounts not updated for more than 2 months' do
     old_account1 = create(:account, updated_at: 3.months.ago)
     old_account2 = create(:account, updated_at: 1.year.ago)
