@@ -19,6 +19,8 @@ class CommunityController < ApplicationController
         group_size_win_percentages(season: @season_number,
                                    match_counts: @match_counts_by_group_size)
     @max_group_size_win_percentage = @group_size_win_percentages.values.max
+    @thrower_leaver_win_percentages = Match.thrower_leaver_win_percentages(season: @season_number)
+    @max_thrower_leaver_win_percentage = @thrower_leaver_win_percentages.values.max
 
     @season_shares = SeasonShare.with_matches(@season_number).includes(:account).random_order.
       limit(6)
