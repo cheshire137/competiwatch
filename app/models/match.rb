@@ -128,6 +128,36 @@ class Match < ApplicationRecord
     percentages.sort_by { |_map, percent| -percent }.to_h
   end
 
+  def self.thrower_leaver_win_percentages(season:)
+    matches = in_season(season).with_thrower_or_leaver.with_result
+    totals = Hash.new(0)
+    wins = Hash.new(0)
+    matches.each do |match|
+      if match.ally_thrower?
+        wins[:ally_thrower] += 1 if match.win?
+        totals[:ally_thrower] += 1
+      end
+      if match.ally_leaver?
+        wins[:ally_leaver] += 1 if match.win?
+        totals[:ally_leaver] += 1
+      end
+      if match.enemy_thrower?
+        wins[:enemy_thrower] += 1 if match.win?
+        totals[:enemy_thrower] += 1
+      end
+      if match.enemy_leaver?
+        wins[:enemy_leaver] += 1 if match.win?
+        totals[:enemy_leaver] += 1
+      end
+    end
+    percentages = {}
+    [:ally_thrower, :ally_leaver, :enemy_thrower, :enemy_leaver].each do |condition|
+      next unless totals[condition] && totals[condition] > 0
+      percentages[condition] = ((wins[condition].to_f / totals[condition]) * 100).round
+    end
+    percentages.sort_by { |_condition, percent| -percent }.to_h
+  end
+
   def self.win_percent(season:)
     matches = in_season(season).with_result
     total = matches.count
