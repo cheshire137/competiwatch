@@ -3,11 +3,11 @@
 <div class="clearfix">
   <div class="col-md-8 float-left">
     <h2 class="h3 mb-2 text-normal">Tutorial video</h2>
-    <p>
+    <iframe class="d-block mb-2" width="560" height="315" src="https://www.youtube.com/embed/_y-MtPEsxDg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <p class="note">
       Thanks to my buddy Rob for making this video showing how to use
       Competiwatch. &hearts;
     </p>
-    <iframe class="d-block" width="560" height="315" src="https://www.youtube.com/embed/_y-MtPEsxDg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
   </div>
   <div class="col-md-4 float-left">
     <h2 class="h3 mb-2 text-normal">Something not working?</h2>
@@ -17,5 +17,56 @@
       with details about what isn't working. Steps to reproduce the problem will be
       very helpful!
     </p>
+  </div>
+</div>
+
+<hr>
+
+<h2 class="h3 mb-2 text-normal">F.A.Q.</h2>
+<div class="clearfix">
+  <div class="col-md-6 float-left">
+    <dl class="mr-4-md">
+      <dt class="mb-1">Does Competiwatch log my matches for me?</dt>
+      <dd class="mb-4">
+        No. You have to manually enter data after your games in order to see
+        trends and other data about your competitive season. You might be interested
+        in <a target="_blank" rel="noopener noreferrer" href="https://overtrack.gg/">OverTrack</a> if you want automated tracking.
+      </dd>
+      <dt class="mb-1">How much data do I have to enter when logging matches?</dt>
+      <dd class="mb-4">
+        <p>If you choose to log your placement matches individually, the result of the match
+        (win/loss/draw) is required. If you want to skip logging placements and only log
+        your starting SR, that SR is required. For regular matches, only your new SR is
+        required.</p>
+        All other fields, like the map, heroes you played, and friends you grouped
+        with, are optional. However, if you don't fill in a field, you won't see trends
+        about it. For example, if you never log the map you played on, you won't see a
+        chart of win percentage by map.
+      </dd>
+    </dl>
+  </div>
+  <div class="col-md-6 float-left">
+    <dl class="ml-4-md">
+      <dt class="mb-1">Where do I get CSV files to import match data?</dt>
+      <dd class="mb-4">
+        If you've been logging your competitive matches in a spreadsheet with a tool
+        like Excel or Google Sheets, you can produce a CSV (comma-separated value) file
+        of the data you've already logged. Then you can import this CSV file into
+        Competiwatch so you don't have to manually re-enter all those matches.
+        <% if current_season_number && current_battletag_param %>
+          <a href="<%= import_path(current_season_number, current_battletag_param) %>">See the import page</a> for more information.
+        <% end %>
+      </dd>
+      <dt class="mb-1">How much does it cost to use Competiwatch?</dt>
+      <dd class="mb-4">
+        It's free! 🎉 See <a href="<%= about_path %>">the about page</a> for
+        more information, but Competiwatch is my hobby project. I want to keep costs down
+        such that I can offer it for free.
+        <% if show_donate_link? %>
+          <a href="<%= donate_url %>">You can donate</a> to help pay for hosting costs if
+          you want.
+        <% end %>
+      </dd>
+    </dl>
   </div>
 </div>
