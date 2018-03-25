@@ -1,6 +1,10 @@
 require 'test_helper'
 
 class ErrorsControllerTest < ActionDispatch::IntegrationTest
+  test 'undefined route 404s' do
+    assert_routing '/whatevs', controller: 'errors', action: 'not_found', path: 'whatevs'
+  end
+
   test '404 page responds with 404' do
     get '/404'
 
