@@ -13,6 +13,8 @@ class Admin::AccountsController < ApplicationController
 
   def show
     @account = Account.find(params[:id])
+    @total_matches = @account.matches.count
+    @total_season_shares = @account.season_shares.count
   end
 
   def prune

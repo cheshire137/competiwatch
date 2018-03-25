@@ -15,14 +15,16 @@
       <dd class="mb-2"><%= @account.battletag %></dd>
       <dt class="mb-1">User</dt>
       <dd class="mb-2"><%= @account.user %></dd>
-      <dt class="mb-1">Administrator?</dt>
-      <dd class="mb-2 <%= 'text-red text-bold' if @account.admin? %>">
-        <%= @account.admin? ? 'yes' : 'no' %>
+      <dt class="mb-1">Match count</dt>
+      <dd class="mb-2">
+        <%= number_with_delimiter @total_matches %>
+        <%= 'match'.pluralize(@total_matches) %>
       </dd>
-      <dt class="mb-1">Platform</dt>
-      <dd class="mb-2"><%= @account.platform_name %></dd>
-      <dt class="mb-1">Region</dt>
-      <dd class="mb-2"><%= @account.region_name %></dd>
+      <dt class="mb-1">Shared season count</dt>
+      <dd class="mb-2">
+        <%= number_with_delimiter @total_season_shares %>
+        shared <%= 'season'.pluralize(@total_season_shares) %>
+      </dd>
       <dt class="mb-1">Rank</dt>
       <dd class="mb-2 d-flex flex-items-center">
         <% if @account.rank %>
@@ -37,6 +39,18 @@
           <% end %>
         <% end %>
       </dd>
+      <dt class="mb-1">Administrator?</dt>
+      <dd class="mb-2 <%= 'text-red text-bold' if @account.admin? %>">
+        <%= @account.admin? ? 'yes' : 'no' %>
+      </dd>
+      <dt class="mb-1">Platform</dt>
+      <dd class="mb-2"><%= @account.platform_name %></dd>
+      <dt class="mb-1">Region</dt>
+      <dd class="mb-2"><%= @account.region_name %></dd>
+    </dl>
+  </div>
+  <div class="col-md-6 float-left">
+    <dl>
       <dt class="mb-1">Level</dt>
       <dd class="mb-2">
         <% if @account.level %>
@@ -50,10 +64,6 @@
           <% end %>
         <% end %>
       </dd>
-    </dl>
-  </div>
-  <div class="col-md-6 float-left">
-    <dl>
       <dt class="mb-1">Level URL</dt>
       <dd class="mb-2 Box p-2 wb-break-all">
         <% if @account.level_url %>
@@ -89,12 +99,12 @@
       <dt class="mb-1">Signed up</dt>
       <dd class="mb-2">
         <%= pretty_datetime @account.created_at %>
-        <div class="text-small text-gray"><%= time_ago_in_words @account.created_at %> ago</div>
+        <span class="d-inline-block ml-2 text-small text-gray"><%= time_ago_in_words @account.created_at %> ago</span>
       </dd>
       <dt class="mb-1">Last updated</dt>
       <dd class="mb-2">
         <%= pretty_datetime @account.updated_at %>
-        <div class="text-small text-gray"><%= time_ago_in_words @account.updated_at %> ago</div>
+        <span class="d-inline-block ml-2 text-small text-gray"><%= time_ago_in_words @account.updated_at %> ago</span>
       </dd>
     </dl>
   </div>
