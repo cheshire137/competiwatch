@@ -104,6 +104,7 @@ class Match < ApplicationRecord
     end
     percentages_by_group_size = Hash.new(0)
     match_counts.each do |group_size, match_count|
+      next unless match_count && match_count > 0
       percentages_by_group_size[group_size] =
         ((win_counts[group_size].to_f / match_count) * 100).round
     end
@@ -121,6 +122,7 @@ class Match < ApplicationRecord
     end
     percentages = {}
     maps.each do |map|
+      next unless totals[map.id] && totals[map.id] > 0
       percentages[map] = ((wins[map.id].to_f / totals[map.id]) * 100).round
     end
     percentages.sort_by { |_map, percent| -percent }.to_h
@@ -129,6 +131,8 @@ class Match < ApplicationRecord
   def self.win_percent(season:)
     matches = in_season(season).with_result
     total = matches.count
+    return if total < 1
+
     wins = matches.wins.count
     ((wins.to_f / total) * 100).round
   end
@@ -144,6 +148,7 @@ class Match < ApplicationRecord
     end
     percentages = {}
     maps.each do |map|
+      next unless totals[map.id] && totals[map.id] > 0
       percentages[map] = ((draws[map.id].to_f / totals[map.id]) * 100).round
     end
     percentages.sort_by { |_map, percent| -percent }.to_h
