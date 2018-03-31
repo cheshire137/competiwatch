@@ -6,10 +6,21 @@ class OmniauthCallbacksController < Devise::OmniauthCallbacksController
                             battletag: battletag).first_or_create
 
     if signed_in? && current_account != account
-      account.parent_account_id = current_account.parent_account_id || current_account.id
+      user = current_account.user || User.where(battletag: battletag).first_or_create
+      success = true
 
-      unless account.save
-        errors = account.errors.full_messages.join(', ')
+      if account.user && account.user != user
+        success = account.user.merge_with(user)
+      end
+
+      if success
+        current_account.user = user
+        account.user = user
+      end
+
+      unless success && user.save && current_account.save && account.save
+        errors = (account.errors.full_messages + user.errors.full_messages +
+          current_account.errors.full_messages).join(', ')
         message = "Could not link account #{battletag}: #{errors}"
         return redirect_to(root_path, alert: message)
       end

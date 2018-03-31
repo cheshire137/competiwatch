@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(version: 20180331221210) do
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
+    t.integer "user_id"
     t.string "provider", limit: 30, null: false
     t.string "uid", limit: 100, null: false
     t.datetime "created_at", null: false
@@ -35,7 +36,7 @@ ActiveRecord::Schema.define(version: 20180331221210) do
 
   create_table "friends", force: :cascade do |t|
     t.string "name", limit: 30, null: false
-    t.integer "user_id"
+    t.integer "user_id", null: false
     t.index ["user_id", "name"], name: "index_friends_on_user_id_and_name", unique: true
   end
 
