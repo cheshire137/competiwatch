@@ -85,6 +85,11 @@ class Account < ApplicationRecord
     where(battletag: battletag).first
   end
 
+  def self.find_by_name(name)
+    sanitized_query = name.gsub(/[\\_%]/) { |x| ["\\", x].join } + '%'
+    where('battletag LIKE ?', sanitized_query).first
+  end
+
   def self.top_rank
     with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
   end
