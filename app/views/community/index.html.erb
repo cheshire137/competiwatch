@@ -47,6 +47,10 @@
                              match_counts_by_group_size: @match_counts_by_group_size,
                              group_size_win_percentages: @group_size_win_percentages,
                              max_group_size_win_percentage: @max_group_size_win_percentage } %>
+        <%= render partial: 'community/throwers_leavers',
+                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
+                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
+                             season_number: @season_number } %>
       </div>
     <% end %>
 
@@ -54,10 +58,6 @@
       <div class="ml-4">
         <%= render partial: 'community/season_shares',
                    locals: { season_number: @season_number, season_shares: @season_shares } %>
-        <%= render partial: 'community/throwers_leavers',
-                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
-                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
-                             season_number: @season_number } %>
         <%= render partial: 'community/rank_tiers',
                    locals: { season_number: @season_number,
                              rank_tier_win_percentages: @rank_tier_win_percentages,
