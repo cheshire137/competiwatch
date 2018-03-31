@@ -26,6 +26,11 @@ class CommunityController < ApplicationController
                                                        match_counts: @match_counts_by_hero_id)
     @max_hero_win_percentage = @hero_win_percentages.values.max
 
+    match_counts_by_rank_tier = Match.match_counts_by_rank_tier(season: @season_number)
+    @rank_tier_win_percentages = Match.rank_tier_win_percentages(season: @season_number,
+                                                                 match_counts: match_counts_by_rank_tier)
+    @max_rank_tier_win_percentage = @rank_tier_win_percentages.values.max
+
     @thrower_leaver_win_percentages = Match.thrower_leaver_win_percentages(season: @season_number)
     @max_thrower_leaver_win_percentage = @thrower_leaver_win_percentages.values.max
 

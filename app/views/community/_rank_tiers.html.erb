@@ -1,0 +1,24 @@
+<% if rank_tier_win_percentages.any? %>
+  <h2 class="h2 mb-2">
+    Ranks
+    <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= season_number %></span>
+  </h2>
+  <ul class="list-style-none mb-4">
+    <% Match::RANK_TIERS.each do |rank_tier| %>
+      <% win_percentage = rank_tier_win_percentages[rank_tier] || 0 %>
+      <li class="mb-2 d-flex-md flex-items-center-md flex-justify-center-md">
+        <div class="win-bar-container d-inline-block mr-3">
+          <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(win_percentage, max_rank_tier_win_percentage, 100) %>%; background-color: <%= win_rate_color(win_percentage + 10) %>"></span>
+        </div>
+        <div class="text-center rank-tier-container mr-2">
+          <%= rank_tier_image(rank_tier, classes: 'd-inline-block') %>
+        </div>
+        <div class="d-flex flex-items-center">
+          <strong><%= rank_tier %></strong>
+          <span class="text-gray d-inline-block mx-2">&middot;</span>
+          <span><%= win_percentage %>% win rate</span>
+        </div>
+      </li>
+    <% end %>
+  </ul>
+<% end %>

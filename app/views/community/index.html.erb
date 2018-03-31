@@ -58,6 +58,10 @@
                    locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
                              max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
                              season_number: @season_number } %>
+        <%= render partial: 'community/rank_tiers',
+                   locals: { season_number: @season_number,
+                             rank_tier_win_percentages: @rank_tier_win_percentages,
+                             max_rank_tier_win_percentage: @max_rank_tier_win_percentage } %>
       </div>
     </div>
   </div>
