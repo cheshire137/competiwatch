@@ -3,128 +3,30 @@
 <div class="clearfix mb-4">
   <div class="col-md-6 float-left">
     <div class="mr-4">
-      <% if @top_heroes.any? %>
-        <h2 class="h2 mb-2">
-          Most played heroes
-          <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-        </h2>
-        <div class="mb-4 pb-2 overflow-hidden">
-          <%= render partial: 'accounts/heroes_list', locals: { heroes: @top_heroes } %>
-        </div>
-      <% end %>
-      <% if @top_rank && @average_rank %>
-        <h2 class="h2 mb-2">
-          Ranks
-          <span class="text-gray text-normal d-inline-block ml-2 h3">Overall</span>
-        </h2>
-        <div class="clearfix">
-          <div class="float-left col-md-6">
-            <div class="Box p-2 mr-1">
-              <h4 class="h4 text-gray text-center text-normal">Top rank</h4>
-              <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
-                <%= rank_image(@top_rank, classes: 'flex-shrink-0 rank-fit-height',
-                               outer_classes: 'flex-shrink-0 mr-1') %>
-                <%= @top_rank %>
-              </div>
-            </div>
-          </div>
-          <div class="float-left col-md-6">
-            <div class="Box p-2 ml-1">
-              <h4 class="h4 text-gray text-center text-normal">Average rank</h4>
-              <div class="h3 text-normal d-flex flex-items-start flex-justify-center">
-                <%= rank_image(@average_rank, classes: 'flex-shrink-0 rank-fit-height',
-                               outer_classes: 'flex-shrink-0 mr-1') %>
-                <%= @average_rank %>
-              </div>
-            </div>
-          </div>
-        </div>
-      <% end %>
+      <%= render partial: 'community/top_heroes',
+                 locals: { top_heroes: @top_heroes, season_number: @season_number } %>
+      <%= render partial: 'community/ranks',
+                 locals: { top_rank: @top_rank, average_rank: @average_rank } %>
     </div>
   </div>
   <div class="col-md-6 float-left">
     <div class="ml-4">
-      <h2 class="h2 mb-2">
-        General stats
-        <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-      </h2>
-      <ul class="list-style-none mb-4">
-        <% if @overall_win_percent %>
-          <li class="mb-1">
-            <strong><%= @overall_win_percent %>%</strong> of matches won
-          </li>
-        <% end %>
-        <% if @thrower_leaver_percent %>
-          <li class="mb-1">
-            <strong><%= @thrower_leaver_percent %>%</strong> of matches had a thrower or leaver
-          </li>
-        <% end %>
-      </ul>
-      <h2 class="h2 mb-2">
-        Day of the week
-        <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-      </h2>
-      <ul class="list-style-none mb-4">
-        <% if @weekday_win_percent %>
-          <li class="mb-1 d-flex flex-items-center">
-            <% if @max_win_percent %>
-              <span class="win-bar-container d-inline-block mr-3">
-                <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekday_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekday_win_percent + 10) %>"></span>
-              </span>
-            <% end %>
-            <span><%= @weekday_win_percent %>% of <strong>weekday</strong> matches were won</span>
-          </li>
-        <% end %>
-        <% if @weekend_win_percent %>
-          <li class="mb-1  d-flex flex-items-center">
-            <% if @max_win_percent %>
-              <span class="win-bar-container d-inline-block mr-3">
-                <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@weekend_win_percent, @max_win_percent, 100) %>%; background-color: <%= win_rate_color(@weekend_win_percent + 10) %>"></span>
-              </span>
-            <% end %>
-            <span><%= @weekend_win_percent %>% of <strong>weekend</strong> matches were won</span>
-          </li>
-        <% end %>
-      </ul>
-      <h2 class="h2">
-        Maps
-        <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-      </h2>
-      <ul class="list-style-none mb-4">
-        <% if @highest_win_map && @highest_win_map_pct %>
-          <li class="mb-1 border-bottom pb-1 d-flex flex-items-center">
-            <div class="win-bar-container d-inline-block mr-3">
-              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@highest_win_map_pct, @highest_win_map_pct, 100) %>%; background-color: <%= win_rate_color(@highest_win_map_pct + 10) %>"></span>
-            </div>
-            <div>
-              Map with the highest win rate:<br>
-              <strong><%= @highest_win_map %></strong> at <%= @highest_win_map_pct %>%
-            </div>
-          </li>
-        <% end %>
-        <% if @lowest_win_map && @lowest_win_map_pct %>
-          <li class="mb-1 border-bottom pb-1 d-flex flex-items-center">
-            <div class="win-bar-container d-inline-block mr-3">
-              <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@lowest_win_map_pct, @highest_win_map_pct, 100) %>%; background-color: <%= win_rate_color(@lowest_win_map_pct + 10) %>"></span>
-            </div>
-            <div>
-              Map with the lowest win rate:<br>
-              <strong><%= @lowest_win_map %></strong> at <%= @lowest_win_map_pct %>%
-            </div>
-          </li>
-        <% end %>
-        <% if @highest_draw_map && @highest_draw_map_pct && @highest_win_map_pct %>
-          <li class="mb-1 d-flex flex-items-center">
-            <div class="win-bar-container d-inline-block mr-3">
-              <span class="win-bar draw-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@highest_draw_map_pct, @highest_win_map_pct, 100) %>%"></span>
-            </div>
-            <div>
-              Map with the most draws:<br>
-              <strong><%= @highest_draw_map %></strong> at <%= @highest_draw_map_pct %>%
-            </div>
-          </li>
-        <% end %>
-      </ul>
+      <%= render partial: 'community/general_stats',
+                 locals: { overall_win_percent: @overall_win_percent,
+                           season_number: @season_number,
+                           thrower_leaver_percent: @thrower_leaver_percent } %>
+      <%= render partial: 'community/day_of_week',
+                 locals: { weekday_win_percent: @weekday_win_percent,
+                           max_win_percent: @max_win_percent,
+                           weekend_win_percent: @weekend_win_percent,
+                           season_number: @season_number } %>
+      <%= render partial: 'community/maps',
+                 locals: { season_number: @season_number, highest_win_map: @highest_win_map,
+                           highest_win_map_pct: @highest_win_map_pct,
+                           lowest_win_map_pct: @lowest_win_map_pct,
+                           lowest_win_map: @lowest_win_map,
+                           highest_draw_map_pct: @highest_draw_map_pct,
+                           highest_draw_map: @highest_draw_map } %>
     </div>
   </div>
 </div>
@@ -135,75 +37,22 @@
   <div class="clearfix">
     <% if @group_size_win_percentages.any? %>
       <div class="float-left col-md-6">
-        <h2 class="h2 mb-2">
-          Group size
-          <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-        </h2>
-
-        <% group_sizes.each do |group_size| %>
-          <% match_count = @match_counts_by_group_size[group_size] %>
-          <div class="mb-2 d-flex-md flex-items-center-md flex-justify-center-md">
-            <div class="win-bar-container d-inline-block mr-3">
-              <% if @group_size_win_percentages[group_size] %>
-                <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(@group_size_win_percentages[group_size], @max_group_size_win_percentage, 100) %>%; background-color: <%= win_rate_color(@group_size_win_percentages[group_size] + 10) %>"></span>
-              <% else %>
-                &mdash;
-              <% end %>
-            </div>
-            <div>
-              <strong><%= group_size_name(group_size) %></strong>:
-              <% if @group_size_win_percentages[group_size] %>
-                <%= @group_size_win_percentages[group_size] %>% of games won
-                <div class="note">
-                  <%= number_with_delimiter match_count %>
-                  <%= 'match'.pluralize(match_count) %>
-                </div>
-              <% else %>
-                <em>No matches logged</em>
-              <% end %>
-            </div>
-          </div>
-        <% end %>
+        <%= render partial: 'community/group_size',
+                   locals: { season_number: @season_number,
+                             match_counts_by_group_size: @match_counts_by_group_size,
+                             group_size_win_percentages: @group_size_win_percentages,
+                             max_group_size_win_percentage: @max_group_size_win_percentage } %>
       </div>
     <% end %>
 
     <div class="float-left col-md-6">
       <div class="ml-4">
-        <% if @season_shares.size > 2 %>
-          <h2 class="h2 mb-2">
-            Shared matches
-            <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-          </h2>
-          <ul class="list-style-none mb-4">
-            <% @season_shares.each_with_index do |season_share, i| %>
-              <li<% if i > 0 %> class="mt-2"<% end %>>
-                <a href="<%= matches_path(season_share.season, season_share.account) %>">
-                  <%= account_with_avatar(season_share.account) %>
-                  <% if season_share.account.rank %>
-                    <%= rank_image(season_share.account.rank, classes: 'd-inline-block mr-1 flex-shrink-0 rank-fit-height') %>
-                  <% end %>
-                </a>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
-
-        <% if @thrower_leaver_win_percentages.any? %>
-          <h2 class="h2 mb-2">
-            Throwers and leavers
-            <span class="text-gray text-normal d-inline-block ml-2 h3">Season <%= @season_number %></span>
-          </h2>
-          <ul class="list-style-none mb-4">
-            <% @thrower_leaver_win_percentages.each do |condition, win_percent| %>
-              <li class="mb-1 d-flex flex-items-center">
-                <span class="win-bar-container d-inline-block mr-3">
-                  <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(win_percent, @max_thrower_leaver_win_percentage, 100) %>%; background-color: <%= win_rate_color(win_percent) %>"></span>
-                </span>
-                <span><%= win_percent %>% of matches <%= thrower_leaver_description(condition) %> were won</span>
-              </li>
-            <% end %>
-          </ul>
-        <% end %>
+        <%= render partial: 'community/season_shares',
+                   locals: { season_number: @season_number, season_shares: @season_shares } %>
+        <%= render partial: 'community/throwers_leavers',
+                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
+                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
+                             season_number: @season_number } %>
       </div>
     </div>
   </div>
