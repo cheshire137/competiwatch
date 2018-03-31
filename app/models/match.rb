@@ -88,6 +88,19 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
+  # Public: Returns a hash of Integer => Integer for matches that have at least one hero
+  # logged. Keys are hero IDs, values are match counts in the specified season.
+  def self.match_counts_by_hero_id(season:)
+    matches = in_season(season).with_heroes.with_result.select(:hero_ids)
+    match_counts = Hash.new(0)
+    matches.each do |match|
+      match.hero_ids.each do |hero_id|
+        match_counts[hero_id] += 1
+      end
+    end
+    match_counts
+  end
+
   def self.match_counts_by_group_size(season:)
     matches = in_season(season).with_result.select(:group_member_ids)
     match_counts = Hash.new(0)
