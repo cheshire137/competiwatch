@@ -88,19 +88,12 @@ class Match < ApplicationRecord
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
   end
 
-  def self.match_counts_by_rank_tier(season:)
-    matches = in_season(season).with_result.with_rank.select(:rank)
-    match_counts = Hash.new(0)
-    matches.each do |match|
-      match_counts[match.rank_tier] += 1
-    end
-    match_counts
-  end
-
-  def self.rank_tier_win_percentages(season:, match_counts:)
+  def self.rank_tier_win_percentages(season:)
     matches = in_season(season).with_rank.with_result.select('rank, result')
+    match_counts = Hash.new(0)
     win_counts = Hash.new(0)
     matches.each do |match|
+      match_counts[match.rank_tier] += 1
       win_counts[match.rank_tier] += 1 if match.win?
     end
     percentages_by_rank_tier = Hash.new(0)
