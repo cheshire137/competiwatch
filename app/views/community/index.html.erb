@@ -5,8 +5,11 @@
     <div class="mr-4">
       <%= render partial: 'community/top_heroes',
                  locals: { top_heroes: @top_heroes, season_number: @season_number } %>
-      <%= render partial: 'community/ranks',
-                 locals: { top_rank: @top_rank, average_rank: @average_rank } %>
+      <%= render partial: 'community/heroes',
+                 locals: { hero_win_percentages: @hero_win_percentages,
+                           max_hero_win_percentage: @max_hero_win_percentage,
+                           match_counts_by_hero_id: @match_counts_by_hero_id,
+                           season_number: @season_number } %>
     </div>
   </div>
   <div class="col-md-6 float-left">
@@ -27,6 +30,8 @@
                            lowest_win_map: @lowest_win_map,
                            highest_draw_map_pct: @highest_draw_map_pct,
                            highest_draw_map: @highest_draw_map } %>
+      <%= render partial: 'community/ranks',
+                 locals: { top_rank: @top_rank, average_rank: @average_rank } %>
     </div>
   </div>
 </div>
@@ -54,19 +59,6 @@
                              max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
                              season_number: @season_number } %>
       </div>
-    </div>
-  </div>
-<% end %>
-
-<% if @hero_win_percentages.any? %>
-  <hr class="mb-4">
-  <div class="clearfix">
-    <div class="float-left col-md-6">
-      <%= render partial: 'community/heroes',
-                 locals: { hero_win_percentages: @hero_win_percentages,
-                           max_hero_win_percentage: @max_hero_win_percentage,
-                           match_counts_by_hero_id: @match_counts_by_hero_id,
-                           season_number: @season_number } %>
     </div>
   </div>
 <% end %>
