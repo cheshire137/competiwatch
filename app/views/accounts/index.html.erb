@@ -15,7 +15,7 @@
               <%= avatar_for(account) %>
               <%= account %>
             </div>
-            <% if account.can_be_unlinked? %>
+            <% if account.can_be_unlinked? && account != current_account %>
               <%= form_tag account_path(account), method: :delete, class: 'd-inline-block' do %>
                 <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= account %> from this account? None of its matches will be deleted.">
                   Unlink
