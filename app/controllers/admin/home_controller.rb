@@ -18,6 +18,7 @@ class Admin::HomeController < ApplicationController
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
     @total_users_with_single_account = User.total_by_account_count(num_accounts: 1)
     @total_accounts_without_matches = Account.without_matches.count
+    @total_accounts_with_matches = Match.group(:account_id).pluck(:account_id).count
     @total_deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated.count
     @total_without_avatars = Account.without_avatar.count
 

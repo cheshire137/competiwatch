@@ -21,38 +21,6 @@
           <%= 'account'.pluralize(@account_count) %>
         </a>
       </li>
-    </ul>
-  </div>
-  <div class="col-md-3 float-left">
-    <ul class="list-style-none">
-      <li>
-        <strong><%= number_with_delimiter @match_count %></strong>
-        <%= 'match'.pluralize(@match_count) %>
-      </li>
-      <li>
-        <strong><%= number_with_delimiter @friend_count %></strong>
-        <%= 'friend'.pluralize(@friend_count) %>
-      </li>
-      <li>
-        <strong><%= number_with_delimiter @season_share_count %></strong>
-        <%= 'shared season'.pluralize(@season_share_count) %>
-      </li>
-    </ul>
-  </div>
-  <div class="col-md-3 float-left">
-    <ul class="list-style-none">
-      <% if @top_season.present? %>
-        <li>
-          <a class="text-gray-dark" href="<%= admin_seasons_path %>">
-            <strong>Top season:</strong>
-            Season <%= @top_season[0] %>
-            <span class="note mt-0 d-block">
-              <%= number_with_delimiter(@top_season[1]) %>
-              <%= 'match'.pluralize(@top_season[1]) %>
-            </span>
-          </a>
-        </li>
-      <% end %>
       <li>
         <a class="text-gray-dark" href="<%= admin_users_path %>">
           <strong><%= number_with_delimiter @total_users_with_single_account %></strong>
@@ -64,11 +32,46 @@
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
+        <strong><%= number_with_delimiter @friend_count %></strong>
+        <%= 'friend'.pluralize(@friend_count) %>
+      </li>
+      <li>
+        <strong><%= number_with_delimiter @season_share_count %></strong>
+        <%= 'shared season'.pluralize(@season_share_count) %>
+      </li>
+      <% if @top_season.present? %>
+        <li>
+          <a class="text-gray-dark" href="<%= admin_seasons_path %>">
+            <strong>Season <%= @top_season[0] %>:</strong>
+            <%= number_with_delimiter(@top_season[1]) %>
+            <%= 'match'.pluralize(@top_season[1]) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+  <div class="col-md-3 float-left">
+    <ul class="list-style-none">
+      <li>
+        <strong><%= number_with_delimiter @match_count %></strong>
+        <%= 'match'.pluralize(@match_count) %>
+      </li>
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @total_accounts_with_matches %></strong>
+          <%= 'account'.pluralize(@total_accounts_with_matches) %> with matches
+        </a>
+      </li>
+      <li>
         <a class="text-gray-dark" href="<%= admin_accounts_path %>">
           <strong><%= number_with_delimiter @total_accounts_without_matches %></strong>
           <%= 'account'.pluralize(@total_accounts_without_matches) %> without matches
         </a>
       </li>
+    </ul>
+  </div>
+  <div class="col-md-3 float-left">
+    <ul class="list-style-none">
       <li>
         <a class="text-gray-dark" href="<%= admin_accounts_path %>">
           <strong><%= number_with_delimiter @total_deletable_accounts %></strong>
