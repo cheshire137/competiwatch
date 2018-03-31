@@ -1,4 +1,6 @@
 class Account < ApplicationRecord
+  devise :omniauthable, omniauth_providers: [:bnet]
+
   VALID_PLATFORMS = {
     'pc' => 'PC',
     'psn' => 'PlayStation',
