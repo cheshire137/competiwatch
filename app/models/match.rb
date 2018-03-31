@@ -101,6 +101,27 @@ class Match < ApplicationRecord
     match_counts
   end
 
+  def self.hero_win_percentages(season:, match_counts:)
+    matches = in_season(season).with_heroes.with_result.select('hero_ids, result')
+    win_counts = Hash.new(0)
+    matches.each do |match|
+      if match.win?
+        match.hero_ids.each do |hero_id|
+          win_counts[hero_id] += 1
+        end
+      end
+    end
+    heroes_by_id = Hero.order_by_name.select('id, name').map { |hero| [hero.id, hero] }.to_h
+    percentages_by_hero = Hash.new(0)
+    match_counts.each do |hero_id, match_count|
+      next unless match_count && match_count > 0
+      hero = heroes_by_id[hero_id]
+      percentages_by_hero[hero] =
+        ((win_counts[hero_id].to_f / match_count) * 100).round
+    end
+    percentages_by_hero.sort_by { |_hero, percentage| -percentage }.to_h
+  end
+
   def self.match_counts_by_group_size(season:)
     matches = in_season(season).with_result.select(:group_member_ids)
     match_counts = Hash.new(0)
