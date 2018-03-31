@@ -7,12 +7,17 @@
 <%= form_tag admin_accounts_path, method: :get, class: 'mb-4' do %>
   <label for="account-search" class="mr-2">Search accounts:</label>
   <input type="search" name="q" value="<%= @query %>" class="form-control" placeholder="Search by battletag" id="account-search">
-  <% if @query.present? %>
+  <% if @query.present? || @filtered %>
     <a href="<%= admin_accounts_path %>" class="text-small d-inline-block ml-2">Clear</a>
   <% end %>
 <% end %>
 
 <ul class="list-style-none mb-4">
+  <% if @accounts.empty? %>
+    <li>
+      No accounts to show
+    </li>
+  <% end %>
   <% @accounts.each_with_index do |account, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <%= admin_link_to_account(account) %>

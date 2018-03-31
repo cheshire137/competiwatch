@@ -57,7 +57,7 @@
         </a>
       </li>
       <li>
-        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+        <a class="text-gray-dark" href="<%= admin_accounts_path(without_matches: 1) %>">
           <strong><%= number_with_delimiter @total_accounts_without_matches %></strong>
           <%= 'account'.pluralize(@total_accounts_without_matches) %> without matches
         </a>
@@ -73,13 +73,13 @@
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
-        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+        <a class="text-gray-dark" href="<%= admin_accounts_path(deletable: 1) %>">
           <strong><%= number_with_delimiter @total_deletable_accounts %></strong>
           deletable <%= 'account'.pluralize(@total_deletable_accounts) %>
         </a>
       </li>
       <li>
-        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+        <a class="text-gray-dark" href="<%= admin_accounts_path(without_avatar: 1) %>">
           <strong><%= number_with_delimiter @total_without_avatars %></strong>
           <%= 'account'.pluralize(@total_without_avatars) %> without
           <% if @total_without_avatars == 1 %>
