@@ -96,7 +96,7 @@ class Match < ApplicationRecord
       match_counts[match.rank_tier] += 1
       win_counts[match.rank_tier] += 1 if match.win?
     end
-    percentages_by_rank_tier = Hash.new(0)
+    percentages_by_rank_tier = {}
     match_counts.each do |rank_tier, match_count|
       next unless match_count && match_count > 0
       percentages_by_rank_tier[rank_tier] =
