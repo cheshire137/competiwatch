@@ -8,6 +8,20 @@ class AccountTest < ActiveSupport::TestCase
     clear_enqueued_jobs
   end
 
+  test 'near_season_match_limit returns accounts close to the match limit for given season' do
+    Match.stub_const(:MAX_PER_SEASON, 7) do
+      season = 1
+      account1 = create(:account)
+      account2 = create(:account)
+      6.times { create(:match, account: account1, season: season) }
+
+      result = Account.near_season_match_limit(season)
+
+      assert_includes result, account1
+      refute_includes result, account2
+    end
+  end
+
   test 'search_by_battletag strips %' do
     query = '%hey'
     assert_equal %q(SELECT "accounts".* FROM "accounts" WHERE (LOWER(battletag) LIKE '\%hey%')),

@@ -58,6 +58,13 @@ class Account < ApplicationRecord
       where('other_accounts.id IS NULL')
   end
 
+  scope :near_season_match_limit, ->(season) do
+    cutoff = Match::MAX_PER_SEASON - (Match::MAX_PER_SEASON * 0.15)
+    matches = Match.in_season(season).group(:account_id).select(:account_id).
+      having("COUNT(*) >= #{cutoff}")
+    where(id: matches.map(&:account_id))
+  end
+
   after_update :remove_default, if: :saved_change_to_user_id?
   after_update :refresh_profile_data, if: :saved_change_to_platform?
 
