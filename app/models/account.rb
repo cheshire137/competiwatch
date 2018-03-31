@@ -35,6 +35,7 @@ class Account < ApplicationRecord
   scope :latest_first, ->{ order(updated_at: :desc) }
   scope :not_recently_updated, ->{ where('accounts.updated_at <= ?', 2.months.ago) }
   scope :without_avatar, ->{ where('avatar_url IS NULL') }
+  scope :with_avatar, ->{ where('avatar_url IS NOT NULL') }
 
   scope :without_matches, -> do
     account_ids_with_matches = Match.group(:account_id).pluck(:account_id)

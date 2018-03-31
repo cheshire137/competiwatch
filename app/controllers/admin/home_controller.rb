@@ -21,6 +21,8 @@ class Admin::HomeController < ApplicationController
     @total_accounts_with_matches = Match.group(:account_id).pluck(:account_id).count
     @total_deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated.count
     @total_without_avatars = Account.without_avatar.count
+    @top_avatar_urls = Account.with_avatar.group(:avatar_url).
+      order('count_all DESC').limit(5).count
 
     seasons = Season.order_by_number.pluck(:number)
     @total_accounts_near_match_limit = 0
