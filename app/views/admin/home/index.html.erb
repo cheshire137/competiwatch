@@ -86,6 +86,13 @@
           <% end %>
         </a>
       </li>
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @total_accounts_near_match_limit %></strong>
+          <%= 'account'.pluralize(@total_accounts_near_match_limit) %>
+          near season match limit
+        </a>
+      </li>
     </ul>
   </div>
 </div>

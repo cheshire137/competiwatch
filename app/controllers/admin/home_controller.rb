@@ -20,5 +20,11 @@ class Admin::HomeController < ApplicationController
     @total_accounts_without_matches = Account.without_matches.count
     @total_deletable_accounts = Account.without_matches.sole_accounts.not_recently_updated.count
     @total_without_avatars = Account.without_avatar.count
+
+    seasons = Season.order_by_number.pluck(:number)
+    @total_accounts_near_match_limit = 0
+    seasons.each do |season|
+      @total_accounts_near_match_limit += Account.near_season_match_limit(season).count
+    end
   end
 end
