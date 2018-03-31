@@ -26,9 +26,9 @@
       <dt class="mb-1">Linked accounts</dt>
       <dd class="mb-2">
         <% if @linked_accounts && @linked_accounts.any? %>
-          <ul class="list-style-none">
+          <ul>
             <% @linked_accounts.each_with_index do |other_account, i| %>
-              <li<% if i > 0 %> class="mt-1"<% end %>>
+              <li class="ml-4 <%= 'mt-1' if i > 0 %>">
                 <%= admin_link_to_account(other_account) %>
               </li>
             <% end %>

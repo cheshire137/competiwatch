@@ -17,7 +17,7 @@ class Admin::AccountsController < ApplicationController
     @total_matches = @account.matches.count
     @total_season_shares = @account.season_shares.count
     @linked_accounts = if @account.user
-      @account.user.accounts.order_by_battletag
+      @account.user.accounts.order_by_battletag.where('id <> ?', @account.id)
     end
   end
 

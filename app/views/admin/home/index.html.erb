@@ -16,16 +16,14 @@
         </a>
       </li>
       <li>
-        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
-          <strong><%= number_with_delimiter @account_count %></strong>
-          <%= 'account'.pluralize(@account_count) %>
-        </a>
-      </li>
-      <li>
         <a class="text-gray-dark" href="<%= admin_users_path %>">
           <strong><%= number_with_delimiter @total_users_with_single_account %></strong>
           <%= 'user'.pluralize(@total_users_with_single_account) %> with single account
         </a>
+      </li>
+      <li>
+        <strong><%= number_with_delimiter @match_count %></strong>
+        <%= 'match'.pluralize(@match_count) %>
       </li>
     </ul>
   </div>
@@ -53,10 +51,6 @@
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
-        <strong><%= number_with_delimiter @match_count %></strong>
-        <%= 'match'.pluralize(@match_count) %>
-      </li>
-      <li>
         <a class="text-gray-dark" href="<%= admin_accounts_path %>">
           <strong><%= number_with_delimiter @total_accounts_with_matches %></strong>
           <%= 'account'.pluralize(@total_accounts_with_matches) %> with matches
@@ -66,6 +60,12 @@
         <a class="text-gray-dark" href="<%= admin_accounts_path %>">
           <strong><%= number_with_delimiter @total_accounts_without_matches %></strong>
           <%= 'account'.pluralize(@total_accounts_without_matches) %> without matches
+        </a>
+      </li>
+      <li>
+        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+          <strong><%= number_with_delimiter @account_count %></strong>
+          <%= 'account'.pluralize(@account_count) %>
         </a>
       </li>
     </ul>
