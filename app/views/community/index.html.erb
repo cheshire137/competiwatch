@@ -208,3 +208,16 @@
     </div>
   </div>
 <% end %>
+
+<% if @hero_win_percentages.any? %>
+  <hr class="mb-4">
+  <div class="clearfix">
+    <div class="float-left col-md-6">
+      <%= render partial: 'community/heroes',
+                 locals: { hero_win_percentages: @hero_win_percentages,
+                           max_hero_win_percentage: @max_hero_win_percentage,
+                           match_counts_by_hero_id: @match_counts_by_hero_id,
+                           season_number: @season_number } %>
+    </div>
+  </div>
+<% end %>

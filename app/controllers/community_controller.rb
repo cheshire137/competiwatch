@@ -14,11 +14,18 @@ class CommunityController < ApplicationController
       [@weekday_win_percent, @weekend_win_percent].max
     end
     @overall_win_percent = Match.win_percent(season: @season_number)
+
     @match_counts_by_group_size = Match.match_counts_by_group_size(season: @season_number)
     @group_size_win_percentages = Match.
         group_size_win_percentages(season: @season_number,
                                    match_counts: @match_counts_by_group_size)
     @max_group_size_win_percentage = @group_size_win_percentages.values.max
+
+    @match_counts_by_hero_id = Match.match_counts_by_hero_id(season: @season_number)
+    @hero_win_percentages = Match.hero_win_percentages(season: @season_number,
+                                                       match_counts: @match_counts_by_hero_id)
+    @max_hero_win_percentage = @hero_win_percentages.values.max
+
     @thrower_leaver_win_percentages = Match.thrower_leaver_win_percentages(season: @season_number)
     @max_thrower_leaver_win_percentage = @thrower_leaver_win_percentages.values.max
 

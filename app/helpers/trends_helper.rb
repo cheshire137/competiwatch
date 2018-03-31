@@ -1,12 +1,16 @@
 module TrendsHelper
+  def hero_image(hero)
+    image_tag("heroes/#{hero.slug}.png", alt: hero.name,
+              class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait',
+              width: 30, height: 30)
+  end
+
   def hero_bar(hero, match_count:, max_match_count:, total_match_count:)
     tooltip = number_with_delimiter(match_count) + ' match'.pluralize(match_count)
     width_percent = hero_bar_width(match_count, max_match_count, total_match_count)
     content_tag(:div, class: 'd-flex flex-items-center mb-1 hero-list-item') do
       safe_join([
-        image_tag("heroes/#{hero.slug}.png", alt: hero.name,
-                  class: 'flex-shrink-0 rounded-2 d-inline-block mr-2 hero-portrait',
-                  width: 30, height: 30),
+        hero_image(hero),
         content_tag(:span, hero, class: 'd-inline-block hero-name text-bold mr-2'),
         content_tag(:span, 'aria-label' => tooltip,
                     class: 'hero-bar-container tooltipped tooltipped-w d-inline-block') do
