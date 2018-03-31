@@ -48,6 +48,11 @@
         </li>
       <% end %>
     </ul>
+    <% if @accounts.size > 1 %>
+      <div class="note mt-4">
+        You can unlink an account to require logging in separately.
+      </div>
+    <% end %>
   </div>
 
   <div class="col-md-6">
