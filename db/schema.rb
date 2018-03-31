@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180331225019) do
+ActiveRecord::Schema.define(version: 20180331221210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -28,15 +28,15 @@ ActiveRecord::Schema.define(version: 20180331225019) do
     t.integer "rank"
     t.integer "level"
     t.text "level_url"
-    t.integer "parent_account_id"
+    t.integer "user_id"
     t.index ["battletag", "provider", "uid"], name: "index_accounts_on_battletag_and_provider_and_uid", unique: true
-    t.index ["parent_account_id"], name: "index_accounts_on_parent_account_id"
+    t.index ["user_id"], name: "index_accounts_on_user_id"
   end
 
   create_table "friends", force: :cascade do |t|
     t.string "name", limit: 30, null: false
-    t.integer "account_id"
-    t.index ["account_id", "name"], name: "index_friends_on_account_id_and_name", unique: true
+    t.integer "user_id"
+    t.index ["user_id", "name"], name: "index_friends_on_user_id_and_name", unique: true
   end
 
   create_table "heroes", force: :cascade do |t|
@@ -105,6 +105,13 @@ ActiveRecord::Schema.define(version: 20180331225019) do
     t.date "ended_on"
     t.index ["number"], name: "index_seasons_on_number", unique: true
     t.index ["started_on", "ended_on"], name: "index_seasons_on_started_on_and_ended_on"
+  end
+
+  create_table "users", force: :cascade do |t|
+    t.string "battletag", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["battletag"], name: "index_users_on_battletag", unique: true
   end
 
 end
