@@ -4,7 +4,7 @@ class Admin::AccountsController < ApplicationController
   def index
     @query = params[:q]
     @filtered = params[:without_avatar].present? || params[:without_matches].present? ||
-      params[:deletable].present?
+      params[:deletable].present? || params[:with_matches].present?
     @accounts = search_or_list_accounts(@query)
     @userless_accounts = Account.without_user.order_by_battletag
     @user_options = [['--', '']] + User.order_by_battletag.map { |user| [user.battletag, user.id] }
@@ -60,6 +60,7 @@ class Admin::AccountsController < ApplicationController
     accounts = Account.latest_first
     accounts = accounts.without_avatar if params[:without_avatar]
     accounts = accounts.without_matches if params[:without_matches]
+    accounts = accounts.with_matches if params[:with_matches]
     accounts = accounts.without_matches.sole_accounts.not_recently_updated if params[:deletable]
     accounts = accounts.search_by_battletag(query) if query.present?
     accounts.paginate(page: current_page, per_page: 20)

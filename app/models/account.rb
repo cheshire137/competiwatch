@@ -37,6 +37,11 @@ class Account < ApplicationRecord
   scope :without_avatar, ->{ where('avatar_url IS NULL') }
   scope :with_avatar, ->{ where('avatar_url IS NOT NULL') }
 
+  scope :with_matches, -> do
+    account_ids_with_matches = Match.group(:account_id).pluck(:account_id)
+    where(id: account_ids_with_matches)
+  end
+
   scope :without_matches, -> do
     account_ids_with_matches = Match.group(:account_id).pluck(:account_id)
     batch_size = 100

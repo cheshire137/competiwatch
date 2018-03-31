@@ -51,7 +51,7 @@
   <div class="col-md-3 float-left">
     <ul class="list-style-none">
       <li>
-        <a class="text-gray-dark" href="<%= admin_accounts_path %>">
+        <a class="text-gray-dark" href="<%= admin_accounts_path(with_matches: 1) %>">
           <strong><%= number_with_delimiter @total_accounts_with_matches %></strong>
           <%= 'account'.pluralize(@total_accounts_with_matches) %> with matches
         </a>
