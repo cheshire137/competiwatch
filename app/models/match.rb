@@ -332,8 +332,8 @@ class Match < ApplicationRecord
     self.hero_ids = list.map(&:id)
   end
 
-  def self.prefill_group_members(matches, user:)
-    friends_by_id = user.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
+  def self.prefill_group_members(matches, account:)
+    friends_by_id = account.friends.order_by_name.map { |friend| [friend.id, friend] }.to_h
     ids_in_order = friends_by_id.keys
     matches.each do |match|
       friends_by_id_for_match = friends_by_id.slice(*match.group_member_ids).
@@ -343,7 +343,7 @@ class Match < ApplicationRecord
   end
 
   def group_members
-    @group_members ||= user.friends.where(id: group_member_ids).order_by_name
+    @group_members ||= account.friends.where(id: group_member_ids).order_by_name
   end
 
   def rank_tier

@@ -135,8 +135,8 @@ account.save
 ```
 
 Once an account is marked as an admin, a new 'Admin' link will appear when they sign in using
-that account. You must sign in as the admin account, you can't sign in as one of the linked
-accounts tied to the same user.
+that account. You must sign in as the admin account, you can't sign in as one of its linked
+accounts.
 
 ## Thanks
 

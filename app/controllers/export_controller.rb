@@ -5,9 +5,9 @@ class ExportController < ApplicationController
   before_action :set_season, only: :export
 
   def index
-    @accounts = current_user.accounts.order_by_battletag
+    @accounts = current_account.linked_accounts.order_by_battletag
     @seasons = (1..Season.latest_number).to_a.reverse
-    @match_counts = current_user.matches.group(:account_id, :season).count
+    @match_counts = current_account.all_account_matches.group(:account_id, :season).count
   end
 
   def export

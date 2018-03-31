@@ -1,9 +1,9 @@
 class Friend < ApplicationRecord
   MAX_NAME_LENGTH = 30
 
-  belongs_to :user
+  belongs_to :account
 
-  validates :name, presence: true, uniqueness: { scope: :user_id },
+  validates :name, presence: true, uniqueness: { scope: :account_id },
     length: { maximum: MAX_NAME_LENGTH }
 
   scope :order_by_name, ->{ order('LOWER(name) ASC') }
@@ -11,7 +11,7 @@ class Friend < ApplicationRecord
   after_destroy :remove_from_matches
 
   def matches
-    Match.joins(:account).where(accounts: { user_id: user_id }).with_group_member(self)
+    Match.joins(:account).where(account_id: account_id).with_group_member(self)
   end
 
   private

@@ -45,7 +45,7 @@ class ApplicationController < ActionController::Base
   end
 
   def set_account
-    battletag = User.battletag_from_param(params[:battletag])
+    battletag = Account.battletag_from_param(params[:battletag])
     @account = Account.find_by_battletag(battletag)
     if @account
       SetProfileDataJob.perform_later(@account.id) if @account.out_of_date?
@@ -55,15 +55,11 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_account_is_mine
-    unless @account.user == current_user
-      render_404
-    end
+    render_404 unless signed_in? && @account.linked_with?(current_account)
   end
 
   def redirect_unless_account_is_mine
-    unless @account.user == current_user
-      redirect_to profile_path(@account)
-    end
+    redirect_to profile_path(@account) unless signed_in? && @account.linked_with?(current_account)
   end
 
   def allow_admin_bypass?
@@ -71,17 +67,11 @@ class ApplicationController < ActionController::Base
   end
 
   def ensure_season_is_visible
-    return if signed_in? && current_user == @account.user
+    return if signed_in? && @account.linked_with?(current_account)
     return if @account.season_is_public?(@season)
     return if allow_admin_bypass?
     redirect_to profile_path(@account)
   end
-
-  def current_user
-    return unless signed_in?
-    current_account.user
-  end
-  helper_method :current_user
 
   def require_admin
     render_404 unless signed_in? && current_account.admin?

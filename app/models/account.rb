@@ -17,8 +17,6 @@ class Account < ApplicationRecord
 
   URL_REGEX = %r{\Ahttps?://}.freeze
 
-  belongs_to :user, required: false
-
   validates :battletag, presence: true
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
@@ -77,8 +75,41 @@ class Account < ApplicationRecord
 
   alias_attribute :to_s, :battletag
 
+  belongs_to :parent_account, class_name: 'Account'
+
   has_many :matches, dependent: :restrict_with_exception
   has_many :season_shares, dependent: :destroy
+  has_many :linked_accounts, dependent: :nullify, class_name: 'Account',
+    foreign_key: 'parent_account_id'
+
+  def friends
+    Friend.where(account_id: [id] + linked_account_ids)
+  end
+
+  def friend_names(season)
+    season_matches = matches.in_season(season)
+    Match.prefill_group_members(season_matches, account: self)
+    season_matches.flat_map(&:group_members).uniq.
+      sort_by { |friend| friend.name.downcase }.map(&:name)
+  end
+
+  def all_friend_names
+    friends.order_by_name.pluck(:name)
+  end
+
+  def linked_with?(other_account)
+    # Same account:
+    return true if self == other_account
+
+    # Other account is my parent:
+    return true if other_account.persisted? && parent_account_id == other_account.id
+
+    # Other account is my child:
+    return true if persisted? && other_account.parent_account_id == id
+
+    # Siblings under the same parent:
+    parent_account_id && parent_account_id == other_account.parent_account_id
+  end
 
   def self.find_by_param(battletag_param)
     battletag = battletag_param.split('-').join('#')
@@ -216,9 +247,24 @@ class Account < ApplicationRecord
     matches.placements.in_season(season).any?
   end
 
+  def self.battletag_from_param(str)
+    index = str.rindex('-')
+    start = str[0...index]
+    rest = str[index+1...str.size]
+    "#{start}##{rest}"
+  end
+
+  def self.parameterize(battletag)
+    battletag.split('#').join('-')
+  end
+
+  def all_account_matches
+    Match.where(account_id: [id] + linked_account_ids)
+  end
+
   def to_param
     return unless battletag
-    User.parameterize(battletag)
+    self.class.parameterize(battletag)
   end
 
   def platform_name

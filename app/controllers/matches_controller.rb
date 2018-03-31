@@ -14,10 +14,10 @@ class MatchesController < ApplicationController
   before_action :ensure_latest_match_is_old_enough, only: :create
 
   def index
-    @can_edit = signed_in? && @account.user == current_user
+    @can_edit = signed_in? && @account.linked_with?(current_account)
     @matches = @account.matches.in_season(@season_number).
       includes(:prior_match, :map).ordered_by_time
-    Match.prefill_group_members(@matches, user: @account.user)
+    Match.prefill_group_members(@matches, account: @account)
     Match.prefill_heroes(@matches)
     set_streaks(@matches)
     @longest_win_streak = @matches.map(&:win_streak).compact.max
@@ -29,8 +29,8 @@ class MatchesController < ApplicationController
     if @can_edit
       @maps = get_maps
       @heroes_by_role = get_heroes_by_role
-      @friends = current_user.friend_names(@season_number)
-      @all_friends = current_user.all_friend_names
+      @friends = current_account.friend_names(@season_number)
+      @all_friends = current_account.all_friend_names
       placement = !@account.finished_placements?(@season_number)
       @match = @account.matches.new(prior_match: @latest_match, season: @season_number,
                                     placement: placement)
