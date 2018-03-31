@@ -25,18 +25,6 @@ class AccountsController < ApplicationController
     @season_shares_by_season = @account.season_shares.group_by(&:season)
   end
 
-  def set_default
-    current_user.default_account = @account
-
-    if current_user.save
-      flash[:notice] = "Your default account is now #{@account}."
-    else
-      flash[:error] = 'Could not update your default account at this time.'
-    end
-
-    redirect_to accounts_path
-  end
-
   def update
     @account.assign_attributes account_params
 

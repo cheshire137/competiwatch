@@ -77,10 +77,4 @@ module AccountsHelper
       []
     end
   end
-
-  def default_account_account_options
-    accounts.map do |account|
-      [account.battletag, account.to_param]
-    end
-  end
 end

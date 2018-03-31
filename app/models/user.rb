@@ -4,10 +4,7 @@ class User < ApplicationRecord
   has_many :matches, through: :accounts
   has_many :season_shares, through: :accounts
 
-  belongs_to :default_account, class_name: 'Account', required: false
-
   validates :battletag, presence: true, uniqueness: true
-  validate :default_account_is_owned
 
   alias_attribute :to_s, :battletag
 
@@ -106,13 +103,5 @@ class User < ApplicationRecord
 
   def to_param
     self.class.parameterize(battletag)
-  end
-
-  def default_account_is_owned
-    return unless default_account
-
-    unless accounts.include?(default_account)
-      errors.add(:default_account, 'must be one of your accounts')
-    end
   end
 end

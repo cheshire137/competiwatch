@@ -19,10 +19,6 @@
       <dd class="mb-2"><strong>ID:</strong> <%= @account.id %></dd>
       <dd class="mb-2"><strong>Battletag:</strong> <%= @account.battletag %></dd>
       <dd class="mb-2"><strong>User:</strong> <%= @account.user %></dd>
-      <dd class="mb-2">
-        <strong>Default account?</strong>
-        <%= @account.default? ? 'yes' : 'no' %>
-      </dd>
       <dt class="mb-1">Linked accounts</dt>
       <dd class="mb-2">
         <% if @linked_accounts && @linked_accounts.any? %>

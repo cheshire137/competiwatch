@@ -73,7 +73,6 @@ class Account < ApplicationRecord
     where(id: matches.map(&:account_id))
   end
 
-  after_update :remove_default, if: :saved_change_to_user_id?
   after_update :refresh_profile_data, if: :saved_change_to_platform?
 
   alias_attribute :to_s, :battletag
@@ -174,10 +173,6 @@ class Account < ApplicationRecord
     user && user.accounts.count > 1
   end
 
-  def default?
-    user && user.default_account == self
-  end
-
   def active_seasons
     matches.select('DISTINCT season').order(:season).map(&:season)
   end
@@ -219,16 +214,6 @@ class Account < ApplicationRecord
   def to_param
     return unless battletag
     User.parameterize(battletag)
-  end
-
-  def remove_default
-    return unless user_id_before_last_save
-
-    user = User.where(id: user_id_before_last_save).first
-    return unless user && user.default_account == self
-
-    user.default_account = user.accounts.first
-    user.save
   end
 
   def platform_name
