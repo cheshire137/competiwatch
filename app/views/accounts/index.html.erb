@@ -15,7 +15,7 @@
               <%= avatar_for(account) %>
               <%= account %>
             </div>
-            <% if account.can_be_unlinked? %>
+            <% if account.can_be_unlinked? && account != current_account %>
               <%= form_tag account_path(account), method: :delete, class: 'd-inline-block' do %>
                 <button type="submit" class="text-small btn-link" data-confirm="Are you sure you want to unlink <%= account %> from this account? None of its matches will be deleted.">
                   Unlink
@@ -31,11 +31,6 @@
                 Edit
               </button>
             </span>
-            <% if account.default? %>
-              <span>
-                This is your default account
-              </span>
-            <% end %>
           </p>
           <div class="d-none my-2 edit-account-<%= account.id %>">
             <%= form_for(account, url: profile_path(account), method: :put, html: { class: 'border rounded-2 px-3 pb-3' }) do |f| %>
@@ -53,6 +48,11 @@
         </li>
       <% end %>
     </ul>
+    <% if @accounts.size > 1 %>
+      <div class="note mt-4">
+        You can unlink an account to require logging in separately.
+      </div>
+    <% end %>
   </div>
 
   <div class="col-md-6">
@@ -62,21 +62,8 @@
       if you are already signed in as one of the linked accounts on the left.
       Then:
     </p>
-    <a href="<%= user_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large mb-2">
+    <a href="<%= account_bnet_omniauth_authorize_path %>" class="btn-outline btn btn-large mb-2">
       Connect your Battle.net account
     </a>
-
-    <% if @accounts.size > 1 %>
-      <h2 class="mt-4 pt-4 border-top mb-2 text-normal h3">Change default account</h2>
-      <%= form_tag set_default_account_path, method: :put do %>
-        <div class="form-group">
-          <label for="battletag">Choose an account:</label>
-          <%= select_tag :battletag, options_for_select(default_account_account_options, current_user.default_account.try(:to_param)), class: 'form-select', required: true %>
-        </div>
-        <button type="submit" class="btn">
-          Set default account
-        </button>
-      <% end %>
-    <% end %>
   </div>
 </div>

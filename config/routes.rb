@@ -1,11 +1,10 @@
 Rails.application.routes.draw do
-  devise_for :users, controllers: {
-    omniauth_callbacks: 'users/omniauth_callbacks',
-    sessions: 'users/sessions'
+  devise_for :accounts, controllers: {
+    omniauth_callbacks: 'omniauth_callbacks', sessions: 'sessions'
   }
 
   devise_scope :user do
-    delete 'sign_out', to: 'users/sessions#destroy', as: :sign_out
+    delete 'sign_out', to: 'sessions#destroy', as: :sign_out
   end
 
   get '/trends/all-seasons-accounts' => 'trends#all_seasons_accounts', as: :all_seasons_accounts
@@ -34,7 +33,6 @@ Rails.application.routes.draw do
 
   get '/accounts' => 'accounts#index', as: :accounts
   delete '/accounts/:battletag' => 'accounts#destroy', as: :account
-  put '/accounts/set-default' => 'accounts#set_default', as: :set_default_account
   get '/profile/:battletag' => 'accounts#show', as: :profile
   put '/profile/:battletag' => 'accounts#update'
 

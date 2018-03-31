@@ -77,17 +77,11 @@ class ApplicationController < ActionController::Base
     redirect_to profile_path(@account)
   end
 
-  def current_account
+  def current_user
     return unless signed_in?
-    return @current_account if defined?(@current_account)
-
-    @current_account = if session[:current_account_id]
-      Account.find(session[:current_account_id])
-    else
-      current_user.default_account || current_user.accounts.last
-    end
+    current_account.user
   end
-  helper_method :current_account
+  helper_method :current_user
 
   def require_admin
     render_404 unless signed_in? && current_account.admin?

@@ -1,5 +1,5 @@
 class CommunityController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_account!
 
   def index
     @top_rank = Account.top_rank

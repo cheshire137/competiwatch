@@ -41,7 +41,7 @@ and `BNET_APP_SECRET`.
 You will also need to use a service like [ngrok](https://ngrok.com/) to have a public URL
 that will hit your local server. Start ngrok via `ngrok http 3000`;
 look at the https URL it spits out. In your Battle.net app, set
-`https://your-ngrok-id-here.ngrok.io/users/auth/bnet/callback` as
+`https://your-ngrok-id-here.ngrok.io/accounts/auth/bnet/callback` as
 the "Register Callback URL" value. Set `https://your-ngrok-id-here.ngrok.io`
 as "Web Site". Update .env so that `BNET_APP_HOST` is set to your `your-ngrok-id-here.ngrok.io`.
 
@@ -59,7 +59,7 @@ Models in Competiwatch:
 Create an [app on Heroku](https://dashboard.heroku.com/new-app).
 
 Create a [Battle.net app](https://dev.battle.net) and set its "Register Callback URL" to
-`https://your-heroku-app.herokuapp.com/users/auth/bnet/callback`. Set
+`https://your-heroku-app.herokuapp.com/accounts/auth/bnet/callback`. Set
 `https://your-heroku-app.herokuapp.com` as the "Web Site".
 
 ```bash

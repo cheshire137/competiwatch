@@ -1,5 +1,5 @@
 class SeasonSharesController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_account!
   before_action :set_account, except: :index
   before_action :ensure_account_is_mine, except: :index
   before_action :set_season, except: :index

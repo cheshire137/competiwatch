@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180324162903) do
+ActiveRecord::Schema.define(version: 20180331221210) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
     t.string "provider", limit: 30, null: false
     t.string "uid", limit: 100, null: false
     t.datetime "created_at", null: false
@@ -29,6 +28,7 @@ ActiveRecord::Schema.define(version: 20180324162903) do
     t.integer "rank"
     t.integer "level"
     t.text "level_url"
+    t.integer "user_id"
     t.index ["battletag", "provider", "uid"], name: "index_accounts_on_battletag_and_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
@@ -111,9 +111,7 @@ ActiveRecord::Schema.define(version: 20180324162903) do
     t.string "battletag", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "default_account_id"
     t.index ["battletag"], name: "index_users_on_battletag", unique: true
-    t.index ["default_account_id"], name: "index_users_on_default_account_id"
   end
 
 end

@@ -1,5 +1,5 @@
 class TrendsController < ApplicationController
-  before_action :authenticate_user!, only: [:all_seasons, :all_accounts, :all_seasons_accounts]
+  before_action :authenticate_account!, only: [:all_seasons, :all_accounts, :all_seasons_accounts]
   before_action :set_account, only: [:index, :all_seasons]
   before_action :redirect_unless_account_is_mine, only: :all_seasons
   before_action :set_season, only: [:index, :all_accounts]

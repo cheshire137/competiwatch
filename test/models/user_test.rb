@@ -81,14 +81,6 @@ class UserTest < ActiveSupport::TestCase
     assert_equal 'SomeUser-1234', user.to_param
   end
 
-  test 'requires user to own their default OAuth account' do
-    user = create(:user)
-    user.default_account = create(:account)
-
-    refute_predicate user, :valid?
-    assert_includes user.errors.messages[:default_account], 'must be one of your accounts'
-  end
-
   test 'merge_with handles duplicate friends' do
     primary_user = create(:user)
     primary_account = create(:account, user: primary_user)

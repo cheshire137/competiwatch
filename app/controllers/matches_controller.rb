@@ -5,7 +5,7 @@ class MatchesController < ApplicationController
     :account_id
   ].freeze
 
-  before_action :authenticate_user!, except: :index
+  before_action :authenticate_account!, except: :index
   before_action :set_account, only: [:index, :create]
   before_action :ensure_account_is_mine, only: :create
   before_action :set_season, only: [:index, :create]

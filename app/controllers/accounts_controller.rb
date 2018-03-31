@@ -1,10 +1,14 @@
 class AccountsController < ApplicationController
-  before_action :authenticate_user!, except: [:avatar, :show]
+  before_action :authenticate_account!, except: [:avatar, :show]
   before_action :set_account, only: [:destroy, :set_default, :show, :update, :avatar]
   before_action :ensure_account_is_mine, only: [:destroy, :set_default, :update]
 
   def index
-    @accounts = current_user.accounts.includes(:user).order_by_battletag
+    @accounts = if current_user
+      current_user.accounts.includes(:user).order_by_battletag
+    else
+      [current_account]
+    end
   end
 
   def show
@@ -19,18 +23,6 @@ class AccountsController < ApplicationController
     end
 
     @season_shares_by_season = @account.season_shares.group_by(&:season)
-  end
-
-  def set_default
-    current_user.default_account = @account
-
-    if current_user.save
-      flash[:notice] = "Your default account is now #{@account}."
-    else
-      flash[:error] = 'Could not update your default account at this time.'
-    end
-
-    redirect_to accounts_path
   end
 
   def update

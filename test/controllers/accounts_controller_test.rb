@@ -94,41 +94,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_select "a[href='/trends/2/#{account1.to_param}']", false
   end
 
-  test 'anonymous user cannot set default account' do
-    put '/accounts/set-default'
-
-    assert_response :redirect
-    assert_redirected_to 'http://www.example.com/'
-  end
-
-  test 'authenticated user with multiple accounts can change their default account' do
-    user = create(:user)
-    account1 = create(:account, user: user)
-    account2 = create(:account, user: user)
-
-    sign_in_as(account1)
-    put '/accounts/set-default', params: { battletag: account2.to_param }
-
-    assert_equal account2, user.reload.default_account
-    assert_redirected_to accounts_path
-    assert_nil flash[:error]
-    assert_equal "Your default account is now #{account2}.", flash[:notice]
-  end
-
-  test 'cannot set your default account to an account not your own' do
-    user = create(:user)
-    account1 = create(:account, user: user)
-    account2 = create(:account)
-    user.default_account = account1
-    user.save!
-
-    sign_in_as(account1)
-    put '/accounts/set-default', params: { battletag: account2.to_param }
-
-    assert_response :not_found
-    assert_equal account1, user.reload.default_account
-  end
-
   test 'index loads for authenticated user' do
     user = create(:user)
     account1 = create(:account, user: user)
@@ -154,6 +119,5 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_redirected_to accounts_path
-    assert_equal account2, user.reload.default_account
   end
 end

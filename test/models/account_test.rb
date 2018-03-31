@@ -238,20 +238,6 @@ class AccountTest < ActiveSupport::TestCase
     refute account.season_is_public?(3)
   end
 
-  test 'removes itself as default_account from user if user is unlinked' do
-    user = create(:user)
-    account1 = create(:account, user: user)
-    account2 = create(:account, user: user)
-    user.default_account = account1
-    user.save!
-
-    account1.user = nil
-    account1.save!
-
-    assert_equal account2, user.reload.default_account,
-      'user default OAuth account should be updated'
-  end
-
   test "can_be_unlinked? returns true when it is not the user's only account" do
     user = create(:user)
     account1 = create(:account, user: user)
@@ -266,19 +252,6 @@ class AccountTest < ActiveSupport::TestCase
     account = create(:account, user: user)
 
     refute_predicate account, :can_be_unlinked?
-  end
-
-  test "default? returns true when it is the user's default OAuth account" do
-    account = create(:account)
-    account.user.default_account = account
-
-    assert_predicate account, :default?
-  end
-
-  test "default? returns false when it is not the user's default OAuth account" do
-    account = create(:account)
-
-    refute_predicate account, :default?
   end
 
   test 'requires battletag' do

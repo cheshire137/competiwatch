@@ -1,5 +1,5 @@
 class ExportController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_account!
   before_action :set_account, only: :export
   before_action :ensure_account_is_mine, only: :export
   before_action :set_season, only: :export

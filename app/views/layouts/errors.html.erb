@@ -22,7 +22,7 @@
             <% end %>
           </h1>
           <% if !signed_in? && !is_page?('login', 'index') %>
-            <a class="main-nav-link" href="<%= user_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
+            <a class="main-nav-link" href="<%= account_bnet_omniauth_authorize_path %>">Log in with Battle.net</a>
           <% end %>
         </div>
       </div>

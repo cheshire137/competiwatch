@@ -1,5 +1,5 @@
 class SeasonsController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_account!
   before_action :set_account, except: [:index, :choose_season_to_wipe]
   before_action :set_account_if_battletag, only: :index
   before_action :ensure_account_is_mine, except: :choose_season_to_wipe

@@ -1,5 +1,5 @@
 class ImportController < ApplicationController
-  before_action :authenticate_user!
+  before_action :authenticate_account!
   before_action :set_account
   before_action :ensure_account_is_mine
   before_action :set_season
