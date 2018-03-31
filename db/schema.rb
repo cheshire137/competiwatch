@@ -16,7 +16,6 @@ ActiveRecord::Schema.define(version: 20180331221210) do
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
     t.string "provider", limit: 30, null: false
     t.string "uid", limit: 100, null: false
     t.datetime "created_at", null: false
