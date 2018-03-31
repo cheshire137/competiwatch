@@ -97,6 +97,21 @@ class Match < ApplicationRecord
     match_counts
   end
 
+  def self.rank_tier_win_percentages(season:, match_counts:)
+    matches = in_season(season).with_rank.with_result.select('rank, result')
+    win_counts = Hash.new(0)
+    matches.each do |match|
+      win_counts[match.rank_tier] += 1 if match.win?
+    end
+    percentages_by_rank_tier = Hash.new(0)
+    match_counts.each do |rank_tier, match_count|
+      next unless match_count && match_count > 0
+      percentages_by_rank_tier[rank_tier] =
+        ((win_counts[rank_tier].to_f / match_count) * 100).round
+    end
+    percentages_by_rank_tier
+  end
+
   # Public: Returns a hash of Integer => Integer for matches that have at least one hero
   # logged. Keys are hero IDs, values are match counts in the specified season.
   def self.match_counts_by_hero_id(season:)
