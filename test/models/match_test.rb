@@ -79,6 +79,18 @@ class MatchTest < ActiveSupport::TestCase
     assert_equal 80, Match.thrower_leaver_percent
   end
 
+  test 'with_heroes returns matches that have a hero' do
+    match1 = create(:match, hero_ids: [])
+    match2 = create(:match, hero_ids: [heroes(:ana).id, heroes(:mercy).id])
+    match3 = create(:match, hero_ids: [heroes(:reinhardt).id])
+
+    result = Match.with_heroes
+
+    refute_includes result, match1
+    assert_includes result, match2
+    assert_includes result, match3
+  end
+
   test 'with_thrower_or_leaver returns matches that had a thrower or leaver' do
     match1 = create(:match)
     match2 = create(:match, ally_thrower: true)

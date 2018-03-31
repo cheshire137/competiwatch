@@ -73,6 +73,7 @@ class Match < ApplicationRecord
     end
     where('group_member_ids @> ARRAY[?]::integer[]', friend_ids)
   }
+  scope :with_heroes, -> { where("hero_ids <> '{}'") }
   scope :with_group_member, ->(friend_or_id) { with_group_members([friend_or_id]) }
   scope :with_thrower_or_leaver, -> do
     where('enemy_thrower = ? OR ally_thrower = ? OR enemy_leaver = ? OR ally_leaver = ?',
