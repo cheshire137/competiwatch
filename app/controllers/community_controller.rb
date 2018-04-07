@@ -1,6 +1,12 @@
 class CommunityController < ApplicationController
   before_action :authenticate_user!
 
+  def top_profile_icons
+    @top_avatar_urls = Account.with_avatar.group(:avatar_url).
+      order('count_all DESC').limit(5).count
+    render layout: false
+  end
+
   def group_size
     @season_number = Season.current_or_last_number
     @match_counts_by_group_size = Match.match_counts_by_group_size(season: @season_number)

@@ -57,6 +57,7 @@ Rails.application.routes.draw do
   get '/community' => 'community#index', as: :community
   get '/community/most-winning-heroes' => 'community#most_winning_heroes', as: :community_most_winning_heroes
   get '/community/group-size' => 'community#group_size', as: :community_group_size
+  get '/community/top-profile-icons' => 'community#top_profile_icons', as: :community_top_profile_icons
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about

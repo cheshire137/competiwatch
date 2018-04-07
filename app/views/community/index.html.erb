@@ -28,6 +28,7 @@
                            highest_draw_map: @highest_draw_map } %>
       <%= render partial: 'community/ranks',
                  locals: { top_rank: @top_rank, average_rank: @average_rank } %>
+      <%= remote_load_with_spinner(community_top_profile_icons_path) %>
     </div>
   </div>
 </div>
