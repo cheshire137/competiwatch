@@ -37,6 +37,7 @@ class Match < ApplicationRecord
   validate :friend_user_matches_account
   validate :group_size_within_limit
   validate :hero_ids_exist
+  validate :heroes_available_in_season
 
   has_one :user, through: :account
 
@@ -128,11 +129,15 @@ class Match < ApplicationRecord
         end
       end
     end
-    heroes_by_id = Hero.order_by_name.select('id, name').map { |hero| [hero.id, hero] }.to_h
+    heroes_by_id = Hero.available_in_season(season).order_by_name.select('id, name').
+      map { |hero| [hero.id, hero] }.to_h
     percentages_by_hero = Hash.new(0)
     match_counts.each do |hero_id, match_count|
       next unless match_count && match_count > 0
+
       hero = heroes_by_id[hero_id]
+      next unless hero
+
       percentages_by_hero[hero] =
         ((win_counts[hero_id].to_f / match_count) * 100).round
     end
@@ -648,6 +653,18 @@ class Match < ApplicationRecord
     invalid_hero_ids = hero_ids - valid_hero_ids
     if invalid_hero_ids.any?
       errors.add(:hero_ids, "contains invalid values: #{invalid_hero_ids.map(&:to_s).join(', ')}")
+    end
+  end
+
+  def heroes_available_in_season
+    return if hero_ids.empty? || season.nil?
+    valid_hero_ids = Hero.available_in_season(season).pluck(:id)
+    invalid_hero_ids = hero_ids - valid_hero_ids
+    if invalid_hero_ids.any?
+      invalid_hero_names = Hero.where(id: invalid_hero_ids).order_by_name.pluck(:name)
+      verb = invalid_hero_names.size == 1 ? 'is' : 'are'
+      message = "#{invalid_hero_names.join(', ')} #{verb} not available in season #{season}."
+      errors.add(:base, message)
     end
   end
 

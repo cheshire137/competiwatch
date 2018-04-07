@@ -5,8 +5,10 @@ class Hero < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: ROLES }
+  validates :first_season, numericality: { greater_than: 0, only_integer: true }
 
   scope :order_by_name, ->{ order(:name) }
+  scope :available_in_season, ->(season) { where('first_season <= ?', season) }
 
   alias_attribute :to_s, :name
 
@@ -40,12 +42,14 @@ class Hero < ApplicationRecord
   end
 
   def self.most_played(limit: 5, season: nil)
-    scope = if season
+    match_scope = if season
       Match.in_season(season)
     end
-    matches_played_by_hero_id = Match.count_by_hero_id(scope: scope)
+    matches_played_by_hero_id = Match.count_by_hero_id(scope: match_scope)
     hero_ids = matches_played_by_hero_id.keys.take(limit)
-    heroes = Hero.where(id: hero_ids).map { |hero| [hero.id, hero] }.to_h
+    heroes = Hero.where(id: hero_ids)
+    heroes = heroes.available_in_season(season) if season
+    heroes = heroes.map { |hero| [hero.id, hero] }.to_h
     hero_ids.map do |hero_id|
       hero = heroes[hero_id]
       [hero, matches_played_by_hero_id[hero_id]]
@@ -80,5 +84,9 @@ class Hero < ApplicationRecord
 
   def slug
     @slug ||= self.class.slug_for(name)
+  end
+
+  def available_in_season?(season)
+    season >= first_season
   end
 end

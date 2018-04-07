@@ -1,11 +1,14 @@
 <% heroes.each_with_index do |hero, i| %>
-  <% checked = selected_heroes.include?(hero.id) || match.hero_ids.include?(hero.id) %>
-  <div class="form-checkbox mb-0 <%= i > 0 ? 'mt-1' : 'mt-0' %>">
-    <label for="hero-<%= hero.slug %>" class="d-flex flex-items-center">
-      <input <% if checked %>checked<% end %> name="heroes[]" value="<%= hero.id %>" id="hero-<%= hero.slug %>" type="checkbox">
+  <%
+    checked = selected_heroes.include?(hero.id) || match.hero_ids.include?(hero.id)
+    is_available = checked || hero.available_in_season?(match.season)
+  %>
+  <div class="form-checkbox mb-0 <%= 'tooltipped tooltipped-n' unless is_available %> <%= i > 0 ? 'mt-1' : 'mt-0' %>"<% unless is_available %> aria-label="Not available in this season"<% end %>>
+    <label for="hero-<%= hero.slug %>" class="d-flex flex-items-center <%= 'disabled' unless is_available %>">
+      <input <% if checked %>checked<% end %> <% unless is_available %>disabled<% end %> name="heroes[]" value="<%= hero.id %>" id="hero-<%= hero.slug %>" type="checkbox">
       <%= image_tag("heroes/#{hero.slug}.png", alt: hero.name, class: 'd-inline-block rounded-2 hero-portrait flex-shrink-0 mx-2', width: 20, height: 20) %>
       <div class="no-wrap">
-        <span class="text-<%= hero.slug %>"><%= hero.name %></span>
+        <span class="text-<%= hero.slug %> <%= 'disabled-hero' unless is_available %>"><%= hero.name %></span>
       </div>
     </label>
   </div>

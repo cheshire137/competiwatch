@@ -4,6 +4,42 @@ require 'test_helper'
 class HeroTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'available_in_season? returns true when hero is available for play in given season' do
+    assert heroes(:sombra).available_in_season?(2)
+    assert heroes(:orisa).available_in_season?(5)
+  end
+
+  test 'available_in_season? returns false when hero is not available for play in given season' do
+    refute heroes(:sombra).available_in_season?(1)
+    refute heroes(:orisa).available_in_season?(3)
+  end
+
+  test 'available_in_season returns heroes available in the given season' do
+    result = Hero.available_in_season(1)
+
+    assert_includes result, heroes(:mercy)
+    assert_includes result, heroes(:ana)
+    refute_includes result, heroes(:sombra)
+    refute_includes result, heroes(:doomfist)
+    refute_includes result, heroes(:orisa)
+    refute_includes result, heroes(:moira)
+    refute_includes result, heroes(:brigitte)
+  end
+
+  test 'requires positive first_season' do
+    hero = Hero.new(first_season: -1)
+
+    refute_predicate hero, :valid?
+    assert_includes hero.errors.messages[:first_season], 'must be greater than 0'
+  end
+
+  test 'requires integer first_season' do
+    hero = Hero.new(first_season: 3.3)
+
+    refute_predicate hero, :valid?
+    assert_includes hero.errors.messages[:first_season], 'must be an integer'
+  end
+
   test 'most_played looks at only specified season if given' do
     account = create(:account)
     other_account = create(:account)

@@ -5,11 +5,7 @@
     <div class="mr-4">
       <%= render partial: 'community/top_heroes',
                  locals: { top_heroes: @top_heroes, season_number: @season_number } %>
-      <%= render partial: 'community/heroes',
-                 locals: { hero_win_percentages: @hero_win_percentages,
-                           max_hero_win_percentage: @max_hero_win_percentage,
-                           match_counts_by_hero_id: @match_counts_by_hero_id,
-                           season_number: @season_number } %>
+      <%= remote_load_with_spinner(community_most_winning_heroes_path) %>
     </div>
   </div>
   <div class="col-md-6 float-left">
@@ -32,27 +28,22 @@
                            highest_draw_map: @highest_draw_map } %>
       <%= render partial: 'community/ranks',
                  locals: { top_rank: @top_rank, average_rank: @average_rank } %>
+      <%= remote_load_with_spinner(community_top_profile_icons_path) %>
     </div>
   </div>
 </div>
 
-<% if @group_size_win_percentages.any? || @season_shares.size > 2 || @thrower_leaver_win_percentages.any? %>
+<% if @season_shares.size > 2 || @thrower_leaver_win_percentages.any? %>
   <hr class="mb-4">
 
   <div class="clearfix">
-    <% if @group_size_win_percentages.any? %>
-      <div class="float-left col-md-6">
-        <%= render partial: 'community/group_size',
-                   locals: { season_number: @season_number,
-                             match_counts_by_group_size: @match_counts_by_group_size,
-                             group_size_win_percentages: @group_size_win_percentages,
-                             max_group_size_win_percentage: @max_group_size_win_percentage } %>
-        <%= render partial: 'community/throwers_leavers',
-                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
-                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
-                             season_number: @season_number } %>
-      </div>
-    <% end %>
+    <div class="float-left col-md-6">
+      <%= remote_load_with_spinner(community_group_size_path) %>
+      <%= render partial: 'community/throwers_leavers',
+                 locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
+                           max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
+                           season_number: @season_number } %>
+    </div>
 
     <div class="float-left col-md-6">
       <div class="ml-4">

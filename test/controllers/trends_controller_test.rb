@@ -9,7 +9,7 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     @future_season = create(:season, started_on: 2.months.from_now)
     @user = create(:user)
     @account = create(:account, user: @user)
-    @hero1 = heroes(:brigitte)
+    @hero1 = heroes(:ana)
     @hero2 = heroes(:genji)
     @friend = create(:friend, user: @user)
     @match1 = create(:match, account: @account, season: @season.number,
