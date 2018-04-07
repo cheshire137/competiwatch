@@ -374,6 +374,18 @@ body.theme-dark {
     color: lighten($brigitte, 20%);
   }
 
+  .disabled .text-brigitte {
+    color: lighten($brigitte, 15%);
+  }
+
+  .disabled .text-doomfist {
+    color: $doomfist;
+  }
+
+  .disabled .text-orisa {
+    color: $orisa;
+  }
+
   .text-hanzo {
     color: lighten($hanzo, 20%);
   }
@@ -390,6 +402,10 @@ body.theme-dark {
     color: lighten($moira, 20%);
   }
 
+  .disabled .text-moira {
+    color: lighten($moira, 15%);
+  }
+
   .text-reaper {
     color: lighten($reaper, 70%);
   }
@@ -404,6 +420,10 @@ body.theme-dark {
 
   .text-sombra {
     color: lighten($sombra, 20%);
+  }
+
+  .disabled .text-sombra {
+    color: lighten($sombra, 15%);
   }
 
   .text-winston {

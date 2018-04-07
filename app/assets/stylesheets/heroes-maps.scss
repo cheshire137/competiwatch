@@ -1,5 +1,9 @@
 @import "colors.scss";
 
+.disabled-hero {
+  text-decoration: line-through;
+}
+
 .text-ana {
   color: $ana;
 }
@@ -12,8 +16,16 @@
   color: $brigitte;
 }
 
+.disabled .text-brigitte {
+  color: lighten($brigitte, 15%);
+}
+
 .text-doomfist {
   color: $doomfist;
+}
+
+.disabled .text-doomfist {
+  color: lighten($doomfist, 15%);
 }
 
 .text-dva {
@@ -52,8 +64,16 @@
   color: $moira;
 }
 
+.disabled .text-moira {
+  color: lighten($moira, 15%);
+}
+
 .text-orisa {
   color: $orisa;
+}
+
+.disabled .text-orisa {
+  color: lighten($orisa, 15%);
 }
 
 .text-pharah {
@@ -78,6 +98,10 @@
 
 .text-sombra {
   color: $sombra;
+}
+
+.disabled .text-sombra {
+  color: lighten($sombra, 15%);
 }
 
 .text-symmetra {
