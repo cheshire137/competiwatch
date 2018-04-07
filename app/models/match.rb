@@ -129,11 +129,15 @@ class Match < ApplicationRecord
         end
       end
     end
-    heroes_by_id = Hero.order_by_name.select('id, name').map { |hero| [hero.id, hero] }.to_h
+    heroes_by_id = Hero.available_in_season(season).order_by_name.select('id, name').
+      map { |hero| [hero.id, hero] }.to_h
     percentages_by_hero = Hash.new(0)
     match_counts.each do |hero_id, match_count|
       next unless match_count && match_count > 0
+
       hero = heroes_by_id[hero_id]
+      next unless hero
+
       percentages_by_hero[hero] =
         ((win_counts[hero_id].to_f / match_count) * 100).round
     end
