@@ -5,11 +5,9 @@
     <div class="mr-4">
       <%= render partial: 'community/top_heroes',
                  locals: { top_heroes: @top_heroes, season_number: @season_number } %>
-      <%= render partial: 'community/heroes',
-                 locals: { hero_win_percentages: @hero_win_percentages,
-                           max_hero_win_percentage: @max_hero_win_percentage,
-                           match_counts_by_hero_id: @match_counts_by_hero_id,
-                           season_number: @season_number } %>
+      <div class="js-remote-load" data-url="<%= community_most_winning_heroes_path %>">
+        <div class="text-center"><span class="ion spin ion-load-c h1"></span></div>
+      </div>
     </div>
   </div>
   <div class="col-md-6 float-left">

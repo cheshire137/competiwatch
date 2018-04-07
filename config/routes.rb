@@ -55,6 +55,7 @@ Rails.application.routes.draw do
   delete '/admin/season' => 'admin/seasons#destroy', as: :admin_destroy_season
 
   get '/community' => 'community#index', as: :community
+  get '/community/most-winning-heroes' => 'community#most_winning_heroes', as: :community_most_winning_heroes
 
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about

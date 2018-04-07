@@ -1,6 +1,19 @@
 class CommunityController < ApplicationController
   before_action :authenticate_user!
 
+  def most_winning_heroes
+    @season_number = Season.current_or_last_number
+    @match_counts_by_hero_id = Match.match_counts_by_hero_id(season: @season_number)
+    @hero_win_percentages = Match.hero_win_percentages(season: @season_number,
+                                                       match_counts: @match_counts_by_hero_id)
+    @max_hero_win_percentage = @hero_win_percentages.values.max
+    visible_count = 5
+    heroes = @hero_win_percentages.keys
+    @visible_heroes = heroes.take(visible_count)
+    @hidden_heroes = heroes.drop(visible_count)
+    render layout: false
+  end
+
   def index
     @top_rank = Account.top_rank
     @average_rank = Account.average_rank
@@ -20,11 +33,6 @@ class CommunityController < ApplicationController
         group_size_win_percentages(season: @season_number,
                                    match_counts: @match_counts_by_group_size)
     @max_group_size_win_percentage = @group_size_win_percentages.values.max
-
-    @match_counts_by_hero_id = Match.match_counts_by_hero_id(season: @season_number)
-    @hero_win_percentages = Match.hero_win_percentages(season: @season_number,
-                                                       match_counts: @match_counts_by_hero_id)
-    @max_hero_win_percentage = @hero_win_percentages.values.max
 
     @rank_tier_win_percentages = Match.rank_tier_win_percentages(season: @season_number)
     @max_rank_tier_win_percentage = @rank_tier_win_percentages.values.max
