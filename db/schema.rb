@@ -10,12 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407152026) do
+ActiveRecord::Schema.define(version: 20180407182421) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
+    t.integer "user_id"
     t.string "provider", limit: 30, null: false
     t.string "uid", limit: 100, null: false
     t.datetime "created_at", null: false
@@ -28,7 +29,6 @@ ActiveRecord::Schema.define(version: 20180407152026) do
     t.integer "rank"
     t.integer "level"
     t.text "level_url"
-    t.integer "user_id"
     t.index ["battletag", "provider", "uid"], name: "index_accounts_on_battletag_and_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
@@ -79,6 +79,7 @@ ActiveRecord::Schema.define(version: 20180407152026) do
     t.boolean "ally_leaver"
     t.integer "group_member_ids", default: [], null: false, array: true
     t.integer "hero_ids", default: [], null: false, array: true
+    t.boolean "potg"
     t.index ["account_id"], name: "index_matches_on_account_id"
     t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
     t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"
@@ -88,6 +89,7 @@ ActiveRecord::Schema.define(version: 20180407152026) do
     t.index ["enemy_thrower"], name: "index_matches_on_enemy_thrower"
     t.index ["map_id"], name: "index_matches_on_map_id"
     t.index ["placement"], name: "index_matches_on_placement"
+    t.index ["potg"], name: "index_matches_on_potg"
     t.index ["result"], name: "index_matches_on_result"
     t.index ["season"], name: "index_matches_on_season"
     t.index ["time_of_day"], name: "index_matches_on_time_of_day"

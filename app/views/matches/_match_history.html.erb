@@ -5,6 +5,7 @@
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
   show_comment_column = matches.any? { |match| match.comment.present? }
   show_thrower_leaver_column = matches.any? { |match| match.thrower? || match.leaver? }
+  show_potg_column = matches.any? { |match| match.potg_earned? }
 %>
 
 <% if matches.any? %>
@@ -31,6 +32,9 @@
         <% end %>
         <% if show_thrower_leaver_column %>
           <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Throwers and leavers">😢</th>
+        <% end %>
+        <% if show_potg_column %>
+          <th class="match-header hide-sm tooltipped tooltipped-n" aria-label="Play of the Game">🏆</th>
         <% end %>
         <% if can_edit %>
           <th class="match-header"><span class="ion-gear-b ion"></span></th>
@@ -107,6 +111,13 @@
               <% end %>
               <% if match.leaver? %>
                 <span class="Counter tooltipped tooltipped-n text-white bg-red" aria-label="<%= leaver_tooltip(match) %>">L</span>
+              <% end %>
+            </td>
+          <% end %>
+          <% if show_potg_column %>
+            <td class="match-cell hide-sm potg-cell">
+              <% if match.potg_earned? %>
+                <span class="tooltipped tooltipped-n" aria-label="Play of the Game">P</span>
               <% end %>
             </td>
           <% end %>

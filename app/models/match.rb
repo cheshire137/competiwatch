@@ -80,6 +80,7 @@ class Match < ApplicationRecord
     where('enemy_thrower = ? OR ally_thrower = ? OR enemy_leaver = ? OR ally_leaver = ?',
           true, true, true, true)
   end
+  scope :with_potg, ->{ where(potg: true) }
 
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
@@ -420,12 +421,20 @@ class Match < ApplicationRecord
     char_for_boolean(enemy_leaver)
   end
 
+  def potg_char
+    char_for_boolean(potg)
+  end
+
   def thrower?
     enemy_thrower? || ally_thrower?
   end
 
   def leaver?
     enemy_leaver? || ally_leaver?
+  end
+
+  def potg_earned?
+    potg?
   end
 
   def self.emoji_for_day_of_week(day_of_week)
