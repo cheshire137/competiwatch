@@ -28,7 +28,7 @@ class MatchExporterTest < ActiveSupport::TestCase
                      day_of_week: :weekday, heroes: [@hero1, @hero2])
     @match4 = create(:match, season: @season, account: @account, rank: 1295,
                      map: @map1, prior_match: @match3, comment: 'this is so cool',
-                     group_member_ids: [@friend1.id, @friend2.id])
+                     group_member_ids: [@friend1.id, @friend2.id], potg: true)
   end
 
   test 'generates CSV of season matches' do
@@ -44,7 +44,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal %q(1234,,,,,"",,,,,"",,,), lines[1]
     assert_equal %Q(1254,#{@map1.name},,,evening,#{@hero3.name},,Y,,,"",,win,), lines[2]
     assert_equal %Q(1273,#{@map2.name},,weekday,morning,"#{@hero1.name}, #{@hero2.name}",,,Y,,"",,win,), lines[3]
-    assert_equal %Q(1295,#{@map1.name},this is so cool,,,"",,,,,"Rob, Siege",,win,), lines[4]
+    assert_equal %Q(1295,#{@map1.name},this is so cool,,,"",,,,,"Rob, Siege",,win,Y), lines[4]
   end
 
   test 'generated CSV can be imported' do
@@ -84,6 +84,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal 'this is so cool', match4.comment
     assert_empty match4.heroes
     assert_equal [@friend2, @friend1].map(&:name), match4.group_member_names
+    assert_predicate match4, :potg_earned?
 
     File.delete(path)
   end
