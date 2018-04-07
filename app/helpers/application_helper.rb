@@ -1,4 +1,12 @@
 module ApplicationHelper
+  def remote_load_with_spinner(url)
+    content_tag(:div, class: 'js-remote-load', data: { url: url }) do
+      content_tag(:div, class: 'text-center') do
+        content_tag(:span, nil, class: 'ion spin ion-load-c h1')
+      end
+    end
+  end
+
   def donate_url
     ENV['DONATE_URL']
   end

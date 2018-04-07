@@ -5,9 +5,7 @@
     <div class="mr-4">
       <%= render partial: 'community/top_heroes',
                  locals: { top_heroes: @top_heroes, season_number: @season_number } %>
-      <div class="js-remote-load" data-url="<%= community_most_winning_heroes_path %>">
-        <div class="text-center"><span class="ion spin ion-load-c h1"></span></div>
-      </div>
+      <%= remote_load_with_spinner(community_most_winning_heroes_path) %>
     </div>
   </div>
   <div class="col-md-6 float-left">
@@ -34,23 +32,17 @@
   </div>
 </div>
 
-<% if @group_size_win_percentages.any? || @season_shares.size > 2 || @thrower_leaver_win_percentages.any? %>
+<% if @season_shares.size > 2 || @thrower_leaver_win_percentages.any? %>
   <hr class="mb-4">
 
   <div class="clearfix">
-    <% if @group_size_win_percentages.any? %>
-      <div class="float-left col-md-6">
-        <%= render partial: 'community/group_size',
-                   locals: { season_number: @season_number,
-                             match_counts_by_group_size: @match_counts_by_group_size,
-                             group_size_win_percentages: @group_size_win_percentages,
-                             max_group_size_win_percentage: @max_group_size_win_percentage } %>
-        <%= render partial: 'community/throwers_leavers',
-                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
-                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
-                             season_number: @season_number } %>
-      </div>
-    <% end %>
+    <div class="float-left col-md-6">
+      <%= remote_load_with_spinner(community_group_size_path) %>
+      <%= render partial: 'community/throwers_leavers',
+                 locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
+                           max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
+                           season_number: @season_number } %>
+    </div>
 
     <div class="float-left col-md-6">
       <div class="ml-4">
