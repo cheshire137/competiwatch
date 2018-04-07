@@ -85,4 +85,8 @@ class Hero < ApplicationRecord
   def slug
     @slug ||= self.class.slug_for(name)
   end
+
+  def available_in_season?(season)
+    season >= first_season
+  end
 end
