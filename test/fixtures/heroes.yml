@@ -1,81 +1,108 @@
 mercy:
   name: Mercy
   role: healer
+  first_season: 1
 zenyatta:
   name: Zenyatta
   role: healer
+  first_season: 1
 ana:
   name: Ana
   role: healer
+  first_season: 1
 lucio:
   name: Lúcio
   role: healer
+  first_season: 1
 moira:
   name: Moira
   role: healer
+  first_season: 7
 brigitte:
   name: Brigitte
   role: healer
+  first_season: 10
 symmetra:
   name: Symmetra
   role: defense
+  first_season: 1
 torbjorn:
   name: Torbjörn
   role: defense
+  first_season: 1
 mei:
   name: Mei
   role: defense
+  first_season: 1
 hanzo:
   name: Hanzo
   role: defense
+  first_season: 1
 bastion:
   name: Bastion
   role: defense
+  first_season: 1
 dva:
   name: D.Va
   role: off-tank
+  first_season: 1
 roadhog:
   name: Roadhog
   role: off-tank
+  first_season: 1
 zarya:
   name: Zarya
   role: off-tank
+  first_season: 1
 winston:
   name: Winston
   role: tank
+  first_season: 1
 reinhardt:
   name: Reinhardt
   role: tank
+  first_season: 1
 orisa:
   name: Orisa
   role: tank
+  first_season: 4
 mccree:
   name: McCree
   role: hitscan
+  first_season: 1
 soldier_76:
   name: "Soldier: 76"
   role: hitscan
+  first_season: 1
 widowmaker:
   name: Widowmaker
   role: hitscan
+  first_season: 1
 pharah:
   name: Pharah
   role: DPS
+  first_season: 1
 reaper:
   name: Reaper
   role: DPS
+  first_season: 1
 doomfist:
   name: Doomfist
   role: DPS
+  first_season: 5
 junkrat:
   name: Junkrat
   role: DPS
+  first_season: 1
 genji:
   name: Genji
   role: flanker
+  first_season: 1
 sombra:
   name: Sombra
   role: flanker
+  first_season: 2
 tracer:
   name: Tracer
   role: flanker
+  first_season: 1

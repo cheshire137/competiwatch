@@ -3,6 +3,13 @@ require 'test_helper'
 class MatchTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'disallows logging hero not available in that season' do
+    match = build(:match, season: 1, heroes: [heroes(:zenyatta), heroes(:orisa)])
+
+    refute_predicate match, :valid?
+    assert_includes match.errors.messages[:base], 'Orisa is not available in season 1.'
+  end
+
   test 'weekday_win_percent looks only in specified season if given' do
     create(:match, day_of_week: :weekday, result: :win, season: 1)
     create(:match, day_of_week: :weekday, result: :loss, season: 1)
