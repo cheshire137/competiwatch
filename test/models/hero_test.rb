@@ -4,6 +4,20 @@ require 'test_helper'
 class HeroTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'requires positive first_season' do
+    hero = Hero.new(first_season: -1)
+
+    refute_predicate hero, :valid?
+    assert_includes hero.errors.messages[:first_season], 'must be greater than 0'
+  end
+
+  test 'requires integer first_season' do
+    hero = Hero.new(first_season: 3.3)
+
+    refute_predicate hero, :valid?
+    assert_includes hero.errors.messages[:first_season], 'must be an integer'
+  end
+
   test 'most_played looks at only specified season if given' do
     account = create(:account)
     other_account = create(:account)

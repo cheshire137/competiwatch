@@ -5,6 +5,7 @@ class Hero < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
   validates :role, presence: true, inclusion: { in: ROLES }
+  validates :first_season, numericality: { greater_than: 0, only_integer: true }
 
   scope :order_by_name, ->{ order(:name) }
 

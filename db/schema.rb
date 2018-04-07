@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180324162903) do
+ActiveRecord::Schema.define(version: 20180407152026) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accounts", force: :cascade do |t|
-    t.integer "user_id"
     t.string "provider", limit: 30, null: false
     t.string "uid", limit: 100, null: false
     t.datetime "created_at", null: false
@@ -29,6 +28,7 @@ ActiveRecord::Schema.define(version: 20180324162903) do
     t.integer "rank"
     t.integer "level"
     t.text "level_url"
+    t.integer "user_id"
     t.index ["battletag", "provider", "uid"], name: "index_accounts_on_battletag_and_provider_and_uid", unique: true
     t.index ["user_id"], name: "index_accounts_on_user_id"
   end
@@ -44,6 +44,7 @@ ActiveRecord::Schema.define(version: 20180324162903) do
     t.string "role", limit: 20, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "first_season"
     t.index ["name"], name: "index_heroes_on_name", unique: true
     t.index ["role"], name: "index_heroes_on_role"
   end
