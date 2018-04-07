@@ -7,7 +7,7 @@ class MatchExporter
   def export
     column_names = ['Rank', 'Map', 'Comment', 'Day', 'Time', 'Heroes', 'Ally Leaver',
                     'Ally Thrower', 'Enemy Leaver', 'Enemy Thrower', 'Group',
-                    'Placement', 'Result']
+                    'Placement', 'Result', 'POTG']
     matches = matches_to_export
 
     CSV.generate(headers: true) do |csv|
@@ -18,7 +18,7 @@ class MatchExporter
                 match.time_of_day, match.hero_names.join(', '),
                 match.ally_leaver_char, match.ally_thrower_char, match.enemy_leaver_char,
                 match.enemy_thrower_char, match.group_member_names.join(', '),
-                match.placement_char, match.result]
+                match.placement_char, match.result, match.potg_char]
       end
     end
   end

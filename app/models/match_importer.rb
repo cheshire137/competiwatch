@@ -58,6 +58,9 @@ class MatchImporter
     if (enemy_leaver = row['enemy leaver']).present?
       match.enemy_leaver = enemy_leaver.downcase == 'y'
     end
+    if (potg = row['potg']).present?
+      match.potg = potg.downcase == 'y'
+    end
 
     if (friend_name_str = row['group']).present?
       friend_names = split_string(friend_name_str)
