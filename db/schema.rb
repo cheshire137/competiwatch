@@ -44,7 +44,8 @@ ActiveRecord::Schema.define(version: 20180407152026) do
     t.string "role", limit: 20, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.integer "first_season"
+    t.integer "first_season", default: 1, null: false
+    t.index ["first_season"], name: "index_heroes_on_first_season"
     t.index ["name"], name: "index_heroes_on_name", unique: true
     t.index ["role"], name: "index_heroes_on_role"
   end
