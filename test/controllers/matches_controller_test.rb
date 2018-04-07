@@ -110,7 +110,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
     assert_select '.blankslate', text: /Season #{@future_season} has not started yet./
     assert_select '.flash-error',
-      text: /You are logging a match for a competitive season that hasn't started yet./
+      text: /You are logging a match for a\s+competitive season that hasn't started yet./
   end
 
   test 'index page has past season message when no matches' do
