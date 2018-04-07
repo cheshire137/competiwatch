@@ -8,6 +8,7 @@ class Hero < ApplicationRecord
   validates :first_season, numericality: { greater_than: 0, only_integer: true }
 
   scope :order_by_name, ->{ order(:name) }
+  scope :available_in_season, ->(season) { where('first_season <= ?', season) }
 
   alias_attribute :to_s, :name
 

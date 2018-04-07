@@ -4,6 +4,18 @@ require 'test_helper'
 class HeroTest < ActiveSupport::TestCase
   fixtures :heroes, :seasons
 
+  test 'available_in_season returns heroes available in the given season' do
+    result = Hero.available_in_season(1)
+
+    assert_includes result, heroes(:mercy)
+    assert_includes result, heroes(:ana)
+    refute_includes result, heroes(:sombra)
+    refute_includes result, heroes(:doomfist)
+    refute_includes result, heroes(:orisa)
+    refute_includes result, heroes(:moira)
+    refute_includes result, heroes(:brigitte)
+  end
+
   test 'requires positive first_season' do
     hero = Hero.new(first_season: -1)
 
