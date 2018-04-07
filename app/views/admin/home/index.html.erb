@@ -122,22 +122,6 @@
         <%= render partial: 'admin/home/latest_shared_seasons',
                    locals: { season_shares: @latest_shared_seasons } %>
       <% end %>
-      <% if @top_avatar_urls.present? %>
-        <h2 class="h2 mb-2">Top avatars</h2>
-        <div class="d-flex">
-          <% @top_avatar_urls.each do |avatar_url, account_count| %>
-            <div class="mr-3 text-center">
-              <a href="<%= avatar_url %>" class="d-block">
-                <%= image_tag avatar_url, class: 'avatar', size: '50x50' %>
-              </a>
-              <div class="note">
-                <%= number_with_delimiter account_count %>
-                <%= 'account'.pluralize(account_count) %>
-              </div>
-            </div>
-          <% end %>
-        </div>
-      <% end %>
     </div>
   </div>
 </div>
