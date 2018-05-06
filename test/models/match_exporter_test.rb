@@ -41,9 +41,9 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal 5, lines.size, 'should have a header line and 4 matches'
     assert_equal 'Rank,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver' +
                  ',Enemy Thrower,Group,Placement,Result,PotG', lines[0]
-    assert_equal %q(1234,,,,,"",,,,,"",,,), lines[1]
-    assert_equal %Q(1254,#{@map1.name},,,evening,#{@hero3.name},,Y,,,"",,win,), lines[2]
-    assert_equal %Q(1273,#{@map2.name},,weekday,morning,"#{@hero1.name}, #{@hero2.name}",,,Y,,"",,win,), lines[3]
+    assert_equal %q(1234,,,,,"",,,,,"",,,N), lines[1]
+    assert_equal %Q(1254,#{@map1.name},,,evening,#{@hero3.name},,Y,,,"",,win,N), lines[2]
+    assert_equal %Q(1273,#{@map2.name},,weekday,morning,"#{@hero1.name}, #{@hero2.name}",,,Y,,"",,win,N), lines[3]
     assert_equal %Q(1295,#{@map1.name},this is so cool,,,"",,,,,"Rob, Siege",,win,Y), lines[4]
   end
 
