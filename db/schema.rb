@@ -79,7 +79,7 @@ ActiveRecord::Schema.define(version: 20180407182421) do
     t.boolean "ally_leaver"
     t.integer "group_member_ids", default: [], null: false, array: true
     t.integer "hero_ids", default: [], null: false, array: true
-    t.boolean "potg"
+    t.boolean "potg", default: false, null: false
     t.index ["account_id"], name: "index_matches_on_account_id"
     t.index ["ally_leaver"], name: "index_matches_on_ally_leaver"
     t.index ["ally_thrower"], name: "index_matches_on_ally_thrower"

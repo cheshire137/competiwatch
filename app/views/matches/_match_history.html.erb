@@ -5,7 +5,7 @@
   show_day_time_column = matches.any? { |match| match.day_of_week || match.time_of_day }
   show_comment_column = matches.any? { |match| match.comment.present? }
   show_thrower_leaver_column = matches.any? { |match| match.thrower? || match.leaver? }
-  show_potg_column = matches.any? { |match| match.potg_earned? }
+  show_potg_column = matches.any?(&:potg?)
 %>
 
 <% if matches.any? %>
@@ -43,7 +43,7 @@
     </thead>
     <tbody class="js-filterable-matches">
       <% matches.each_with_index do |match, i| %>
-        <tr id="match-row-<%= match.id %>" class="js-filterable-match js-thrower-leaver-<%= (match.thrower? || match.leaver?) ? 'y' : 'n' %> js-time-<%= match.day_of_week %>-<%= match.time_of_day %> js-group-size-<%= match.group_size %> js-result-<%= match.result %> <%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %> js-potg-<%= match.potg_earned? ? 'y' : 'n' %>">
+        <tr id="match-row-<%= match.id %>" class="js-filterable-match js-thrower-leaver-<%= (match.thrower? || match.leaver?) ? 'y' : 'n' %> js-time-<%= match.day_of_week %>-<%= match.time_of_day %> js-group-size-<%= match.group_size %> js-result-<%= match.result %> <%= 'match-placement-log-row' if match.placement_log? %> <%= 'match-placement-row' if match.placement? %> <%= 'match-last-placement-row' if match.placement? && i == Match::TOTAL_PLACEMENT_MATCHES - 1 %> js-potg-<%= match.potg? ? 'y' : 'n' %>">
           <td class="match-cell hide-sm match-number-cell <%= 'match-placement-number-cell' if match.placement? %>">
             <%= match_number(i, match, matches) %>
           </td>
@@ -116,8 +116,8 @@
           <% end %>
           <% if show_potg_column %>
             <td class="match-cell hide-sm potg-cell">
-              <% if match.potg_earned? %>
-                <span class="tooltipped tooltipped-n" aria-label="Play of the Game">P</span>
+              <% if match.potg? %>
+                <span class="tooltipped tooltipped-n" aria-label="Play of the Game">🏆</span>
               <% end %>
             </td>
           <% end %>

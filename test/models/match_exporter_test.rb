@@ -40,7 +40,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     lines = csv.split("\n")
     assert_equal 5, lines.size, 'should have a header line and 4 matches'
     assert_equal 'Rank,Map,Comment,Day,Time,Heroes,Ally Leaver,Ally Thrower,Enemy Leaver' +
-                 ',Enemy Thrower,Group,Placement,Result,POTG', lines[0]
+                 ',Enemy Thrower,Group,Placement,Result,PotG', lines[0]
     assert_equal %q(1234,,,,,"",,,,,"",,,), lines[1]
     assert_equal %Q(1254,#{@map1.name},,,evening,#{@hero3.name},,Y,,,"",,win,), lines[2]
     assert_equal %Q(1273,#{@map2.name},,weekday,morning,"#{@hero1.name}, #{@hero2.name}",,,Y,,"",,win,), lines[3]
@@ -84,7 +84,7 @@ class MatchExporterTest < ActiveSupport::TestCase
     assert_equal 'this is so cool', match4.comment
     assert_empty match4.heroes
     assert_equal [@friend2, @friend1].map(&:name), match4.group_member_names
-    assert_predicate match4, :potg_earned?
+    assert_predicate match4, :potg?
 
     File.delete(path)
   end
