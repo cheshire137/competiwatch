@@ -247,6 +247,34 @@ class Match < ApplicationRecord
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
   end
 
+  def self.weekday_thrower_leaver_percent(season: nil)
+    total_matches = Match.with_result.weekdays
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    thrower_leaver_count = Match.with_result.weekdays.with_thrower_or_leaver
+    thrower_leaver_count = thrower_leaver_count.in_season(season) if season
+    thrower_leaver_count = thrower_leaver_count.count
+
+    percent = (thrower_leaver_count.to_f / total_matches) * 100
+    percent.round
+  end
+
+  def self.weekend_thrower_leaver_percent(season: nil)
+    total_matches = Match.with_result.weekends
+    total_matches = total_matches.in_season(season) if season
+    total_matches = total_matches.count
+    return if total_matches < 1
+
+    thrower_leaver_count = Match.with_result.weekends.with_thrower_or_leaver
+    thrower_leaver_count = thrower_leaver_count.in_season(season) if season
+    thrower_leaver_count = thrower_leaver_count.count
+
+    percent = (thrower_leaver_count.to_f / total_matches) * 100
+    percent.round
+  end
+
   def self.weekday_win_percent(season: nil)
     total_matches = Match.with_result.weekdays
     total_matches = total_matches.in_season(season) if season

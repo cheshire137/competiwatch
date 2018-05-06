@@ -18,7 +18,10 @@
                  locals: { weekday_win_percent: @weekday_win_percent,
                            max_win_percent: @max_win_percent,
                            weekend_win_percent: @weekend_win_percent,
-                           season_number: @season_number } %>
+                           season_number: @season_number,
+                           weekday_thrower_leaver_percent: @weekday_thrower_leaver_percent,
+                           weekend_thrower_leaver_percent: @weekend_thrower_leaver_percent,
+                           max_thrower_leaver_percent: @max_thrower_leaver_percent } %>
       <%= render partial: 'community/maps',
                  locals: { season_number: @season_number, highest_win_map: @highest_win_map,
                            highest_win_map_pct: @highest_win_map_pct,

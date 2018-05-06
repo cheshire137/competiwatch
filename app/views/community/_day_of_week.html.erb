@@ -23,4 +23,25 @@
       <span><%= weekend_win_percent %>% of <strong>weekend</strong> matches were won</span>
     </li>
   <% end %>
+  <hr>
+  <% if weekday_thrower_leaver_percent %>
+    <li class="mb-1 d-flex flex-items-center">
+      <% if max_thrower_leaver_percent %>
+        <span class="win-bar-container d-inline-block mr-3">
+          <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(weekday_thrower_leaver_percent, max_thrower_leaver_percent, 100) %>%; background-color: <%= thrower_leaver_rate_color(weekday_thrower_leaver_percent + 10) %>"></span>
+        </span>
+      <% end %>
+      <span><%= weekday_thrower_leaver_percent %>% of <strong>weekday</strong> matches had a thrower or leaver</span>
+    </li>
+  <% end %>
+  <% if weekend_thrower_leaver_percent %>
+    <li class="mb-1 d-flex flex-items-center">
+      <% if max_thrower_leaver_percent %>
+        <span class="win-bar-container d-inline-block mr-3">
+          <span class="win-bar d-inline-block rounded-2" style="width: <%= hero_bar_width(weekend_thrower_leaver_percent, max_thrower_leaver_percent, 100) %>%; background-color: <%= thrower_leaver_rate_color(weekend_thrower_leaver_percent + 10) %>"></span>
+        </span>
+      <% end %>
+      <span><%= weekend_thrower_leaver_percent %>% of <strong>weekend</strong> matches had a thrower or leaver</span>
+    </li>
+  <% end %>
 </ul>

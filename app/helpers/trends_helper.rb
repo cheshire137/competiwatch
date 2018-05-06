@@ -27,6 +27,22 @@ module TrendsHelper
     "height: #{height}px"
   end
 
+  def thrower_leaver_rate_color(percent)
+    if percent >= 90
+      '#de4f3b'
+    elsif percent >= 60
+      '#e55d5b'
+    elsif percent >= 50
+      'rgb(246, 106, 110)'
+    elsif percent >= 40
+      '#f38279'
+    elsif percent >= 30
+      '#f5957e'
+    else
+      'rgb(250, 170, 124)'
+    end
+  end
+
   def win_rate_color(win_rate)
     if win_rate >= 90
       'rgb(139, 236, 34)'
