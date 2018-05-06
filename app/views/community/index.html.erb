@@ -6,6 +6,7 @@
       <%= render partial: 'community/top_heroes',
                  locals: { top_heroes: @top_heroes, season_number: @season_number } %>
       <%= remote_load_with_spinner(community_most_winning_heroes_path) %>
+      <%= remote_load_with_spinner(community_top_profile_icons_path) %>
     </div>
   </div>
   <div class="col-md-6 float-left">
@@ -31,7 +32,6 @@
                            highest_draw_map: @highest_draw_map } %>
       <%= render partial: 'community/ranks',
                  locals: { top_rank: @top_rank, average_rank: @average_rank } %>
-      <%= remote_load_with_spinner(community_top_profile_icons_path) %>
     </div>
   </div>
 </div>
