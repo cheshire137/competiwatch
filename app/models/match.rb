@@ -247,10 +247,19 @@ class Match < ApplicationRecord
     group(:season).count.sort_by { |_season, match_count| -match_count }.first
   end
 
-  def self.weekday_thrower_leaver_percent(season: nil)
+  def self.weekday_match_count(season: nil)
     total_matches = Match.with_result.weekdays
     total_matches = total_matches.in_season(season) if season
-    total_matches = total_matches.count
+    total_matches.count
+  end
+
+  def self.weekend_match_count(season: nil)
+    total_matches = Match.with_result.weekends
+    total_matches = total_matches.in_season(season) if season
+    total_matches.count
+  end
+
+  def self.weekday_thrower_leaver_percent(season: nil, total_matches:)
     return if total_matches < 1
 
     thrower_leaver_count = Match.with_result.weekdays.with_thrower_or_leaver
@@ -261,10 +270,7 @@ class Match < ApplicationRecord
     percent.round
   end
 
-  def self.weekend_thrower_leaver_percent(season: nil)
-    total_matches = Match.with_result.weekends
-    total_matches = total_matches.in_season(season) if season
-    total_matches = total_matches.count
+  def self.weekend_thrower_leaver_percent(season: nil, total_matches:)
     return if total_matches < 1
 
     thrower_leaver_count = Match.with_result.weekends.with_thrower_or_leaver
@@ -275,10 +281,7 @@ class Match < ApplicationRecord
     percent.round
   end
 
-  def self.weekday_win_percent(season: nil)
-    total_matches = Match.with_result.weekdays
-    total_matches = total_matches.in_season(season) if season
-    total_matches = total_matches.count
+  def self.weekday_win_percent(season: nil, total_matches:)
     return if total_matches < 1
 
     win_count = Match.wins.weekdays
@@ -289,10 +292,7 @@ class Match < ApplicationRecord
     percent.round
   end
 
-  def self.weekend_win_percent(season: nil)
-    total_matches = Match.with_result.weekends
-    total_matches = total_matches.in_season(season) if season
-    total_matches = total_matches.count
+  def self.weekend_win_percent(season: nil, total_matches:)
     return if total_matches < 1
 
     win_count = Match.wins.weekends

@@ -37,14 +37,21 @@ class CommunityController < ApplicationController
     @season_number = Season.current_or_last_number
     @top_heroes = Hero.most_played(season: @season_number)
     @thrower_leaver_percent = Match.thrower_leaver_percent(season: @season_number)
-    @weekend_win_percent = Match.weekend_win_percent(season: @season_number)
-    @weekday_win_percent = Match.weekday_win_percent(season: @season_number)
+    @overall_win_percent = Match.win_percent(season: @season_number)
+
+    weekday_match_count = Match.weekday_match_count(season: @season_number)
+    weekend_match_count = Match.weekend_match_count(season: @season_number)
+    @weekend_win_percent = Match.weekend_win_percent(season: @season_number,
+                                                     total_matches: weekend_match_count)
+    @weekday_win_percent = Match.weekday_win_percent(season: @season_number,
+                                                     total_matches: weekday_match_count)
     @max_win_percent = if @weekend_win_percent && @weekday_win_percent
       [@weekday_win_percent, @weekend_win_percent].max
     end
-    @overall_win_percent = Match.win_percent(season: @season_number)
-    @weekday_thrower_leaver_percent = Match.weekday_thrower_leaver_percent(season: @season_number)
-    @weekend_thrower_leaver_percent = Match.weekend_thrower_leaver_percent(season: @season_number)
+    @weekday_thrower_leaver_percent = Match.
+      weekday_thrower_leaver_percent(season: @season_number, total_matches: weekday_match_count)
+    @weekend_thrower_leaver_percent = Match.
+      weekend_thrower_leaver_percent(season: @season_number, total_matches: weekend_match_count)
     @max_thrower_leaver_percent = if @weekday_thrower_leaver_percent && @weekend_thrower_leaver_percent
       [@weekday_thrower_leaver_percent, @weekend_thrower_leaver_percent].max
     end
