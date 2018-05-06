@@ -420,6 +420,10 @@ class Match < ApplicationRecord
     char_for_boolean(enemy_leaver)
   end
 
+  def play_of_the_game_char
+    char_for_boolean(potg)
+  end
+
   def thrower?
     enemy_thrower? || ally_thrower?
   end

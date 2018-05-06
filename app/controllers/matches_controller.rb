@@ -2,7 +2,7 @@ class MatchesController < ApplicationController
   MATCH_PARAM_FIELDS = [
     :map_id, :rank, :comment, :prior_match_id, :placement, :result, :time_of_day,
     :day_of_week, :season, :enemy_thrower, :ally_thrower, :enemy_leaver, :ally_leaver,
-    :account_id
+    :account_id, :potg
   ].freeze
 
   before_action :authenticate_user!, except: :index
