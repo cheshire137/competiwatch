@@ -1,6 +1,6 @@
 maps_by_type = {
   assault: ['Hanamura', 'Temple of Anubis', 'Volskaya Industries', 'Horizon Lunar Colony'],
-  escort: ['Dorado', 'Route 66', 'Watchpoint: Gibraltar', 'Junkertown'],
+  escort: ['Dorado', 'Route 66', 'Watchpoint: Gibraltar', 'Junkertown', 'Rialto'],
   hybrid: ['Eichenwalde', 'Hollywood', "King's Row", 'Numbani', 'Blizzard World'],
   control: ['Ilios', 'Lijiang Tower', 'Nepal', 'Oasis']
 }
@@ -22,7 +22,8 @@ map_colors_by_name = {
   'Ilios' => '#a0eafd',
   'Lijiang Tower' => '#d3a096',
   'Nepal' => '#deeafe',
-  'Oasis' => '#fdf4a6'
+  'Oasis' => '#fdf4a6',
+  'Rialto' => '#87d0a4'
 }
 
 maps_by_type.each do |type, map_names|
