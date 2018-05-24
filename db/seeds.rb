@@ -26,12 +26,22 @@ map_colors_by_name = {
   'Rialto' => '#87d0a4'
 }
 
+map_first_season_by_name = {
+  'Rialto' => 10,
+  'Blizzard World' => 9,
+  'Oasis' => 3,
+  'Horizon Lunar Colony' => 5,
+  'Junkertown' => 6,
+  'Eichenwalde' => 2
+}
+
 maps_by_type.each do |type, map_names|
   puts "Creating #{type} maps: #{map_names.to_sentence}"
   map_names.each do |name|
     map = Map.where(name: name).first_or_initialize
     map.map_type = type
     map.color = map_colors_by_name[name]
+    map.first_season = map_first_season_by_name[name] || 1
     map.save! if map.new_record? || map.changed?
   end
 end
