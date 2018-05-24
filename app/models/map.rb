@@ -4,9 +4,11 @@ class Map < ApplicationRecord
   VALID_MAP_TYPES = %w[assault escort hybrid control].freeze
 
   scope :order_by_name, ->{ order(:name) }
+  scope :available_in_season, ->(season) { where('first_season <= ?', season) }
 
   validates :name, presence: true, uniqueness: true
   validates :map_type, presence: true, inclusion: { in: VALID_MAP_TYPES }
+  validates :first_season, numericality: { greater_than: 0, only_integer: true }
 
   has_many :matches
 
@@ -25,5 +27,9 @@ class Map < ApplicationRecord
     return 'H. Lunar Colony' if name == 'Horizon Lunar Colony'
     return 'Anubis' if name == 'Temple of Anubis'
     name
+  end
+
+  def available_in_season?(season)
+    season >= first_season
   end
 end

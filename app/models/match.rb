@@ -170,7 +170,7 @@ class Match < ApplicationRecord
 
   def self.map_win_percentages(season:)
     matches = in_season(season).with_map.with_result
-    maps = Map.select('name, id')
+    maps = Map.available_in_season(season).select('name, id')
     totals = Hash.new(0)
     wins = Hash.new(0)
     matches.each do |match|
@@ -226,7 +226,7 @@ class Match < ApplicationRecord
 
   def self.map_draw_percentages(season:)
     matches = in_season(season).with_map.with_result
-    maps = Map.select('name, id')
+    maps = Map.available_in_season(season).select('name, id')
     totals = Hash.new(0)
     draws = Hash.new(0)
     matches.each do |match|

@@ -166,9 +166,12 @@ module MatchesHelper
     [['', '']] + valid_days.map { |name| [name.to_s.humanize, name] }
   end
 
-  def map_options(maps)
-    valid_maps = maps.map { |map| [map.name, map.id] }
-    [['Choose a map', '']] + valid_maps
+  def map_options(maps, selected_map_id:, season:)
+    valid_maps = maps.select do |map|
+      map.id == selected_map_id || map.available_in_season?(season)
+    end
+    map_options = valid_maps.map { |map| [map.name, map.id] }
+    [['Choose a map', '']] + map_options
   end
 
   def placement_count(matches)

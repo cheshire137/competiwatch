@@ -8,6 +8,20 @@ class MapTest < ActiveSupport::TestCase
     assert_includes map.errors.messages[:name], "can't be blank"
   end
 
+  test 'requires positive first_season' do
+    map = Map.new(first_season: -1)
+
+    refute_predicate map, :valid?
+    assert_includes map.errors.messages[:first_season], 'must be greater than 0'
+  end
+
+  test 'requires integer first_season' do
+    map = Map.new(first_season: 3.3)
+
+    refute_predicate map, :valid?
+    assert_includes map.errors.messages[:first_season], 'must be an integer'
+  end
+
   test 'requires unique name' do
     map1 = create(:map)
     map2 = Map.new(name: map1.name)
