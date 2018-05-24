@@ -17,7 +17,7 @@ class MatchTest < ActiveSupport::TestCase
     create(:match, day_of_week: :weekend, result: :win, season: 1)
     create(:match, day_of_week: :weekday, result: :win, season: 2)
 
-    assert_equal 50, Match.weekday_win_percent(season: 1)
+    assert_equal 50, Match.weekday_win_percent(season: 1, total_matches: 2)
   end
 
   test 'weekday_win_percent returns percentage of matches won on a weekday' do
@@ -27,7 +27,7 @@ class MatchTest < ActiveSupport::TestCase
     create(:match, day_of_week: :weekend, result: :win)
     create(:match, day_of_week: :weekday, result: :win)
 
-    assert_equal 100, Match.weekday_win_percent
+    assert_equal 100, Match.weekday_win_percent(total_matches: 2)
   end
 
   test 'weekend_win_percent looks only in specified season if given' do
@@ -37,7 +37,7 @@ class MatchTest < ActiveSupport::TestCase
     create(:match, day_of_week: :weekend, result: :win, season: 1)
     create(:match, day_of_week: :weekday, result: :win, season: 1)
 
-    assert_equal 50, Match.weekend_win_percent(season: 1)
+    assert_equal 50, Match.weekend_win_percent(season: 1, total_matches: 2)
   end
 
   test 'weekend_win_percent returns percentage of matches won on the weekend' do
@@ -47,7 +47,7 @@ class MatchTest < ActiveSupport::TestCase
     create(:match, day_of_week: :weekend, result: :win)
     create(:match, day_of_week: :weekday, result: :win)
 
-    assert_equal 33, Match.weekend_win_percent
+    assert_equal 33, Match.weekend_win_percent(total_matches: 3)
   end
 
   test 'weekends returns only weekend matches' do
