@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180407152026) do
+ActiveRecord::Schema.define(version: 20180524031453) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -57,6 +57,8 @@ ActiveRecord::Schema.define(version: 20180407152026) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.string "color", limit: 16, default: "#ffffff", null: false
+    t.integer "first_season", default: 1, null: false
+    t.index ["first_season"], name: "index_maps_on_first_season"
     t.index ["name"], name: "index_maps_on_name", unique: true
   end
 
