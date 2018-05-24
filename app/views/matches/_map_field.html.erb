@@ -1,4 +1,4 @@
 <div class="form-group">
   <%= form.label :map_id, 'Map:', class: 'mr-2' %>
-  <%= form.select :map_id, options_for_select(map_options(maps), match.map_id), {}, { class: 'form-select' } %>
+  <%= form.select :map_id, options_for_select(map_options(maps, selected_map_id: match.map_id, season: match.season), match.map_id), {}, { class: 'form-select' } %>
 </div>

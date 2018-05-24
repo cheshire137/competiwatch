@@ -132,7 +132,7 @@ class MatchesController < ApplicationController
   end
 
   def get_maps
-    Rails.cache.fetch('maps') { Map.order(:name).select([:id, :name]) }
+    Rails.cache.fetch('maps:v2') { Map.order(:name) }
   end
 
   def get_heroes_by_role
