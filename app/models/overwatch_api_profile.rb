@@ -1,8 +1,8 @@
 class OverwatchAPIProfile
   attr_reader :avatar_url, :level, :rank, :level_url
 
-  def initialize(data, region:)
-    region_data = data[region]
+  def initialize(data)
+    region_data = data.values.detect { |data| data.is_a?(Hash) && data.key?('stats') }
     return unless region_data
 
     stats = region_data['stats']

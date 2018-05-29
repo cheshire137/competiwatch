@@ -4,43 +4,40 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons, :heroes
 
   test 'anonymous user cannot update profile' do
-    account = create(:account, platform: 'xbl', region: 'cn')
+    account = create(:account, platform: 'xbl')
 
     put "/profile/#{account.to_param}", params: {
-      account: { platform: 'psn', region: 'eu' }
+      account: { platform: 'psn' }
     }
 
     assert_response :redirect
     assert_redirected_to 'http://www.example.com/'
     assert_equal 'xbl', account.reload.platform
-    assert_equal 'cn', account.region
   end
 
   test "cannot update another user's profile" do
-    account1 = create(:account, platform: 'xbl', region: 'cn')
+    account1 = create(:account, platform: 'xbl')
     account2 = create(:account)
 
     sign_in_as(account2)
     put "/profile/#{account1.to_param}", params: {
-      account: { platform: 'psn', region: 'eu' }
+      account: { platform: 'psn' }
     }
 
     assert_response :not_found
     assert_equal 'xbl', account1.reload.platform
-    assert_equal 'cn', account1.region
   end
 
   test 'can update your own profile' do
-    account = create(:account, platform: 'xbl', region: 'cn')
+    account = create(:account, platform: 'xbl')
 
     sign_in_as(account)
     put "/profile/#{account.to_param}", params: {
-      account: { platform: 'psn', region: 'eu' }
+      account: { platform: 'psn' }
     }
 
     assert_redirected_to accounts_path
     assert_equal 'psn', account.reload.platform
-    assert_equal 'eu', account.region
   end
 
   test 'can view your own profile' do

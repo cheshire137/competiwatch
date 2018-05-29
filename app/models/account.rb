@@ -5,14 +5,6 @@ class Account < ApplicationRecord
     'xbl' => 'Xbox'
   }.freeze
 
-  VALID_REGIONS = {
-    'us' => 'United States',
-    'eu' => 'Europe',
-    'kr' => 'South Korea',
-    'cn' => 'China',
-    'global' => 'Global'
-  }.freeze
-
   URL_REGEX = %r{\Ahttps?://}.freeze
 
   belongs_to :user, required: false
@@ -21,7 +13,6 @@ class Account < ApplicationRecord
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
-  validates :region, inclusion: { in: VALID_REGIONS.keys }, allow_nil: true
   validates :avatar_url, :level_url, format: URL_REGEX, allow_nil: true, allow_blank: true
   validates :rank, numericality: {
     only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: Match::MAX_RANK
@@ -124,15 +115,11 @@ class Account < ApplicationRecord
     end
     return unless data
 
-    OverwatchAPIProfile.new(data, region: region)
+    OverwatchAPIProfile.new(data)
   end
 
   def overbuff_url
     "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
-  end
-
-  def master_overwatch_url
-    "https://masteroverwatch.com/profile/#{platform}/#{region}/#{to_param}"
   end
 
   def play_overwatch_url
@@ -231,10 +218,6 @@ class Account < ApplicationRecord
 
   def platform_name
     VALID_PLATFORMS[platform]
-  end
-
-  def region_name
-    VALID_REGIONS[region]
   end
 
   def api_response

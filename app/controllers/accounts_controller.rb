@@ -64,6 +64,6 @@ class AccountsController < ApplicationController
   private
 
   def account_params
-    params.require(:account).permit(:platform, :region)
+    params.require(:account).permit(:platform)
   end
 end
