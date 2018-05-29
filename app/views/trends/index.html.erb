@@ -1,16 +1,20 @@
-<% content_for(:title, "#{@account} / Season #{@season} / Trends") %>
+<%
+  content_for(:title, "#{@account} / Season #{@season} / Trends")
+  show_sidebar = show_sidebar?(@matches, is_owner: @is_owner)
+%>
 
 <%= render partial: 'trends/top_nav', locals: { season: @season, account: @account } %>
 
 <div class="clearfix">
-  <% if show_sidebar?(@matches) %>
+  <% if show_sidebar %>
     <div class="col-md-2 float-left">
       <%= render partial: 'trends/sidebar',
-                 locals: { matches: @matches, account: @account, season: @season } %>
+                 locals: { matches: @matches, account: @account, season: @season,
+                           is_owner: @is_owner } %>
     </div>
   <% end %>
 
-  <div<% if show_sidebar?(@matches) %> class="col-md-10 float-left"<% end %>>
+  <div<% if show_sidebar %> class="col-md-10 float-left"<% end %>>
     <% if @matches.empty? %>
       <div class="blankslate mb-4">
         <% if @season.future? %>
