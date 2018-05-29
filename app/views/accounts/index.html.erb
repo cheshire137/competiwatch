@@ -25,7 +25,7 @@
           </div>
           <p class="note d-flex-md flex-justify-between-md">
             <span>
-              <%= account.platform_name %> / <%= account.region_name %>
+              <%= account.platform_name %>
               <button class="btn-link text-small text-normal js-toggle-details" data-target=".edit-account-<%= account.id %>" type="button">
                 <span class="ion ion-edit"></span>
                 Edit
@@ -42,10 +42,6 @@
               <div class="form-group mb-0 mr-4 d-flex flex-items-center">
                 <%= f.label :platform, 'Platform:', class: 'mr-2' %>
                 <%= f.select :platform, options_for_select(platform_options, account.platform), {}, { class: 'form-select' } %>
-              </div>
-              <div class="form-group mb-0 mr-4 d-flex flex-items-center">
-                <%= f.label :region, 'Region:', class: 'mr-2' %>
-                <%= f.select :region, options_for_select(region_options, account.region), {}, { class: 'form-select' } %>
               </div>
               <button type="submit" class="btn mt-2">Save</button>
             <% end %>
