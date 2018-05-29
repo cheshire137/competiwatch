@@ -34,10 +34,12 @@
         <%= render partial: 'trends/general_charts',
                    locals: { season: @season, matches: @matches } %>
       </div>
-      <div id="group-charts" class="js-tab-contents tab-contents d-none">
-        <%= render partial: 'trends/group_charts',
-                   locals: { season: @season, matches: @matches } %>
-      </div>
+      <% if show_group_charts_tab?(@matches, is_owner: @is_owner) %>
+        <div id="group-charts" class="js-tab-contents tab-contents d-none">
+          <%= render partial: 'trends/group_charts',
+                     locals: { season: @season, matches: @matches } %>
+        </div>
+      <% end %>
       <div id="hero-charts" class="js-tab-contents tab-contents d-none">
         <%= render partial: 'trends/hero_charts',
                    locals: { season: @season, matches: @matches } %>
