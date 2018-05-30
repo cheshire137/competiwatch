@@ -62,6 +62,7 @@ class TrendsController < ApplicationController
   end
 
   def all_seasons
+    @is_owner = signed_in? && @account.user == current_user
     @active_seasons = @account.active_seasons
     @matches = account_matches_in_season.includes(:prior_match, :map).
       with_result.ordered_by_time
