@@ -99,7 +99,7 @@
             <td class="match-cell hide-sm friends-cell">
               <% if can_edit %>
                 <%= match.group_member_names.join(', ') %>
-              <% else %>
+              <% elsif match.group_size > 1 %>
                 <%= group_size_name(match.group_size) %>
               <% end %>
             </td>
