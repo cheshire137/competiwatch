@@ -59,13 +59,14 @@ module TrendsHelper
     end
   end
 
-  def show_sidebar?(matches)
-    show_group_charts_tab?(matches) || show_hero_charts_tab?(matches) ||
+  def show_sidebar?(matches, is_owner:)
+    show_group_charts_tab?(matches, is_owner: is_owner) ||
+      show_hero_charts_tab?(matches) ||
       show_time_charts_tab?(matches)
   end
 
-  def show_group_charts_tab?(matches)
-    show_group_member_chart?(matches)
+  def show_group_charts_tab?(matches, is_owner:)
+    is_owner && show_group_member_chart?(matches)
   end
 
   def show_hero_charts_tab?(matches)

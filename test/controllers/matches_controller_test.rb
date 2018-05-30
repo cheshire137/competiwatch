@@ -89,7 +89,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
 
   test 'index page loads successfully for past season for account owner' do
     user = create(:user)
-    friend = create(:friend, user: user)
+    friend = create(:friend, user: user, name: "APlayer 987")
     account = create(:account, user: user)
     match = create(:match, account: account, season: @past_season.number,
                    group_member_ids: [friend.id])
@@ -100,6 +100,26 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
     assert_select "a[href='/season/#{@past_season}/#{account.to_param}']"
     assert_select "a[href='/trends/#{@past_season}/#{account.to_param}']"
+    assert_select ".friends-cell", text: friend.name
+  end
+
+  test 'index page does not include group member name for someone besides owner' do
+    user = create(:user)
+    friend = create(:friend, user: user, name: "SomePlayer 123")
+    account = create(:account, user: user)
+    match = create(:match, account: account, season: @past_season.number,
+                   group_member_ids: [friend.id])
+    create(:season_share, account: account, season: @past_season.number)
+    rando = create(:account)
+
+    sign_in_as(rando)
+    get "/season/#{@past_season}/#{account.to_param}"
+
+    assert_response :ok
+    assert_select "a[href='/season/#{@past_season}/#{account.to_param}']"
+    assert_select "a[href='/trends/#{@past_season}/#{account.to_param}']"
+    refute_includes response.body, friend.name
+    assert_select ".friends-cell", text: "duo queuing"
   end
 
   test 'index page has future season message when no matches' do

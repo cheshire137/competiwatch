@@ -1,15 +1,18 @@
-<% content_for(:title, "All Accounts / Season #{@season} / Trends") %>
+<%
+  content_for(:title, "All Accounts / Season #{@season} / Trends")
+  show_sidebar = show_sidebar?(@matches, is_owner: @is_owner)
+%>
 
 <%= render partial: 'trends/top_nav', locals: { season: @season } %>
 
 <div class="clearfix">
-  <% if show_sidebar?(@matches) %>
+  <% if show_sidebar %>
     <div class="col-md-2 float-left">
       <%= render partial: 'trends/sidebar',
                  locals: { matches: @matches, season: @season } %>
     </div>
   <% end %>
-  <div<% if show_sidebar?(@matches) %> class="col-md-10 float-left"<% end %>>
+  <div<% if show_sidebar %> class="col-md-10 float-left"<% end %>>
     <div id="general-charts" class="js-tab-contents tab-contents">
       <div class="clearfix">
         <div class="col-md-6 float-md-left">

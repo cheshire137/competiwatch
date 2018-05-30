@@ -30,6 +30,7 @@ class TrendsController < ApplicationController
   end
 
   def all_seasons_accounts
+    @is_owner = signed_in? && match_source_user == current_user
     @active_seasons = current_user.active_seasons
     @matches = account_matches_in_season.
       includes(:prior_match, :map, :account).with_result.ordered_by_time
@@ -62,6 +63,7 @@ class TrendsController < ApplicationController
   end
 
   def all_seasons
+    @is_owner = signed_in? && @account.user == current_user
     @active_seasons = @account.active_seasons
     @matches = account_matches_in_season.includes(:prior_match, :map).
       with_result.ordered_by_time
@@ -92,6 +94,7 @@ class TrendsController < ApplicationController
   end
 
   def all_accounts
+    @is_owner = signed_in? && match_source_user == current_user
     @matches = account_matches_in_season.
       includes(:account, :map, :prior_match).with_result.ordered_by_time
     Match.prefill_group_members(@matches, user: match_source_user)

@@ -97,7 +97,11 @@
           <% end %>
           <% if show_group_column %>
             <td class="match-cell hide-sm friends-cell">
-              <%= match.group_member_names.join(', ') %>
+              <% if can_edit %>
+                <%= match.group_member_names.join(', ') %>
+              <% else %>
+                <%= group_size_name(match.group_size) %>
+              <% end %>
             </td>
           <% end %>
           <% if show_thrower_leaver_column %>
