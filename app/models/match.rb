@@ -81,6 +81,16 @@ class Match < ApplicationRecord
           true, true, true, true)
   end
 
+  def self.top_rank(season:)
+    in_season(season).with_rank.with_result.select('MAX(rank) AS max_rank').to_a.first.max_rank
+  end
+
+  def self.average_rank(season:)
+    avg_rank = in_season(season).with_rank.with_result.select('AVG(rank) AS avg_rank').to_a.first.avg_rank
+    return unless avg_rank
+    avg_rank.round
+  end
+
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
     counts_by_id = group(:account_id).order('COUNT(*) DESC').limit(limit).count
