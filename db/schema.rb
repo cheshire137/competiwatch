@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180529180438) do
+ActiveRecord::Schema.define(version: 20180530234931) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(version: 20180529180438) do
     t.string "battletag"
     t.boolean "admin", default: false, null: false
     t.text "avatar_url"
-    t.integer "rank"
     t.integer "level"
     t.text "level_url"
     t.integer "user_id"
