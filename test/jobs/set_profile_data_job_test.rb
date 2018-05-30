@@ -13,7 +13,6 @@ class SetProfileDataJobTest < ActiveJob::TestCase
       account.reload.avatar_url
     assert_equal 'https://d1u1mce87gyfbn.cloudfront.net/game/playerlevelrewards/' \
                  '0x0250000000000921_Border.png', account.level_url
-    assert_equal 2553, account.rank
     assert_equal 92, account.level
   end
 end

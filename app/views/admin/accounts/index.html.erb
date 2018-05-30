@@ -21,12 +21,6 @@
   <% @accounts.each_with_index do |account, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <%= admin_link_to_account(account) %>
-      <% if account.rank %>
-        <span class="d-inline-block mx-2">&middot;</span>
-        <%= rank_image(account.rank, classes: 'flex-shrink-0 rank-fit-height',
-                       outer_classes: 'flex-shrink-0') %>
-        <%= account.rank %>
-      <% end %>
       <div class="note">
         <% if account.admin? %>
           <span class="text-bold text-red">Admin</span>

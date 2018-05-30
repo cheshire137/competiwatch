@@ -44,20 +44,6 @@
         <%= number_with_delimiter @total_season_shares %>
         shared <%= 'season'.pluralize(@total_season_shares) %>
       </dd>
-      <dt class="mb-1">Rank</dt>
-      <dd class="mb-2 d-flex flex-items-center">
-        <% if @account.rank %>
-          <%= rank_image(@account.rank, classes: 'd-inline-block mr-1 flex-shrink-0') %>
-          <%= @account.rank %>
-        <% else %>
-          <%= form_tag admin_update_account_profile_path, method: :put do %>
-            <input type="hidden" name="id" value="<%= @account.id %>">
-            <button type="submit" class="btn">
-              Fetch rank
-            </button>
-          <% end %>
-        <% end %>
-      </dd>
       <dd class="mb-2 <%= 'text-red text-bold' if @account.admin? %>">
         <strong>Administrator?</strong>
         <%= @account.admin? ? 'yes' : 'no' %>

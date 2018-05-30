@@ -13,7 +13,6 @@ class SetProfileDataJob < ApplicationJob
 
     account.avatar_url = profile.avatar_url
     account.level = profile.level
-    account.rank = profile.rank
     account.level_url = profile.level_url
 
     if account.changed? && !account.save
