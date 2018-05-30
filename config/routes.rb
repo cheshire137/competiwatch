@@ -35,8 +35,7 @@ Rails.application.routes.draw do
   get '/accounts' => 'accounts#index', as: :accounts
   delete '/accounts/:battletag' => 'accounts#destroy', as: :account
   put '/accounts/set-default' => 'accounts#set_default', as: :set_default_account
-  get '/profile/:battletag' => 'accounts#show', as: :profile
-  put '/profile/:battletag' => 'accounts#update'
+  put '/profile/:battletag' => 'accounts#update', as: :profile
 
   get '/import/:season/:battletag' => 'import#index', as: :import, season: /\d+/
   post '/import/:season/:battletag' => 'import#create', season: /\d+/

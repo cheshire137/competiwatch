@@ -61,9 +61,7 @@ class ApplicationController < ActionController::Base
   end
 
   def redirect_unless_account_is_mine
-    unless @account.user == current_user
-      redirect_to profile_path(@account)
-    end
+    redirect_to(root_path) unless @account.user == current_user
   end
 
   def allow_admin_bypass?
@@ -74,7 +72,7 @@ class ApplicationController < ActionController::Base
     return if signed_in? && current_user == @account.user
     return if @account.season_is_public?(@season)
     return if allow_admin_bypass?
-    redirect_to profile_path(@account)
+    redirect_to root_path
   end
 
   def current_account

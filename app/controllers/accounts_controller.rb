@@ -7,20 +7,6 @@ class AccountsController < ApplicationController
     @accounts = current_user.accounts.includes(:user).order_by_battletag
   end
 
-  def show
-    @is_owner = signed_in? && @account.user == current_user
-    @heroes = @account.most_played_heroes
-
-    @match_count_by_season = Hash.new(0)
-    matches = @account.matches.select(:season).order(season: :desc)
-    matches = matches.publicly_shared unless @is_owner
-    matches.each do |match|
-      @match_count_by_season[match.season] += 1
-    end
-
-    @season_shares_by_season = @account.season_shares.group_by(&:season)
-  end
-
   def set_default
     current_user.default_account = @account
 

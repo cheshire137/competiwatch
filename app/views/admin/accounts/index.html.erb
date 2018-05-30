@@ -61,7 +61,7 @@
       <ul class="list-style-none test-deletable-accounts">
         <% @deletable_accounts.each_with_index do |account, i| %>
           <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-            <%= link_to_account(account) %>
+            <%= admin_link_to_account(account) %>
           </li>
         <% end %>
       </ul>
@@ -80,7 +80,7 @@
       <h2 class="h2 mb-2">Accounts without users</h2>
       <ul class="list-style-none test-userless-accounts">
         <% @userless_accounts.each do |account| %>
-          <li><%= link_to_account(account) %></li>
+          <li><%= admin_link_to_account(account) %></li>
         <% end %>
       </ul>
     </div>

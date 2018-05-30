@@ -33,9 +33,7 @@
       </div>
     </header>
     <div class="container layout-children-container mb-4">
-      <% if show_main_nav_bar? %>
-        <%= render partial: 'layouts/main_nav' %>
-      <% end %>
+      <%= render partial: 'layouts/main_nav' %>
       <%= render partial: 'layouts/error_messages' %>
       <div class="mt-4">
         <%= yield %>

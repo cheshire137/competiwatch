@@ -111,13 +111,13 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
     assert_select 'div', text: /2\s+accounts with matches/
   end
 
-  test "redirects to profile for another user's account" do
+  test "redirects to home page for another user's account" do
     account2 = create(:account)
 
     sign_in_as(@account)
     get "/trends/all-seasons/#{account2.to_param}"
 
-    assert_redirected_to profile_path(account2)
+    assert_redirected_to root_path
   end
 
   test 'says season has not started for future season' do
@@ -135,10 +135,10 @@ class TrendsControllerTest < ActionDispatch::IntegrationTest
       text: /#{@account}\s+did not log\s+any competitive matches in season #{@past_season}./
   end
 
-  test 'redirects to profile when season not shared for anonymous user' do
+  test 'redirects to home page when season not shared for anonymous user' do
     get "/trends/#{@season}/#{@account.to_param}"
 
-    assert_redirected_to profile_path(@account)
+    assert_redirected_to root_path
   end
 
   test 'index page loads for owner' do
