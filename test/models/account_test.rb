@@ -127,21 +127,6 @@ class AccountTest < ActiveSupport::TestCase
     refute_predicate account, :out_of_date?
   end
 
-  test 'requires rank <= max rank' do
-    account = Account.new(rank: Match::MAX_RANK + 1)
-
-    refute_predicate account, :valid?
-    assert_includes account.errors.messages[:rank],
-      "must be less than or equal to #{Match::MAX_RANK}"
-  end
-
-  test 'requires rank >= 0' do
-    account = Account.new(rank: -1)
-
-    refute_predicate account, :valid?
-    assert_includes account.errors.messages[:rank], 'must be greater than or equal to 0'
-  end
-
   test 'requires level >= 1' do
     account = Account.new(level: 0)
 
