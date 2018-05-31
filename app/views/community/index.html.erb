@@ -43,20 +43,16 @@
   <div class="clearfix">
     <div class="float-left col-md-6">
       <%= remote_load_with_spinner(community_group_size_path) %>
-      <%= render partial: 'community/throwers_leavers',
-                 locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
-                           max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
-                           season_number: @season_number } %>
     </div>
 
     <div class="float-left col-md-6">
       <div class="ml-4">
         <%= render partial: 'community/season_shares',
                    locals: { season_number: @season_number, season_shares: @season_shares } %>
-        <%= render partial: 'community/rank_tiers',
-                   locals: { season_number: @season_number,
-                             rank_tier_win_percentages: @rank_tier_win_percentages,
-                             max_rank_tier_win_percentage: @max_rank_tier_win_percentage } %>
+        <%= render partial: 'community/throwers_leavers',
+                   locals: { thrower_leaver_win_percentages: @thrower_leaver_win_percentages,
+                             max_thrower_leaver_win_percentage: @max_thrower_leaver_win_percentage,
+                             season_number: @season_number } %>
       </div>
     </div>
   </div>

@@ -55,9 +55,6 @@ class CommunityController < ApplicationController
       [@weekday_thrower_leaver_percent, @weekend_thrower_leaver_percent].max
     end
 
-    @rank_tier_win_percentages = Match.rank_tier_win_percentages(season: @season_number)
-    @max_rank_tier_win_percentage = @rank_tier_win_percentages.values.max
-
     @thrower_leaver_win_percentages = Match.thrower_leaver_win_percentages(season: @season_number)
     @max_thrower_leaver_win_percentage = @thrower_leaver_win_percentages.values.max
 
