@@ -127,13 +127,6 @@ class AccountTest < ActiveSupport::TestCase
     refute_predicate account, :out_of_date?
   end
 
-  test 'requires level >= 1' do
-    account = Account.new(level: 0)
-
-    refute_predicate account, :valid?
-    assert_includes account.errors.messages[:level], 'must be greater than or equal to 1'
-  end
-
   test 'name returns battletag without the number' do
     account = Account.new(battletag: 'SomeUser#1234')
     assert_equal 'SomeUser', account.name
@@ -144,13 +137,6 @@ class AccountTest < ActiveSupport::TestCase
 
     refute_predicate account, :valid?
     assert_includes account.errors.messages[:avatar_url], 'is invalid'
-  end
-
-  test 'requires valid URL for level_url' do
-    account = Account.new(level_url: 'https:/some-site.com')
-
-    refute_predicate account, :valid?
-    assert_includes account.errors.messages[:level_url], 'is invalid'
   end
 
   test 'to_param returns nil when no battletag' do

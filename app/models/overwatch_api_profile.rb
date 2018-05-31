@@ -1,5 +1,5 @@
 class OverwatchAPIProfile
-  attr_reader :avatar_url, :level, :rank, :level_url
+  attr_reader :avatar_url
 
   def initialize(data)
     region_data = data.values.detect { |data| data.is_a?(Hash) && data.key?('stats') }
@@ -13,10 +13,7 @@ class OverwatchAPIProfile
     end
 
     if overall_stats
-      @rank = overall_stats['comprank']
-      @level_url = overall_stats['rank_image']
       @avatar_url = overall_stats['avatar']
-      @level = (overall_stats['prestige'] * 100) + overall_stats['level']
     end
   end
 end

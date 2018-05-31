@@ -27,10 +27,6 @@
           <span class="d-inline-block mx-2">&middot;</span>
         <% end %>
         <%= account.platform_name %>
-        <% if account.level %>
-          <span class="d-inline-block mx-2">&middot;</span>
-          Level <%= number_with_delimiter account.level %>
-        <% end %>
         <span class="d-inline-block mx-2">&middot;</span>
         <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime account.created_at %>">
           Signed up

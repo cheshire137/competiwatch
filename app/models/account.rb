@@ -13,9 +13,7 @@ class Account < ApplicationRecord
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
-  validates :avatar_url, :level_url, format: URL_REGEX, allow_nil: true, allow_blank: true
-  validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 },
-    allow_nil: true
+  validates :avatar_url, format: URL_REGEX, allow_nil: true, allow_blank: true
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }

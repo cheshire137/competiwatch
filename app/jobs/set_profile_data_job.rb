@@ -12,8 +12,6 @@ class SetProfileDataJob < ApplicationJob
     return unless profile
 
     account.avatar_url = profile.avatar_url
-    account.level = profile.level
-    account.level_url = profile.level_url
 
     if account.changed? && !account.save
       errors = account.errors.full_messages.join(', ')
