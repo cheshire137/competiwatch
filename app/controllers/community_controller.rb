@@ -9,10 +9,10 @@ class CommunityController < ApplicationController
 
   def group_size
     @season_number = Season.current_or_last_number
-    @match_counts_by_group_size = Match.match_counts_by_group_size(season: @season_number)
+    match_counts_by_group_size = Match.match_counts_by_group_size(season: @season_number)
     @group_size_win_percentages = Match.
         group_size_win_percentages(season: @season_number,
-                                   match_counts: @match_counts_by_group_size)
+                                   match_counts: match_counts_by_group_size)
     @max_group_size_win_percentage = @group_size_win_percentages.values.max
     render layout: false
   end
