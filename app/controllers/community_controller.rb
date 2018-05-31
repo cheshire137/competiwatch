@@ -19,9 +19,9 @@ class CommunityController < ApplicationController
 
   def most_winning_heroes
     @season_number = Season.current_or_last_number
-    @match_counts_by_hero_id = Match.match_counts_by_hero_id(season: @season_number)
+    match_counts_by_hero_id = Match.match_counts_by_hero_id(season: @season_number)
     @hero_win_percentages = Match.hero_win_percentages(season: @season_number,
-                                                       match_counts: @match_counts_by_hero_id)
+                                                       match_counts: match_counts_by_hero_id)
     @max_hero_win_percentage = @hero_win_percentages.values.max
     visible_count = 5
     heroes = @hero_win_percentages.keys

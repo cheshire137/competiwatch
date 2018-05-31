@@ -8,10 +8,6 @@
       <div>
         <strong><%= hero %></strong>:
         <%= win_percentage %>% of games won
-        <div class="note">
-          <%= number_with_delimiter match_count %>
-          <%= 'match'.pluralize(match_count) %>
-        </div>
       </div>
     <% else %>
       <strong><%= hero %></strong>:
