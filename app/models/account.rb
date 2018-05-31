@@ -98,14 +98,6 @@ class Account < ApplicationRecord
     OverwatchAPIProfile.new(data)
   end
 
-  def overbuff_url
-    "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
-  end
-
-  def play_overwatch_url
-    "https://playoverwatch.com/en-us/career/#{platform}/#{to_param}"
-  end
-
   def delete_career_high_cache
     Rails.cache.delete(career_high_cache_key)
   end
