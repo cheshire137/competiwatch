@@ -61,23 +61,6 @@ module ApplicationHelper
     is_page?('matches', 'index') && is_season_page?(season) && is_battletag_page?(battletag)
   end
 
-  def show_main_nav_bar?
-    signed_in? || !is_profile_page?
-  end
-
-  def show_main_nav_links?
-    !is_profile_page? || (signed_in? && is_profile_page?(current_account))
-  end
-
-  def show_back_link?
-    signed_in? && is_profile_page? && current_season_number
-  end
-
-  def is_profile_page?(account = nil)
-    return false unless is_page?('accounts', 'show')
-    page_for_account?(account)
-  end
-
   def page_for_account?(account = nil)
     if account
       params[:battletag] == account.to_param

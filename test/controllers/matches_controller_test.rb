@@ -22,22 +22,22 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     refute_includes response.body, comment
   end
 
-  test 'redirects to profile when season is not visible for anonymous user' do
+  test 'redirects to home page when season is not visible for anonymous user' do
     account = create(:account)
 
     get "/season/#{@season}/#{account.to_param}"
 
-    assert_redirected_to profile_path(account)
+    assert_redirected_to root_path
   end
 
-  test 'redirects to profile when season is not visible for authenticated user' do
+  test 'redirects to home page when season is not visible for authenticated user' do
     account = create(:account)
     other_account = create(:account)
 
     sign_in_as(other_account)
     get "/season/#{@season}/#{account.to_param}"
 
-    assert_redirected_to profile_path(account)
+    assert_redirected_to root_path
   end
 
   test 'allows admin to view unshared season when admin param is given' do
@@ -57,7 +57,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(account)
     get "/season/#{@season}/#{other_account.to_param}", params: { admin: 1 }
 
-    assert_redirected_to profile_path(other_account)
+    assert_redirected_to root_path
   end
 
   test 'redirects admin from unshared season when admin param is omitted' do
@@ -67,7 +67,7 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     sign_in_as(admin_account)
     get "/season/#{@season}/#{other_account.to_param}"
 
-    assert_redirected_to profile_path(other_account)
+    assert_redirected_to root_path
   end
 
   test 'index page loads successfully for the user who owns the account' do
@@ -211,14 +211,14 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     assert_redirected_to matches_path(@season, account1, anchor: "match-row-#{match.id}")
   end
 
-  test "redirects to profile when you try to view unshared match history for another user's account" do
+  test "redirects to home page when you try to view unshared match history for another user's account" do
     account1 = create(:account)
     account2 = create(:account)
 
     sign_in_as(account1)
     get "/season/#{@season}/#{account2.to_param}"
 
-    assert_redirected_to profile_path(account2)
+    assert_redirected_to root_path
   end
 
   test 'will not log a new match when last match by user was too recent' do

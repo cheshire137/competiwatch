@@ -40,57 +40,6 @@ class AccountsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'psn', account.reload.platform
   end
 
-  test 'can view your own profile' do
-    account = create(:account, battletag: 'MarchHare#11348')
-    create(:match, season: 1, account: account)
-
-    VCR.use_cassette('ow_api_profile') do
-      sign_in_as(account)
-      get "/profile/#{account.to_param}"
-    end
-
-    assert_response :ok
-    assert_select 'a', text: /Season 1\s+1\s+match/
-    assert_select "a[href='/season/2/#{account.to_param}']"
-    assert_select "a[href='/trends/2/#{account.to_param}']"
-  end
-
-  test 'anonymous user can view a profile' do
-    account = create(:account, battletag: 'MarchHare#11348')
-    create(:season_share, account: account, season: 1)
-    create(:match, season: 1, account: account)
-    create(:match, season: 2, account: account)
-
-    VCR.use_cassette('ow_api_profile') do
-      get "/profile/#{account.to_param}"
-    end
-
-    assert_response :ok
-    assert_select 'a', text: /Season 1\s+1\s+match/
-    refute_includes response.body, 'Season 2'
-    assert_select "a[href='/season/2/#{account.to_param}']", false
-    assert_select "a[href='/trends/2/#{account.to_param}']", false
-  end
-
-  test "can view another user's profile" do
-    account1 = create(:account, battletag: 'MarchHare#11348')
-    account2 = create(:account)
-    create(:season_share, account: account1, season: 1)
-    create(:match, season: 1, account: account1)
-    create(:match, season: 2, account: account1)
-
-    VCR.use_cassette('ow_api_profile') do
-      sign_in_as(account2)
-      get "/profile/#{account1.to_param}"
-    end
-
-    assert_response :ok
-    assert_select 'a', text: /Season 1\s+1\s+match/
-    refute_includes response.body, 'Season 2'
-    assert_select "a[href='/season/2/#{account1.to_param}']", false
-    assert_select "a[href='/trends/2/#{account1.to_param}']", false
-  end
-
   test 'anonymous user cannot set default account' do
     put '/accounts/set-default'
 

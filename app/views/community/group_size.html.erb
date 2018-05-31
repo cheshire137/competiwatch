@@ -5,10 +5,7 @@
 
 <div class="mb-4">
   <% group_sizes.each do |group_size| %>
-    <%
-      match_count = @match_counts_by_group_size[group_size]
-      win_percentage = @group_size_win_percentages[group_size]
-    %>
+    <% win_percentage = @group_size_win_percentages[group_size] %>
     <div class="mb-2 d-flex-md flex-items-center-md flex-justify-center-md">
       <div class="win-bar-container d-inline-block mr-3">
         <% if win_percentage %>
@@ -21,10 +18,6 @@
         <strong><%= group_size_name(group_size) %></strong>:
         <% if win_percentage %>
           <%= win_percentage %>% of games won
-          <div class="note">
-            <%= number_with_delimiter match_count %>
-            <%= 'match'.pluralize(match_count) %>
-          </div>
         <% else %>
           <em>No matches logged</em>
         <% end %>

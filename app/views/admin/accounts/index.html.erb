@@ -21,22 +21,12 @@
   <% @accounts.each_with_index do |account, i| %>
     <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
       <%= admin_link_to_account(account) %>
-      <% if account.rank %>
-        <span class="d-inline-block mx-2">&middot;</span>
-        <%= rank_image(account.rank, classes: 'flex-shrink-0 rank-fit-height',
-                       outer_classes: 'flex-shrink-0') %>
-        <%= account.rank %>
-      <% end %>
       <div class="note">
         <% if account.admin? %>
           <span class="text-bold text-red">Admin</span>
           <span class="d-inline-block mx-2">&middot;</span>
         <% end %>
         <%= account.platform_name %>
-        <% if account.level %>
-          <span class="d-inline-block mx-2">&middot;</span>
-          Level <%= number_with_delimiter account.level %>
-        <% end %>
         <span class="d-inline-block mx-2">&middot;</span>
         <span class="tooltipped tooltipped-s" aria-label="<%= pretty_datetime account.created_at %>">
           Signed up
@@ -61,7 +51,7 @@
       <ul class="list-style-none test-deletable-accounts">
         <% @deletable_accounts.each_with_index do |account, i| %>
           <li class="<%= 'border-top mt-2 pt-2' if i > 0 %>">
-            <%= link_to_account(account) %>
+            <%= admin_link_to_account(account) %>
           </li>
         <% end %>
       </ul>
@@ -80,7 +70,7 @@
       <h2 class="h2 mb-2">Accounts without users</h2>
       <ul class="list-style-none test-userless-accounts">
         <% @userless_accounts.each do |account| %>
-          <li><%= link_to_account(account) %></li>
+          <li><%= admin_link_to_account(account) %></li>
         <% end %>
       </ul>
     </div>

@@ -5,8 +5,7 @@
   </h2>
   <% @visible_heroes.each do |hero| %>
     <%= render partial: 'community/hero',
-               locals: { match_count: @match_counts_by_hero_id[hero.id],
-                         win_percentage: @hero_win_percentages[hero],
+               locals: { win_percentage: @hero_win_percentages[hero],
                          max_hero_win_percentage: @max_hero_win_percentage,
                          hero: hero } %>
   <% end %>
@@ -17,8 +16,7 @@
     <div id="remaining-heroes" class="d-none">
       <% @hidden_heroes.each do |hero| %>
         <%= render partial: 'community/hero',
-                   locals: { match_count: @match_counts_by_hero_id[hero.id],
-                             win_percentage: @hero_win_percentages[hero],
+                   locals: { win_percentage: @hero_win_percentages[hero],
                              max_hero_win_percentage: @max_hero_win_percentage,
                              hero: hero } %>
       <% end %>

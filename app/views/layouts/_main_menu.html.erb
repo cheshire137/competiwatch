@@ -11,9 +11,6 @@
   <div class="dropdown-menu-content js-menu-content">
     <ul class="dropdown-menu main-dropdown-menu dropdown-menu-sw">
       <li>
-        <a class="dropdown-item <%= 'selected' if is_profile_page?(current_account) %>" href="<%= profile_path(current_account) %>"><%= current_account.name %>&rsquo;s profile</a>
-      </li>
-      <li>
         <a class="dropdown-item <%= 'selected' if is_settings_page? %>" href="<%= settings_path %>">Settings</a>
       </li>
       <% if current_season_number && current_battletag_param %>

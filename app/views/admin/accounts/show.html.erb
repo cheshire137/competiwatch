@@ -7,9 +7,6 @@
       <a href="<%= admin_accounts_path %>">Accounts</a> /
       <%= @account %>
     </div>
-    <div>
-      <a href="<%= profile_path(@account) %>">View profile</a>
-    </div>
   </div>
 <% end %>
 
@@ -47,20 +44,6 @@
         <%= number_with_delimiter @total_season_shares %>
         shared <%= 'season'.pluralize(@total_season_shares) %>
       </dd>
-      <dt class="mb-1">Rank</dt>
-      <dd class="mb-2 d-flex flex-items-center">
-        <% if @account.rank %>
-          <%= rank_image(@account.rank, classes: 'd-inline-block mr-1 flex-shrink-0') %>
-          <%= @account.rank %>
-        <% else %>
-          <%= form_tag admin_update_account_profile_path, method: :put do %>
-            <input type="hidden" name="id" value="<%= @account.id %>">
-            <button type="submit" class="btn">
-              Fetch rank
-            </button>
-          <% end %>
-        <% end %>
-      </dd>
       <dd class="mb-2 <%= 'text-red text-bold' if @account.admin? %>">
         <strong>Administrator?</strong>
         <%= @account.admin? ? 'yes' : 'no' %>
@@ -70,38 +53,6 @@
   </div>
   <div class="col-md-6 float-left">
     <dl>
-      <% unless @account.level %>
-        <dt class="mb-1">Level</dt>
-      <% end %>
-      <dd class="mb-2">
-        <% if @account.level %>
-          <strong>Level:</strong>
-          <%= number_with_delimiter @account.level %>
-        <% else %>
-          <%= form_tag admin_update_account_profile_path, method: :put do %>
-            <input type="hidden" name="id" value="<%= @account.id %>">
-            <button type="submit" class="btn">
-              Fetch level
-            </button>
-          <% end %>
-        <% end %>
-      </dd>
-      <dt class="mb-1">Level URL</dt>
-      <dd class="mb-2 Box p-2 wb-break-all">
-        <% if @account.level_url %>
-          <div><code><%= @account.level_url %></code></div>
-          <a href="<%= @account.level_url %>">
-            <img width="100" height="100" src="<%= @account.level_url %>" alt="Level <%= @account.level %>">
-          </a>
-        <% else %>
-          <%= form_tag admin_update_account_profile_path, method: :put do %>
-            <input type="hidden" name="id" value="<%= @account.id %>">
-            <button type="submit" class="btn">
-              Fetch level URL
-            </button>
-          <% end %>
-        <% end %>
-      </dd>
       <dt class="mb-1">Avatar URL</dt>
       <dd class="mb-2 Box p-2 wb-break-all">
         <% if @account.avatar_url %>

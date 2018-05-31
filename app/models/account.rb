@@ -13,16 +13,10 @@ class Account < ApplicationRecord
   validates :provider, presence: true
   validates :uid, presence: true, uniqueness: { scope: [:provider, :battletag] }
   validates :platform, inclusion: { in: VALID_PLATFORMS.keys }, allow_nil: true
-  validates :avatar_url, :level_url, format: URL_REGEX, allow_nil: true, allow_blank: true
-  validates :rank, numericality: {
-    only_integer: true, greater_than_or_equal_to: 0, less_than_or_equal_to: Match::MAX_RANK
-  }, allow_nil: true
-  validates :level, numericality: { only_integer: true, greater_than_or_equal_to: 1 },
-    allow_nil: true
+  validates :avatar_url, format: URL_REGEX, allow_nil: true, allow_blank: true
 
   scope :order_by_battletag, ->{ order('LOWER(battletag) ASC') }
   scope :without_user, ->{ where(user_id: nil) }
-  scope :with_rank, ->{ where('rank IS NOT NULL') }
   scope :latest_first, ->{ order(updated_at: :desc) }
   scope :not_recently_updated, ->{ where('accounts.updated_at <= ?', 2.months.ago) }
   scope :without_avatar, ->{ where('avatar_url IS NULL') }
@@ -75,20 +69,6 @@ class Account < ApplicationRecord
     where(battletag: battletag).first
   end
 
-  def self.top_rank
-    with_rank.select('MAX(rank) AS max_rank').to_a.first.max_rank
-  end
-
-  def self.bottom_rank
-    with_rank.select('MIN(rank) AS min_rank').to_a.first.min_rank
-  end
-
-  def self.average_rank
-    avg_rank = with_rank.select('AVG(rank) AS avg_rank').to_a.first.avg_rank
-    return unless avg_rank
-    avg_rank.round
-  end
-
   def most_played_heroes(limit: 5)
     matches_played_by_hero_id = Match.count_by_hero_id(scope: Match.where(account_id: id))
     hero_ids = matches_played_by_hero_id.keys.take(limit)
@@ -116,14 +96,6 @@ class Account < ApplicationRecord
     return unless data
 
     OverwatchAPIProfile.new(data)
-  end
-
-  def overbuff_url
-    "https://www.overbuff.com/players/#{platform}/#{to_param}?mode=competitive"
-  end
-
-  def play_overwatch_url
-    "https://playoverwatch.com/en-us/career/#{platform}/#{to_param}"
   end
 
   def delete_career_high_cache

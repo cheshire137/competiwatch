@@ -8,11 +8,6 @@
         <span class="d-inline-block mx-2">&middot;</span>
         <%= number_with_delimiter match_count %>
         <%= 'match'.pluralize(match_count) %>
-        <% if account.rank %>
-          <span class="d-inline-block mx-2">&middot;</span>
-          <%= rank_image(account.rank, classes: 'flex-shrink-0',
-                         outer_classes: 'flex-shrink-0') %>
-        <% end %>
       </div>
     </li>
     <% i += 1 %>

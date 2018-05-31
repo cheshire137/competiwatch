@@ -81,29 +81,22 @@ class Match < ApplicationRecord
           true, true, true, true)
   end
 
+  def self.top_rank(season:)
+    in_season(season).with_rank.with_result.select('MAX(rank) AS max_rank').to_a.first.max_rank
+  end
+
+  def self.average_rank(season:)
+    avg_rank = in_season(season).with_rank.with_result.select('AVG(rank) AS avg_rank').to_a.first.avg_rank
+    return unless avg_rank
+    avg_rank.round
+  end
+
   # Public: Returns a hash of Account => Integer for the accounts with the most matches.
   def self.top_accounts(limit: 5)
     counts_by_id = group(:account_id).order('COUNT(*) DESC').limit(limit).count
     accounts_by_id = Account.where(id: counts_by_id.keys).
       map { |account| [account.id, account] }.to_h
     counts_by_id.map { |id, count| [accounts_by_id[id], count] }.to_h
-  end
-
-  def self.rank_tier_win_percentages(season:)
-    matches = in_season(season).with_rank.with_result.select('rank, result')
-    match_counts = Hash.new(0)
-    win_counts = Hash.new(0)
-    matches.each do |match|
-      match_counts[match.rank_tier] += 1
-      win_counts[match.rank_tier] += 1 if match.win?
-    end
-    percentages_by_rank_tier = {}
-    match_counts.each do |rank_tier, match_count|
-      next unless match_count && match_count > 0
-      percentages_by_rank_tier[rank_tier] =
-        ((win_counts[rank_tier].to_f / match_count) * 100).round
-    end
-    percentages_by_rank_tier
   end
 
   # Public: Returns a hash of Integer => Integer for matches that have at least one hero
