@@ -13,21 +13,22 @@
       </h3>
       <ul class="list-style-none">
         <% shared_seasons = @shared_seasons_by_account_id[account.id] || [] %>
-        <% @all_seasons.each_with_index do |season, i| %>
-          <% is_shared = shared_seasons.include?(season) %>
-
-          <li class="d-flex flex-justify-between flex-items-center p-2 <%= 'text-bold' if is_shared %> <% if i > 0 %>border-top<% end %>">
-            <a href="<%= matches_path(season, account) %>" class="no-wrap">Season <%= season %></a>
-            <span class="text-gray">
-              <% if is_shared %>
-                <span class="ion ion-eye mr-1 d-inline-block"></span>
-                <span class="text-small no-wrap">Publicly visible</span>
-              <% else %>
-                <span class="ion ion-locked mr-1 d-inline-block"></span>
-                <span class="text-small no-wrap">Only visible to you</span>
-              <% end %>
-            </span>
-          </li>
+        <% @all_seasons.each do |season| %>
+          <% if @seasons_for_account[account.id].include?(season) %>
+            <% is_shared = shared_seasons.include?(season) %>
+            <li class="season-share-list-item d-flex flex-justify-between flex-items-center p-2 <%= 'text-bold' if is_shared %>">
+              <a href="<%= matches_path(season, account) %>" class="no-wrap">Season <%= season %></a>
+              <span class="text-gray">
+                <% if is_shared %>
+                  <span class="ion ion-eye mr-1 d-inline-block"></span>
+                  <span class="text-small no-wrap">Publicly visible</span>
+                <% else %>
+                  <span class="ion ion-locked mr-1 d-inline-block"></span>
+                  <span class="text-small no-wrap">Only visible to you</span>
+                <% end %>
+              </span>
+            </li>
+          <% end %>
         <% end %>
       </ul>
     </div>

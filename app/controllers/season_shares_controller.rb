@@ -6,6 +6,13 @@ class SeasonSharesController < ApplicationController
 
   def index
     @all_seasons = 1..Season.latest_number
+    @match_counts = current_user.matches.group(:account_id, :season).count
+    @seasons_for_account = @match_counts.keys.inject({}) do |hash, id_and_season|
+      account_id = id_and_season.first
+      hash[account_id] ||= []
+      hash[account_id] << id_and_season.last
+      hash
+    end
     @shared_seasons_by_account_id = current_user.season_shares.inject({}) do |hash, season_share|
       hash[season_share.account_id] ||= []
       hash[season_share.account_id] << season_share.season
