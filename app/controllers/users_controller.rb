@@ -17,11 +17,12 @@ class UsersController < ApplicationController
     accounts.each do |account|
       account.season_shares.destroy_all
       account.matches.destroy_all
-      account.destroy!
     end
+    accounts.destroy_all
     current_user.friends.destroy_all
+    user = current_user
     sign_out current_user
-    current_user.destroy!
-    redirect_to root_path
+    user.destroy!
+    redirect_to root_path, notice: "Competiwatch account deleted."
   end
 end
