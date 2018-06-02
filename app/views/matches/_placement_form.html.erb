@@ -41,7 +41,6 @@
     <%= render partial: 'matches/friends',
                locals: { form: form, match: match, friends: friends, all_friends: all_friends,
                          selected_friend_names: selected_friend_names } %>
-    <%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>
   </div>
   <div class="col-md-12 col-lg-6 float-left">
     <%= render partial: 'matches/hero_options',
@@ -49,3 +48,4 @@
                          selected_heroes: selected_heroes } %>
   </div>
 </div>
+<%= render partial: 'matches/thrower_leaver_fields', locals: { form: form } %>

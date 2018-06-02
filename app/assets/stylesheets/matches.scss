@@ -91,10 +91,6 @@
   height: 1.55em;
 }
 
-.friend-form-checkbox.form-checkbox {
-  margin-right: 2%;
-}
-
 .match-summary span {
   + span {
     margin-left: 16px;
@@ -106,10 +102,6 @@
 }
 
 @media (min-width: 768px) {
-  .friend-form-checkbox.form-checkbox {
-    width: 21%;
-  }
-
   .hero-box {
     width: 30%;
   }
@@ -117,4 +109,8 @@
 
 .dropdown-menu.season-share-dropdown-menu {
   width: 12em;
+}
+
+.css-truncate-target.group-member-name-label {
+  max-width: 100%;
 }

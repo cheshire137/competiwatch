@@ -4,18 +4,18 @@
 
 <div class="Box p-3 mb-3 js-friends-container">
   <% if friends.any? %>
-    <dl class="form-group mt-0">
+    <dl class="form-group mt-0 mb-1">
       <dt class="d-flex flex-items-center flex-justify-between">
         Who did you group with?
         <span class="d-none text-normal js-max-friends-message">Too many selected</span>
       </dt>
-      <dd>
+      <dd class="d-flex flex-wrap">
         <% friends.each do |name| %>
           <% checked = selected_friend_names.include?(name) || match.group_member_names.include?(name) %>
-          <div class="form-checkbox my-0 friend-form-checkbox d-inline-block">
+          <div class="form-checkbox mt-0 mb-1 mr-4">
             <label for="friend-<%= name %>" class="text-normal css-truncate">
               <input <% if checked %>checked<% end %> name="friend_names[]" value="<%= name %>" id="friend-<%= name %>" type="checkbox">
-              <span class="css-truncate-target"><%= name %></span>
+              <span class="css-truncate-target group-member-name-label"><%= name %></span>
             </label>
           </div>
         <% end %>

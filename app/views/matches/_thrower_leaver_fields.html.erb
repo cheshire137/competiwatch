@@ -1,26 +1,30 @@
-<div class="d-flex flex-wrap">
-  <div class="form-checkbox mb-1 mt-0 mr-4 mb-1-sm">
-    <label class="text-normal">
-      <%= form.check_box :ally_thrower %>
-      Thrower on my team
-    </label>
+<div class="d-flex flex-wrap mb-3">
+  <div class="rounded-2 border bg-gray-light d-flex mr-4 px-2">
+    <div class="form-checkbox mr-4 my-1">
+      <label class="text-normal">
+        <%= form.check_box :ally_thrower %>
+        Thrower on my team
+      </label>
+    </div>
+    <div class="form-checkbox my-1">
+      <label class="text-normal">
+        <%= form.check_box :enemy_thrower %>
+        Thrower on the enemy team
+      </label>
+    </div>
   </div>
-  <div class="form-checkbox mb-1 mt-0 mr-4 mb-1-sm">
-    <label class="text-normal">
-      <%= form.check_box :enemy_thrower %>
-      Thrower on the enemy team
-    </label>
-  </div>
-  <div class="form-checkbox mt-0 mr-4 mb-1-sm">
-    <label class="text-normal">
-      <%= form.check_box :ally_leaver %>
-      Leaver on my team
-    </label>
-  </div>
-  <div class="form-checkbox mt-0">
-    <label class="text-normal">
-      <%= form.check_box :enemy_leaver %>
-      Leaver on the enemy team
-    </label>
+  <div class="rounded-2 border bg-gray-light d-flex px-2">
+    <div class="form-checkbox mr-4 my-1">
+      <label class="text-normal">
+        <%= form.check_box :ally_leaver %>
+        Leaver on my team
+      </label>
+    </div>
+    <div class="form-checkbox my-1">
+      <label class="text-normal">
+        <%= form.check_box :enemy_leaver %>
+        Leaver on the enemy team
+      </label>
+    </div>
   </div>
 </div>
