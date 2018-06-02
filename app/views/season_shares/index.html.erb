@@ -15,12 +15,16 @@
         <% shared_seasons = @shared_seasons_by_account_id[account.id] || [] %>
         <% @all_seasons.each do |season| %>
           <% if @seasons_for_account[account.id].include?(season) %>
-            <% is_shared = shared_seasons.include?(season) %>
-            <li class="season-share-list-item d-flex flex-justify-between flex-items-center p-2 <%= 'text-bold' if is_shared %>">
+            <%
+              is_shared = shared_seasons.include?(season)
+              match_count = @match_counts[[account.id, season]]
+            %>
+            <li class="season-share-list-item d-flex flex-justify-between flex-items-center py-2 <%= 'text-bold' if is_shared %>">
               <div>
                 <a href="<%= matches_path(season, account) %>" class="no-wrap">Season <%= season %></a>
                 <div class="text-gray text-small text-normal">
-                  <%= pluralize(@match_counts[[account.id, season]], 'match') %>
+                  <%= number_with_delimiter(match_count) %>
+                  <%= 'match'.pluralize(match_count) %>
                 </div>
               </div>
               <span class="text-gray">
