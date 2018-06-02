@@ -1,13 +1,13 @@
 <div class="d-flex flex-wrap mb-3">
   <div class="rounded-2 border bg-gray-light d-flex mr-4 px-2">
     <div class="form-checkbox mr-4 my-1">
-      <label class="text-normal">
+      <label class="text-normal text-ally">
         <%= form.check_box :ally_thrower %>
         Thrower on my team
       </label>
     </div>
     <div class="form-checkbox my-1">
-      <label class="text-normal">
+      <label class="text-normal text-enemy">
         <%= form.check_box :enemy_thrower %>
         Thrower on the enemy team
       </label>
@@ -15,13 +15,13 @@
   </div>
   <div class="rounded-2 border bg-gray-light d-flex px-2">
     <div class="form-checkbox mr-4 my-1">
-      <label class="text-normal">
+      <label class="text-normal text-ally">
         <%= form.check_box :ally_leaver %>
         Leaver on my team
       </label>
     </div>
     <div class="form-checkbox my-1">
-      <label class="text-normal">
+      <label class="text-normal text-enemy">
         <%= form.check_box :enemy_leaver %>
         Leaver on the enemy team
       </label>
