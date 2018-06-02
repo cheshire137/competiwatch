@@ -1,0 +1,46 @@
+<% content_for(:title, 'Delete Competiwatch Account') %>
+
+<% content_for(:breadcrumb) do %>
+  <a href="<%= settings_path %>">Settings</a> / Delete account
+<% end %>
+
+<h3 class="mb-2 text-normal">Are you sure you want to delete your Competiwatch account?</h3>
+
+<h4 class="text-normal mb-4">
+  You have logged
+  <strong><%= number_with_delimiter @match_count %></strong>
+  <%= 'match'.pluralize(@match_count) %>
+  across
+  <strong><%= @season_count %></strong>
+  competitive
+  <%= 'season'.pluralize(@season_count) %>
+  and
+  <strong><%= @account_count %></strong>
+  Battle.net
+  <%= 'account'.pluralize(@account_count) %>:
+</h4>
+<ul class="list-style-none mb-4">
+  <% @accounts.each do |account| %>
+    <% match_count = @match_count_by_account_id[account.id] %>
+    <li class="mb-2">
+      <%= account_with_avatar(account) %>
+      &middot;
+      <%= number_with_delimiter match_count %>
+      <%= 'match'.pluralize(match_count) %>
+    </li>
+  <% end %>
+</ul>
+<h4 class="text-normal mb-2">
+  If you delete your Competiwatch account, <em>all</em> your logged matches will
+  be deleted.
+</h4>
+<h4 class="mb-4">
+  This cannot be undone.
+</h4>
+
+<%= form_tag delete_user_path, method: :delete do %>
+  <%= link_to 'Do not delete my account', settings_path, class: 'btn mr-3' %>
+  <button type="submit" class="btn-link text-small text-red text-bold" data-confirm="Are you sure you want to delete all your logged matches and your Competiwatch account?">
+    Delete Competiwatch account
+  </button>
+<% end %>

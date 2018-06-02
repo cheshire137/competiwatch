@@ -31,6 +31,8 @@ Rails.application.routes.draw do
   delete '/season/:season/:battletag/share' => 'season_shares#destroy', season: /\d+/
 
   get '/settings' => 'users#settings', as: :settings
+  get '/user/delete-account' => 'users#confirm_delete', as: :confirm_delete_user
+  delete '/user' => 'users#destroy', as: :delete_user
 
   get '/accounts' => 'accounts#index', as: :accounts
   delete '/accounts/:battletag' => 'accounts#destroy', as: :account
