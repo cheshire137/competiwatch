@@ -28,11 +28,11 @@
           <%= form.label :rank, 'New SR:', class: 'mr-2 sr-field-label' %>
           <%= form.number_field :rank, class: 'form-control sr-field', step: 1, min: 0, max: Match::MAX_RANK, placeholder: prior_match.try(:rank), autofocus: true %>
         </div>
-        <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
+        <%= render partial: 'matches/day_field', locals: { form: form, match: match } %>
       </div>
       <div>
         <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
-        <%= render partial: 'matches/day_field', locals: { form: form, match: match } %>
+        <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
       </div>
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>

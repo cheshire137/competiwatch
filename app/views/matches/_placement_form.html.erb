@@ -34,8 +34,8 @@
     </div>
     <%= render partial: 'matches/map_field', locals: { form: form, maps: maps, match: match } %>
     <div class="d-flex flex-wrap flex-justify-between">
-      <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
       <%= render partial: 'matches/day_field', locals: { form: form, match: match } %>
+      <%= render partial: 'matches/time_field', locals: { form: form, match: match } %>
     </div>
     <%= render partial: 'matches/comment_field', locals: { form: form } %>
     <%= render partial: 'matches/friends',
