@@ -5,7 +5,7 @@ class SeasonSharesController < ApplicationController
   before_action :set_season, except: :index
 
   def index
-    @all_seasons = 1..Season.latest_number
+    @all_seasons = Season.latest_number.downto(1)
     @match_counts = current_user.matches.group(:account_id, :season).count
     @seasons_for_account = @match_counts.keys.inject({}) do |hash, id_and_season|
       account_id = id_and_season.first
