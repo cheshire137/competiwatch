@@ -8,17 +8,22 @@ class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
     account1 = create(:account, user: user)
     account2 = create(:account, user: user)
     create(:season, number: 3)
+    create(:match, account: account1, season: 1)
+    create(:match, account: account1, season: 2)
+    create(:match, account: account2, season: 3)
     create(:season_share, account: account1, season: 1)
     create(:season_share, account: account1, season: 2)
-    create(:season_share, account: account2, season: 3)
 
     sign_in_as(account1)
     get '/shared-seasons'
 
     assert_response :ok
-    assert_select 'li', text: /Season 1\s+Only visible to you/
-    assert_select 'li', text: /Season 2\s+Only visible to you/
-    assert_select 'li', text: /Season 3\s+Publicly visible/
+    assert_select '.season-share-list-item',
+      text: /Season 2\s+1\s+match\s+Publicly visible/
+    assert_select '.season-share-list-item',
+      text: /Season 1\s+1\s+match\s+Publicly visible/
+    assert_select '.season-share-list-item',
+      text: /Season 3\s+1\s+match\s+Only visible to you/
   end
 
   test 'requires login for viewing season shares' do

@@ -12,9 +12,12 @@
         <%= account %>
       </h3>
       <ul class="list-style-none">
-        <% shared_seasons = @shared_seasons_by_account_id[account.id] || [] %>
+        <%
+          shared_seasons = @shared_seasons_by_account_id[account.id] || []
+          seasons_for_account = @seasons_for_account[account.id] || []
+        %>
         <% @all_seasons.each do |season| %>
-          <% if @seasons_for_account[account.id].include?(season) %>
+          <% if seasons_for_account.include?(season) %>
             <%
               is_shared = shared_seasons.include?(season)
               match_count = @match_counts[[account.id, season]]
