@@ -158,12 +158,20 @@ module MatchesHelper
 
   def time_of_day_options
     valid_times = Match::TIME_OF_DAY_MAPPINGS.keys
-    [['', '']] + valid_times.map { |name| [name.to_s.humanize, name] }
+    time_options = valid_times.map do |name|
+      label = "#{time_of_day_emoji(name)} #{name.to_s.humanize}"
+      [label, name]
+    end
+    [['', '']] + time_options
   end
 
   def day_of_week_options
     valid_days = Match::DAY_OF_WEEK_MAPPINGS.keys
-    [['', '']] + valid_days.map { |name| [name.to_s.humanize, name] }
+    day_options = valid_days.map do |name|
+      label = "#{day_of_week_emoji(name)} #{name.to_s.humanize}"
+      [label, name]
+    end
+    [['', '']] + day_options
   end
 
   def map_options(maps, selected_map_id:, season:)
