@@ -3,6 +3,15 @@ require 'test_helper'
 class SeasonSharesControllerTest < ActionDispatch::IntegrationTest
   fixtures :seasons
 
+  test 'when no matches logged, shows a message' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/shared-seasons'
+
+    assert_select 'li', text: 'No seasons have any logged matches.'
+  end
+
   test 'can view your own shares' do
     user = create(:user)
     account1 = create(:account, user: user)
