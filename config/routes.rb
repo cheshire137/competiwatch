@@ -55,11 +55,6 @@ Rails.application.routes.draw do
   post '/admin/season' => 'admin/seasons#create', as: :admin_create_season
   delete '/admin/season' => 'admin/seasons#destroy', as: :admin_destroy_season
 
-  get '/community' => 'community#index', as: :community
-  get '/community/most-winning-heroes' => 'community#most_winning_heroes', as: :community_most_winning_heroes
-  get '/community/group-size' => 'community#group_size', as: :community_group_size
-  get '/community/top-profile-icons' => 'community#top_profile_icons', as: :community_top_profile_icons
-
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about
   get '/help' => 'pages#help', as: :help

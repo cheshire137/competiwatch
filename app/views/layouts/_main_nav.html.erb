@@ -12,12 +12,6 @@
         <a href="<%= trends_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if highlight_trends_tab? %>" role="tab">Trends</a>
       <% end %>
 
-      <% if signed_in? %>
-        <a href="<%= community_path %>" role="tab" class="UnderlineNav-item <%= 'selected' if is_page?('community', 'index') %>">
-          Community
-        </a>
-      <% end %>
-
       <% if show_admin_controls? && is_admin_page? %>
         <%= render partial: 'layouts/admin_menu' %>
       <% end %>

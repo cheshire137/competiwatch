@@ -26,8 +26,7 @@ class SeasonSharesController < ApplicationController
                                      season: @season_number).first_or_initialize
 
     if season_share.persisted? || season_share.save
-      flash[:notice] = "#{@account}'s season #{@season} can now be viewed by others and may " +
-                       "appear on the Community page."
+      flash[:notice] = "#{@account}'s season #{@season} can now be viewed by others."
     else
       flash[:error] = "Could not make #{@account}'s season #{@season} publicly visible."
     end
@@ -40,8 +39,7 @@ class SeasonSharesController < ApplicationController
                                      season: @season_number).first
 
     if season_share.nil? || season_share.destroy
-      flash[:notice] = "#{@account}'s season #{@season} is now only visible to you and will not " +
-                       "appear on the Community page."
+      flash[:notice] = "#{@account}'s season #{@season} is now only visible to you."
     else
       flash[:error] = "Could not change #{@account}'s season #{@season} visibility; it " +
                       'is still publicly visible.'
