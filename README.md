@@ -82,7 +82,7 @@ To allow new users to sign up:
 heroku config:set ALLOW_SIGNUPS=1
 ```
 
-To display a message to authenticated users:
+To display a message to authenticated users (Markdown is allowed):
 
 ```bash
 heroku config:set AUTH_SITEWIDE_MESSAGE="your message here"

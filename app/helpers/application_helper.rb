@@ -1,6 +1,9 @@
 module ApplicationHelper
   def authenticated_sitewide_message
-    ENV['AUTH_SITEWIDE_MESSAGE']
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, filter_html: true, no_images: true,
+                                       no_styles: true, safe_links_only: true)
+    html = markdown.render(ENV['AUTH_SITEWIDE_MESSAGE'])
+    html.html_safe
   end
 
   def remote_load_with_spinner(url)
