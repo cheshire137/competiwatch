@@ -32,9 +32,9 @@
         </div>
       </div>
     </header>
-    <% if signed_in? && (msg = authenticated_sitewide_message).present? %>
+    <% if signed_in? && any_authenticated_sitewide_message? %>
       <div class="pt-3 pb-1 flash-warn">
-        <div class="container"><%= msg %></div>
+        <div class="container"><%= authenticated_sitewide_message %></div>
       </div>
     <% end %>
     <div class="container layout-children-container mb-4">
