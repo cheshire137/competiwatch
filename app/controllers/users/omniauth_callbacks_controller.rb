@@ -2,8 +2,9 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def bnet
     auth = request.env['omniauth.auth']
     battletag = auth.info.battletag
-    account = Account.where(provider: auth.provider, uid: auth.uid,
-                            battletag: battletag).first_or_initialize
+    account = Account.where(provider: auth.provider, uid: auth.uid).first_or_initialize
+    account.battletag = battletag
+
     if account.persisted?
       if signed_in? && account.user.nil?
         account.user = current_user
@@ -58,6 +59,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
         message = "Failed to sign in via Battle.net as #{battletag}."
         return redirect_to(root_path, alert: message)
       end
+    end
+
+    if account.changed? && !account.save
+      message = "Failed to update Battle.net account #{battletag}."
+      return redirect_to(root_path, alert: message)
     end
 
     user = account.user

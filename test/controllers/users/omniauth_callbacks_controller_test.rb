@@ -5,10 +5,23 @@ class Users::OmniauthCallbacksControllerTest < ActionDispatch::IntegrationTest
 
   fixtures :seasons
 
+  test 'existing account will update when battletag changes' do
+    old_battletag = 'NeatoBandito#123'
+    new_battletag = 'FancyPants#987'
+    account = create(:account, battletag: old_battletag)
+    mock_bnet_omniauth(uid: account.uid, battletag: new_battletag)
+
+    assert_no_difference ['Account.count', 'User.count'] do
+      post '/users/auth/bnet/callback', params: { battletag: new_battletag }
+
+      assert_equal new_battletag, account.reload.battletag
+      assert_redirected_to matches_path(2, account)
+    end
+  end
+
   test 'existing accounts can sign in when signups are disabled' do
     ENV['ALLOW_SIGNUPS'] = nil
     account = create(:account)
-    uid = '123'
     mock_bnet_omniauth(uid: account.uid, battletag: account.battletag)
 
     assert_no_difference ['Account.count', 'User.count'] do
