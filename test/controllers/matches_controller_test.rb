@@ -9,6 +9,17 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     @future_season = create(:season, started_on: 4.months.from_now)
   end
 
+  test 'side-wide message shown to authenticated users' do
+    ENV['AUTH_SITEWIDE_MESSAGE'] = 'hello world'
+    account = create(:account)
+
+    sign_in_as(account)
+    get "/season/#{@season}/#{account.to_param}"
+
+    assert_response :ok
+    assert_select '.flash-warn', text: 'hello world'
+  end
+
   test 'HTML in comment does not render' do
     account = create(:account)
     comment = 'hey <b>buddy</b>'

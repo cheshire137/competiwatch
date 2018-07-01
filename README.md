@@ -82,6 +82,12 @@ To allow new users to sign up:
 heroku config:set ALLOW_SIGNUPS=1
 ```
 
+To display a message to authenticated users:
+
+```bash
+heroku config:set AUTH_SITEWIDE_MESSAGE="your message here"
+```
+
 When deploying a migration to Heroku:
 
 ```bash

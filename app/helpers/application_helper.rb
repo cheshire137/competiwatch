@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def authenticated_sitewide_message
+    ENV['AUTH_SITEWIDE_MESSAGE']
+  end
+
   def remote_load_with_spinner(url)
     content_tag(:div, class: 'js-remote-load', data: { url: url }) do
       content_tag(:div, class: 'text-center') do

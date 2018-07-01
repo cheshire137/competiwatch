@@ -7,6 +7,15 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     Rails.cache.delete(Season::LATEST_SEASON_CACHE_KEY)
   end
 
+  test 'side-wide message not shown to anonymous users' do
+    ENV['AUTH_SITEWIDE_MESSAGE'] = 'hello world'
+
+    get '/'
+
+    assert_response :ok
+    assert_select '.flash-warn', false
+  end
+
   test 'loads successfully' do
     get '/'
 
