@@ -4,9 +4,6 @@
 <% if flash[:error].present? %>
   <p class="p-3 mt-4 rounded-2 flash-error"><%= flash[:error] %></p>
 <% end %>
-<% if signed_in? && (msg = authenticated_sitewide_message).present? %>
-  <p class="p-3 mt-4 rounded-2 flash-warn"><%= msg %></p>
-<% end %>
 <% if notice.present? %>
   <p class="p-3 mt-4 rounded-2 flash-success"><%= notice %></p>
 <% end %>

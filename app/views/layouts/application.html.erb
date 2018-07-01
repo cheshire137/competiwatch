@@ -32,6 +32,11 @@
         </div>
       </div>
     </header>
+    <% if signed_in? && (msg = authenticated_sitewide_message).present? %>
+      <div class="pt-3 pb-1 flash-warn">
+        <div class="container"><%= msg %></div>
+      </div>
+    <% end %>
     <div class="container layout-children-container mb-4">
       <%= render partial: 'layouts/main_nav' %>
       <%= render partial: 'layouts/error_messages' %>
