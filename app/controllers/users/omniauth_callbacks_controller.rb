@@ -40,6 +40,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
       end
     end
 
+    if account.new_record? && !signups_allowed?
+      flash[:error] = 'New account signups are not allowed at this time.'
+      return redirect_to(root_path)
+    end
+
     if account.new_record? || account.user.nil?
       user = User.where(battletag: battletag).first_or_initialize
 
@@ -71,5 +76,11 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
 
   def failure
     redirect_to root_path
+  end
+
+  private
+
+  def signups_allowed?
+    ENV['ALLOW_SIGNUPS'].present?
   end
 end
