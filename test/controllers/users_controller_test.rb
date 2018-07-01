@@ -38,7 +38,7 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_redirected_to '/'
     get response.header["Location"] # follow redirect
-    assert_select '.flash-error', 'You need to sign in or sign up before continuing.'
+    assert_select '.flash-error', text: 'You need to sign in or sign up before continuing.'
   end
 
   test 'user can delete their data' do
