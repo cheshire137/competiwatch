@@ -64,6 +64,14 @@ Create a [Battle.net app](https://dev.battle.net) and set its "Register Callback
 `https://your-heroku-app.herokuapp.com/users/auth/bnet/callback`. Set
 `https://your-heroku-app.herokuapp.com` as the "Web Site".
 
+I used Terminal in macOS to run these commands. You could also use a terminal in Linux or
+a Git shell in Windows.
+
+You need Git and the [Heroku command-line tools](https://devcenter.heroku.com/categories/command-line) installed.
+
+Clone this repository via `git clone https://github.com/cheshire137/competiwatch.git`.
+Navigate to where you cloned this repository with `cd competiwatch`.
+
 ```bash
 heroku git:remote -a your-heroku-app
 heroku config:set BNET_APP_ID=your_app_id_here
