@@ -2,20 +2,21 @@
   "name": "competiwatch",
   "private": true,
   "dependencies": {
-    "@rails/webpacker": "^3.2.1",
-    "chart.js": "^2.7.1",
-    "delegated-events": "^1.0.5",
-    "eslint": "^4.18.2",
-    "primer": "^10.3.0",
+    "@rails/webpacker": "^3.5.5",
+    "chart.js": "^2.7.2",
+    "delegated-events": "^1.0.7",
+    "hoek": "4.2.1",
+    "moment": "2.19.3",
+    "primer": "^10.8.0",
     "primer-dropdown": "^0.1.0",
-    "selector-observer": "^1.1.0",
-    "taggle": "^1.13.0",
-    "whatwg-fetch": "^2.0.3"
+    "selector-observer": "^1.2.0",
+    "taggle": "^1.14.0",
+    "whatwg-fetch": "^2.0.4"
   },
   "devDependencies": {
-    "eslint": "^3.17.0",
+    "eslint": "^4.19.1",
     "eslint-config-airbnb": "^14.1.0",
-    "eslint-plugin-import": "^2.2.0",
-    "webpack-dev-server": "^2.11.1"
+    "eslint-plugin-import": "^2.13.0",
+    "webpack-dev-server": "^2.11.2"
   }
 }
