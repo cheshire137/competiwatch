@@ -2,17 +2,22 @@
 
 <div class="clearfix mb-4 pb-4">
   <div class="col-md-7 f3 float-md-left text-center mb-4-sm">
+    <h2 class="h2 mb-2 text-normal">Match tracker for competitive Overwatch</h2>
     <div class="mx-auto col-md-10">
-      Track your competitive match history per season in Overwatch. View charts of
-      your performance, import past seasons, and export your data.
+      Track your games across seasons and accounts in Overwatch.
+      <span class="no-wrap">View charts</span> of your performance, import
+      past seasons, <span class="no-wrap">and export your data.</span>
     </div>
   </div>
   <div class="col-md-5 float-md-left text-center">
     <% if signups_allowed? %>
       <a class="btn-primary h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
     <% else %>
-      <p>Existing users:</p>
-      <a class="btn-primary btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+      <p>
+        <a class="btn-primary btn-large h2 btn" href="https://github.com/cheshire137/competiwatch-desktop">Try the desktop app</a>
+      </p>
+      <p>Or, for existing users:</p>
+      <a class="btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
     <% end %>
   </div>
 </div>
