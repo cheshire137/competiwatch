@@ -1,51 +1,93 @@
 <% content_for(:title, 'About') %>
 
 <div class="col-md-10 mx-auto mb-4">
-  <h2 class="h2 mb-2">About Competiwatch</h2>
   <div class="clearfix">
     <div class="col-md-6 float-left">
       <div class="mr-4-md">
+        <h2 class="h2 mb-2">About Competiwatch</h2>
         <p>
           I built Competiwatch because I got tired of tracking my games in Google
           Sheets each competitive season. I wanted to add a new chart to my usual spreadsheet
           template and it was a pain because that's the nature of spreadsheets.
         </p>
         <p>
-          I was also tired of worrying every time I looked at a past season
-          that I'd click in the wrong place and drag-n-drop data and screw it up.
+          Competiwatch started as a
+          <a href="https://github.com/cheshire137/competiwatch">web app</a>
+          that I hosted at my own expense. I wanted to
+          use it myself and share it with friends, but I realized others wanted such a tool.
+          Rather than host it forever or start charging users, I opted to rebuild it as a
+          <a href="https://github.com/cheshire137/competiwatch-desktop">desktop app</a>
+          you run on your computer.
         </p>
         <p>
-          Seriously, add a column here, a list of values there, set a
-          specified column range, insert a graph... who's got time for that??
-          So of course I built an app that took way more hours but was also way
-          more fun to build. :3
+          &mdash; <a href="https://github.com/cheshire137">Sarah</a>
         </p>
       </div>
     </div>
     <div class="col-md-6 float-left">
       <div class="ml-4-md">
+        <h3 class="h3 mb-2">Web app</h3>
         <p>
-          This app was built using
+          The web app was built using
           <a href="http://rubyonrails.org/">Ruby on Rails</a>,
           <a href="https://primer.github.io/">Primer</a>,
           <a href="https://github.com/plataformatec/devise">Devise</a>,
           <a href="http://www.chartjs.org/">Chart.js</a>,
           <a href="https://github.com/jnunemaker/httparty">HTTParty</a>, and
           <a href="https://github.com/cheshire137/competiwatch/blob/master/Gemfile">many other</a>
-          <a href="https://github.com/cheshire137/competiwatch/blob/master/package.json">nice libraries</a>.
-          You can view its
-          <a href="https://github.com/cheshire137/competiwatch">source code on GitHub</a>
-          and contribute if you like; it's released under the MIT license.
+          <a href="https://github.com/cheshire137/competiwatch/blob/master/package.json">libraries</a>.
         </p>
         <p>
-          If something isn't working or you have a suggestion, you can contact me
-          by <a href="https://github.com/cheshire137/competiwatch/issues">opening an issue</a>.
-          <% if show_donate_link? %>
-            <a href="<%= donate_url %>">Donations are welcome</a> to help pay for server costs.
-          <% end %>
+          <a href="https://github.com/cheshire137/competiwatch">View source</a> (MIT license)
+          <span class="d-inline-block mx-2">&middot;</span>
+          <a href="https://github.com/cheshire137/competiwatch/issues">Report a bug</a>
+        </p>
+        <% if show_donate_link? %>
+          <p><a href="<%= donate_url %>">Donations are welcome</a> to help pay for server costs.</p>
+        <% end %>
+        <h3 class="h3 mb-2">Desktop app</h3>
+        <p>
+          The desktop app was built using <a href="https://electronjs.org/">Electron</a>,
+          <a href="https://reactjs.org/">React</a>,
+          <a href="https://primer.github.io/">Primer</a>,
+          <a href="http://www.chartjs.org/">Chart.js</a>,
+          and <a href="https://github.com/cheshire137/competiwatch-desktop/blob/master/package.json">many other libraries</a>.
         </p>
         <p>
-          &mdash; <a href="https://github.com/cheshire137">Sarah</a>
+          <a href="https://github.com/cheshire137/competiwatch-desktop">View source</a> (MIT license)
+          <span class="d-inline-block mx-2">&middot;</span>
+          <a href="https://github.com/cheshire137/competiwatch-desktop/issues">Report a bug</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr>
+
+<div class="col-md-10 mt-4 pt-3 mx-auto">
+  <h2 class="h2 mb-2">Privacy</h2>
+  <div class="clearfix">
+    <div class="col-md-6 mb-4 float-left">
+      <div class="mr-4-md">
+        <h3 class="h3 mb-2">Web app</h3>
+        <p>
+          Any data you log in Competiwatch the web app, I have access to. I generally don't care
+          about it, but I thought you should know that I can look at it if I want to. So
+          don't put your passwords in the 'comment' field when logging a match, for example.
+        </p>
+        <p>
+          Signing into the web app via Battle.net lets me know you for-real have a Battle.net
+          account. It also lets me use tools like the
+          <a href="https://github.com/Fuyukai/OWAPI/">OWAPI</a> to get your profile icon.
+        </p>
+      </div>
+    </div>
+    <div class="col-md-6 float-left">
+      <div class="ml-4-md">
+        <h3 class="h3 mb-2">Desktop app</h3>
+        <p>
+          Data logged in the desktop app I do not have access to. Your data is stored on your computer.
         </p>
       </div>
     </div>
@@ -58,26 +100,12 @@
   <div class="clearfix">
     <div class="col-md-6 mb-4 float-left">
       <div class="mr-4-md">
-        <h2 class="h2 mb-2">Privacy</h2>
-        <p>
-          Any data you log in Competiwatch, I have access to. I generally don't care about
-          it, but I thought you should know that I can look at it if I want to. So uh,
-          don't put your passwords in the 'comment' field when logging a match.
-        </p>
-        <p>
-          Signing into the site via Battle.net just lets me know you for-real have a Battle.net
-          account. It also lets me use tools like the
-          <a href="https://github.com/Fuyukai/OWAPI/">OWAPI</a> to get your profile icon.
-        </p>
-      </div>
-    </div>
-    <div class="col-md-6 float-left">
-      <div class="ml-4-md">
         <h2 class="h2 mb-2">Disclaimer</h2>
         <p>
-          This app is a hobby of mine. I may shut it down without warning, stuff may
-          break. It's provided "as is", without warranty, because I hope others will
-          find it useful, but I make no guarantees. See also the <a href="https://github.com/cheshire137/competiwatch/blob/master/LICENSE.txt">source code license</a>.
+          The web and desktop apps are hobbies of mine. Stuff may
+          break. They are provided "as is", without warranty, because I hope others will
+          find them useful, but I make no guarantees. See also the source code licenses for the <a href="https://github.com/cheshire137/competiwatch/blob/master/LICENSE.txt">web app</a>
+          and <a href="https://github.com/cheshire137/competiwatch-desktop/blob/master/LICENSE.txt">desktop app</a>.
         </p>
       </div>
     </div>
