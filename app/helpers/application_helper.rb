@@ -1,4 +1,8 @@
 module ApplicationHelper
+  def signups_allowed?
+    ENV['ALLOW_SIGNUPS'].present?
+  end
+
   def any_authenticated_sitewide_message?
     ENV['AUTH_SITEWIDE_MESSAGE'].present?
   end
