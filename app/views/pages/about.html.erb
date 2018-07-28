@@ -1,6 +1,12 @@
 <% content_for(:title, 'About') %>
 
 <div class="col-md-10 mx-auto mb-4">
+  <% unless signed_in? %>
+    <p class="mb-4">
+      <a href="<%= root_path %>">&larr; Back to home page</a>
+    </p>
+  <% end %>
+
   <div class="clearfix">
     <div class="col-md-6 float-left">
       <div class="mr-4-md">

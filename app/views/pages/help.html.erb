@@ -1,5 +1,11 @@
 <% content_for(:title, 'Help') %>
 
+<% unless signed_in? %>
+  <p class="mb-4">
+    <a href="<%= root_path %>">&larr; Back to home page</a>
+  </p>
+<% end %>
+
 <div class="clearfix">
   <div class="col-md-8 float-left">
     <h2 class="h3 mb-2 text-normal">Tutorial video</h2>
