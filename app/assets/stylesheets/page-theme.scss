@@ -149,6 +149,16 @@ body.theme-dark {
 
   .flash-warn {
     background-color: $yellow-800;
+
+    a {
+      color: #ffefba;
+      text-decoration: underline;
+
+      &:hover,
+      &:focus {
+        text-decoration: none;
+      }
+    }
   }
 
   .flash-error {
