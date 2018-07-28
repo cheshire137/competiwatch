@@ -107,6 +107,10 @@ heroes_by_role = {
     {
       name: 'Zarya',
       first_season: 1
+    },
+    {
+      name: 'Wrecking Ball',
+      first_season: 11
     }
   ],
   tank: [

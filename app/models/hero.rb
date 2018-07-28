@@ -67,7 +67,7 @@ class Hero < ApplicationRecord
     when 'lúcio' then 'lucio'
     when 'soldier: 76' then 'soldier76'
     when 'torbjörn' then 'torbjorn'
-    else name.downcase
+    else name.downcase.gsub(/\s+/, '-')
     end
   end
 
