@@ -105,6 +105,13 @@ heroku run rake db:migrate
 heroku maintenance:off
 ```
 
+After updating the seeds file, such as to add a new season, map, or hero, you can run seeds on Heroku via:
+
+```bash
+git push heroku master
+heroku run bin/rake db:seed
+```
+
 ### SSL
 
 The app is set up for an SSL certificate from Let's Encrypt. When using certbot to generate
