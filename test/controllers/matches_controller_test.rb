@@ -7,6 +7,20 @@ class MatchesControllerTest < ActionDispatch::IntegrationTest
     @past_season = seasons(:one)
     @season = seasons(:two)
     @future_season = create(:season, started_on: 4.months.from_now)
+    ENV['ALLOW_MATCH_LOGGING'] = '1'
+  end
+
+  test 'disallows creating a match when ALLOW_MATCH_LOGGING is not present' do
+    ENV['ALLOW_MATCH_LOGGING'] = nil
+    account = create(:account)
+
+    assert_no_difference 'Match.count' do
+      sign_in_as(account)
+      post "/season/#{@season}/#{account.to_param}", params: { match: { rank: 2500 } }
+    end
+
+    assert_equal 'Matches cannot be logged at this time.', flash[:error]
+    assert_redirected_to matches_path(@season, account)
   end
 
   test 'loads fine without sitewide message' do

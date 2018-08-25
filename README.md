@@ -44,8 +44,10 @@ look at the https URL it spits out. In your Battle.net app, set
 `https://your-ngrok-id-here.ngrok.io/users/auth/bnet/callback` as
 the "Register Callback URL" value. Set `https://your-ngrok-id-here.ngrok.io`
 as "Web Site". Update .env so that `BNET_APP_HOST` is set to your `your-ngrok-id-here.ngrok.io`.
-Add `export ALLOW_SIGNUPS=1` to your .env file to allow signing in for the first time in
-Competiwatch.
+
+Make sure `export ALLOW_SIGNUPS=1` is in your .env file to allow signing in for the first time
+in Competiwatch. Make sure `export ALLOW_MATCH_LOGGING=1` is in your .env file to allow
+logging matches.
 
 Start the Rails server via `bundle exec rails s`. Now you should be able to go to
 `https://your-ngrok-id-here.ngrok.io/` and sign in via Battle.net.

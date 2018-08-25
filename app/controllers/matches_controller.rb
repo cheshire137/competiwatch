@@ -12,6 +12,7 @@ class MatchesController < ApplicationController
   before_action :set_match, only: [:edit, :update, :destroy]
   before_action :ensure_season_is_visible, only: :index
   before_action :ensure_latest_match_is_old_enough, only: :create
+  before_action :ensure_match_logging_allowed, only: :create
 
   def index
     @can_edit = signed_in? && @account.user == current_user
@@ -159,5 +160,12 @@ class MatchesController < ApplicationController
 
     flash[:error] = 'You are logging matches too frequently.'
     redirect_to matches_path(@season_number, @account)
+  end
+
+  def ensure_match_logging_allowed
+    unless match_logging_allowed?
+      flash[:error] = 'Matches cannot be logged at this time.'
+      redirect_to matches_path(@season_number, @account)
+    end
   end
 end

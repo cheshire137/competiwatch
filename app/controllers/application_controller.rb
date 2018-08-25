@@ -6,6 +6,11 @@ class ApplicationController < ActionController::Base
   end
   helper_method :signups_allowed?
 
+  def match_logging_allowed?
+    ENV['ALLOW_MATCH_LOGGING'].present? && ENV['ALLOW_MATCH_LOGGING'].to_s != '0'
+  end
+  helper_method :match_logging_allowed?
+
   def any_authenticated_sitewide_message?
     ENV['AUTH_SITEWIDE_MESSAGE'].present?
   end

@@ -38,24 +38,26 @@
                 View match history
               </a>
             </li>
-            <% if @account.finished_placements?(@season) %>
-              <li>
-                <a href="#log-match" class="dropdown-item js-log-match-tab js-tab">
-                  Log a match
-                </a>
-              </li>
-            <% else %>
-              <li>
-                <a href="#log-placement-matches" class="dropdown-item js-log-match-tab js-tab">
-                  Log placement match
-                </a>
-              </li>
-              <% unless @account.any_placements?(@season) %>
+            <% if match_logging_allowed? %>
+              <% if @account.finished_placements?(@season) %>
                 <li>
-                  <a href="#log-placement-rank" class="dropdown-item js-log-match-tab js-tab">
-                    Log placement SR
+                  <a href="#log-match" class="dropdown-item js-log-match-tab js-tab">
+                    Log a match
                   </a>
                 </li>
+              <% else %>
+                <li>
+                  <a href="#log-placement-matches" class="dropdown-item js-log-match-tab js-tab">
+                    Log placement match
+                  </a>
+                </li>
+                <% unless @account.any_placements?(@season) %>
+                  <li>
+                    <a href="#log-placement-rank" class="dropdown-item js-log-match-tab js-tab">
+                      Log placement SR
+                    </a>
+                  </li>
+                <% end %>
               <% end %>
             <% end %>
           </ul>
