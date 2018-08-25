@@ -5,3 +5,5 @@ export RACK_ENV=development
 export PORT=3000
 export LETS_ENCRYPT_VALUE=""
 export DONATE_URL=""
+#export AUTH_SITEWIDE_MESSAGE=""
+export ALLOW_SIGNUPS=1
