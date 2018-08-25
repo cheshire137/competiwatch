@@ -80,6 +80,7 @@ heroku config:set BNET_APP_ID=your_app_id_here
 heroku config:set BNET_APP_SECRET=your_app_secret_here
 heroku config:set BNET_APP_HOST=your-heroku-app.herokuapp.com
 heroku config:set DONATE_URL="your Patreon/PayPal/etc URL for taking donations"
+heroku config:set ALLOW_MATCH_LOGGING=1
 git push heroku master
 heroku run rake db:migrate
 heroku ps:scale web=1
@@ -96,6 +97,12 @@ To display a message to authenticated users (Markdown is allowed):
 
 ```bash
 heroku config:set AUTH_SITEWIDE_MESSAGE="your message here"
+```
+
+If you want to disallow logging matches:
+
+```bash
+heroku config:remove ALLOW_MATCH_LOGGING
 ```
 
 When deploying a migration to Heroku:
