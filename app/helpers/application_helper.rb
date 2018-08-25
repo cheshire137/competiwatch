@@ -1,13 +1,4 @@
 module ApplicationHelper
-  def signups_allowed?
-    ENV['ALLOW_SIGNUPS'].present? && ENV['ALLOW_SIGNUPS'].to_s != '0'
-  end
-  end
-
-  def any_authenticated_sitewide_message?
-    ENV['AUTH_SITEWIDE_MESSAGE'].present?
-  end
-
   def authenticated_sitewide_message
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, filter_html: true, no_images: true,
                                        no_styles: true, safe_links_only: true)

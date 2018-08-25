@@ -83,10 +83,4 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   def failure
     redirect_to root_path
   end
-
-  private
-
-  def signups_allowed?
-    ENV['ALLOW_SIGNUPS'].present?
-  end
 end

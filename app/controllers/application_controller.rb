@@ -1,6 +1,16 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  def signups_allowed?
+    ENV['ALLOW_SIGNUPS'].present? && ENV['ALLOW_SIGNUPS'].to_s != '0'
+  end
+  helper_method :signups_allowed?
+
+  def any_authenticated_sitewide_message?
+    ENV['AUTH_SITEWIDE_MESSAGE'].present?
+  end
+  helper_method :any_authenticated_sitewide_message?
+
   protected
 
   def current_page
