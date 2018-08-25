@@ -197,7 +197,7 @@ seasons = {
   8 => { max_rank: 5000, started_on: '2018-01-01', ended_on: '2018-02-25' },
   9 => { max_rank: 5000, started_on: '2018-02-28', ended_on: '2018-04-27' },
   10 => { max_rank: 5000, started_on: '2018-04-30', ended_on: '2018-06-27' },
-  11 => { max_rank: 5000, started_on: '2018-06-30' }
+  11 => { max_rank: 5000, started_on: '2018-06-30', ended_on: '2018-08-28' }
 }
 
 seasons.each do |number, data|
