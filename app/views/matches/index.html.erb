@@ -68,18 +68,20 @@
       <a href="#match-history" class="UnderlineNav-item selected js-tab" role="tab">
         Matches
       </a>
-      <% if @account.finished_placements?(@season) %>
-        <a href="#log-match" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
-          Log a match
-        </a>
-      <% else %>
-        <a href="#log-placement-matches" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
-          Log placement match
-        </a>
-        <% unless @account.any_placements?(@season) %>
-          <a href="#log-placement-rank" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
-            Log placement SR
+      <% if match_logging_allowed? %>
+        <% if @account.finished_placements?(@season) %>
+          <a href="#log-match" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
+            Log a match
           </a>
+        <% else %>
+          <a href="#log-placement-matches" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
+            Log placement match
+          </a>
+          <% unless @account.any_placements?(@season) %>
+            <a href="#log-placement-rank" class="UnderlineNav-item js-log-match-tab js-tab" role="tab">
+              Log placement SR
+            </a>
+          <% end %>
         <% end %>
       <% end %>
     </div>
@@ -112,7 +114,7 @@
   <% end %>
 </div>
 
-<% if @can_edit %>
+<% if @can_edit && match_logging_allowed? %>
   <% if @account.finished_placements?(@season) %>
     <div id="log-match" class="js-tab-contents tab-contents d-none">
       <%= form_for(@match) do |f| %>
