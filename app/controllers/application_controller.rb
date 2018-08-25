@@ -2,12 +2,15 @@ class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
   def signups_allowed?
-    ENV['ALLOW_SIGNUPS'].present? && ENV['ALLOW_SIGNUPS'].to_s != '0'
+    return @signups_allowed if defined?(@signups_allowed)
+    @signups_allowed = ENV['ALLOW_SIGNUPS'].present? && ENV['ALLOW_SIGNUPS'].to_s != '0'
   end
   helper_method :signups_allowed?
 
   def match_logging_allowed?
-    ENV['ALLOW_MATCH_LOGGING'].present? && ENV['ALLOW_MATCH_LOGGING'].to_s != '0'
+    return @match_logging_allowed if defined?(@match_logging_allowed)
+    @match_logging_allowed = ENV['ALLOW_MATCH_LOGGING'].present? &&
+      ENV['ALLOW_MATCH_LOGGING'].to_s != '0'
   end
   helper_method :match_logging_allowed?
 
