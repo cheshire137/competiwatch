@@ -1,10 +1,10 @@
 <% content_for(:title, signed_in? ? 'Get the App' : 'Log In') %>
 
 <div class="clearfix mb-4 pb-4">
-  <div class="col-md-7 f3 float-md-left text-center mb-4-sm">
+  <div class="col-md-7 f4 float-md-left text-center mb-4-sm">
     <h2 class="h2 mb-2 text-normal">Match tracker for competitive Overwatch</h2>
     <div class="mx-auto col-md-10">
-      Track your games across seasons and accounts in Overwatch.
+      Track your games across competitive seasons and alt accounts.
       <span class="no-wrap">View charts</span> of your performance, import
       past seasons, <span class="no-wrap">and export your data.</span>
     </div>
@@ -20,7 +20,7 @@
       </div>
     <% else %>
       <p>
-        <a class="btn-primary btn-large h2 btn" href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">Download the app</a>
+        <a class="btn-primary btn-large h2 btn tooltipped tooltipped-s" aria-label="For Windows" href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">Download the app</a><br>
       </p>
       <% unless signed_in? %>
         <div class="text-small text-gray mt-4">
