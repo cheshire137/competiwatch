@@ -18,6 +18,12 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
+  test 'app page loads for anonymous user' do
+    get '/app'
+
+    assert_response :ok
+  end
+
   test 'about page loads for anonymous user' do
     get '/about'
 
@@ -29,6 +35,15 @@ class PagesControllerTest < ActionDispatch::IntegrationTest
 
     sign_in_as(account)
     get '/help'
+
+    assert_response :ok
+  end
+
+  test 'app page loads for authenticated user' do
+    account = create(:account)
+
+    sign_in_as(account)
+    get '/app'
 
     assert_response :ok
   end
