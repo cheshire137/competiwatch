@@ -11,15 +11,23 @@
   </div>
   <div class="col-md-5 float-md-left text-center">
     <% if signups_allowed? %>
-      <a class="btn-primary h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+      <p>
+        <a class="btn-primary h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+      </p>
+      <div class="text-small text-gray mt-4">
+        Or
+        <a href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">download the desktop app</a>
+      </div>
     <% else %>
       <p>
         <a class="btn-primary btn-large h2 btn" href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">Download the app</a>
       </p>
-      <div class="text-small text-gray mt-4">
-        Or, for existing web app users:<br>
-        <a href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
-      </div>
+      <% unless signed_in? %>
+        <div class="text-small text-gray mt-4">
+          Or, for existing web app users:<br>
+          <a href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+        </div>
+      <% end %>
     <% end %>
   </div>
 </div>
