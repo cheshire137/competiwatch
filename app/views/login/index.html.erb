@@ -31,46 +31,46 @@
       Track your match history across multiple seasons and Battle.net accounts
     </div>
   </div>
-  <div class="carousel-image anim-fade-in text-center screenshot-3">
-    <%= image_tag 'career-high-chart.png', class: 'd-inline-block img-responsive', alt: 'Career high wins/losses chart' %>
+  <div class="carousel-image anim-fade-in text-center screenshot-2">
+    <%= image_tag 'trends.png', class: 'd-inline-block img-responsive', alt: 'View statistics about your games' %>
     <div class="pt-2 text-gray">
-      See which heroes you play best when you're at your career or season high
+      Visualize how your season is going
+    </div>
+  </div>
+  <div class="carousel-image anim-fade-in text-center screenshot-3">
+    <%= image_tag 'log-match.png', class: 'd-inline-block img-responsive', alt: 'Log a match' %>
+    <div class="pt-2 text-gray">
+      Log as much detail per match as you want
     </div>
   </div>
   <div class="carousel-image anim-fade-in text-center screenshot-4">
-    <%= image_tag 'group-size-throw-leave.png', class: 'd-inline-block img-responsive', alt: 'Group size and thrower/leaver charts' %>
+    <%= image_tag 'accounts.png', class: 'd-inline-block img-responsive', alt: 'Track games across different Battle.net accounts' %>
     <div class="pt-2 text-gray">
-      Track who you group up with as well as throwers and leavers
+      Track your matches across alt accounts
     </div>
   </div>
   <div class="carousel-image anim-fade-in text-center screenshot-5">
-    <%= image_tag 'streaks-chart.png', class: 'd-inline-block img-responsive', alt: 'Streaks chart' %>
+    <%= image_tag 'import.png', class: 'd-inline-block img-responsive', alt: 'Import matches from a CSV file' %>
     <div class="pt-2 text-gray">
-      See when you're on a winning or losing streak
-    </div>
-  </div>
-  <div class="carousel-image anim-fade-in text-center screenshot-6">
-    <%= image_tag 'win-loss-role.png', class: 'd-inline-block img-responsive', alt: 'Win/loss and role chart chart' %>
-    <div class="pt-2 text-gray">
-      Track overall win percentage by season and what roles you fill on a team
+      Import matches from a CSV file
     </div>
   </div>
 
   <div class="carousel-nav border-top d-flex flex-items-stretch flex-justify-between">
-    <button type="button" class="border-right carousel-nav-item active js-carousel-nav-item" data-target="screenshot-1">
+    <button aria-label="Match history" type="button" class="border-right carousel-nav-item active tooltipped tooltipped-n js-carousel-nav-item" data-target="screenshot-1">
       <%= image_tag 'match-history.png', class: 'img-responsive', alt: 'Match history thumbnail' %>
     </button>
-    <button type="button" class="border-right carousel-nav-item js-carousel-nav-item" data-target="screenshot-3">
-      <%= image_tag 'career-high-chart.png', class: 'img-responsive', alt: 'Career high wins/losses chart thumbnail' %>
+    <button aria-label="Trends" type="button" class="border-right carousel-nav-item tooltipped tooltipped-n js-carousel-nav-item" data-target="screenshot-2">
+      <%= image_tag 'trends-thumb.png', class: 'img-responsive', alt: 'Career high wins/losses chart thumbnail' %>
     </button>
-    <button type="button" class="border-right carousel-nav-item js-carousel-nav-item" data-target="screenshot-4">
-      <%= image_tag 'group-size-throw-leave.png', class: 'img-responsive', alt: 'Group size and thrower/leaver charts thumbnail' %>
+    <button aria-label="Log a match" type="button" class="border-right carousel-nav-item tooltipped tooltipped-n js-carousel-nav-item" data-target="screenshot-3">
+      <%= image_tag 'log-match-thumb.png', class: 'img-responsive', alt: 'Log a match thumbnail' %>
     </button>
-    <button type="button" class="carousel-nav-item js-carousel-nav-item" data-target="screenshot-5">
-      <%= image_tag 'streaks-chart.png', class: 'img-responsive', alt: 'Streaks chart thumbnail' %>
+    <button aria-label="Accounts" type="button" class="border-right carousel-nav-item tooltipped tooltipped-n js-carousel-nav-item" data-target="screenshot-4">
+      <%= image_tag 'accounts-thumb.png', class: 'img-responsive', alt: 'Track games across different Battle.net accounts thumbnail' %>
     </button>
-    <button type="button" class="carousel-nav-item js-carousel-nav-item" data-target="screenshot-6">
-      <%= image_tag 'win-loss-role.png', class: 'img-responsive', alt: 'Win/loss and role chart thumbnail' %>
+    <button aria-label="Import matches" type="button" class="carousel-nav-item tooltipped tooltipped-n js-carousel-nav-item" data-target="screenshot-5">
+      <%= image_tag 'import.png', class: 'img-responsive', alt: 'Import matches from a CSV file thumbnail' %>
     </button>
   </div>
 </div>
