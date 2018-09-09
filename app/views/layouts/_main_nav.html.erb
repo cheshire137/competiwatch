@@ -13,7 +13,7 @@
           <a href="<%= trends_path(current_season_number, current_battletag_param) %>" class="UnderlineNav-item <%= 'selected' if highlight_trends_tab? %>" role="tab">Trends</a>
         <% end %>
 
-        <a href="<%= root_path %>" class="UnderlineNav-item <%= 'selected' if is_page?('pages', 'app') %>" role="tab">Get the app</a>
+        <a href="<%= root_path %>" class="UnderlineNav-item <%= 'selected' if is_page?('login', 'index') %>" role="tab">Get the app</a>
 
         <% if show_admin_controls? && is_admin_page? %>
           <%= render partial: 'layouts/admin_menu' %>
