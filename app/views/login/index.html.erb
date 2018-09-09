@@ -14,10 +14,10 @@
       <a class="btn-primary h2 btn-large btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
     <% else %>
       <p>
-        <a class="btn-primary btn-large h2 btn" href="<%= app_path %>">Try the desktop app</a>
+        <a class="btn-primary btn-large h2 btn" href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">Try the desktop app</a>
       </p>
       <p class="text-small mt-4 mb-1">Or, for existing web app users:</p>
-      <a class="btn" href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
+      <a href="<%= user_bnet_omniauth_authorize_path %>">Sign in with Battle.net</a>
     <% end %>
   </div>
 </div>

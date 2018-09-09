@@ -22,12 +22,12 @@ class LoginControllerTest < ActionDispatch::IntegrationTest
     assert_response :ok
   end
 
-  test 'redirects to match history for latest season when signed in' do
+  test 'loads for authenticated user' do
     account = create(:account)
 
     sign_in_as(account)
     get '/'
 
-    assert_redirected_to matches_path(Season.latest_number, account)
+    assert_response :ok
   end
 end

@@ -58,7 +58,6 @@ Rails.application.routes.draw do
   get '/.well-known/acme-challenge/:id' => 'pages#lets_encrypt'
   get '/about' => 'pages#about', as: :about
   get '/help' => 'pages#help', as: :help
-  get '/app' => 'pages#app', as: :app
 
   match '/404', to: 'errors#not_found', via: :all
   match '/500', to: 'errors#internal_server_error', via: :all
