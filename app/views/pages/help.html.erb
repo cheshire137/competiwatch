@@ -7,15 +7,15 @@
 <% end %>
 
 <div class="clearfix">
-  <div class="col-md-8 float-left">
+  <div class="col-md-5 float-left">
     <h2 class="h3 mb-2 text-normal">Tutorial video for the web app</h2>
-    <iframe class="d-block mb-2" width="560" height="315" src="https://www.youtube.com/embed/_y-MtPEsxDg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+    <iframe class="d-block mb-2" width="340" height="191" src="https://www.youtube.com/embed/_y-MtPEsxDg?rel=0" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
     <p class="note">
       Thanks to my buddy Rob for making this video showing how to use
       Competiwatch. &hearts;
     </p>
   </div>
-  <div class="col-md-4 float-left">
+  <div class="col-md-7 float-left">
     <h2 class="h3 mb-2 text-normal">Something not working?</h2>
     <% if match_logging_allowed? %>
       <p>
@@ -30,14 +30,10 @@
       <a target="_blank" rel="noopener noreferrer" href="<%= app_help_url %>">open an issue</a> and specify what version of the
       app you're using and in what operating system.
     </p>
-  </div>
-</div>
 
-<hr>
+    <hr>
 
-<h2 class="h3 mb-2 text-normal">F.A.Q.</h2>
-<div class="clearfix">
-  <div class="col-md-6 float-left">
+    <h2 class="h3 mb-2 text-normal">F.A.Q.</h2>
     <dl class="mr-4-md">
       <dt class="mb-1">Does Competiwatch log my matches for me?</dt>
       <dd class="mb-4">
@@ -56,10 +52,6 @@
         about it. For example, if you never log the map you played on, you won't see a
         chart of win percentage by map.
       </dd>
-    </dl>
-  </div>
-  <div class="col-md-6 float-left">
-    <dl class="ml-4-md">
       <dt class="mb-1">Where do I get CSV files to import match data?</dt>
       <dd class="mb-4">
         If you've been logging your competitive matches in a spreadsheet with a tool
