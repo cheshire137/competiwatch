@@ -11,6 +11,10 @@ module ApplicationHelper
     ENV['APP_REPO_URL'] || ''
   end
 
+  def app_package_json_url
+    [app_repo_url, 'blob/master/package.json'].join('/')
+  end
+
   def authenticated_sitewide_message
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, filter_html: true, no_images: true,
                                        no_styles: true, safe_links_only: true)
