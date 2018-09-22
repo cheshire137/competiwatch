@@ -3,6 +3,10 @@ module ApplicationHelper
     [ENV['DESKTOP_REPO_URL'] || '', 'releases/latest'].join('/')
   end
 
+  def app_help_url
+    [ENV['DESKTOP_REPO_URL'] || '', 'issues'].join('/')
+  end
+
   def authenticated_sitewide_message
     markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, filter_html: true, no_images: true,
                                        no_styles: true, safe_links_only: true)
