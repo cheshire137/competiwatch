@@ -81,7 +81,7 @@ heroku config:set BNET_APP_SECRET=your_app_secret_here
 heroku config:set BNET_APP_HOST=your-heroku-app.herokuapp.com
 heroku config:set DONATE_URL="your Patreon/PayPal/etc URL for taking donations"
 heroku config:set ALLOW_MATCH_LOGGING=1
-heroku config:set DESKTOP_REPO_URL="your GitHub URL for the desktop app"
+heroku config:set APP_REPO_URL="your GitHub URL for the desktop app"
 git push heroku master
 heroku run rake db:migrate
 heroku ps:scale web=1

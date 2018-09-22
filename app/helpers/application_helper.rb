@@ -8,7 +8,7 @@ module ApplicationHelper
   end
 
   def app_repo_url
-    ENV['DESKTOP_REPO_URL'] || ''
+    ENV['APP_REPO_URL'] || ''
   end
 
   def authenticated_sitewide_message
