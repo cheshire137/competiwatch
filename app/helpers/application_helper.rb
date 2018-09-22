@@ -1,10 +1,14 @@
 module ApplicationHelper
   def latest_app_release_url
-    [ENV['DESKTOP_REPO_URL'] || '', 'releases/latest'].join('/')
+    [app_repo_url, 'releases/latest'].join('/')
   end
 
   def app_help_url
-    [ENV['DESKTOP_REPO_URL'] || '', 'issues'].join('/')
+    [app_repo_url, 'issues'].join('/')
+  end
+
+  def app_repo_url
+    ENV['DESKTOP_REPO_URL'] || ''
   end
 
   def authenticated_sitewide_message
