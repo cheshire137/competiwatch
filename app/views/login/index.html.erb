@@ -16,11 +16,11 @@
       </p>
       <div class="text-small text-gray mt-4">
         Or
-        <a href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">download the desktop app</a>
+        <a href="<%= latest_app_release_url %>">download the desktop app</a>
       </div>
     <% else %>
       <p>
-        <a class="btn-primary btn-large h2 btn tooltipped tooltipped-s" aria-label="For Windows" href="https://github.com/cheshire137/competiwatch-desktop/releases/latest">Download the app</a><br>
+        <a class="btn-primary btn-large h2 btn tooltipped tooltipped-s" aria-label="For Windows" href="<%= latest_app_release_url %>">Download the app</a><br>
       </p>
       <% unless signed_in? %>
         <div class="text-small text-gray mt-4">
