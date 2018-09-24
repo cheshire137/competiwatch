@@ -4,9 +4,12 @@
   <div class="col-md-7 f4 float-md-left text-center mb-4-sm">
     <h2 class="h2 mb-2 text-normal">Match tracker for competitive Overwatch</h2>
     <div class="mx-auto col-md-10">
-      Track your games across competitive seasons and alt accounts.
-      <span class="no-wrap">View charts</span> of your performance, import
-      past seasons, <span class="no-wrap">and export your data.</span>
+      <p>
+        Track your games across competitive seasons and alt accounts.
+        <span class="no-wrap">View charts</span> of your performance, import
+        past seasons, <span class="no-wrap">and export your data.</span>
+      </p>
+      Log matches yourself, Competiwatch does not hook into Overwatch.
     </div>
   </div>
   <div class="col-md-5 float-md-left text-center">
@@ -20,8 +23,9 @@
       </div>
     <% else %>
       <p>
-        <a class="btn-primary btn-large h2 btn tooltipped tooltipped-s" aria-label="For Windows" href="<%= latest_app_release_url %>">Download the app</a><br>
+        <a class="btn-primary btn-large h2 btn" href="<%= latest_app_release_url %>">Download the app</a>
       </p>
+      <span class="text-small text-gray">For Windows PC</span>
     <% end %>
   </div>
 </div>
