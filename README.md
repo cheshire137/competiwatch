@@ -2,13 +2,13 @@
 
 [![Build Status](https://travis-ci.org/cheshire137/competiwatch.svg?branch=master)](https://travis-ci.org/cheshire137/competiwatch)
 
+:no_entry: **The web app is no longer maintained in favor of a desktop app, [cheshire137/competiwatch-desktop](https://github.com/cheshire137/competiwatch-desktop).** :no_entry:
+
 A web app to let you track your competitive match history in Overwatch. Shows charts
 for each season. Lets you track your SR, what map you played on, which heroes you
 played, whether there were throwers or leavers in your game, the time of day you
 played, whether you played on a weekday or weekend, and notes for each game. Allows
 you to import past seasons from a spreadsheet as well as export your data.
-
-[Donations are welcome](https://www.patreon.com/cheshire137) to help pay for server costs.
 
 ## Screenshots
 
